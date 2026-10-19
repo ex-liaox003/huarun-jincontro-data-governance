@@ -1,0 +1,2885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>金控指标体系数据应用平台</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root{
+  --c-primary:#1a3a6b;
+  --c-primary-light:#2a5298;
+  --c-accent:#c8962e;
+  --c-accent-light:#e0b35a;
+  --c-bg:#f0f2f5;
+  --c-card:#ffffff;
+  --c-text:#1f2937;
+  --c-text-light:#6b7280;
+  --c-border:#e5e7eb;
+  --c-success:#10b981;
+  --c-warning:#f59e0b;
+  --c-danger:#ef4444;
+  --c-info:#3b82f6;
+}
+body{
+  font-family:"Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif;
+  background:var(--c-bg);
+  color:var(--c-text);
+  font-size:14px;
+  line-height:1.6;
+}
+
+/* ===== Header ===== */
+.header{
+  background:linear-gradient(135deg,#0f2847 0%,#1a3a6b 50%,#2a5298 100%);
+  color:#fff;
+  padding:10px 32px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  position:sticky; top:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.header-left{display:flex; align-items:center; gap:12px;}
+.header-logo{
+  width:34px; height:34px;
+  background:linear-gradient(135deg,var(--c-accent),var(--c-accent-light));
+  border-radius:7px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; font-weight:700; color:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+.header h1{font-size:17px; font-weight:600; letter-spacing:1px;}
+.header-sub{font-size:11px; opacity:0.8; margin-top:1px;}
+
+/* ===== Top Nav Modules ===== */
+.header-nav{
+  display:flex; align-items:center; gap:32px;
+  position:absolute; left:50%; transform:translateX(-50%);
+}
+.topnav-item{
+  padding:4px 2px;
+  border:none;
+  background:transparent;
+  color:rgba(255,255,255,0.72);
+  font-size:15px; font-weight:600; letter-spacing:3px;
+  cursor:pointer; font-family:inherit;
+  transition:color 0.2s;
+  position:relative;
+}
+.topnav-item:hover{color:#fff;}
+.topnav-item.active{color:#fff;}
+.topnav-item.active::after{
+  content:'';
+  position:absolute; left:0; right:0; bottom:-8px;
+  height:3px; border-radius:2px;
+  background:linear-gradient(135deg,var(--c-accent),var(--c-accent-light));
+}
+
+/* ===== 指标查询模块（通用） ===== */
+.query-page{padding:12px 20px 24px;}
+.query-card{
+  background:var(--c-card);
+  border-radius:10px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  padding:18px 20px 20px;
+}
+.query-toolbar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:12px;}
+.query-input{
+  flex:1; min-width:240px;
+  border:1px solid var(--c-border); border-radius:6px;
+  padding:8px 12px; font-size:13px; font-family:inherit;
+  outline:none; transition:border-color 0.2s, box-shadow 0.2s;
+}
+.query-input:focus{border-color:var(--c-primary); box-shadow:0 0 0 3px rgba(26,58,107,0.10);}
+/* ===== 指标标准库：查询条件表单（三列标签式，参照设计稿） ===== */
+.std-form{display:grid; grid-template-columns:repeat(3,1fr); gap:16px 28px; margin-bottom:14px;}
+.std-form-item{display:flex; align-items:center; gap:10px; min-width:0;}
+.std-form-label{flex-shrink:0; font-size:13px; color:#4b5563; white-space:nowrap;}
+.std-ctrl{
+  flex:1; min-width:0; height:36px;
+  border:1px solid #d7dbe0; border-radius:5px;
+  padding:0 12px; font-size:13px; font-family:inherit;
+  color:var(--c-text); background:#fff; outline:none;
+  transition:border-color 0.2s, box-shadow 0.2s;
+}
+.std-ctrl:focus{border-color:var(--c-primary); box-shadow:0 0 0 3px rgba(26,58,107,0.10);}
+select.std-ctrl{cursor:pointer;}
+input.std-ctrl::placeholder{color:#b6bcc6;}
+.std-form-actions{grid-column:3 / 4; display:flex; justify-content:flex-end; align-items:center; gap:12px;}
+.btn-std{
+  min-width:88px; height:36px; border-radius:5px;
+  font-size:14px; letter-spacing:3px; cursor:pointer; font-family:inherit; transition:all 0.2s;
+}
+.btn-std-search{
+  background:linear-gradient(135deg,var(--c-primary),var(--c-primary-light));
+  border:1px solid var(--c-primary); color:#fff;
+  box-shadow:0 2px 6px rgba(26,58,107,0.25);
+}
+.btn-std-search:hover{background:linear-gradient(135deg,var(--c-primary-light),#3a6bb0); border-color:var(--c-primary-light);}
+.btn-std-reset{background:#fff; border:1px solid var(--c-primary); color:var(--c-primary);}
+.btn-std-reset:hover{background:#eef4ff;}
+.query-select{
+  border:1px solid var(--c-border); border-radius:6px;
+  padding:8px 10px; font-size:13px; font-family:inherit;
+  color:var(--c-text); background:#fff; outline:none; cursor:pointer;
+  max-width:230px;
+}
+.query-select:disabled{background:#f6f7f9; color:#b0b6bf; cursor:not-allowed;}
+.query-summary{font-size:13px; color:var(--c-text-light); margin-bottom:10px;}
+.query-summary b{color:var(--c-primary); font-size:16px; margin:0 3px;}
+.query-table-wrap{overflow-x:auto; max-height:calc(100vh - 280px); overflow-y:auto;}
+.std-table mark{background:#ffe9b3; color:#8a5a00; font-weight:700; padding:0 1px; border-radius:2px;}
+.tag-none{color:#c0c4cc;}
+.link-btn{
+  border:none; background:transparent; color:var(--c-info);
+  font-size:12px; cursor:pointer; font-family:inherit;
+  padding:3px 8px; border-radius:4px; white-space:nowrap;
+}
+.link-btn:hover{background:#eff6ff; text-decoration:underline;}
+.query-empty{text-align:center; color:var(--c-text-light); padding:40px 0; font-size:13px;}
+
+/* ===== 指标标准库：统计卡片 ===== */
+.std-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px;}
+.std-stats .std-stat{
+  background:linear-gradient(150deg,#fdfeff 0%,#e8f1fb 100%); border-radius:10px; padding:12px 16px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  border-left:4px solid var(--c-primary);
+  position:relative; overflow:hidden;
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.std-stats .std-stat > *{position:relative; z-index:1;}
+.std-stats .std-stat::after{
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(150deg,#f2f8ff 0%,#d7e9fa 100%);
+  opacity:0; transition:opacity 0.2s ease;
+  pointer-events:none;
+}
+.std-stats .std-stat:hover{transform:translateY(-2px); box-shadow:0 4px 10px rgba(15,40,71,0.16);}
+.std-stats .std-stat:hover::after{opacity:1;}
+.std-stats .std-stat.accent{border-left-color:var(--c-accent); background:linear-gradient(150deg,#fffdf6 0%,#faf0d9 100%);}
+.std-stats .std-stat.accent::after{background:linear-gradient(150deg,#fdf8ea 0%,#f6e6c0 100%);}
+.std-stats .std-stat.accent:hover{box-shadow:0 4px 10px rgba(200,150,46,0.24);}
+.std-stats .std-stat.info{border-left-color:var(--c-info); background:linear-gradient(150deg,#fbfdff 0%,#e4eefd 100%);}
+.std-stats .std-stat.info::after{background:linear-gradient(150deg,#f3f8ff 0%,#d2e4fb 100%);}
+.std-stats .std-stat.info:hover{box-shadow:0 4px 10px rgba(59,130,246,0.24);}
+.std-stats .std-stat.warning{border-left-color:var(--c-warning); background:linear-gradient(150deg,#fffdf7 0%,#fdefd3 100%);}
+.std-stats .std-stat.warning::after{background:linear-gradient(150deg,#fef9ec 0%,#fae4b6 100%);}
+.std-stats .std-stat.warning:hover{box-shadow:0 4px 10px rgba(245,158,11,0.24);}
+.std-stats .std-stat.danger{border-left-color:var(--c-danger); background:linear-gradient(150deg,#fffbfb 0%,#fde7e7 100%);}
+.std-stats .std-stat.danger::after{background:linear-gradient(150deg,#fef3f3 0%,#fbd5d9 100%);}
+.std-stats .std-stat.danger:hover{box-shadow:0 4px 10px rgba(239,68,68,0.24);}
+.std-stat .kpi-value{font-size:22px;}
+.std-stat.accent .kpi-value{color:var(--c-accent);}
+.std-stat.info .kpi-value{color:var(--c-info);}
+.std-stat.warning .kpi-value{color:var(--c-warning);}
+.std-stat.danger .kpi-value{color:var(--c-danger);}
+
+/* ===== 指标标准库：主体布局 ===== */
+.std-main{min-width:0;}
+
+/* ===== 指标标准库：表格 ===== */
+/* 超宽表格：限高滚动区域内横向浏览，表头吸顶、横向滚动条常驻可见 */
+.std-table-wrap{max-height:calc(100vh - 260px);}
+.std-table{min-width:2850px; table-layout:fixed;}
+/* 单元格内容一行显示不下时自动换行（覆盖 .data-table td/th 的 nowrap） */
+.data-table.std-table td{white-space:normal; word-break:break-word; line-height:1.55;}
+.data-table.std-table th{white-space:normal; word-break:break-word; line-height:1.4;}
+.std-table td.t-left{text-align:left; padding-left:12px;}
+.std-table tbody tr{cursor:pointer;}
+.std-table td.std-no{color:var(--c-text-light); font-size:11px;}
+.std-table td.std-code{font-family:Consolas,"Courier New",monospace; color:var(--c-primary-light); font-size:12px;}
+.std-name{font-weight:600; color:var(--c-text); text-align:left; line-height:1.5;}
+/* 冻结前三列（序号/指标编号/指标名称），超宽表格横向浏览时保持定位 */
+.std-table .stick{position:sticky; z-index:2; background:#fff;}
+.std-table tbody tr:nth-child(even) .stick{background:#f8f9fb;}
+.std-table tbody tr:hover .stick{background:#fff8e6;}
+.std-table thead th.stick{background:#1f4276; z-index:3;}
+.std-table .stick-1{left:0;}
+.std-table .stick-2{left:44px;}
+.std-table .stick-3{left:160px; box-shadow:10px 0 14px -10px rgba(15,40,71,0.35);}
+/* 操作列右侧固定锁定 */
+.std-table .stick-r{position:sticky; right:0; z-index:2; background:#fff;}
+.std-table .stick-r2{position:sticky; right:84px; z-index:2; background:#fff; box-shadow:-10px 0 14px -10px rgba(15,40,71,0.35);}
+.std-table tbody tr:nth-child(even) .stick-r,.std-table tbody tr:nth-child(even) .stick-r2{background:#f8f9fb;}
+.std-table tbody tr:hover .stick-r,.std-table tbody tr:hover .stick-r2{background:#fff8e6;}
+.std-table thead th.stick-r,.std-table thead th.stick-r2{background:#1f4276; z-index:3;}
+.std-badge{
+  display:inline-block; padding:2px 9px; border-radius:11px;
+  font-size:11px; font-weight:600; white-space:nowrap; line-height:1.6;
+}
+.std-badge.base{background:#eef4ff; color:#1a3a6b;}
+/* 安全级别等级色块（L1 青 / L2 绿 / L3 橙 / L4 红） */
+.std-sec{
+  display:inline-block; padding:2px 10px; border-radius:4px;
+  color:#fff; font-weight:600; font-size:12px; white-space:nowrap; line-height:1.6;
+}
+.std-sec.l1{background:#6ec7c7;}
+.std-sec.l2{background:#55d90b;}
+.std-sec.l3{background:#f0980f;}
+.std-sec.l4{background:#e87d7d;}
+/* 指标状态圆点标识（未发布橙 / 已发布绿 / 已下线灰） */
+.std-status{display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:500; white-space:nowrap;}
+.std-status::before{content:''; width:8px; height:8px; border-radius:50%; background:currentColor; flex-shrink:0;}
+.std-status.unpub{color:#f0980f;}
+.std-status.pub{color:#52c41a;}
+.std-status.off{color:#aeb4bd;}
+.std-badge.derived{background:linear-gradient(135deg,#c8962e,#e0b35a); color:#fff;}
+.std-badge.reg{background:#fdecec; color:#ef4444; border:1px solid #fbcaca;}
+.std-badge.neutral{background:#f3f4f6; color:#6b7280;}
+
+/* ===== 指标标准库：分页 ===== */
+.std-pager{display:flex; align-items:center; justify-content:center; gap:12px; margin-top:14px; flex-wrap:wrap;}
+.std-pager-btns{display:flex; align-items:center; gap:6px; flex-wrap:wrap;}
+.std-page-size{
+  border:1px solid var(--c-border); border-radius:6px;
+  padding:6px 8px; font-size:12px; font-family:inherit;
+  color:var(--c-text); background:#fff; outline:none; cursor:pointer;
+}
+.std-page{
+  min-width:30px; height:30px; padding:0 8px;
+  border:1px solid var(--c-border); background:#fff; border-radius:6px;
+  font-size:12px; color:var(--c-text); cursor:pointer; font-family:inherit;
+  transition:all 0.15s;
+}
+.std-page:hover:not(:disabled):not(.active){border-color:var(--c-primary); color:var(--c-primary);}
+.std-page.active{background:var(--c-primary); border-color:var(--c-primary); color:#fff; font-weight:600;}
+.std-page:disabled{opacity:0.4; cursor:not-allowed;}
+.std-page-dots{color:var(--c-text-light); font-size:12px; padding:0 2px;}
+
+/* ===== 指标标准库：详情抽屉 ===== */
+.std-overlay{
+  position:fixed; inset:0; background:rgba(15,32,60,0.45);
+  opacity:0; pointer-events:none; transition:opacity 0.25s; z-index:200;
+}
+.std-overlay.show{opacity:1; pointer-events:auto;}
+.std-drawer{
+  position:fixed; top:0; right:-580px; width:560px; max-width:94vw; height:100vh;
+  background:#fff; z-index:201; display:flex; flex-direction:column;
+  transition:right 0.28s ease; box-shadow:-8px 0 30px rgba(0,0,0,0.18);
+}
+.std-drawer.show{right:0;}
+.std-drawer-head{
+  background:linear-gradient(135deg,#0f2847,#1a3a6b 60%,#2a5298);
+  color:#fff; padding:18px 22px 16px; position:relative; flex-shrink:0;
+}
+.std-drawer-title{font-size:16px; font-weight:700; padding-right:36px; line-height:1.5;}
+.std-drawer-code{font-size:12px; opacity:0.85; margin-top:6px; font-family:Consolas,"Courier New",monospace;}
+.std-drawer-tags{display:flex; gap:6px; margin-top:10px; flex-wrap:wrap;}
+.std-drawer-tags .std-badge em{font-style:normal; font-weight:400; opacity:0.72;}
+.std-drawer-head .std-badge.base{background:rgba(255,255,255,0.16); color:#fff;}
+.std-drawer-head .std-badge.neutral{background:rgba(255,255,255,0.14); color:rgba(255,255,255,0.92);}
+.std-drawer-head .std-badge.derived{background:linear-gradient(135deg,var(--c-accent),var(--c-accent-light)); color:#fff;}
+.std-drawer-head .std-badge.reg{background:rgba(239,68,68,0.22); color:#ffd7d7; border:1px solid rgba(255,255,255,0.3);}
+.std-drawer-close{
+  position:absolute; top:14px; right:14px;
+  width:28px; height:28px; border-radius:50%;
+  border:none; background:rgba(255,255,255,0.15); color:#fff;
+  font-size:13px; cursor:pointer; transition:background 0.2s;
+}
+.std-drawer-close:hover{background:rgba(255,255,255,0.3);}
+.std-drawer-body{flex:1; overflow-y:auto; padding:16px 22px 28px;}
+.std-group{margin-bottom:18px;}
+.std-group-title{
+  font-size:13px; font-weight:700; color:var(--c-primary);
+  padding-left:10px; border-left:3px solid var(--c-accent);
+  margin-bottom:6px;
+}
+/* 详情字段表格：左列字段名、右列字段值 */
+.std-detail-table{width:100%; border-collapse:collapse; font-size:13px; table-layout:fixed;}
+.std-detail-table th{
+  width:170px; text-align:left; vertical-align:top;
+  color:#8a919c; font-weight:600; font-size:12px; line-height:1.6;
+  background:#f7f9fc; padding:8px 12px; border:1px solid var(--c-border);
+  word-break:break-word;
+}
+.std-detail-table td{
+  padding:8px 12px; border:1px solid var(--c-border);
+  color:var(--c-text); line-height:1.6; word-break:break-word; text-align:left;
+}
+.std-detail-table td.empty{color:#c0c4cc;}
+
+/* ===== Layout / Sidebar ===== */
+.layout{
+  display:flex;
+  gap:0;
+  align-items:flex-start;
+  padding:0 20px;
+}
+.sidebar{
+  width:210px;
+  flex-shrink:0;
+  background:#fff;
+  margin:8px 0;
+  border-radius:10px;
+  padding:8px 8px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  position:sticky;
+  top:8px;
+  max-height:calc(100vh - 16px);
+  overflow-y:auto;
+}
+.nav-item{
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:10px 12px;
+  border:none;
+  background:transparent;
+  color:var(--c-text);
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  border-radius:6px;
+  margin-bottom:2px;
+  transition:all 0.2s;
+  font-family:inherit;
+  border-left:3px solid transparent;
+  white-space:normal;
+  line-height:1.4;
+}
+.nav-item:hover{background:#f0f2f5; color:var(--c-primary);}
+.nav-item.active{
+  background:linear-gradient(135deg,var(--c-primary),var(--c-primary-light));
+  color:#fff;
+  border-left-color:var(--c-accent);
+  box-shadow:0 2px 6px rgba(26,58,107,0.3);
+}
+
+/* ===== 左侧导航树形结构 ===== */
+.nav-parent{
+  display:flex; justify-content:space-between; align-items:center; gap:6px;
+  width:100%; text-align:left;
+  padding:10px 10px;
+  border:none; background:transparent;
+  color:var(--c-primary);
+  font-size:13.5px; font-weight:700; letter-spacing:1px;
+  cursor:pointer; border-radius:6px; margin-bottom:2px;
+  font-family:inherit; transition:background 0.2s;
+}
+.nav-parent:hover{background:#eef3fa;}
+.nav-children{display:none; padding-left:6px;}
+.nav-children.open{display:block;}
+.nav-group-head{
+  display:flex; justify-content:space-between; align-items:center; gap:6px;
+  width:100%; text-align:left;
+  border:none; background:transparent;
+  padding:7px 8px 7px 14px;
+  font-size:12.5px; font-weight:600; color:var(--c-text);
+  cursor:pointer; border-radius:6px; margin-bottom:1px;
+  font-family:inherit; transition:background 0.2s;
+}
+.nav-group-head:hover{background:#f2f6fc; color:var(--c-primary);}
+/* 导航折叠箭头：收起 ▸ / 展开 ▾ */
+.nav-parent::after, .nav-group-head::after{
+  content:'▸'; font-size:11px; color:var(--c-text-light);
+  transition:transform 0.2s; flex-shrink:0;
+}
+.nav-parent.open::after, .nav-group-head.open::after{transform:rotate(90deg);}
+/* 一级固定展开：不显示折叠箭头、无点击手型 */
+.nav-parent.nav-fixed{cursor:default;}
+.nav-parent.nav-fixed::after{display:none;}
+.nav-group .nav-item{padding-left:26px; font-size:12.5px;}
+.nav-empty{font-size:11px; color:#b0b6bf; padding:3px 8px 6px 28px;}
+
+/* 占位符统一样式：全平台 -- 与 N/A 一致（2026-09 再加深一档，黑体加粗观感） */
+.dim-dash,.dim-na{
+  color:#6f7b88; font-weight:700; font-style:normal;
+  font-family:'SimHei','Heiti SC','Microsoft YaHei',sans-serif;
+}
+.dim-dash{letter-spacing:2px;}
+.dim-na{letter-spacing:.5px; font-size:.92em;}
+/* ===== Content ===== */
+.content{flex:1; min-width:0; padding:8px 0 24px 12px;}
+.sheet-panel{display:none;}
+.sheet-panel.active{display:block;}
+
+.panel-header{
+  background:#fff;
+  border-radius:10px;
+  padding:16px 20px;
+  margin-bottom:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  display:flex; justify-content:space-between; align-items:center;
+}
+.panel-title{font-size:16px; font-weight:700; color:var(--c-primary);}
+.panel-actions{display:flex; gap:8px; align-items:center;}
+/* ===== 更新频率（独立块，置于数据日期之前） ===== */
+.query-freq-box{display:flex; align-items:center; gap:6px; background:#f8f9fb; border:1px solid var(--c-border); border-radius:6px; padding:4px 10px; white-space:nowrap;}
+.query-freq-label{font-size:12px; color:var(--c-text-light); font-weight:600;}
+.query-freq-value{font-size:12.5px; color:var(--c-primary); font-weight:700; background:#eef3fa; border-radius:4px; padding:1px 8px;}
+/* ===== 数据日期选择器（年+月双下拉） ===== */
+.ym{display:flex; align-items:center; gap:6px; background:#fff; border:1.5px solid var(--c-info); border-radius:10px; padding:3px 10px; box-shadow:0 1px 4px rgba(59,130,246,0.15); white-space:nowrap;}
+.ym-label{font-size:12.5px; color:var(--c-text); font-weight:600;}
+.ym-select{border:none; background:transparent; font-size:13.5px; color:var(--c-primary); font-weight:700; cursor:pointer; font-family:inherit; outline:none; padding:2px; transition:color 0.15s;}
+.ym-select:hover, .ym-select:focus{color:var(--c-info);}
+/* ===== 驾驶舱 ===== */
+.cock-base{font-size:12px; color:var(--c-text-light); background:#f8f9fb; border:1px solid var(--c-border); border-radius:6px; padding:4px 10px; white-space:nowrap;}
+.cock-desc{font-size:12.5px; color:var(--c-text-light); margin:0 0 12px;}
+.cock-companies{display:grid; grid-template-columns:repeat(auto-fit,minmax(430px,1fr)); gap:12px; margin-bottom:12px;}
+.cock-company{background:#fff; border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,0.08); padding:14px 16px; border-top:3px solid var(--c-primary);}
+.cock-company-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
+.cock-company-head b{font-size:14px; color:var(--c-primary); letter-spacing:1px;}
+.cock-group-title{font-size:12px; font-weight:700; color:var(--c-primary); border-left:3px solid var(--c-accent); padding-left:6px; margin:10px 0 6px;}
+.cock-group-title:first-of-type{margin-top:0;}
+.cock-charts{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:12px;}
+.chart-card{background:#fff; border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,0.08); padding:14px 16px; min-width:0;}
+.chart-title{font-size:13px; font-weight:700; color:var(--c-text); margin-bottom:10px;}
+.ck-bar{display:flex; height:18px; border-radius:9px; overflow:hidden; margin-bottom:10px;}
+.ck-legend{list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; font-size:12px;}
+.ck-legend li{display:flex; align-items:center; gap:6px; min-width:0;}
+.ck-legend i{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+.ck-legend .ck-leg-name{color:var(--c-text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.ck-legend b{margin-left:auto; color:var(--c-primary);}
+.ck-legend em{font-style:normal; color:var(--c-text-light); width:46px; text-align:right;}
+.ck-legend.simple{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));}
+.ck-vbars{display:flex; align-items:stretch; gap:14px; height:160px; padding:0 6px;}
+.ck-vbar{flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; min-width:0;}
+.ck-vbar b{font-size:11px; color:var(--c-primary);}
+.ck-vbar-col{width:70%; max-width:46px; border-radius:6px 6px 0 0; margin-top:auto;}
+.ck-vbar span{font-size:11px; color:var(--c-text-light); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;}
+.ck-gauge{text-align:center;}
+.ck-gauge-val{font-size:24px; font-weight:800; fill:var(--c-primary);}
+.ck-gauge-sub{font-size:10px; fill:var(--c-text-light);}
+.ck-axis{font-size:10px; fill:var(--c-text-light);}
+.ck-trend{width:100%; height:auto;}
+.toast{position:fixed; top:20px; right:20px; background:var(--c-primary); color:#fff; padding:10px 18px; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.25); z-index:9999; font-size:13px; opacity:0; transform:translateX(20px); transition:all 0.3s; pointer-events:none; max-width:360px;}
+.toast.show{opacity:1; transform:translateX(0);}
+.btn{
+  padding:6px 14px;
+  border:1px solid var(--c-border);
+  background:#fff;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+  color:var(--c-text);
+  font-family:inherit;
+  transition:all 0.2s;
+  display:inline-flex; align-items:center; gap:4px;
+}
+.btn:hover{border-color:var(--c-primary); color:var(--c-primary);}
+.btn-primary{
+  background:var(--c-primary);
+  color:#fff;
+  border-color:var(--c-primary);
+}
+.btn-primary:hover{background:var(--c-primary-light); color:#fff;}
+
+/* ===== 集团总览驾驶舱：蓝白大屏风格 ===== */
+#panel-cock-group{
+  --gq-blue:#0d6ef0; --gq-blue2:#39a1f7; --gq-border:#cfe3f8; --gq-dim:#8aa2bd;
+  /* 涨跌配色：上涨红色、下降绿色（与平台其他模块一致） */
+  --gq-up:#e5484d; --gq-down:#0aa865; --gq-text:#33475f;
+  background:linear-gradient(180deg,#eaf4fd 0%,#f3f9ff 100%);
+  color:var(--gq-text);
+  border:1px solid var(--gq-border); border-radius:12px; padding:0; overflow:hidden; position:relative;
+}
+#panel-cock-group .cock-desc{color:#6f8bab; padding:12px 22px 0; margin:0; font-size:12px;}
+/* 顶栏：左下拉 + 中央标题（中部凸出下探、凹角过渡的大屏造型） */
+.gq-bar{display:flex; align-items:center; gap:14px; padding:0 16px; height:58px; position:relative; z-index:0;}
+.gq-bar-bg{position:absolute; left:0; right:0; top:0; height:78px; z-index:-1; pointer-events:none;}
+.gq-bar-bg::before{content:''; position:absolute; left:0; right:0; top:0; height:58px; background:linear-gradient(180deg,#66b1f8,#4b9cf5);}
+.gq-bar-bg::after{
+  content:''; position:absolute; left:25%; right:25%; top:0; height:78px; border-radius:0 0 16px 16px;
+  background:linear-gradient(180deg,#66b1f8 0%,#4b9cf5 74%,#3d8ef0 100%);
+}
+.gq-fil{position:absolute; width:20px; height:20px; top:58px; background:linear-gradient(180deg,#4b9cf5,#3d8ef0);}
+.gq-fil-l{left:calc(25% - 20px); -webkit-mask:radial-gradient(circle at 0 100%,transparent 19px,#000 20px); mask:radial-gradient(circle at 0 100%,transparent 19px,#000 20px);}
+.gq-fil-r{left:75%; -webkit-mask:radial-gradient(circle at 100% 100%,transparent 19px,#000 20px); mask:radial-gradient(circle at 100% 100%,transparent 19px,#000 20px);}
+.gq-bar-left{display:flex; align-items:center; gap:10px; flex-shrink:0; z-index:5;}
+.gq-sel{
+  display:flex; align-items:center; gap:7px; background:#fff; border:1px solid #cfe0f4; border-radius:4px;
+  padding:6px 10px; color:#33475f; font-size:13px; font-weight:600; font-family:inherit;
+  box-shadow:0 1px 4px rgba(20,90,180,0.15);
+}
+button.gq-sel{cursor:pointer; transition:box-shadow .2s;}
+button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
+.gq-sel-ico{font-size:12px;}
+.gq-sel-chev{color:#7d94ad; font-size:11px; transition:transform .25s;}
+.fz-select.open .gq-sel-chev{transform:rotate(180deg);}
+.gq-title{flex:1; display:flex; justify-content:center; min-width:0;}
+.gq-title b{
+  display:inline-block; max-width:100%; padding:2px 10px;
+  color:#fff; font-size:22px; font-weight:800; letter-spacing:6px; text-align:center;
+  text-shadow:0 1px 4px rgba(0,40,110,0.5); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.gq-meta{flex-shrink:0; color:#eaf6ff; font-size:12px; text-shadow:0 1px 2px rgba(0,40,110,0.35);}
+/* 公司选择器弹层（白色） */
+.fz-select{position:relative; display:inline-block; min-width:150px; width:auto;}
+.fz-select-name{flex:1; text-align:left; font-weight:600;}
+.fz-select-list{
+  position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:30;
+  background:#fff; border:1px solid #cfe0f4; border-radius:6px; padding:4px;
+  box-shadow:0 10px 26px rgba(20,70,150,0.22); display:none;
+}
+.fz-select.open .fz-select-list{display:block;}
+.fz-select-opt{
+  display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:5px;
+  cursor:pointer; color:#33475f; font-size:13px; transition:background .15s;
+  border-left:3px solid transparent;
+}
+.fz-select-opt:hover{background:#f0f7ff;}
+.fz-select-opt.active{background:#e3f1ff; border-left-color:var(--gq-blue); color:var(--gq-blue); font-weight:700;}
+.fz-select-opt i{width:7px; height:7px; border-radius:50%; background:#b9cfe6; flex-shrink:0;}
+.fz-select-opt.active i{background:var(--gq-blue); box-shadow:0 0 6px rgba(13,110,240,0.6);}
+/* ===== 驾驶舱独立模块：铺满整页；页面切换=顶部导航「驾驶舱」子菜单 ===== */
+#moduleCock{min-height:calc(100vh - 64px); display:flex; flex-direction:column;}
+.topnav-drop{position:relative; display:flex; align-items:center;}
+.topnav-chev{font-size:10px; margin-left:5px; transition:transform .18s;}
+.topnav-drop.open .topnav-chev{transform:rotate(180deg);}
+.topnav-sub{
+  display:none; position:absolute; top:calc(100% + 12px); left:50%; transform:translateX(-50%);
+  min-width:216px; background:linear-gradient(180deg,#ffffff 0%,#f5faff 100%);
+  border:1px solid rgba(120,170,240,.38); border-radius:12px;
+  box-shadow:0 16px 42px rgba(8,40,100,.28), 0 2px 8px rgba(8,40,100,.12);
+  padding:8px; z-index:200;
+}
+/* 指向顶导航的小箭头 */
+.topnav-sub::before{
+  content:''; position:absolute; top:-5.5px; left:50%; margin-left:-5px; width:10px; height:10px;
+  background:#fff; border-left:1px solid rgba(120,170,240,.38); border-top:1px solid rgba(120,170,240,.38);
+  transform:rotate(45deg); border-radius:2px 0 0 0;
+}
+.topnav-drop.open .topnav-sub{display:block; animation:gkSubIn .18s ease-out;}
+@keyframes gkSubIn{
+  from{opacity:0; transform:translateX(-50%) translateY(-7px);}
+  to{opacity:1; transform:translateX(-50%) translateY(0);}
+}
+.topnav-sub-cap{
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-size:10px; color:#8aa2bd; letter-spacing:2px; padding:4px 10px 7px;
+  border-bottom:1px dashed #dceafa; margin-bottom:6px;
+}
+.topnav-sub-cap b{color:#69a5e8; font-weight:700; letter-spacing:1.5px;}
+.topnav-sub-item{
+  display:flex; align-items:center; gap:9px; width:100%; text-align:left;
+  padding:7px 9px; border-radius:9px; font-size:12.5px; color:#33475f; cursor:pointer;
+  transition:background .14s, color .14s, box-shadow .14s; position:relative;
+}
+.topnav-sub-item + .topnav-sub-item{margin-top:2px;}
+.topnav-sub-item:hover{background:#eaf4ff; color:#0d6ef0;}
+.topnav-sub-item:hover .tsub-ico{transform:scale(1.12); border-color:#9cc7f5;}
+.topnav-sub-item.active{
+  background:linear-gradient(90deg,#0d6ef0,#39a1f7); color:#fff; font-weight:700;
+  box-shadow:0 4px 12px rgba(13,110,240,.35);
+}
+.topnav-sub-item.active::after{content:'✓'; margin-left:auto; font-size:11px; opacity:.92;}
+.tsub-ico{
+  width:25px; height:25px; border-radius:7px; background:#eaf4ff; border:1px solid #d8eafb;
+  display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0;
+  transition:transform .14s, border-color .14s;
+}
+.topnav-sub-item.active .tsub-ico{background:rgba(255,255,255,.18); border-color:rgba(255,255,255,.4);}
+.cock-full{flex:1; min-height:0; padding:0;}
+.cock-full .sheet-panel{padding-bottom:26px;}
+/* 分区标题条（》标题《 样式） */
+.gk-strip{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  background:#f4faff; border:1px solid #d8eafb; border-radius:6px; padding:8px 12px;
+  margin:14px 0 12px; color:var(--gq-blue); font-size:15px; font-weight:800; letter-spacing:2px;
+}
+.gk-strip::before{content:'》'; color:#69b1f5; font-size:14px;}
+.gk-strip::after{content:'《'; color:#69b1f5; font-size:14px;}
+.gk-strip-sep{width:1px; height:15px; background:#a8d4f5; border-radius:1px;}
+.gk-strip:first-child{margin-top:0;}
+/* 指标卡片 */
+.fz-company-view{padding:26px 20px 6px;}
+.gk-row{display:grid; grid-template-columns:repeat(auto-fill,minmax(232px,1fr)); gap:14px; margin-bottom:4px;}
+.gk-card{
+  background:#fff; border:1px solid var(--gq-border); border-radius:8px;
+  box-shadow:0 2px 10px rgba(30,120,220,0.10); overflow:hidden;
+  display:flex; flex-direction:column; transition:box-shadow .2s, transform .2s;
+}
+.gk-card:hover{transform:translateY(-3px); box-shadow:0 8px 22px rgba(30,120,220,0.18);}
+.gk-head{
+  display:flex; align-items:center; gap:8px; padding:8px 12px;
+  background:linear-gradient(90deg,#39a1f7,#0d6ef0); color:#fff; font-size:13px; font-weight:700; letter-spacing:1px;
+}
+.gk-head::before{content:''; width:7px; height:7px; border-radius:50%; background:#fff; box-shadow:0 0 6px rgba(255,255,255,0.9); flex-shrink:0;}
+.gk-head .gk-info{margin-left:auto; font-size:11px; opacity:.75; font-weight:400;}
+.gk-body{display:flex; align-items:center; gap:12px; padding:12px; flex:1;}
+/* 卡底近12月趋势区域图 */
+.gk-trend12{padding:0 12px 10px;}
+.gk-t12-cap{
+  font-size:10px; color:#8aa2bd; letter-spacing:1px; margin-bottom:4px;
+  border-top:1px dashed #e4eefb; padding-top:7px;
+}
+.gk-trend12 svg{width:100%; height:auto; display:block;}
+/* 整行指标卡（风险指标）：左数值 + 右柱状+趋势组合图；3 卡并入同一行 */
+.gk-wide-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:14px;}
+.gk-wide-row .gk-wide-card{margin-bottom:0; min-height:224px;}
+.gk-wide-row .gk-wide-body{grid-template-columns:120px minmax(0,1fr); gap:6px 14px; padding:12px 16px 10px 14px;}
+.gk-wide-row .gk-wide-left{flex-direction:column; align-items:stretch; gap:7px; padding:2px 8px 2px 0;}
+.gk-wide-row .gk-numblock{min-width:0; padding:0; align-items:flex-start;}
+.gk-wide-row .gk-numblock b{font-size:22px;}
+.gk-wide-row .gk-numblock i{font-size:10px;}
+.gk-wide-row .gk-stats{width:100%; gap:4px;}
+.gk-wide-row .gk-stat{font-size:10.5px; justify-content:space-between;}
+.gk-wide-row .gk-stat>span{min-width:0;}
+.gk-wide-card{margin-bottom:14px;}
+.gk-wide-body{
+  display:grid; grid-template-columns:216px minmax(0,1fr); gap:6px 18px;
+  padding:10px 16px 8px; align-items:center;
+}
+.gk-wide-left{display:flex; align-items:center; gap:12px; border-right:1px dashed #dceafa; padding:2px 14px 2px 0;}
+.gk-wide-left .gk-numblock{padding:0 4px 0 0; min-width:88px;}
+.gk-wide-chart{min-width:0;}
+.gk-wide-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:2px;}
+.gk-wide-title{color:#0d6ef0; font-size:13px; font-weight:800; letter-spacing:1px;}
+.gk-wide-title::before{content:'▸'; margin-right:6px; font-size:11px;}
+.gk-wide-legend{display:flex; gap:14px; font-size:10px; color:#5b7590;}
+.gk-wide-legend .lb{width:12px; height:9px; border-radius:2px; background:linear-gradient(180deg,#f0a63a,#f8d488); display:inline-block; margin-right:5px; vertical-align:-1px;}
+.gk-wide-legend .ll{width:8px; height:8px; border-radius:50%; background:#fff; border:2px solid #2f9bf2; display:inline-block; margin-right:5px;}
+.gk-wide-chart svg{width:100%; height:auto; min-height:158px; display:block;}
+@media (max-width:980px){.gk-wide-row{grid-template-columns:1fr;} .gk-wide-body{grid-template-columns:1fr;} .gk-wide-left{border-right:none; padding-right:0;}}
+.gk-t12-hover{cursor:pointer;}
+.gk-t12-hover:hover{fill:rgba(47,155,242,.08);}
+/* 趋势图悬停提示：深蓝玻璃浮层 */
+.gk-t12-tip{
+  position:fixed; z-index:999; pointer-events:none; min-width:98px;
+  background:linear-gradient(160deg,rgba(16,42,84,.96),rgba(9,24,52,.96));
+  border:1px solid rgba(90,160,255,.45); border-radius:7px; padding:6px 10px 7px;
+  box-shadow:0 8px 22px rgba(4,20,50,.45), 0 0 0 3px rgba(64,140,255,.12);
+  backdrop-filter:blur(4px); color:#dfeaff; font-size:11px;
+  display:flex; flex-direction:column; gap:3px;
+}
+.gk-t12-tip b{font-size:11px; color:#fff; letter-spacing:1px; border-bottom:1px solid rgba(120,170,255,.28); padding-bottom:3px;}
+.gk-t12-tip span{display:flex; justify-content:space-between; align-items:baseline; gap:12px; color:#9fc0ea;}
+.gk-t12-tip i{font-style:normal; font-weight:800; color:#ffd479; font-size:12px;}
+.gk-t12-tip i.up{color:#7ed957;}
+.gk-t12-tip i.down{color:#ff7d7d;}
+.gk-gauge{flex-shrink:0;}
+/* 无全年预算指标：「本年累计数」渐变大数值块（替代完成度环位置，视觉节奏对齐） */
+.gk-numblock{
+  flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-width:96px; padding:8px 8px 12px;
+}
+.gk-numblock .gk-np-cap{font-size:10px; color:var(--c-text); letter-spacing:1px; margin-bottom:5px;}
+.gk-numblock b{
+  font-size:26px; font-weight:800; line-height:1.1;
+  background:linear-gradient(135deg,#0d6ef0,#39a1f7);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.gk-numblock i{font-style:normal; font-size:11px; color:#8aa2bd; margin-top:3px;}
+.gk-stats{flex:1; min-width:0; display:flex; flex-direction:column; gap:6px;}
+.gk-stat{display:flex; align-items:baseline; gap:8px; font-size:12px;}
+.gk-stat>span{color:var(--c-text); flex-shrink:0; min-width:52px;}
+.gk-stat b{color:var(--gq-blue); font-size:16px; font-weight:800;}
+.gk-stat b.gk-dimv{color:#33475f; font-size:13px;}
+.gk-stat i{font-style:normal; color:#8aa2bd; font-size:11px;}
+.gk-stat .kpi-delta{font-weight:700;}
+#panel-cock-group .kpi-delta.up{color:var(--gq-up);}
+#panel-cock-group .kpi-delta.down{color:var(--gq-down);}
+#panel-cock-group .kpi-delta.neutral{color:#9db3c8;}
+/* 本年累计数且无全年预算：两行布局（第一行 本年累计数+同比；第二行 当月值+环比） */
+.gk-2r{flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:9px; padding:2px 0;}
+.gk-2r-line{display:flex; align-items:baseline; justify-content:space-between; gap:8px;}
+.gk-2r-l{display:flex; align-items:baseline; gap:5px; min-width:0;}
+.gk-2r-l>span{font-size:10px; color:var(--c-text); letter-spacing:1px; flex-shrink:0;}
+.gk-2r-l b{
+  font-size:20px; font-weight:800; line-height:1.15; white-space:nowrap;
+  background:linear-gradient(135deg,#0d6ef0,#39a1f7);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.gk-2r-l b.sm{font-size:15px;}
+.gk-2r-l i{font-style:normal; font-size:10.5px; color:#8aa2bd; white-space:nowrap;}
+.gk-2r-r{display:flex; align-items:baseline; gap:5px; font-size:11px; flex-shrink:0;}
+.gk-2r-r>span{color:var(--c-text);}
+/* 口径切换页签（收入结构等多口径指标分组：切换后卡片显示对应口径的值） */
+.gk-calswitch{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px;}
+.gk-caltab{
+  border:1px solid #b9d7f5; background:#fff; color:#33475f; font-size:12px; font-weight:600;
+  padding:6px 14px; border-radius:16px; cursor:pointer; transition:all .18s; letter-spacing:.5px;
+}
+.gk-caltab:hover{border-color:#39a1f7; color:#0d6ef0; background:#f0f8ff;}
+.gk-caltab.active{
+  background:linear-gradient(90deg,#39a1f7,#0d6ef0); border-color:transparent; color:#fff;
+  box-shadow:0 3px 10px rgba(13,110,240,.30);
+}
+/* 多口径指标卡：卡内嵌小药丸切换器 */
+.gk-mcal-body{flex-direction:column; align-items:stretch; gap:9px;}
+.gk-mcal-tabs{display:flex; gap:6px; flex-wrap:wrap;}
+.gk-mcal-tab{
+  border:1px solid #cfe0f4; background:#f4f9ff; color:#51708f; font-size:10.5px; font-weight:700;
+  padding:3px 11px; border-radius:12px; cursor:pointer; transition:all .15s; letter-spacing:.5px;
+}
+.gk-mcal-tab:hover{border-color:#39a1f7; color:#0d6ef0; background:#eaf5ff;}
+.gk-mcal-tab.active{background:linear-gradient(90deg,#39a1f7,#0d6ef0); border-color:transparent; color:#fff; box-shadow:0 2px 8px rgba(13,110,240,.28);}
+.gk-mcal-row{display:flex; align-items:center; gap:12px;}
+.gk-mcal-row .gk-numblock{padding:0 4px 0 0; min-width:88px;}
+/* 一览表（蓝白） */
+.gk-table-section{padding:6px 0 14px;}
+#panel-cock-group .table-card{background:#fff; border:1px solid var(--gq-border); border-radius:8px; box-shadow:0 2px 10px rgba(30,120,220,0.10);}
+#panel-cock-group .data-table thead{background:linear-gradient(90deg,#39a1f7,#0d6ef0);}
+#panel-cock-group .data-table th{color:#fff; border-color:rgba(255,255,255,0.25);}
+#panel-cock-group .data-table td.yoy.up{color:var(--gq-up);}
+#panel-cock-group .data-table td.yoy.down{color:var(--gq-down);}
+#panel-cock-group .data-table td.yoy.neutral{color:#9db3c8;}
+
+/* ===== KPI cards ===== */
+.kpi-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:12px;
+}
+.sheet-panel .kpi-card{
+  border-radius:10px;
+  padding:14px 16px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  border-left:4px solid var(--c-primary);
+  position:relative;
+  overflow:hidden;
+  transition:transform 0.25s ease, box-shadow 0.25s ease;
+}
+.sheet-panel .kpi-card > *{position:relative; z-index:1;}
+/* 悬停加深层：透明度淡入，过渡平滑 */
+.sheet-panel .kpi-card::after{
+  content:'';
+  position:absolute; inset:0;
+  opacity:0;
+  transition:opacity 0.25s ease;
+  pointer-events:none;
+}
+.sheet-panel .kpi-card:hover{transform:translateY(-4px);}
+.sheet-panel .kpi-card:hover::after{opacity:1;}
+/* 四张卡片按位置依次四色淡彩：淡蓝 / 淡金 / 淡绿 / 淡粉 */
+.sheet-panel .kpi-row .kpi-card:nth-child(1){border-left-color:#2a5298; background:linear-gradient(150deg,#f4f9ff 0%,#d8e8fb 100%);}
+.sheet-panel .kpi-row .kpi-card:nth-child(1)::after{background:linear-gradient(150deg,#e9f2fd 0%,#c6ddf8 100%);}
+.sheet-panel .kpi-row .kpi-card:nth-child(1):hover{box-shadow:0 8px 20px rgba(42,82,152,0.22);}
+.sheet-panel .kpi-row .kpi-card:nth-child(1) .kpi-value{color:#2a5298;}
+.sheet-panel .kpi-row .kpi-card:nth-child(2){border-left-color:#c8962e; background:linear-gradient(150deg,#fffaee 0%,#f8ecca 100%);}
+.sheet-panel .kpi-row .kpi-card:nth-child(2)::after{background:linear-gradient(150deg,#fdf4dc 0%,#f3e1af 100%);}
+.sheet-panel .kpi-row .kpi-card:nth-child(2):hover{box-shadow:0 8px 20px rgba(200,150,46,0.26);}
+.sheet-panel .kpi-row .kpi-card:nth-child(2) .kpi-value{color:#a97b1e;}
+.sheet-panel .kpi-row .kpi-card:nth-child(3){border-left-color:#0f9d76; background:linear-gradient(150deg,#f1fbf6 0%,#d3f0e1 100%);}
+.sheet-panel .kpi-row .kpi-card:nth-child(3)::after{background:linear-gradient(150deg,#e5f8ee 0%,#bfead3 100%);}
+.sheet-panel .kpi-row .kpi-card:nth-child(3):hover{box-shadow:0 8px 20px rgba(16,185,129,0.24);}
+.sheet-panel .kpi-row .kpi-card:nth-child(3) .kpi-value{color:#0d8a68;}
+.sheet-panel .kpi-row .kpi-card:nth-child(4){border-left-color:#d4626e; background:linear-gradient(150deg,#fff6f7 0%,#fadce0 100%);}
+.sheet-panel .kpi-row .kpi-card:nth-child(4)::after{background:linear-gradient(150deg,#fdeef0 0%,#f5c9cf 100%);}
+.sheet-panel .kpi-row .kpi-card:nth-child(4):hover{box-shadow:0 8px 20px rgba(212,98,110,0.24);}
+.sheet-panel .kpi-row .kpi-card:nth-child(4) .kpi-value{color:#c04855;}
+.kpi-label{font-size:12px; color:var(--c-text-light); margin-bottom:6px;}
+.kpi-value{font-size:24px; font-weight:700; color:var(--c-primary);}
+.kpi-card.accent .kpi-value{color:var(--c-accent);}
+.kpi-card.success .kpi-value{color:var(--c-success);}
+.kpi-card.warning .kpi-value{color:var(--c-warning);}
+.kpi-card.danger .kpi-value{color:var(--c-danger);}
+.kpi-unit{font-size:12px; font-weight:500; color:var(--c-accent); margin-left:10px; letter-spacing:0.5px;}
+.kpi-trends{
+  margin-top:8px;
+  display:flex; flex-direction:column; gap:4px;
+}
+.kpi-trend-row{display:flex; justify-content:space-between; align-items:center; font-size:12px;}
+.kpi-trend-name{color:var(--c-text-light);}
+.kpi-delta{font-family:"Courier New",monospace; font-weight:600; white-space:nowrap;}
+.kpi-delta.up{color:var(--c-danger);}
+.kpi-delta.down{color:var(--c-success);}
+.kpi-delta.neutral{color:var(--c-text-light); font-weight:400;}
+
+/* ===== 概览区收起/展开 ===== */
+.collapse-bar{
+  display:flex; align-items:center; gap:8px;
+  background:var(--c-card);
+  border:1px dashed var(--c-border);
+  border-radius:8px;
+  padding:8px 14px;
+  margin-bottom:10px;
+  font-size:13px; font-weight:600; color:var(--c-text-light);
+  cursor:pointer; user-select:none;
+  transition:all 0.2s;
+}
+.collapse-bar:hover{border-color:var(--c-primary); color:var(--c-primary); background:#f8fafd;}
+.collapse-bar.expanded{color:var(--c-primary); border-style:solid;}
+.collapse-arrow{display:inline-block; font-size:10px; transition:transform 0.2s;}
+.collapse-bar.expanded .collapse-arrow{transform:rotate(90deg);}
+.collapse-hint{margin-left:auto; font-size:11px; font-weight:400; color:#9ca3af;}
+.overview-area.collapsed{display:none;}
+
+/* ===== Data table ===== */
+.table-card{
+  background:#fff;
+  border-radius:10px;
+  padding:16px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  overflow:hidden;
+}
+.table-wrap{overflow-x:auto; max-height:600px; overflow-y:auto;}
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+  min-width:900px;
+}
+.data-table thead{
+  position:sticky; top:0; z-index:5;
+  background:linear-gradient(135deg,var(--c-primary),var(--c-primary-light));
+  color:#fff;
+}
+.data-table th{
+  padding:8px 10px;
+  text-align:center;
+  font-weight:600;
+  font-size:12px;
+  white-space:nowrap;
+  border:1px solid rgba(255,255,255,0.15);
+}
+.data-table th.sub-head{
+  background:linear-gradient(135deg,#2a5298,#3a6bb0);
+  font-size:11px;
+}
+.data-table td{
+  padding:7px 10px;
+  text-align:center;
+  border:1px solid var(--c-border);
+  white-space:nowrap;
+}
+.data-table tbody tr:nth-child(even){background:#f8f9fb;}
+.data-table tbody tr:hover{background:#fff8e6;}
+.data-table tbody tr.row-sep{background:transparent;}
+.data-table tbody tr.row-sep:hover{background:transparent;}
+.data-table tbody tr.row-sep td{padding:0; height:14px; border:none;}
+.data-table td.text-left{text-align:left; padding-left:12px;}
+.data-table td.indicator-name{font-weight:500; color:var(--c-primary); text-align:left; padding-left:12px;}
+.data-table td.indicator-name.lv0{font-weight:600; color:var(--c-primary);}
+/* 全模块统一（参照华润保险报表2）：二级指标黑体；三级指标颜色调浅；二/三级右对齐；一级保持原样式 */
+.data-table td.indicator-name.lv1{font-weight:400; font-family:"SimHei","Heiti SC","Microsoft YaHei",sans-serif; color:var(--c-text); text-align:right; padding-right:12px;}
+.data-table td.indicator-name.lv2{font-weight:400; color:#9ca3af; text-align:right; padding-right:12px;}
+.data-table td.value{font-family:"Courier New",monospace; font-weight:600;}
+.data-table td.value.empty{color:var(--c-text-light); font-weight:400;}
+.data-table td.assess{font-weight:600;}
+.data-table td.assess.yes{
+  color:var(--c-accent);
+  background:#fef5e7;
+}
+.data-table td.yoy{font-family:"Courier New",monospace; white-space:nowrap;}
+.data-table td.yoy.up{color:var(--c-danger); font-weight:600;}
+.data-table td.yoy.down{color:var(--c-success); font-weight:600;}
+.data-table td.yoy.neutral{color:var(--c-text-light);}
+.data-table td.yoy .delta-arrow{
+  display:inline-block;
+  font-size:9px;
+  line-height:1;
+  margin-right:3px;
+  transform:translateY(-1px);
+  font-family:Arial,sans-serif;
+}
+.data-table td.progress-cell{
+  position:relative;
+  min-width:120px;
+}
+.progress-bar-wrap{
+  display:flex; align-items:center; gap:6px; justify-content:center;
+}
+.progress-bar{
+  flex:1;
+  height:6px;
+  background:#e5e7eb;
+  border-radius:3px;
+  overflow:hidden;
+  max-width:80px;
+}
+.progress-fill{
+  height:100%;
+  border-radius:3px;
+  background:linear-gradient(90deg,var(--c-success),#34d399);
+}
+.progress-fill.mid{background:linear-gradient(90deg,var(--c-warning),#fbbf24);}
+.progress-fill.low{background:linear-gradient(90deg,var(--c-danger),#f87171);}
+.progress-text{font-size:11px; font-weight:600; min-width:36px; text-align:left;}
+
+.data-table .group-row{
+  background:linear-gradient(135deg,#eef2f9,#dbe5f1);
+  font-weight:700;
+  color:var(--c-primary);
+  text-align:left;
+  padding-left:12px;
+}
+
+/* ===== 华润保险 报表2-业务指标：三级指标名称（仅 ins02 面板生效） ===== */
+/* 华润保险报表2 / 华润信托 的指标名称列层级样式已统一至全局 .indicator-name.lv1/.lv2 规则 */
+
+/* ===== 指标口径页签（华润资产报表：表格上方按口径切换明细） ===== */
+.caliber-tabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;}
+.caliber-tab{
+  border:1px solid var(--c-border); background:#fff; border-radius:6px;
+  padding:6px 16px; cursor:pointer; font-family:inherit;
+  display:flex; flex-direction:column; align-items:flex-start;
+  transition:all 0.2s; text-align:left;
+}
+.caliber-tab-name{font-size:13px; font-weight:600; color:var(--c-text); line-height:1.4;}
+.caliber-tab-sub{font-size:11px; font-weight:400; color:var(--c-text-light); line-height:1.4;}
+.caliber-tab:hover{border-color:var(--c-primary);}
+.caliber-tab:hover .caliber-tab-name{color:var(--c-primary);}
+.caliber-tab.active{
+  background:linear-gradient(135deg,var(--c-primary),var(--c-primary-light));
+  border-color:var(--c-primary);
+  box-shadow:0 2px 6px rgba(26,58,107,0.3);
+}
+.caliber-tab.active .caliber-tab-name{color:#fff;}
+.caliber-tab.active .caliber-tab-sub{color:rgba(255,255,255,0.78);}
+.caliber-pane{display:none;}
+.caliber-pane.active{display:block;}
+.kpi-row.caliber-pane.active{display:grid;}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar{width:8px; height:8px;}
+::-webkit-scrollbar-track{background:#f1f1f1;}
+::-webkit-scrollbar-thumb{background:#c5c5c5; border-radius:4px;}
+::-webkit-scrollbar-thumb:hover{background:#a0a0a0;}
+
+/* Responsive */
+@media(max-width:1300px){
+  .std-stats{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:1200px){
+  .kpi-row{grid-template-columns:repeat(2,1fr);}
+  .sidebar{width:170px;}
+  .std-form{grid-template-columns:repeat(2,1fr);}
+  .std-form-actions{grid-column:1 / -1;}
+}
+@media(max-width:900px){
+  .std-stats{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:768px){
+  .layout{flex-direction:column;}
+  .sidebar{width:100%; position:static; max-height:none;}
+  .header{flex-wrap:wrap; gap:8px;}
+  .header-nav{position:static; transform:none; margin:0 auto; gap:24px;}
+  .topnav-item{padding:4px 8px;}
+  .std-form{grid-template-columns:1fr;}
+  .std-form-actions{grid-column:auto;}
+}
+
+.sheet-panel{display:none !important;}
+#panel-lease01{display:block !important;}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">华</div>
+    <div>
+      <h1>金控指标体系数据应用平台</h1>
+      <div class="header-sub">Financial Holdings Indicator System · Data Application Platform</div>
+    </div>
+  </div>
+  <nav class="header-nav">
+    <button class="topnav-item active" data-module="data" type="button">数据应用</button>
+    <div class="topnav-drop" id="cockNavDrop">
+      <button class="topnav-item" data-module="cock" type="button">驾驶舱<span class="topnav-chev">▾</span></button>
+      <div class="topnav-sub" id="cockNavSub"></div>
+    </div>
+    <button class="topnav-item" data-module="query" type="button">指标查询</button>
+  </nav>
+</div>
+
+<!-- 模块一：数据应用 -->
+<div class="module" id="moduleData">
+  <div class="layout">
+    <aside class="sidebar" id="tabsWrap">
+    </aside>
+    <main class="content" id="content"></main>
+  </div>
+</div>
+
+<!-- 模块三：驾驶舱（独立顶层模块：铺满整页、无左侧菜单；页面切换在顶部导航「驾驶舱」子菜单） -->
+<div class="module" id="moduleCock" style="display:none;">
+  <div class="cock-full" id="cockContent"></div>
+</div>
+
+<!-- 模块二：指标查询 -->
+<div class="module" id="moduleQuery" style="display:none;">
+  <div class="query-page">
+    <!-- 指标标准库（数据源：金控指标数据梳理表-指标标准版【清洁版】.xlsx） -->
+    <div id="stdView">
+      <div class="std-stats" id="stdStats"></div>
+
+      <div class="std-main" id="stdMain">
+          <div class="query-card">
+            <div class="std-form">
+              <div class="std-form-item"><label class="std-form-label" for="stdName">指标名称：</label><input type="text" class="std-ctrl" id="stdName" placeholder="请输入"></div>
+              <div class="std-form-item"><label class="std-form-label" for="stdClass">指标编号：</label><input type="text" class="std-ctrl" id="stdClass" placeholder="请输入"></div>
+              <div class="std-form-item"><label class="std-form-label" for="stdTheme">指标主题：</label><select class="std-ctrl" id="stdTheme" data-std-key="theme"></select></div>
+              <div class="std-form-item"><label class="std-form-label" for="stdBizUnit">业务单元：</label><select class="std-ctrl" id="stdBizUnit" data-std-key="bizUnit"></select></div>
+              <div class="std-form-item"><label class="std-form-label" for="stdFreq">更新频次：</label><select class="std-ctrl" id="stdFreq" data-std-key="freq"></select></div>
+              <div class="std-form-item"><label class="std-form-label" for="stdTimeDim">时间维度：</label><select class="std-ctrl" id="stdTimeDim" data-std-key="timeDim"></select></div>
+              <div class="std-form-item"><label class="std-form-label" for="stdCaliber">指标口径：</label><input type="text" class="std-ctrl" id="stdCaliber" list="stdCaliberList" placeholder="请选择" autocomplete="off"><datalist id="stdCaliberList"></datalist></div>
+              <div class="std-form-item"><label class="std-form-label" for="stdStatus">指标状态：</label><select class="std-ctrl" id="stdStatus" data-std-key="status"></select></div>
+              <div class="std-form-actions">
+                <button class="btn-std btn-std-search" data-action="std-search" type="button">查 询</button>
+                <button class="btn-std btn-std-reset" data-action="std-reset" type="button">重 置</button>
+              </div>
+            </div>
+            <div class="query-summary" id="stdSummary"></div>
+            <div class="query-table-wrap std-table-wrap">
+              <table class="data-table std-table" id="stdTable"></table>
+            </div>
+            <div class="std-pager">
+              <select class="std-page-size" id="stdPageSize" title="每页显示条数"></select>
+              <div class="std-pager-btns" id="stdPagerBtns"></div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 指标标准库：详情抽屉 -->
+<div class="std-overlay" id="stdOverlay"></div>
+<aside class="std-drawer" id="stdDrawer" aria-hidden="true"></aside>
+
+<script src="sheets_data.js"></script>
+<script src="asset_sheets_data.js"></script>
+<script src="trust_sheets_data.js"></script>
+<script src="insurance_sheets_data.js"></script>
+<script src="lease_sheets_data.js"></script>
+<script src="cockpit_data.js"></script>
+<script src="indicator_standard_data.js"></script>
+<script>
+/* ============================================================
+   数据：9张子表指标定义
+   ============================================================ */
+/* 旧 SHEETS 已废弃 —— 数据抽离至 sheets_data.js（严格对齐 Excel）
+const SHEETS = {
+  "01": {
+    name:"01-资产负债简表",
+    count:20,
+    title:"资产负债简表",
+    tag:"规模监测",
+    kpi:[{label:"总资产",value:"12,580",unit:"亿元",trend:"+8.6%",dir:"up",type:""},
+         {label:"总负债",value:"11,620",unit:"亿元",trend:"+8.2%",dir:"up",type:"accent"},
+         {label:"所有者权益",value:"960",unit:"亿元",trend:"+12.4%",dir:"up",type:"success"},
+         {label:"贷款总额",value:"6,850",unit:"亿元",trend:"+10.3%",dir:"up",type:"warning"}],
+    rows:[
+      ["1","总资产","亿元","12,580.00","-","-","13,800.00","91.2%"],
+      ["2","贷款","亿元","6,850.00","-","-","7,500.00","91.3%"],
+      ["3","普通贷款","亿元","6,200.00","-","-","6,800.00","91.2%"],
+      ["4","贴现","亿元","350.00","-","-","400.00","87.5%"],
+      ["5","票据融资","亿元","300.00","-","-","300.00","100.0%"],
+      ["6","投资性资产","亿元","3,200.00","-","-","3,500.00","91.4%"],
+      ["7","债券投资","亿元","2,100.00","-","-","2,300.00","91.3%"],
+      ["8","同业投资","亿元","680.00","-","-","750.00","90.7%"],
+      ["9","理财回表投资","亿元","220.00","-","-","250.00","88.0%"],
+      ["10","其他投资","亿元","200.00","-","-","200.00","100.0%"],
+      ["11","拆出同业","亿元","180.00","-","-","200.00","90.0%"],
+      ["12","买入返售","亿元","120.00","-","-","150.00","80.0%"],
+      ["13","存放央行","亿元","980.00","-","-","1,000.00","98.0%"],
+      ["14","总负债","亿元","11,620.00","-","-","12,800.00","90.8%"],
+      ["15","存款","亿元","8,500.00","-","-","9,200.00","92.4%"],
+      ["16","应付债券","亿元","1,200.00","-","-","1,300.00","92.3%"],
+      ["17","同业负债","亿元","680.00","-","-","750.00","90.7%"],
+      ["18","拆入回购","亿元","560.00","-","-","600.00","93.3%"],
+      ["19","向央行借款","亿元:"],
+      ["20","所有者权益","亿元","960.00","-","-","1,000.00","96.0%"]
+    ],
+    chart:{type:"composition",title:"资产结构分布",data:[
+      {name:"贷款",value:6850},{name:"债券投资",value:2100},{name:"存款(央行)",value:980},
+      {name:"同业投资",value:680},{name:"其他",value:970}
+    ]},
+    chart2:{type:"trend",title:"资产规模趋势(亿元)",categories:["Q1","Q2","Q3","Q4"],
+      series:[{name:"总资产",data:[11800,12100,12380,12580]},{name:"总负债",data:[10900,11200,11420,11620]}]}
+  },
+  "02":{
+    name:"02-损益简表",
+    count:14,
+    title:"损益简表",
+    tag:"效益监测",
+    kpi:[{label:"营业收入",value:"328.5",unit:"亿元",trend:"+6.8%",dir:"up",type:""},
+         {label:"利润总额",value:"118.6",unit:"亿元",trend:"+9.4%",dir:"up",type:"accent"},
+         {label:"净利润",value:"89.2",unit:"亿元",trend:"+10.2%",dir:"up",type:"success"},
+         {label:"业务及管理费",value:"98.5",unit:"亿元",trend:"+3.2%",dir:"down",type:"warning"}],
+    rows:[
+      ["1","营业收入","亿元","是","328.50","-","-","350.00","93.9%"],
+      ["2","利息净收入","亿元","-","268.50","-","-","285.00","94.2%"],
+      ["3","利息净收入","亿元","-","268.50","-","-","285.00","94.2%"],
+      ["4","其中：手续费及佣金净收入","亿元","-","28.60","-","-","32.00","89.4%"],
+      ["5","非利息净收入","亿元","-","60.00","-","-","65.00","92.3%"],
+      ["6","投资收益","亿元","-","22.50","-","-","25.00","90.0%"],
+      ["7","公允价值变动净收益","亿元","-","8.50","-","-","9.00","94.4%"],
+      ["8","业务及管理费","亿元","-","98.50","-","-","105.00","93.8%"],
+      ["9","税金及附加","亿元","-","3.20","-","-","3.50","91.4%"],
+      ["10","税前利润","亿元","-","118.60","-","-","128.00","92.7%"],
+      ["11","减值价值损失","亿元","-","-32.50","-","-","-35.00","92.9%"],
+      ["12","利润总额","亿元","是","118.60","-","-","128.00","92.7%"],
+      ["13","所得税","亿元","-","29.40","-","-","32.00","91.9%"],
+      ["14","净利润","亿元","-","89.20","-","-","96.00","92.9%"]
+    ],
+    chart:{type:"composition",title:"收入结构占比",data:[
+      {name:"利息净收入",value:268.5},{name:"投资收益",value:22.5},
+      {name:"公允价值变动",value:8.5},{name:"手续费佣金",value:28.6},{name:"其他",value:0.4}
+    ]},
+    chart2:{type:"waterfall",title:"利润形成路径(亿元)"}
+  },
+  "03":{
+    name:"03-关键监测指标",
+    count:21,
+    title:"关键监测指标",
+    tag:"监管指标",
+    kpi:[{label:"资本充足率",value:"13.85",unit:"%",trend:"+0.35ppt",dir:"up",type:"success"},
+         {label:"拨备覆盖率",value:"185.6",unit:"%",trend:"+5.2ppt",dir:"up",type:""},
+         {label:"流动性覆盖率",value:"128.5",unit:"%",trend:"-2.1ppt",dir:"down",type:"warning"},
+         {label:"成本收入比",value:"29.98",unit:"%",trend:"-1.2ppt",dir:"up",type:"accent"}],
+    groups:[
+      {name:"流动性风险",rows:[
+        ["1","流动性覆盖率","%","是","≥100%","128.50","-","-","130.00","98.8%"],
+        ["2","净稳定资金比率","%","-","≥100%","115.20","-","-","118.00","97.6%"],
+        ["3","流动性缺口率（90天）","%","-","≥-10%","-5.80","-","-","-5.00","116.0%"],
+        ["4","核心负债依存度","%","-","≥60%","65.30","-","-","66.00","98.9%"]
+      ]},
+      {name:"信用风险",rows:[
+        ["5","拨备覆盖率","%","-","≥150%","185.60","-","-","180.00","103.1%"],
+        ["6","贷款拨备率","%","-","≥2.5%","3.25","-","-","3.20","101.6%"]
+      ]},
+      {name:"盈利性",rows:[
+        ["7","资产收益率","%","-","-","0.85","-","-","0.90","94.4%"],
+        ["8","资本收益率","%","-","-","11.20","-","-","12.00","93.3%"],
+        ["9","风险资产收益率","%","-","-","1.45","-","-","1.50","96.7%"],
+        ["10","成本收入比","%","-","-","29.98","-","-","30.00","99.9%"]
+      ]},
+      {name:"资本充足情况",rows:[
+        ["11","资本净额","亿元","-","-","980.00","-","-","1,020.00","96.1%"],
+        ["12","资本充足率","%","是","≥10.5%","13.85","-","-","14.00","98.9%"],
+        ["13","一级资本净额","亿元","-","-","780.00","-","-","810.00","96.3%"],
+        ["14","一级资本充足率","%","-","≥8.5%","11.02","-","-","11.20","98.4%"],
+        ["15","核心一级资本净额","亿元","-","-","720.00","-","-","750.00","96.0%"],
+        ["16","核心一级资本充足率","%","-","≥7.5%","10.18","-","-","10.30","98.8%"],
+        ["17","总杠杆","%","-","≥4%","5.80","-","-","5.50","105.5%"],
+        ["18","风险加权资产","亿元","-","-","7,080.00","-","-","7,300.00","97.0%"]
+      ]},
+      {name:"集中度指标",rows:[
+        ["19","房地产贷款集中度","%","-","-","22.50","-","-","25.00","90.0%"],
+        ["20","单同业融资客户集中度","%","-","-","8.60","-","-","10.00","86.0%"],
+        ["21","单同业授信客户集中度","%","-","-","12.30","-","-","15.00","82.0%"]
+      ]}
+    ],
+    chart:{type:"gauge",title:"资本充足率监测",value:13.85,min:0,max:20,target:10.5},
+    chart2:{type:"bar",title:"监管指标达标情况",categories:["流动性覆盖率","拨备覆盖率","资本充足率","核心一级充足率","成本收入比"],
+      series:[{name:"实际值",data:[128.5,185.6,13.85,10.18,29.98]},{name:"监管要求",data:[100,150,10.5,7.5,0]}]}
+  },
+  "04":{
+    name:"04-收入结构",
+    count:21,
+    title:"收入结构",
+    tag:"条线收入",
+    kpi:[{label:"全行营业收入",value:"328.5",unit:"亿元",trend:"+6.8%",dir:"up",type:""},
+         {label:"公司条线",value:"168.5",unit:"亿元",trend:"+5.2%",dir:"up",type:"accent"},
+         {label:"零售条线",value:"98.6",unit:"亿元",trend:"+12.4%",dir:"up",type:"success"},
+         {label:"金融市场",value:"61.4",unit:"亿元",trend:"+8.8%",dir:"up",type:"warning"}],
+    groups:[
+      {name:"营业收入",rows:[
+        ["1","全行营业收入","亿元","-","328.50","-","-","350.00","93.9%"],
+        ["2","公司条线营业收入","亿元","-","168.50","-","-","180.00","93.6%"],
+        ["3","其中：公司金融-营业收入","亿元","-","155.20","-","-","165.00","94.1%"],
+        ["4","公司金融-其他营业收入","亿元","-","13.30","-","-","15.00","88.7%"],
+        ["5","零售条线营业收入","亿元","-","98.60","-","-","105.00","93.9%"],
+        ["6","其中：零售金融-营业收入","亿元","-","92.50","-","-","98.00","94.4%"],
+        ["7","金融市场-营业收入","亿元","-","61.40","-","-","65.00","94.5%"],
+        ["8","其中：金融市场条线营业收入","亿元","-","58.20","-","-","62.00","93.9%"],
+        ["9","司库营业收入","亿元","-","-0.00","-","-","0.00","-"]
+      ]},
+      {name:"利息净收入",rows:[
+        ["10","全行利息净收入","亿元","-","268.50","-","-","285.00","94.2%"],
+        ["11","公司条线利息净收入","亿元","-","132.00","-","-","140.00","94.3%"],
+        ["12","零售条线利息净收入","亿元","-","82.50","-","-","88.00","93.8%"]
+      ]},
+      {name:"非息收入",rows:[
+        ["13","全行非息收入","亿元","-","60.00","-","-","65.00","92.3%"],
+        ["14","其中：全行手续费及佣金净收入","亿元","是","28.60","-","-","32.00","89.4%"],
+        ["15","公司条线非息收入","亿元","-","36.50","-","-","40.00","91.3%"],
+        ["16","其中：公司金融手续费及佣金净收入","亿元","-","18.20","-","-","20.00","91.0%"],
+        ["17","零售条线非息收入","亿元","-","16.10","-","-","18.00","89.4%"],
+        ["18","其中：零售金融手续费及佣金净收入","亿元","-","10.40","-","-","12.00","86.7%"],
+        ["19","全行投资收益","亿元","-","22.50","-","-","25.00","90.0%"],
+        ["20","其中：金融市场投资收益","亿元","-","21.20","-","-","23.50","90.2%"],
+        ["21","公允价值变动","亿元","-","8.50","-","-","9.00","94.4%"]
+      ]}
+    ],
+    chart:{type:"composition",title:"条线收入分布",data:[
+      {name:"公司条线",value:168.5},{name:"零售条线",value:98.6},{name:"金融市场",value:61.4}
+    ]},
+    chart2:{type:"bar",title:"各条线收入vs预算(亿元)",categories:["公司","零售","金融市场"],
+      series:[{name:"实际",data:[168.5,98.6,61.4]},{name:"预算",data:[180,105,65]}]}
+  },
+  "05":{
+    name:"05-成本结构",
+    count:18,
+    title:"成本结构",
+    tag:"条线成本",
+    kpi:[{label:"公司条线成本",value:"98.5",unit:"亿元",trend:"+3.2%",dir:"down",type:""},
+         {label:"零售条线成本",value:"52.6",unit:"亿元",trend:"+5.8%",dir:"down",type:"accent"},
+         {label:"金融市场成本",value:"18.5",unit:"亿元",trend:"+2.1%",dir:"down",type:"success"},
+         {label:"公司EVA",value:"38.5",unit:"亿元",trend:"+8.6%",dir:"up",type:"warning"}],
+    groups:[
+      {name:"公司条线成本",rows:[
+        ["1","公司条线成本合计","亿元","-","98.50","-","-","105.00","93.8%"],
+        ["2","其中：公司金融-营业成本","亿元","-","85.20","-","-","90.00","94.7%"],
+        ["3","公司金融-日常成本","亿元","-","62.50","-","-","66.00","94.7%"],
+        ["4","公司金融-资本成本","亿元","-","22.70","-","-","24.00","94.6%"],
+        ["5","公司金融-EVA","亿元","-","38.50","-","-","42.00","91.7%"],
+        ["6","公司金融-RAROC","%","-","18.50","-","-","19.00","97.4%"]
+      ]},
+      {name:"零售条线成本",rows:[
+        ["7","零售条线成本合计","亿元","-","52.60","-","-","56.00","93.9%"],
+        ["8","其中：零售金融-营业成本","亿元","-","45.80","-","-","48.00","95.4%"],
+        ["9","零售金融-日常成本","亿元","-","35.20","-","-","37.00","95.1%"],
+        ["10","零售金融-资本成本","亿元","-","10.60","-","-","11.00","96.4%"],
+        ["11","零售金融-EVA","亿元","-","15.20","-","-","18.00","84.4%"],
+        ["12","零售金融-RAROC","%","-","14.80","-","-","15.50","95.5%"]
+      ]},
+      {name:"金融市场条线成本",rows:[
+        ["13","金融市场条线成本合计","亿元","-","18.50","-","-","20.00","92.5%"],
+        ["14","其中：金融市场-营业成本","亿元","-","16.20","-","-","17.50","92.6%"],
+        ["15","金融市场-日常成本","亿元","-","12.80","-","-","13.50","94.8%"],
+        ["16","金融市场-资本成本","亿元","-","3.40","-","-","4.00","85.0%"],
+        ["17","金融市场-EVA","亿元","-","28.60","-","-","30.00","95.3%"],
+        ["18","金融市场-RAROC","%","-","22.50","-","-","23.00","97.8%"]
+      ]}
+    ],
+    chart:{type:"composition",title:"条线成本结构",data:[
+      {name:"公司条线",value:98.5},{name:"零售条线",value:52.6},{name:"金融市场",value:18.5}
+    ]},
+    chart2:{type:"bar",title:"各条线RAROC对比(%)",categories:["公司","零售","金融市场"],
+      series:[{name:"实际RAROC",data:[18.5,14.8,22.5]},{name:"预算RAROC",data:[19,15.5,23]}]}
+  },
+  "06":{
+    name:"06-存贷结构",
+    count:26,
+    title:"存贷结构",
+    tag:"存贷规模",
+    kpi:[{label:"存款规模",value:"8,500",unit:"亿元",trend:"+9.6%",dir:"up",type:""},
+         {label:"贷款投放",value:"6,850",unit:"亿元",trend:"+10.3%",dir:"up",type:"accent"},
+         {label:"AUM日均",value:"9,200",unit:"亿元",trend:"+12.8%",dir:"up",type:"success"},
+         {label:"低成存款占比",value:"42.5",unit:"%",trend:"+3.2ppt",dir:"up",type:"warning"}],
+    groups:[
+      {name:"存款规模",rows:[
+        ["1","存款规模（全行）","亿元","-","8,500.00","-","-","9,200.00","92.4%"],
+        ["2","公司条存款规模","亿元","-","5,200.00","-","-","5,600.00","92.9%"],
+        ["3","公司条定期存款","亿元","-","2,800.00","-","-","3,000.00","93.3%"],
+        ["4","个人条存款规模","亿元","-","3,300.00","-","-","3,600.00","91.7%"],
+        ["5","个人条定期存款","亿元","-","1,500.00","-","-","1,700.00","88.2%"]
+      ]},
+      {name:"AUM",rows:[
+        ["6","全行AUM日均余额","亿元","-","9,200.00","-","-","10,000.00","92.0%"],
+        ["7","其中：个人非代AUM日均余额","亿元","是","6,800.00","-","-","7,500.00","90.7%"],
+        ["8","代发客户AUM日均余额","亿元","-","2,400.00","-","-","2,500.00","96.0%"]
+      ]},
+      {name:"存款日均",rows:[
+        ["9","存款日均（全行）","亿元","-","8,420.00","-","-","9,100.00","92.5%"],
+        ["10","其中：低成存款日均余额","亿元","是","3,580.00","-","-","3,800.00","94.2%"],
+        ["11","公司条线存款日均","亿元","-","5,150.00","-","-","5,550.00","92.8%"],
+        ["12","公司条低成存款日均余额","亿元","-","2,180.00","-","-","2,300.00","94.8%"],
+        ["13","个人条存款日均","亿元","-","3,270.00","-","-","3,550.00","92.1%"],
+        ["14","个人条低成存款日均余额","亿元","-","1,400.00","-","-","1,500.00","93.3%"]
+      ]},
+      {name:"贷款投放",rows:[
+        ["15","公司-贷款投放额","亿元","-","4,200.00","-","-","4,500.00","93.3%"],
+        ["16","公司-房地产融资投放额","亿元","-","680.00","-","-","750.00","90.7%"],
+        ["17","公司-贸易融资投放","亿元","-","520.00","-","-","580.00","89.7%"],
+        ["18","公司-小微企业贷款投放额","亿元","-","380.00","-","-","420.00","90.5%"],
+        ["19","公司-科技企业客群贷款投放额","亿元","是","280.00","-","-","320.00","87.5%"],
+        ["20","零售-贷款投放额","亿元","-","2,650.00","-","-","2,800.00","94.6%"],
+        ["21","个人条抵押贷款","亿元","-","1,520.00","-","-","1,600.00","95.0%"],
+        ["22","个人条消费贷","亿元","-","680.00","-","-","750.00","90.7%"],
+        ["23","个人条经营性贷款","亿元","-","450.00","-","-","450.00","100.0%"],
+        ["24","其中：经营贷AUM覆盖率达到（百分比）","亿元","-","38.50","-","-","40.00","96.3%"],
+        ["25","线上平台贷款额","亿元","-","320.00","-","-","380.00","84.2%"],
+        ["26","票据融资额","亿元","-","300.00","-","-","300.00","100.0%"]
+      ]}
+    ],
+    chart:{type:"composition",title:"存款结构分布",data:[
+      {name:"公司条存款",value:5200},{name:"个人条存款",value:3300}
+    ]},
+    chart2:{type:"bar",title:"贷款投放结构(亿元)",categories:["公司贷款","房地产","贸易融资","小微","科技企业","零售贷款"],
+      series:[{name:"投放额",data:[4200,680,520,380,280,2650]}]}
+  },
+  "07":{
+    name:"07-资产质量结构",
+    count:15,
+    title:"资产质量结构",
+    tag:"收益付息",
+    kpi:[{label:"生息资产收益率",value:"4.85",unit:"%",trend:"+0.15ppt",dir:"up",type:""},
+         {label:"存款付息率",value:"2.15",unit:"%",trend:"-0.08ppt",dir:"up",type:"success"},
+         {label:"净息差",value:"2.32",unit:"%",trend:"+0.06ppt",dir:"up",type:"accent"},
+         {label:"存贷款利差",value:"3.20",unit:"%",trend:"+0.12ppt",dir:"up",type:"warning"}],
+    groups:[
+      {name:"资产",rows:[
+        ["1","可交易债券占比","%","-","32.50","-","-","35.00","92.9%"],
+        ["2","可交易债券占比-公募","%","-","22.80","-","-","25.00","91.2%"],
+        ["3","可交易债券占比-私募","%","-","7.50","-","-","8.00","93.8%"],
+        ["4","可交易债券占比-其他","%","-","2.20","-","-","2.00","110.0%"],
+        ["5","债券投资收益率","%","-","4.25","-","-","4.30","98.8%"],
+        ["6","同业资产收益率","%","-","3.85","-","-","3.90","98.7%"],
+        ["7","生息资产收益率","%","-","4.85","-","-","4.80","101.0%"]
+      ]},
+      {name:"负债",rows:[
+        ["8","存款付息率","%","-","2.15","-","-","2.20","97.7%"],
+        ["9","存款付息率-公司","%","-","2.05","-","-","2.10","97.6%"],
+        ["10","存款付息率-个人","%","-","2.32","-","-","2.38","97.5%"],
+        ["11","应付债券付息率","%","-","3.25","-","-","3.30","98.5%"],
+        ["12","同业负债付息率","%","-","2.85","-","-","2.90","98.3%"],
+        ["13","付息负债付息率","%","-","2.32","-","-","2.38","97.5%"]
+      ]},
+      {name:"利差",rows:[
+        ["14","存贷款利差","%","-","3.20","-","-","3.10","103.2%"],
+        ["15","净息差","%","-","2.32","-","-","2.28","101.8%"]
+      ]}
+    ],
+    chart:{type:"trend",title:"收益率与付息率趋势(%)",categories:["Q1","Q2","Q3","Q4"],
+      series:[{name:"生息资产收益率",data:[4.7,4.78,4.82,4.85]},{name:"存款付息率",data:[2.25,2.22,2.18,2.15]},{name:"净息差",data:[2.2,2.25,2.28,2.32]}]},
+    chart2:{type:"bar",title:"各类付息率对比(%)",categories:["存款-公司","存款-个人","应付债券","同业负债"],
+      series:[{name:"实际",data:[2.05,2.32,3.25,2.85]},{name:"预算",data:[2.10,2.38,3.30,2.90]}]}
+  },
+  "08":{
+    name:"08-客群结构",
+    count:10,
+    title:"客群结构",
+    tag:"客户规模",
+    kpi:[{label:"公司有效授信客户",value:"2.85",unit:"万户",trend:"+8.6%",dir:"up",type:""},
+         {label:"零售客户数",value:"1,280",unit:"万",trend:"+12.4%",dir:"up",type:"accent"},
+         {label:"手机银行客户",value:"860",unit:"万",trend:"+15.8%",dir:"up",type:"success"},
+         {label:"钻石客户",value:"1.25",unit:"万户",trend:"+6.2%",dir:"up",type:"warning"}],
+    groups:[
+      {name:"公司客群",rows:[
+        ["1","公司条有效授信客户数","万户","是","2.85","-","-","3.00","95.0%"],
+        ["2","其中：战略有效授信客户数","万户","-","0.85","-","-","0.95","89.5%"],
+        ["3","小企业有效授信客户数","万户","-","1.20","-","-","1.30","92.3%"],
+        ["4","钻石客户","万户","是","1.25","-","-","1.40","89.3%"]
+      ]},
+      {name:"零售客群",rows:[
+        ["5","零售客户数","万","-","1,280.00","-","-","1,400.00","91.4%"],
+        ["6","其中：中高端客户数","万","-","185.00","-","-","200.00","92.5%"],
+        ["7","信用卡客户数","万户","是","320.00","-","-","350.00","91.4%"]
+      ]},
+      {name:"数字",rows:[
+        ["8","手机银行客户数","万","-","860.00","-","-","950.00","90.5%"],
+        ["9","掌E贷用户数","万","-","125.00","-","-","150.00","83.3%"],
+        ["10","现金管理客户数","万户","-","580.00","-","-","650.00","89.2%"]
+      ]}
+    ],
+    chart:{type:"composition",title:"客群规模分布",data:[
+      {name:"零售客户",value:1280},{name:"手机银行客户",value:860},{name:"现金管理客户",value:580},
+      {name:"信用卡客户",value:320},{name:"掌E贷用户",value:125},{name:"公司有效授信",value:28.5}
+    ]},
+    chart2:{type:"bar",title:"客群增长对比(万户)",categories:["公司有效授信","战略授信","小企业","钻石客户","中高端零售"],
+      series:[{name:"实际",data:[2.85,0.85,1.20,1.25,18.5]},{name:"预算",data:[3.0,0.95,1.30,1.40,20.0]}]}
+  },
+  "09":{
+    name:"09-资产质量",
+    count:14,
+    title:"资产质量",
+    tag:"不良监测",
+    kpi:[{label:"不良贷款率",value:"1.58",unit:"%",trend:"-0.12ppt",dir:"up",type:"success"},
+         {label:"不良贷款余额",value:"108.2",unit:"亿元",trend:"+2.8%",dir:"down",type:"warning"},
+         {label:"拨备覆盖率",value:"185.6",unit:"%",trend:"+5.2ppt",dir:"up",type:""},
+         {label:"拨备贷款余额",value:"200.8",unit:"亿元",trend:"+6.5%",dir:"up",type:"accent"}],
+    groups:[
+      {name:"不良",rows:[
+        ["1","不良贷款余额","亿元","-","108.20","-","-","105.00","103.0%"],
+        ["2","关注类贷款余额","亿元","-","186.50","-","-","190.00","98.2%"],
+        ["3","次级类贷款余额","亿元","-","62.80","-","-","60.00","104.7%"],
+        ["4","可疑类贷款余额","亿元","-","32.50","-","-","35.00","92.9%"],
+        ["5","损失类贷款余额","亿元","-","12.90","-","-","10.00","129.0%"],
+        ["6","减值价值损失","亿元","-","-32.50","-","-","-35.00","92.9%"],
+        ["7","公司条贷款损失准备","亿元","-","125.50","-","-","130.00","96.5%"],
+        ["8","零售条贷款损失准备","亿元","-","75.30","-","-","78.00","96.5%"],
+        ["9","不良贷款率","%","是","1.58","-","-","1.55","101.9%"],
+        ["10","关注贷款率","%","-","2.72","-","-","2.80","97.1%"],
+        ["11","逾期贷款率","%","是","1.85","-","-","1.80","102.8%"],
+        ["12","小不不良贷款率","%","-","0.95","-","-","0.90","105.6%"],
+        ["13","拨备贷款余额","亿元","是","200.80","-","-","210.00","95.6%"],
+        ["14","拨备覆盖率","%","-","185.60","-","-","180.00","103.1%"]
+      ]}
+    ],
+    chart:{type:"composition",title:"五级分类贷款余额(亿元)",data:[
+      {name:"正常类",value:6555.3},{name:"关注类",value:186.5},{name:"次级类",value:62.8},
+      {name:"可疑类",value:32.5},{name:"损失类",value:12.9}
+    ]},
+    chart2:{type:"trend",title:"不良率与拨备覆盖率趋势(%)",categories:["Q1","Q2","Q3","Q4"],
+      series:[{name:"不良贷款率",data:[1.75,1.68,1.62,1.58]},{name:"拨备覆盖率",data:[178,181,183,185.6]}]}
+  }
+};
+
+/* ============================================================
+   渲染标签
+   ============================================================ */
+/* 去除报表名称中的指标个数后缀，如 "(20个)"/"（21个）" */
+function menuName(s){
+  return s.name.replace(/[(（]\s*\d+\s*个\s*[)）]\s*$/, '').trim();
+}
+
+// 面板标题：在 menuName 基础上去掉「01-」等前缀数字，仅显示报表名称
+function panelName(s){
+  return menuName(s).replace(/^\d+\s*[-—－.、:：]\s*/, '').trim();
+}
+
+function renderTabs(){
+  const wrap = document.getElementById('tabsWrap');
+  wrap.innerHTML = '';
+
+  /* ---- 一级菜单：固定报表管理（一级默认展开；公司子菜单默认收起，点击展开） ---- */
+  const fixed = document.createElement('div');
+  fixed.className = 'nav-branch';
+  const fixedHead = document.createElement('button');
+  fixedHead.className = 'nav-parent open nav-fixed';
+  /* 一级固定展开、不可收起（不设 nav-toggle）；公司子菜单仍可点击展开/收起 */
+  fixedHead.innerHTML = '<span>固定报表管理</span>';
+  const fixedKids = document.createElement('div');
+  fixedKids.className = 'nav-children open';
+
+  // 二级分组：5 家公司；华润银行 9 张报表（SHEETS），华润资产 4 张报表（ASSET_SHEETS），华润信托 5 张报表（TRUST_SHEETS），华润保险 3 张报表（INSURANCE_SHEETS），华润租赁 5 张报表（LEASE_SHEETS）
+  // 默认全部收起（open:false），点击分组标题后展开
+  const groups = [
+    {label:'华润银行', open:false, data:SHEETS},
+    {label:'华润资产', open:false, data:(typeof ASSET_SHEETS!=='undefined'?ASSET_SHEETS:null)},
+    {label:'华润信托', open:false, data:(typeof TRUST_SHEETS!=='undefined'?TRUST_SHEETS:null)},
+    {label:'华润保险', open:false, data:(typeof INSURANCE_SHEETS!=='undefined'?INSURANCE_SHEETS:null)},
+    {label:'华润租赁', open:false, data:(typeof LEASE_SHEETS!=='undefined'?LEASE_SHEETS:null)}
+  ];
+  groups.forEach(g=>{
+    const box = document.createElement('div');
+    box.className = 'nav-group';
+    const head = document.createElement('button');
+    head.className = 'nav-group-head' + (g.open ? ' open' : '');
+    head.dataset.action = 'nav-toggle';
+    head.innerHTML = '<span>' + g.label + '</span>';
+    const kids = document.createElement('div');
+    kids.className = 'nav-children' + (g.open ? ' open' : '');
+    if(g.data){
+      Object.keys(g.data).forEach(key=>{
+        const s = g.data[key];
+        const btn = document.createElement('button');
+        btn.className = 'nav-item';
+        btn.dataset.sheet = key;
+        /* 走全局事件委托（nav-sheet），与页面其他交互同通道，避免内联 onclick 单路径失效 */
+        btn.dataset.action = 'nav-sheet';
+        btn.textContent = menuName(s);
+        kids.appendChild(btn);
+      });
+    } else {
+      const em = document.createElement('div');
+      em.className = 'nav-empty';
+      em.textContent = '暂无报表';
+      kids.appendChild(em);
+    }
+    box.appendChild(head);
+    box.appendChild(kids);
+    fixedKids.appendChild(box);
+  });
+  fixed.appendChild(fixedHead);
+  fixed.appendChild(fixedKids);
+  wrap.appendChild(fixed);
+  /* 驾驶舱管理已上移为顶层独立模块（顶部导航「驾驶舱」+ 顶栏下拉），侧栏不再渲染 */
+}
+
+/* ============================================================
+   渲染内容
+   ============================================================ */
+function renderContent(){
+  Object.keys(SHEETS).forEach(key=>renderPanel(key, SHEETS[key]));
+  if(typeof ASSET_SHEETS!=='undefined'){
+    Object.keys(ASSET_SHEETS).forEach(key=>renderPanel(key, ASSET_SHEETS[key]));
+  }
+  if(typeof TRUST_SHEETS!=='undefined'){
+    Object.keys(TRUST_SHEETS).forEach(key=>renderPanel(key, TRUST_SHEETS[key]));
+  }
+  if(typeof INSURANCE_SHEETS!=='undefined'){
+    Object.keys(INSURANCE_SHEETS).forEach(key=>renderPanel(key, INSURANCE_SHEETS[key]));
+  }
+  if(typeof LEASE_SHEETS!=='undefined'){
+    Object.keys(LEASE_SHEETS).forEach(key=>renderPanel(key, LEASE_SHEETS[key]));
+  }
+  // 驾驶舱面板（集团总览 + 各公司）
+  if(typeof COCKPITS!=='undefined'){
+    COCKPITS.forEach(c=>renderCockpitPanel(c));
+  }
+}
+
+/* 渲染单个报表面板；has=false（所选期间无历史数据）时保留 KPI 卡片、表头与指标行结构，
+   仅数值类内容（KPI 值、同比/较年初、数值/增减/进度单元格）显示为「-」 */
+function renderPanel(key, s){
+  const content = document.getElementById('content');
+  let panel = document.getElementById('panel-'+key);
+  const existed = !!panel && !!panel.parentNode; // 已挂载 → 重渲染；未挂载 → 新建并追加
+  const wasActive = existed && panel.classList.contains('active');
+  if(!panel){
+    panel = document.createElement('div');
+  }
+  panel.className = 'sheet-panel';
+  panel.id = 'panel-'+key;
+  const has = sheetHasData(key, s);
+
+  let html = '';
+
+  // Panel header：更新频率（独立块，在前）+ 数据日期年+月双下拉；期间变更后自动查询
+  const ymYearOpts = [2022,2023,2024,2025,2026].map(y=>`<option value="${y}"${y===2025?' selected':''}>${y}年</option>`).join('');
+  const ymMonthOpts = Array.from({length:12},(_,m)=>`<option value="${m+1}"${m===11?' selected':''}>${m+1}月</option>`).join('');
+  const freqBox = `
+    <div class="query-freq-box">
+      <span class="query-freq-label">更新频率</span><span class="query-freq-value">${s.freq || '月度'}</span>
+    </div>`;
+  const ymCtl = `
+    <div class="ym">
+      <span class="ym-label">📅 数据日期</span>
+      <select class="ym-select" data-key="${key}" data-part="year" title="选择年份">${ymYearOpts}</select>
+      <select class="ym-select" data-key="${key}" data-part="month" title="选择月份">${ymMonthOpts}</select>
+    </div>`;
+  html += `
+    <div class="panel-header">
+      <div class="panel-title">${panelName(s)}</div>
+      <div class="panel-actions">
+        ${freqBox}
+        ${ymCtl}
+        <button class="btn" data-action="export" data-key="${key}">📥 导出</button>
+      </div>
+    </div>
+  `;
+
+  // 概览区（KPI 卡片）—— 支持收起/展开，默认展开；报表无 kpi 时不渲染该模块（如华润信托 02-风险指标）
+  // 口径化 KPI（calibers 内 c.kpi）：每个口径一套，切换口径页签时概览数值同步切换
+  const calKpis = s.calibers && s.calibers.some(c=>c.kpi && c.kpi.length);
+  const kpiList = calKpis ? s.calibers[0].kpi : (s.kpi || []);
+  if(kpiList.length){
+    html += `
+      <div class="collapse-bar expanded" data-action="toggle-overview" data-key="${key}">
+        <span class="collapse-arrow">▶</span>
+        <span>指标概览 · ${kpiList.length} 项核心 KPI</span>
+        <span class="collapse-hint">点击收起 ▴</span>
+      </div>
+      <div class="overview-area" id="overview-${key}">
+    `;
+
+    // KPI cards：无数据期间数值显示 N/A（同比/较年初由 deltaSpan 置 N/A）
+    const cardsHtml = list => list.map(k=>kpiCardHtml(has ? k : {label:k.label, value:'N/A', unit:k.unit, trend:null, ytd:null, type:k.type})).join('');
+    if(calKpis){
+      s.calibers.forEach((c,ci)=>{
+        html += `<div class="kpi-row caliber-pane${ci===0?' active':''}" data-pane="${ci}">${cardsHtml(c.kpi)}</div>`;
+      });
+    } else {
+      html += `<div class="kpi-row">${cardsHtml(s.kpi)}</div>`;
+    }
+
+    html += `</div>`; // overview-area
+  }
+
+  // Data table：无数据期间表头/指标行保留，数值类单元格显示「-」
+  const colTypes = getColTypes(s.headers);
+  html += `<div class="table-card">`;
+  if(s.calibers){
+    // 按指标口径分页签：表格上方显示口径名称，点击切换对应口径的指标明细
+    html += `<div class="caliber-tabs" data-key="${key}">`;
+    s.calibers.forEach((c,ci)=>{
+      html += `<button type="button" class="caliber-tab${ci===0?' active':''}" data-action="caliber-switch" data-pane="${ci}">
+        <span class="caliber-tab-name">${c.label}</span>
+        <span class="caliber-tab-sub">${c.sub||''} · ${c.rows.length} 项指标</span>
+      </button>`;
+    });
+    html += `</div>`;
+    s.calibers.forEach((c,ci)=>{
+      html += `<div class="table-wrap caliber-pane${ci===0?' active':''}" data-pane="${ci}">`;
+      html += renderTable({headers:s.headers, rows:c.rows, levels:c.levels, spans:c.spans}, colTypes, has);
+      html += `</div>`;
+    });
+  } else {
+    html += `<div class="table-wrap">`;
+    html += renderTable(s, colTypes, has);
+    html += `</div>`;
+  }
+  html += `</div>`; // table-card
+
+  panel.innerHTML = html;
+  if(!existed) content.appendChild(panel);
+  if(wasActive) panel.classList.add('active');
+}
+
+/* KPI 卡片：报表概览与驾驶舱共用；占位符统一 dim 样式 */
+function kpiCardHtml(k){
+  const vDisp = dispPlain(k.value);
+  return `
+    <div class="kpi-card ${k.type||''}">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${vDisp}<span class="kpi-unit">${k.unit}</span></div>
+      <div class="kpi-trends">
+        <div class="kpi-trend-row"><span class="kpi-trend-name">同比</span>${deltaSpan(k.trend)}</div>
+        <div class="kpi-trend-row"><span class="kpi-trend-name">较年初</span>${deltaSpan(k.ytd)}</div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============================================================
+   驾驶舱渲染（领导层视角；数值实时引用各公司固定报表）
+   ============================================================ */
+const COCK_SRC = {
+  SHEETS: ()=> (typeof SHEETS!=='undefined'?SHEETS:null),
+  ASSET_SHEETS: ()=> (typeof ASSET_SHEETS!=='undefined'?ASSET_SHEETS:null),
+  TRUST_SHEETS: ()=> (typeof TRUST_SHEETS!=='undefined'?TRUST_SHEETS:null),
+  INSURANCE_SHEETS: ()=> (typeof INSURANCE_SHEETS!=='undefined'?INSURANCE_SHEETS:null),
+  LEASE_SHEETS: ()=> (typeof LEASE_SHEETS!=='undefined'?LEASE_SHEETS:null)
+};
+function cockSheet(p){
+  const get = COCK_SRC[p.s];
+  const col = get ? get() : null;
+  return col ? col[p.k] : null;
+}
+/* 引用解析：kpi 下标 → KPI 对象；gauge → 取仪表监测值；row → 按指标名称取报表行 */
+function cockPick(p){
+  const sh = cockSheet(p);
+  if(!sh) return null;
+  if(p.row) return cockRowPick(p, sh);
+  if(p.gauge){
+    const g = sh.chart;
+    if(!g || g.type!=='gauge') return null;
+    return {label:g.title.replace(/\(.*?\)/g,'').trim(), value:String(g.value), unit:'%', trend:null, ytd:null, type:''};
+  }
+  return (sh.kpi && sh.kpi[p.kpi]) || null;
+}
+/* 展开表头得到各列标签（与 getColTypes 同一套展开规则），定位 名称/单位/当月实际/同比/较年初 列 */
+function cockColLabels(sh){
+  const row1 = sh.headers[0], row2 = sh.headers[1] || [];
+  const cols = [];
+  row1.forEach(h=>{ for(let k=0;k<(h.c||1);k++) cols.push({label:h.l, r:h.r||1}); });
+  let j = 0;
+  cols.forEach(c=>{ if(c.r<=1){ if(row2[j]) c.label = row2[j].l; j++; } });
+  const L = cols.map(c=>c.label);
+  const v0 = L.indexOf('实际');
+  return {name:L.indexOf('指标名称'), unit:L.indexOf('单位'), val:v0, eom:L.indexOf('实际', v0+1), mom:L.indexOf('环比(%)'), yoy:L.indexOf('同比(%)'), ytd:L.indexOf('较年初(%)'), bud:L.indexOf('全年预算'), prog:L.indexOf('预算达成率')};
+}
+/* 按指标名称取行：默认全表顺序匹配（即第一个口径），p.cal 可限定口径下标 */
+function cockRowPick(p, sh){
+  const rows = (p.cal!=null && sh.calibers) ? sh.calibers[p.cal].rows
+    : (sh.calibers ? sh.calibers.flatMap(c=>c.rows) : (sh.rows||[]));
+  const L = cockColLabels(sh);
+  const r = rows.find(r=>r[L.name]===p.row);
+  if(!r || L.name<0) return null;
+  /* 当月实际为占位（-/不适用/空，如成本收入比-拨备前）时，取值回退到月末实际列 */
+  const rawV = r[L.val];
+  const value = ((rawV==='-'||rawV==='不适用'||rawV==='') && L.eom>0) ? r[L.eom] : rawV;
+  return {label:r[L.name], value:value, unit:r[L.unit], mval:rawV, mom:L.mom>=0?r[L.mom]:undefined, trend:r[L.yoy], ytd:r[L.ytd], budget:L.bud>=0?r[L.bud]:undefined, type:''};
+}
+
+const COCK_COLORS = ['#1a3a6b','#2a5298','#3b82f6','#c8962e','#10b981','#f59e0b','#8b5cf6','#64748b'];
+function renderCockChart(ref){
+  const sh = cockSheet(ref);
+  const ch = sh ? sh[ref.c] : null;
+  if(!ch) return '';
+  if(ch.type==='composition') return chartComposition(ch);
+  if(ch.type==='bar' || ch.type==='waterfall') return chartBar(ch);
+  if(ch.type==='gauge') return chartGauge(ch);
+  if(ch.type==='trend') return chartTrend(ch);
+  return '';
+}
+/* 结构占比：横向堆叠条 + 图例 */
+function chartComposition(ch){
+  const total = ch.data.reduce((a,d)=>a+(+d.value||0),0) || 1;
+  let segs = '', leg = '';
+  ch.data.forEach((d,i)=>{
+    const pct = (+d.value/total*100);
+    segs += `<div class="ck-seg" style="width:${pct.toFixed(1)}%; background:${COCK_COLORS[i%COCK_COLORS.length]}" title="${d.name} ${pct.toFixed(1)}%"></div>`;
+    leg += `<li><i style="background:${COCK_COLORS[i%COCK_COLORS.length]}"></i><span class="ck-leg-name">${d.name}</span><b>${d.value}</b><em>${pct.toFixed(1)}%</em></li>`;
+  });
+  return `<div class="chart-card"><div class="chart-title">${ch.title}</div><div class="ck-bar">${segs}</div><ul class="ck-legend">${leg}</ul></div>`;
+}
+/* 规模对比：纵向柱状 */
+function chartBar(ch){
+  const max = Math.max(...ch.data.map(d=>+d.value||0)) || 1;
+  let bars = '';
+  ch.data.forEach((d,i)=>{
+    const h = Math.max(4, Math.round((+d.value/max)*100));
+    bars += `<div class="ck-vbar"><b>${d.value}</b><div class="ck-vbar-col" style="height:${h}%; background:${COCK_COLORS[i%COCK_COLORS.length]}"></div><span title="${d.name}">${d.name}</span></div>`;
+  });
+  return `<div class="chart-card"><div class="chart-title">${ch.title}</div><div class="ck-vbars">${bars}</div></div>`;
+}
+/* 监测仪表：半环 SVG + 阈值说明 */
+function chartGauge(ch){
+  const min = ch.min||0, max = ch.max||100, v = +ch.value;
+  const pct = Math.min(1, Math.max(0, (v-min)/((max-min)||1)));
+  const L = Math.PI*70;
+  const th = ch.threshold!=null ? ch.threshold : (ch.target!=null ? ch.target : null);
+  const thName = ch.threshold!=null ? '监管要求' : '目标值';
+  return `<div class="chart-card"><div class="chart-title">${ch.title}</div>
+    <div class="ck-gauge">
+      <svg viewBox="0 0 200 122" width="220" height="134">
+        <path d="M 30 110 A 70 70 0 0 1 170 110" fill="none" stroke="#e5e7eb" stroke-width="14" stroke-linecap="round"/>
+        <path d="M 30 110 A 70 70 0 0 1 170 110" fill="none" stroke="#2a5298" stroke-width="14" stroke-linecap="round" stroke-dasharray="${(L*pct).toFixed(1)} 999"/>
+        <text x="100" y="92" text-anchor="middle" class="ck-gauge-val">${v}</text>
+        <text x="100" y="112" text-anchor="middle" class="ck-gauge-sub">${th!=null ? thName+' '+th+(ch.unit||'%') : '区间 '+min+'~'+max}</text>
+      </svg>
+    </div></div>`;
+}
+/* 趋势：双折线 SVG */
+function chartTrend(ch){
+  const cats = ch.categories||[];
+  const all = ch.series.flatMap(s=>s.data.map(Number));
+  const max = Math.max(...all), min = Math.min(...all);
+  const W = 300, H = 150, P = 26;
+  const X = i => P + i*(W-2*P)/Math.max(1,cats.length-1);
+  const Y = v => H-P-((+v-min)/((max-min)||1))*(H-2*P);
+  const cols = ['#2a5298','#c8962e'];
+  let lines = '', leg = '', xl = '';
+  ch.series.forEach((s,si)=>{
+    const col = cols[si%cols.length];
+    const pts = s.data.map((v,i)=>X(i).toFixed(1)+','+Y(v).toFixed(1)).join(' ');
+    lines += `<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5"/>`;
+    s.data.forEach((v,i)=>{ lines += `<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="3" fill="${col}"/>`; });
+    leg += `<li><i style="background:${col}"></i><span class="ck-leg-name">${s.name}</span></li>`;
+  });
+  cats.forEach((c,i)=>{ xl += `<text x="${X(i).toFixed(1)}" y="${H-8}" text-anchor="middle" class="ck-axis">${c}</text>`; });
+  return `<div class="chart-card"><div class="chart-title">${ch.title}</div><svg viewBox="0 0 ${W} ${H}" class="ck-trend">${lines}${xl}</svg><ul class="ck-legend simple">${leg}</ul></div>`;
+}
+
+/* 驾驶舱面板：集团总览=公司卡片+核心指标一览表；公司=KPI 卡片+图表墙（挂载于驾驶舱模块全屏区 #cockContent） */
+function renderCockpitPanel(c){
+  const content = document.getElementById('cockContent') || document.getElementById('content');
+  const panel = document.createElement('div');
+  panel.className = 'sheet-panel';
+  panel.id = 'panel-cock-'+c.key;
+
+  let html = '';
+
+  if(c.companies){
+    // 集团总览：蓝白顶栏（左=公司下拉+数据期间，中=公司名标题）+ 选中公司指标视图（华润金融=一览表）
+    const opts = c.companies.map((co,i)=>`<div class="fz-select-opt${i===0?' active':''}" data-action="cock-company" data-idx="${i}"><i></i>${co.company}</div>`).join('');
+    html = `<div class="gq-bar">`
+      + `<div class="gq-bar-bg" aria-hidden="true"><i class="gq-fil gq-fil-l"></i><i class="gq-fil gq-fil-r"></i></div>`
+      + `<div class="gq-bar-left">`
+      + `<div class="fz-select" id="fz-select-group">`
+      + `<button class="gq-sel" data-action="cock-toggle" type="button"><span class="gq-sel-ico">🏢</span><span class="fz-select-name" id="fz-select-name">${c.companies[0].company}</span><span class="gq-sel-chev">▾</span></button>`
+      + `<div class="fz-select-list">${opts}</div>`
+      + `</div>`
+      + `<div class="gq-sel" title="数据基准期间（月度更新）"><span class="gq-sel-ico">📅</span><span>2025年12月</span></div>`
+      + `</div>`
+      + `<div class="gq-title"><b id="gq-title-scope">${c.companies[0].company}</b></div>`
+      + `<div class="gq-meta">币种：人民币</div>`
+      + `</div>`;
+    html += `<div class="fz-company-view" id="fz-company-view"></div>`;
+  } else {
+    html = `
+    <div class="panel-header">
+      <div class="panel-title">${c.name}驾驶舱</div>
+      <div class="panel-actions"><span class="cock-base">📅 数据基准：2025年12月 · 更新频率 月度</span></div>
+    </div>
+    <div class="cock-desc">${c.desc}</div>
+  `;
+  }
+
+  if(c.kpis && c.kpis.length){
+    html += `<div class="kpi-row">`;
+    c.kpis.forEach(p=>{ const k = cockPick(p); if(k) html += kpiCardHtml(k); });
+    html += `</div>`;
+  }
+  if(c.charts && c.charts.length){
+    html += `<div class="cock-charts">`;
+    c.charts.forEach(rf=>{ html += renderCockChart(rf); });
+    html += `</div>`;
+  }
+
+  panel.innerHTML = html;
+  content.appendChild(panel);
+  if(c.companies) renderCockCompanyView(c, 0);
+}
+
+/* 集团总览：渲染选中公司的驾驶舱指标视图（华润资产按分组分区，其余公司平铺）
+   g.calSwitch=true 的分组：上方渲染口径页签，切换页签时该组卡片重渲染为对应口径的值 */
+let GQ_VIEW = {c:null, idx:0};
+var GK_MCAL = [];  /* 多口径卡片注册表：uid → pick（var 挂全局，便于验证） */
+function renderCockCompanyView(c, idx){
+  const co = c.companies[idx];
+  const box = document.getElementById('fz-company-view');
+  if(!box || !co) return;
+  GQ_VIEW = {c:c, idx:idx};
+  GK_MCAL.length = 0;
+  const nameEl = document.getElementById('fz-select-name');
+  if(nameEl) nameEl.textContent = co.company;
+  const scopeEl = document.getElementById('gq-title-scope');
+  if(scopeEl) scopeEl.textContent = co.company;
+  const sel = document.getElementById('fz-select-group');
+  if(sel) sel.querySelectorAll('.fz-select-opt').forEach((o,i)=>o.classList.toggle('active', i===idx));
+  let n = 0;
+  const cardOf = (p, cal) => {
+    if(p.mcals) return mcalCardHtml(p, 0, GK_MCAL.push(p) - 1);
+    const k = cockPick(cal!=null ? Object.assign({}, p, {cal:cal}) : p);
+    if(!k) return '';
+    if(p.valLabel) k.valLabel = p.valLabel;
+    if(p.trend12) k.trend12 = true;
+    return groupCardHtml(k, n++);
+  };
+  const cards = (picks, cal) => picks.map(p=>cardOf(p, cal)).join('');
+  let html = '';
+  if(co.overview){
+    html = groupOverviewTableHtml(c);
+  } else if(co.groups){
+    co.groups.forEach((g, gi)=>{
+      html += `<div class="gk-strip">${g.title}${g.title2 ? '<span class="gk-strip-sep"></span>' + g.title2 : ''}</div>`;
+      if(g.calSwitch){
+        const sh = cockSheet(g.picks[0] || {});
+        const cals = (sh && sh.calibers) || [];
+        const tabs = cals.map((cal, i)=>`<button type="button" class="gk-caltab${i===0?' active':''}" data-action="gk-cal" data-gid="${gi}" data-cal="${i}" title="${cal.label}${cal.sub||''}">${cal.label}</button>`).join('');
+        html += `<div class="gk-calswitch" id="gk-calswitch-${gi}">${tabs}</div>`
+              + `<div class="gk-row" id="gk-calrows-${gi}">${cards(g.picks, cals.length?0:null)}</div>`;
+      } else {
+        /* rowwide 指标：卡片样式不变，3 卡并入同一行展示；其余指标排成卡片行 */
+        const wide = g.picks.filter(p=>p.rowwide);
+        const rest = g.picks.filter(p=>!p.rowwide);
+        if(wide.length) html += `<div class="gk-wide-row">` + wide.map(p=>gkWideRowHtml(p)).join('') + `</div>`;
+        if(rest.length) html += `<div class="gk-row">${cards(rest)}</div>`;
+      }
+    });
+  } else {
+    html = `<div class="gk-strip">核心指标</div><div class="gk-row">${cards(co.picks||[])}</div>`;
+  }
+  box.innerHTML = html;
+}
+
+/* 集团总览-华润金融：五家核心企业指标一览表 */
+function groupOverviewTableHtml(c){
+  let html = `<div class="gk-strip">五家核心企业指标一览</div><div class="gk-table-section"><div class="table-card"><div class="table-wrap"><table class="data-table"><thead><tr><th>公司</th><th>核心指标</th><th>本年累计数</th><th>同比</th><th>较年初</th></tr></thead><tbody>`;
+  c.companies.forEach(co=>{
+    if(co.overview) return;
+    const picks = co.groups ? co.groups.flatMap(g=>g.picks) : (co.picks||[]);
+    picks.forEach(p=>{
+      const k = cockPick(p);
+      if(!k) return;
+      html += `<tr><td>${co.company}</td><td class="indicator-name lv0">${k.label}</td><td class="value">${k.value}<span class="kpi-unit"> ${k.unit}</span></td>${renderDeltaCell(k.trend)}${renderDeltaCell(k.ytd)}</tr>`;
+    });
+  });
+  return html + `</tbody></table></div></div></div>`;
+}
+
+/* 集团总览指标卡：
+   - 有全年预算的考核指标（成本收入比-拨备前、业绩合同 2 项）：完成度环 + 本年累计数/同比/较年初/全年预算
+   - 无预算指标：左侧「本年累计数」渐变大数值块 + 右侧同比/较年初 */
+function gkNum(v){ const x = parseFloat(String(v==null?'':v).replace(/[,，\s]/g,'')); return isFinite(x)?x:NaN; }
+/* 普通数值位占位统一：-/空 → --；null → N/A（与表格/卡片同一套 dim 样式） */
+function dispPlain(v){
+  if(v==='-' || v==='') return '<span class="dim-dash">--</span>';
+  if(v===null || v===undefined || v==='N/A') return '<span class="dim-na">N/A</span>';
+  return v;
+}
+/* 本年累计数且无全年预算卡片：两行布局（第一行 本年累计数+同比；第二行 当月值+环比） */
+function gkTwoRowHtml(k, cap){
+  return `<div class="gk-2r">`
+    + `<div class="gk-2r-line"><div class="gk-2r-l"><span>${cap}</span><b>${dispPlain(k.value)}</b><i>${k.unit}</i></div><div class="gk-2r-r"><span>同比</span>${deltaSpan(k.trend)}</div></div>`
+    + `<div class="gk-2r-line"><div class="gk-2r-l"><span>当月值</span><b class="sm">${dispPlain(k.mval||'-')}</b><i>${k.unit}</i></div><div class="gk-2r-r"><span>环比</span>${deltaSpan(k.mom)}</div></div>`
+    + `</div>`;
+}
+function groupCardHtml(k, idx){
+  const val = gkNum(k.value), bud = gkNum(k.budget);
+  const hasG = isFinite(val) && isFinite(bud) && bud > 0;
+  const cap = k.valLabel || '本年累计数';
+  /* 本年累计数指标不显示较年初（累计值与年初比较无意义）；本月末等时点值保留 */
+  const ytdStat = cap === '本年累计数' ? '' : `<div class="gk-stat"><span>较年初</span>${deltaSpan(k.ytd)}</div>`;
+  let left, stats;
+  if(hasG){
+    left = gkGaugeSvg(val/bud*100, idx);
+    stats = `<div class="gk-stat"><span>${cap}</span><b>${dispPlain(k.value)}</b><i>${k.unit}</i></div>`
+      + `<div class="gk-stat"><span>同比</span>${deltaSpan(k.trend)}</div>`
+      + ytdStat
+      + `<div class="gk-stat"><span>全年预算</span><b class="gk-dimv">${k.budget}</b><i>${k.unit}</i></div>`;
+  } else {
+    if(cap === '本年累计数'){
+      /* 本年累计数且无全年预算：两行布局（第一行 本年累计数+同比；第二行 当月值+环比） */
+      left = '';
+      stats = gkTwoRowHtml(k, cap);
+    } else {
+      left = `<div class="gk-numblock"><span class="gk-np-cap">${cap}</span><b>${dispPlain(k.value)}</b><i>${k.unit}</i></div>`;
+      stats = `<div class="gk-stat"><span>同比</span>${deltaSpan(k.trend)}</div>` + ytdStat;
+    }
+  }
+  return `<div class="gk-card">`
+    + `<div class="gk-head">${k.label}<span class="gk-info">ⓘ</span></div>`
+    + `<div class="gk-body">${left}<div class="gk-stats">${stats}</div></div>`
+    + (k.trend12 ? gkMiniAreaHtml(k, idx) : '')
+    + `</div>`;
+}
+/* 卡底近12月趋势区域图（渐变面积+折线+期末点+月份标签+悬停列；各月值由指标名确定性生成，期末=报表实时值） */
+function gkMiniAreaHtml(k, idx){
+  const cur = gkNum(k.value);
+  if(!isFinite(cur)) return '';
+  const label = k.label;
+  const cap = k.valLabel || '本年累计数';   /* 与卡片数值标签一致，悬停浮层同用 */
+  let h = 2166136261;
+  for(let i=0;i<label.length;i++){ h ^= label.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+  const start = cur * (0.72 + (h % 14) / 100);
+  const pts = [];
+  for(let i=0;i<12;i++){
+    const t = i/11;
+    let v = start + (cur - start) * Math.pow(t, 1.12);
+    if(i < 11){ h = (Math.imul(h, 1103515245) + 12345) >>> 0; v += (((h >>> 16) % 7) - 3) * cur * 0.008; }
+    pts.push(Math.max(1, Math.round(v)));
+  }
+  pts[11] = Math.round(cur);
+  /* 各月同比：确定性生成；期末=报表实时同比 */
+  const curPct = gkNum((k.trend||'').replace('%',''));
+  let h2 = 536119969;
+  for(let i=0;i<label.length;i++){ h2 ^= label.charCodeAt(i); h2 = Math.imul(h2, 16777619) >>> 0; }
+  const pct12 = [];
+  for(let i=0;i<12;i++){
+    h2 = (Math.imul(h2, 1103515245) + 12345) >>> 0;
+    pct12.push(+(((h2 >>> 16) % 12) * 0.5 + 0.6).toFixed(1));
+  }
+  pct12[11] = isFinite(curPct) ? +curPct.toFixed(1) : null;
+  const W = 240, H = 60, P = 4, PB = 15;   /* PB：底部月份标签区 */
+  const yTop = P, yBot = H - PB;
+  const max = Math.max(...pts) * 1.15, min = Math.min(...pts) * 0.85;
+  const slot = (W - 2*P) / 11;
+  const X = i => P + slot * i;
+  const Y = v => yBot - (yBot - yTop) * ((v - min) / ((max - min) || 1));
+  let line = '', xl = '', hov = '';
+  pts.forEach((v,i)=>{
+    line += (i?' L':'M') + X(i).toFixed(1) + ' ' + Y(v).toFixed(1);
+    xl += `<text x="${X(i).toFixed(1)}" y="${H-4}" text-anchor="middle" font-size="7" fill="#9bb8d8">${i+1}月</text>`;
+    hov += `<rect class="gk-t12-hover" x="${(X(i)-slot/2).toFixed(1)}" y="${yTop}" width="${slot.toFixed(1)}" height="${(yBot-yTop).toFixed(1)}" fill="transparent" data-t12-i="${i}" data-t12-m="${i+1}月" data-t12-v="${v}" data-t12-u="${k.unit||''}" data-t12-c="${cap}" data-t12-p="${pct12[i]==null?'':pct12[i]}"/>`;
+  });
+  const area = line + ` L${X(11).toFixed(1)} ${yBot} L${X(0).toFixed(1)} ${yBot} Z`;
+  let dots = '';
+  pts.forEach((v,i)=>{
+    dots += `<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="${i===11?2.6:2}" fill="#fff" stroke="#2f9bf2" stroke-width="${i===11?1.6:1.3}"/>`;
+  });
+  return `<div class="gk-trend12"><div class="gk-t12-cap">近12月趋势</div>`
+    + `<svg viewBox="0 0 ${W} ${H}">`
+    + `<defs><linearGradient id="gkT12${idx}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f9bf2" stop-opacity="0.32"/><stop offset="1" stop-color="#2f9bf2" stop-opacity="0.02"/></linearGradient></defs>`
+    + `<path d="${area}" fill="url(#gkT12${idx})"/>`
+    + `<path d="${line}" fill="none" stroke="#2f9bf2" stroke-width="1.6"/>`
+    + dots
+    + xl + hov
+    + `</svg></div>`;
+}
+/* 卡底趋势图悬停：委托监听，显示该月具体值（深蓝玻璃浮层，跟随鼠标） */
+let gkT12Tip = null;
+document.addEventListener('mouseover', e=>{
+  const t = e.target && e.target.closest ? e.target.closest('rect[data-t12-i]') : null;
+  if(!t) return;
+  if(!gkT12Tip){
+    gkT12Tip = document.createElement('div');
+    gkT12Tip.className = 'gk-t12-tip';
+    gkT12Tip.style.display = 'none';
+    document.body.appendChild(gkT12Tip);
+  }
+  const u = t.getAttribute('data-t12-u') || '';
+  const cap = t.getAttribute('data-t12-c') || '本月末值';
+  const pRaw = t.getAttribute('data-t12-p');
+  const pn = gkNum(pRaw);
+  const pCell = pRaw === '' || !isFinite(pn) ? '<i>-</i>'
+    : `<i class="${pn>=0?'up':'down'}">${pn>=0?'+':''}${pRaw}%</i>`;
+  gkT12Tip.innerHTML = `<b>${t.getAttribute('data-t12-m')}</b>`
+    + `<span>${cap}<i>${t.getAttribute('data-t12-v')}${u ? ' ' + u : ''}</i></span>`
+    + `<span>同比${pCell}</span>`;
+  gkT12Tip.style.display = 'flex';
+});
+document.addEventListener('mousemove', e=>{
+  if(!gkT12Tip || gkT12Tip.style.display !== 'flex') return;
+  const pad = 12, r = gkT12Tip.getBoundingClientRect();
+  let x = e.clientX + pad, y = e.clientY + pad;
+  if(x + r.width > (window.innerWidth || 1400) - 8) x = e.clientX - r.width - pad;
+  if(y + r.height > (window.innerHeight || 900) - 8) y = e.clientY - r.height - pad;
+  gkT12Tip.style.left = x + 'px';
+  gkT12Tip.style.top = y + 'px';
+});
+document.addEventListener('mouseout', e=>{
+  const t = e.target && e.target.closest ? e.target.closest('rect[data-t12-i]') : null;
+  if(!t) return;
+  if(gkT12Tip) gkT12Tip.style.display = 'none';
+});
+/* 整行指标卡：左数值区（标签/大数/同比/较年初）+ 右近12月柱状+趋势组合图 */
+var GK_WIDE_N = 0;
+function gkWideRowHtml(p){
+  const k = cockPick(p);
+  if(!k) return '';
+  if(p.valLabel) k.valLabel = p.valLabel;
+  const cap = k.valLabel || '本年累计数';
+  return `<div class="gk-card gk-wide-card">`
+    + `<div class="gk-head">${k.label}<span class="gk-info">ⓘ</span></div>`
+    + `<div class="gk-wide-body">`
+    + `<div class="gk-wide-left">`
+    + (cap === '本年累计数' && !(isFinite(gkNum(k.budget)) && gkNum(k.budget) > 0)
+      ? gkTwoRowHtml(k, cap)
+      : `<div class="gk-numblock"><span class="gk-np-cap">${cap}</span><b>${dispPlain(k.value)}</b><i>${k.unit}</i></div>`
+        + `<div class="gk-stats"><div class="gk-stat"><span>同比</span>${deltaSpan(k.trend)}</div>`
+        + (cap === '本年累计数' ? '' : `<div class="gk-stat"><span>较年初</span>${deltaSpan(k.ytd)}</div>`) + `</div>`)
+    + `</div>`
+    + gkComboChartHtml(k, ++GK_WIDE_N)
+    + `</div></div>`;
+}
+/* 近12月柱状（橙色渐变）+ 趋势折线（蓝色空心点，同比）组合图；含月份标签与悬停列（复用 gk-t12 浮层） */
+function gkComboChartHtml(k, uid){
+  const cur = gkNum(k.value);
+  if(!isFinite(cur)) return '';
+  const label = k.label;
+  const cap = k.valLabel || '本年累计数';
+  const dec = cur < 10 ? 1 : 0;
+  let h = 2166136261;
+  for(let i=0;i<label.length;i++){ h ^= label.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+  const start = cur * (0.70 + (h % 15) / 100);
+  const pts = [];
+  for(let i=0;i<12;i++){
+    const t = i/11;
+    let v = start + (cur - start) * Math.pow(t, 1.15);
+    if(i < 11){ h = (Math.imul(h, 1103515245) + 12345) >>> 0; v += (((h >>> 16) % 7) - 3) * cur * 0.006; }
+    pts.push(+Math.max(dec?0.1:1, v).toFixed(dec));
+  }
+  pts[11] = +cur.toFixed(dec);
+  const curPct = gkNum((k.trend||'').replace('%',''));
+  let h2 = 536119969;
+  for(let i=0;i<label.length;i++){ h2 ^= label.charCodeAt(i); h2 = Math.imul(h2, 16777619) >>> 0; }
+  const pct12 = [];
+  for(let i=0;i<12;i++){
+    h2 = (Math.imul(h2, 1103515245) + 12345) >>> 0;
+    pct12.push(+(((h2 >>> 16) % 12) * 0.5 + 0.6).toFixed(1));
+  }
+  pct12[11] = isFinite(curPct) ? +curPct.toFixed(1) : null;
+  const W = 640, H = 210, L = 8, R = 8, T = 14, B = 20;
+  const plotH = H - T - B;
+  const lMax = Math.max(...pts) * 1.2;
+  const pMin = Math.min(...pct12.map(v=>v==null?0:v)) * 0.8;
+  const pMax = Math.max(...pct12.map(v=>v==null?0:v)) * 1.25 || 1;
+  const step = (W - L - R) / 12;
+  const bw = Math.min(26, step * 0.5);
+  const X = i => L + step * i + step / 2;
+  const Y = v => T + plotH * (1 - v / lMax);
+  const Yp = v => T + plotH * (1 - (v - pMin) / ((pMax - pMin) || 1));
+  const y0 = Y(0);
+  let grid = '', bars = '', line = '', dots = '', xl = '', hov = '';
+  [0.5, 1].forEach(f=>{
+    const gy = Y(lMax * f).toFixed(1);
+    grid += `<line x1="${L}" y1="${gy}" x2="${W-R}" y2="${gy}" stroke="#e6eef8" stroke-width="1" stroke-dasharray="4 4"/>`;
+  });
+  grid += `<line x1="${L}" y1="${y0.toFixed(1)}" x2="${W-R}" y2="${y0.toFixed(1)}" stroke="#cfd8e3" stroke-width="1"/>`;
+  pts.forEach((v,i)=>{
+    const x = X(i) - bw/2, y = Y(v), r = Math.min(3.5, bw/2);
+    bars += `<path class="gk-wc-bar" d="M${x.toFixed(1)} ${y0.toFixed(1)} L${x.toFixed(1)} ${(y+r).toFixed(1)} Q${x.toFixed(1)} ${y.toFixed(1)} ${(x+r).toFixed(1)} ${y.toFixed(1)} L${(x+bw-r).toFixed(1)} ${y.toFixed(1)} Q${(x+bw).toFixed(1)} ${y.toFixed(1)} ${(x+bw).toFixed(1)} ${(y+r).toFixed(1)} L${(x+bw).toFixed(1)} ${y0.toFixed(1)} Z" fill="url(#gkWC${uid})"/>`;
+    xl += `<text x="${X(i).toFixed(1)}" y="${H-4}" text-anchor="middle" font-size="8" fill="#9bb8d8">${i+1}月</text>`;
+    hov += `<rect class="gk-t12-hover" x="${(L+step*i).toFixed(1)}" y="${T}" width="${step.toFixed(1)}" height="${plotH}" fill="transparent" data-t12-i="${i}" data-t12-m="${i+1}月" data-t12-v="${v}" data-t12-u="${k.unit||''}" data-t12-c="${cap}" data-t12-p="${pct12[i]==null?'':pct12[i]}"/>`;
+  });
+  pct12.forEach((v,i)=>{
+    if(v == null) return;
+    line += (line?' L':'M') + X(i).toFixed(1) + ' ' + Yp(v).toFixed(1);
+    dots += `<circle cx="${X(i).toFixed(1)}" cy="${Yp(v).toFixed(1)}" r="2.6" fill="#fff" stroke="#2f9bf2" stroke-width="1.5"/>`;
+  });
+  return `<div class="gk-wide-chart">`
+    + `<div class="gk-wide-head"><span class="gk-wide-title">近12月月度波动</span>`
+    + `<span class="gk-wide-legend"><span><i class="lb"></i>本月末数</span><span><i class="ll"></i>月度同比</span></span></div>`
+    + `<svg viewBox="0 0 ${W} ${H}">`
+    + `<defs><linearGradient id="gkWC${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0a63a"/><stop offset="1" stop-color="#f8d488"/></linearGradient></defs>`
+    + grid + bars
+    + `<path d="${line}" fill="none" stroke="#2f9bf2" stroke-width="1.6"/>`
+    + dots + xl + hov
+    + `</svg></div>`;
+}
+/* 多口径指标卡：卡内嵌口径小药丸切换（各指标口径集合独立）；切换仅重渲染本卡 */
+function mcalCardHtml(p, sel, uid){
+  const sh = cockSheet(p);
+  if(!sh || !sh.calibers || !p.mcals) return '';
+  const m0 = p.mcals[sel] || p.mcals[0];
+  const ci0 = sh.calibers.findIndex(c=>c.label===m0.cal);
+  const k = cockRowPick(Object.assign({}, p, {cal:ci0}), sh);
+  if(!k) return '';
+  const tabs = p.mcals.map((m,i)=>{
+    const ci = sh.calibers.findIndex(c=>c.label===m.cal);
+    const sub = ci>=0 ? (sh.calibers[ci].sub || '') : '';
+    return `<button type="button" class="gk-mcal-tab${i===sel?' active':''}" data-action="gk-mcal" data-uid="${uid}" data-cal="${i}" title="${m.cal}${sub}">${m.short}</button>`;
+  }).join('');
+  const cap = p.valLabel || '本年累计数';
+  return `<div class="gk-card" id="gk-mcal-${uid}">`
+    + `<div class="gk-head">${k.label}<span class="gk-info">ⓘ</span></div>`
+    + `<div class="gk-body gk-mcal-body">`
+    + `<div class="gk-mcal-tabs">${tabs}</div>`
+    + (cap === '本年累计数' && !(isFinite(gkNum(k.budget)) && gkNum(k.budget) > 0)
+      ? `<div class="gk-mcal-row">` + gkTwoRowHtml(k, cap) + `</div>`
+      : `<div class="gk-mcal-row"><div class="gk-numblock"><span class="gk-np-cap">${cap}</span><b>${dispPlain(k.value)}</b><i>${k.unit}</i></div>`
+        + `<div class="gk-stats"><div class="gk-stat"><span>同比</span>${deltaSpan(k.trend)}</div>`
+        + (cap === '本年累计数' ? '' : `<div class="gk-stat"><span>较年初</span>${deltaSpan(k.ytd)}</div>`) + `</div></div>`)
+    + `</div></div>`;
+}
+/* 完成度环：蓝→绿渐变圆弧，中心百分比（实际/全年预算） */
+function gkGaugeSvg(pct, idx){
+  const C = 2*Math.PI*38;
+  const shown = Math.max(0, Math.min(100, pct));
+  const dash = (C*shown/100).toFixed(1);
+  return `<svg class="gk-gauge" width="92" height="92" viewBox="0 0 92 92">`
+    + `<defs><linearGradient id="gkG${idx}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d6ef0"/><stop offset="1" stop-color="#7ed957"/></linearGradient></defs>`
+    + `<circle cx="46" cy="46" r="38" fill="none" stroke="#e6edf5" stroke-width="9"/>`
+    + `<circle cx="46" cy="46" r="38" fill="none" stroke="url(#gkG${idx})" stroke-width="9" stroke-linecap="round" stroke-dasharray="${dash} ${C.toFixed(1)}" transform="rotate(-90 46 46)"/>`
+    + `<text x="46" y="44" text-anchor="middle" font-size="15" font-weight="800" fill="#33475f">${pct.toFixed(2)}%</text>`
+    + `<text x="46" y="58" text-anchor="middle" font-size="9" fill="#8aa2bd">完成度</text>`
+    + `</svg>`;
+}
+
+function getColTypes(headers){
+  const row1 = headers[0];
+  const row2 = headers[1] || [];
+  const cols = [];
+  row1.forEach(h=>{
+    const c = h.c || 1;
+    const r = h.r || 1;
+    for(let k=0;k<c;k++) cols.push({label:h.l, r:r});
+  });
+  let j = 0;
+  cols.forEach(col=>{
+    if(col.r <= 1){
+      if(row2[j]) col.label = row2[j].l;
+      j++;
+    }
+  });
+  return cols.map(col=>{
+    const l = col.label;
+    if(/指标名称/.test(l)) return 'name';
+    if(/是否考核/.test(l)) return 'assess';
+    if(/预算进度|预算达成率/.test(l)) return 'progress';
+    if(/同比|较年初|环比/.test(l)) return 'delta';
+    if(/指标类|指标项|指标口径/.test(l)) return 'group';
+    if(/监管要求/.test(l)) return 'req';
+    if(/^单位$/.test(l)) return 'unit';
+    return 'value';
+  });
+}
+
+function renderTable(s, colTypes, has){
+  let html = '<table class="data-table"><thead>';
+  s.headers.forEach((lvl, i)=>{
+    html += '<tr' + (i>0?' class="sub-head"':'') + '>';
+    lvl.forEach(h=>{
+      const rs = h.r?' rowspan="'+h.r+'"':'';
+      const cs = h.c?' colspan="'+h.c+'"':'';
+      html += '<th'+rs+cs+'>'+h.l+'</th>';
+    });
+    html += '</tr>';
+  });
+  html += '</thead><tbody>';
+  const spanMap = buildSpanMap(s.spans);
+  s.rows.forEach((r,i)=>{
+    html += renderTableRow(r, colTypes, (s.levels && s.levels[i]) || 0, i, spanMap, has);
+  });
+  html += '</tbody></table>';
+  return html;
+}
+
+/* rowspan 合并配置：spans=[{col,row,rs}] → "row,col" -> rs(合并起点) 或 0(被合并覆盖,跳过输出) */
+function buildSpanMap(spans){
+  if(!spans) return null;
+  const m = {};
+  spans.forEach(sp=>{
+    m[sp.row+','+sp.col] = sp.rs;
+    for(let k=1;k<sp.rs;k++) m[(sp.row+k)+','+sp.col] = 0;
+  });
+  return m;
+}
+
+function renderTableRow(r, colTypes, lv, rowIdx, spanMap, has){
+  // 整行为空 → 子表分隔行（华润信托 03/04/05 表内含多个子表，Excel 以空行分隔）
+  if(!r.length || r.every(v=>v===null||v==='')){
+    return '<tr class="row-sep"><td colspan="'+colTypes.length+'"></td></tr>';
+  }
+  let cells = '';
+  r.forEach((val, i)=>{
+    let rsAttr = '';
+    if(spanMap){
+      const m = spanMap[rowIdx+','+i];
+      if(m === 0) return; // 被上方合并单元格覆盖，跳过本格
+      if(m > 1) rsAttr = ' rowspan="'+m+'"';
+    }
+    const t = colTypes[i];
+    // 无历史数据期间：数值类单元格置 null（渲染为 N/A）；名称/单位/考核/口径等结构列保留
+    const v = (has === false && (t === 'value' || t === 'delta' || t === 'progress')) ? null : val;
+    if(t === 'name'){
+      cells += `<td${rsAttr} class="indicator-name lv${lv||0}">${val||'<span class="dim-dash">--</span>'}</td>`;
+    } else if(t === 'assess'){
+      const cls = (val==='是'||val==='★')?'yes':'';
+      cells += `<td${rsAttr} class="assess ${cls}">${val||'<span class="dim-dash">--</span>'}</td>`;
+    } else if(t === 'delta'){
+      cells += renderDeltaCell(v);
+    } else if(t === 'progress'){
+      cells += renderProgressCell(v);
+    } else if(t === 'group' || t === 'req'){
+      cells += `<td${rsAttr}>${val||''}</td>`;
+    } else if(t === 'unit'){
+      cells += `<td${rsAttr} class="value">${val||''}</td>`;
+    } else {
+      const disp = (v===null) ? '<span class="dim-na">N/A</span>' : ((v===''||v==='-') ? '<span class="dim-dash">--</span>' : v);
+      cells += `<td${rsAttr} class="value">${disp}</td>`;
+    }
+  });
+  return `<tr>${cells}</tr>`;
+}
+
+/* 指标卡片同比/较年初：正数红▲、负数绿▼、零/空灰色 */
+function deltaSpan(val){
+  /* 约定：取不到数据（null/空）→ N/A；数据级占位 dash → --（统一 dim 样式） */
+  if(val===null || val===undefined || val===''){
+    return '<span class="dim-na">N/A</span>';
+  }
+  if(val==='-'){
+    return '<span class="dim-dash">--</span>';
+  }
+  const num = parseFloat(String(val).replace(/[,，\s]/g,'').replace(/%|ppt/gi,''));
+  if(isNaN(num) || num===0){
+    return `<span class="kpi-delta neutral">${val}</span>`;
+  }
+  if(num > 0){
+    return `<span class="kpi-delta up">▲ ${val}</span>`;
+  }
+  return `<span class="kpi-delta down">▼ ${val}</span>`;
+}
+
+function renderDeltaCell(val){
+  // 同比/较年初单元格：正数红(▲)、负数绿(▼)、零灰色无箭头；取不到→N/A；占位 dash→--
+  if(val===null || val===undefined || val===''){
+    return `<td class="yoy neutral"><span class="dim-na">N/A</span></td>`;
+  }
+  if(val==='-'){
+    return `<td class="yoy neutral"><span class="dim-dash">--</span></td>`;
+  }
+  const num = parseFloat(String(val).replace(/[,，\s]/g,'').replace(/%|ppt/gi,''));
+  if(isNaN(num) || num===0){
+    return `<td class="yoy neutral">${val}</td>`;
+  }
+  if(num > 0){
+    return `<td class="yoy up"><span class="delta-arrow">▲</span>${val}</td>`;
+  }
+  return `<td class="yoy down"><span class="delta-arrow">▼</span>${val}</td>`;
+}
+
+function renderProgressCell(progress){
+  if(progress===null || progress===undefined){
+    return `<td class="progress-cell"><span class="dim-na">N/A</span></td>`;
+  }
+  if(progress==='-' || progress===''){
+    return `<td class="progress-cell"><span class="dim-dash">--</span></td>`;
+  }
+  const num = parseFloat(progress);
+  const pct = Math.min(Math.max(num,0),100);
+  const cls = pct>=95?'':pct>=85?'mid':'low';
+  return `<td class="progress-cell">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar"><div class="progress-fill ${cls}" style="width:${pct}%"></div></div>
+      <span class="progress-text">${progress}</span>
+    </div>
+  </td>`;
+}
+
+/* ============================================================
+   交互
+   ============================================================ */
+function switchTab(key, doScroll){
+  document.querySelectorAll('.nav-item').forEach(b=>{
+    b.classList.toggle('active', b.dataset.sheet===key);
+  });
+  document.querySelectorAll('.sheet-panel').forEach(p=>{
+    p.classList.toggle('active', p.id==='panel-'+key);
+  });
+  /* 模块联动：驾驶舱页 → 顶层「驾驶舱」模块（全屏无侧栏）；报表 → 数据应用模块 */
+  if(key && key.indexOf('cock-')===0){ switchModule('cock'); syncCockPage(key); }
+  else if(key){ switchModule('data'); }
+  // 平滑滚动到内容区顶部
+  if(doScroll){
+    const content = document.getElementById('content');
+    const rect = content.getBoundingClientRect();
+    const offset = rect.top + window.pageYOffset - 70;
+    window.scrollTo({ top: Math.max(offset,0), behavior: 'smooth' });
+  }
+}
+
+/* 按 key 查找报表（华润银行 SHEETS / 华润资产 ASSET_SHEETS / 华润信托 TRUST_SHEETS / 华润保险 INSURANCE_SHEETS / 华润租赁 LEASE_SHEETS） */
+function sheetByKey(key){
+  if(SHEETS && SHEETS[key]) return SHEETS[key];
+  if(typeof ASSET_SHEETS!=='undefined' && ASSET_SHEETS[key]) return ASSET_SHEETS[key];
+  if(typeof TRUST_SHEETS!=='undefined' && TRUST_SHEETS[key]) return TRUST_SHEETS[key];
+  if(typeof INSURANCE_SHEETS!=='undefined' && INSURANCE_SHEETS[key]) return INSURANCE_SHEETS[key];
+  if(typeof LEASE_SHEETS!=='undefined' && LEASE_SHEETS[key]) return LEASE_SHEETS[key];
+  return null;
+}
+
+function exportSheet(key){
+  const s = sheetByKey(key);
+  alert('正在导出 '+(s?s.title:key)+' 数据...\n（演示功能，实际环境对接导出接口）');
+}
+
+function refreshSheet(key){
+  const panel = document.getElementById('panel-'+key);
+  panel.style.opacity = '0.6';
+  setTimeout(()=>{
+    panel.style.opacity = '1';
+  },500);
+}
+
+/* 数据可用性：本平台数据基准为 2025 年，默认自 2025-01 起有数据；
+   单张报表可用 s.dataFrom（如 '2023-01'）覆盖起始期间 */
+const DATA_DEFAULT_FROM = '2025-01';
+function periodVal(y, m){ return y * 100 + m; }
+
+/* 所选数据日期是否有历史数据（早于起始期间 → 结构保留、数值置「-」） */
+function sheetHasData(key, s){
+  const sh = s || sheetByKey(key);
+  if(!sh) return true;
+  const ySel = document.querySelector(`select.ym-select[data-key="${key}"][data-part="year"]`);
+  const mSel = document.querySelector(`select.ym-select[data-key="${key}"][data-part="month"]`);
+  if(!ySel || !mSel) return true;
+  const [fy, fm] = (sh.dataFrom || DATA_DEFAULT_FROM).split('-').map(Number);
+  return periodVal(+ySel.value, +mSel.value) >= periodVal(fy, fm);
+}
+
+function querySheet(key){
+  const y = document.querySelector(`select.ym-select[data-key="${key}"][data-part="year"]`);
+  const mo = document.querySelector(`select.ym-select[data-key="${key}"][data-part="month"]`);
+  if(!y || !mo) return;
+  const dateText = y.value + '年' + mo.value + '月';
+  const sheet = sheetByKey(key);
+  const has = sheetHasData(key, sheet);
+  renderPanel(key, sheet); // 按是否有数据重渲染：无数据期间保留结构、数值置「-」
+  showToast(has
+    ? `已加载 ${dateText} 数据 · ${sheet?sheet.title:key}`
+    : `${dateText} 无历史数据，仅显示报表结构 · ${sheet?sheet.title:key}`);
+  refreshSheet(key);
+}
+
+function toggleOverview(key){
+  const area = document.getElementById('overview-'+key);
+  const bar = document.querySelector(`.collapse-bar[data-key="${key}"]`);
+  if(!area || !bar) return;
+  const collapsed = area.classList.toggle('collapsed');
+  bar.classList.toggle('expanded', !collapsed);
+  const hint = bar.querySelector('.collapse-hint');
+  if(hint) hint.textContent = collapsed ? '点击展开 ▾' : '点击收起 ▴';
+}
+
+function showToast(msg){
+  let t = document.getElementById('toast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.className = 'toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* ============================================================
+   指标查询模块（顶部导航 · 指标查询）
+   ============================================================ */
+function escHtml(str){
+  return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ============================================================
+   指标标准库（指标查询模块）
+   数据源：indicator_standard_data.js（INDICATOR_STANDARD）
+   ============================================================ */
+const STD_DATA = (typeof INDICATOR_STANDARD !== 'undefined') ? INDICATOR_STANDARD : null;
+const stdState = { name:'', code:'', theme:'', bizUnit:'', caliber:'', freq:'', timeDim:'', status:'', page:1, pageSize:10 };
+let stdInited = false;
+
+// 判断字段值是否为空/未提供（待补充、不涉及、暂无、-）
+function stdIsEmpty(v){
+  const s = String(v==null?'':v).trim();
+  if(!s) return true;
+  if(/^(-|—|暂无|无|不涉及)$/.test(s)) return true;
+  if(/^待[一-龥]{0,8}补充$/.test(s)) return true;
+  return false;
+}
+
+function initStdModule(){
+  if(stdInited) return;
+  stdInited = true;
+  if(!STD_DATA){
+    document.getElementById('stdView').innerHTML =
+      '<div class="query-card"><div class="query-empty">⚠ 指标标准库数据加载失败，请检查 indicator_standard_data.js 是否存在</div></div>';
+    return;
+  }
+  renderStdStats();
+  stdBuildSelects();
+  // 每页条数选择器：10/20/50/100，默认 10
+  const psSel = document.getElementById('stdPageSize');
+  if(psSel && psSel.options.length===0){
+    psSel.innerHTML = [10,20,50,100].map(n=>'<option value="' + n + '">' + n + ' 条/页</option>').join('');
+    psSel.value = String(stdState.pageSize);
+  }
+  applyStd();
+}
+
+function renderStdStats(){
+  const m = STD_DATA.meta;
+  const themeCount = STD_DATA.items.filter(it=>it.theme==='战略').length;
+  const riskCount = STD_DATA.items.filter(it=>it.cat1==='风险').length;
+  const cards = [
+    {label:'指标标准总数', value:m.total, unit:'项', cls:''},
+    {label:'战略', value:themeCount, unit:'项', cls:'accent'},
+    {label:'风险', value:riskCount, unit:'项', cls:'danger'}
+  ];
+  document.getElementById('stdStats').innerHTML = cards.map(c=>
+    '<div class="std-stat ' + c.cls + '">' +
+      '<div class="kpi-label">' + c.label + '</div>' +
+      '<div class="kpi-value">' + c.value + '<span class="kpi-unit">' + c.unit + '</span></div>' +
+    '</div>'
+  ).join('');
+}
+
+function stdFillSelect(id, values){
+  const sel = document.getElementById(id);
+  if(!sel) return;
+  sel.innerHTML = '<option value="">请选择</option>' +
+    values.map(v=>'<option value="' + escHtml(v) + '">' + escHtml(v) + '</option>').join('');
+}
+
+// 按字段汇总去重后的可选值（过滤「待补充/不涉及/暂无」等占位值）
+function stdDistinct(key){
+  const list = [];
+  STD_DATA.items.forEach(it=>{
+    const v = String(it[key]==null?'':it[key]).trim();
+    if(v && !stdIsEmpty(v) && list.indexOf(v)<0) list.push(v);
+  });
+  return list;
+}
+
+// 查询条件枚举值（与业务提供的枚举表一致）
+const STD_ENUM = {
+  bizUnit: ['华润金融','华润银行','华润信托','华润租赁','华润保险','华润资产','华润深国投'],
+  freq: ['日度','月度','季度','半年度','年度'],
+  timeDim: ['本日数','本日末','本月数','本月末','本季数','本季末','本年度','本年累计数'],
+  status: ['未发布','已发布','已下线']
+};
+
+// 业务单元 → 指标口径 关联枚举（选择业务单元后方可选择指标口径）
+const STD_BIZ_CALIBER = {
+  '华润金融': ['合并报表口径'],
+  '华润银行': ['单体考核口径','单体报表口径','合并报表口径'],
+  '华润信托': ['财务考核口径','混合口径','信托单体口径','信托计划口径'],
+  '华润租赁': [],
+  '华润保险': ['考核口径'],
+  '华润资产': ['财务考核口径','渝康单体口径','资产单体口径','资产本部及渝康合并口径','资产本部口径','资产香港(含深圳)口径'],
+  '华润深国投': ['深国投单体口径']
+};
+
+function stdBuildSelects(){
+  stdFillSelect('stdTheme', stdDistinct('theme'));
+  stdFillSelect('stdBizUnit', STD_ENUM.bizUnit);
+  stdFillSelect('stdFreq', STD_ENUM.freq);
+  stdFillSelect('stdTimeDim', STD_ENUM.timeDim);
+  stdFillSelect('stdStatus', STD_ENUM.status);
+  stdUpdateCaliberCombo();
+}
+
+// 指标口径组合框随业务单元联动：未选业务单元时禁用，选定后仅展示关联口径
+function stdUpdateCaliberCombo(){
+  const input = document.getElementById('stdCaliber');
+  const dl = document.getElementById('stdCaliberList');
+  stdState.caliber = '';
+  const list = stdState.bizUnit ? (STD_BIZ_CALIBER[stdState.bizUnit] || []) : [];
+  if(input){
+    input.value = '';
+    input.disabled = !stdState.bizUnit;
+    input.placeholder = stdState.bizUnit ? '请选择' : '请先选择业务单元';
+  }
+  if(dl) dl.innerHTML = list.map(v=>'<option value="' + escHtml(v) + '">').join('');
+}
+
+function stdFiltered(){
+  const name = stdState.name.trim().toLowerCase();
+  const code = stdState.code.trim().toLowerCase();
+  const caliber = stdState.caliber.trim().toLowerCase();
+  return STD_DATA.items.filter(it=>{
+    if(stdState.theme && String(it.theme==null?'':it.theme).trim()!==stdState.theme) return false;
+    if(stdState.bizUnit && String(it.bizUnit==null?'':it.bizUnit).trim()!==stdState.bizUnit) return false;
+    if(stdState.freq && String(it.freq==null?'':it.freq).trim()!==stdState.freq) return false;
+    if(stdState.timeDim && String(it.timeDim==null?'':it.timeDim).trim()!==stdState.timeDim) return false;
+    if(stdState.status && String(it.status==null?'':it.status).trim()!==stdState.status) return false;
+    if(caliber && String(it.caliber==null?'':it.caliber).toLowerCase().indexOf(caliber) < 0) return false;
+    if(code && String(it.code==null?'':it.code).toLowerCase().indexOf(code) < 0) return false;
+    if(name && String(it.name==null?'':it.name).toLowerCase().indexOf(name) < 0) return false;
+    return true;
+  });
+}
+
+function applyStd(resetPage){
+  if(resetPage!==false) stdState.page = 1;
+  renderStdResult(stdFiltered());
+}
+
+function stdCatPath(it){
+  return [it.cat1, it.cat2, it.cat3].filter(v=>v && v!=='不涉及');
+}
+
+// 大小写不敏感的关键字高亮（英文关键字如 aum/AUM 均可命中）
+function stdMark(text, kw){
+  if(!kw) return escHtml(text);
+  const s = String(text==null?'':text);
+  const i = s.toLowerCase().indexOf(kw.toLowerCase());
+  if(i<0) return escHtml(s);
+  return escHtml(s.slice(0,i)) + '<mark>' + escHtml(s.slice(i, i+kw.length)) + '</mark>' + escHtml(s.slice(i+kw.length));
+}
+
+// 指标状态圆点标识：未发布橙 / 已发布绿 / 已下线（及其余）灰
+function stdStatusHtml(v){
+  if(stdIsEmpty(v)) return '<span class="tag-none">—</span>';
+  const s = String(v);
+  const cls = s==='已发布' ? 'pub' : (s==='未发布' ? 'unpub' : 'off');
+  return '<span class="std-status ' + cls + '">' + escHtml(s) + '</span>';
+}
+
+function renderStdResult(rows){
+  const m = STD_DATA.meta;
+  const total = rows.length;
+  const pages = Math.max(1, Math.ceil(total / stdState.pageSize));
+  if(stdState.page > pages) stdState.page = pages;
+  const cur = stdState.page;
+  const pageRows = rows.slice((cur-1)*stdState.pageSize, (cur-1)*stdState.pageSize + stdState.pageSize);
+
+  document.getElementById('stdSummary').innerHTML =
+    '共查询到 <b>' + total + '</b> 项指标标准（指标库合计 ' + m.total + ' 项）· 第 ' + cur + ' / ' + pages + ' 页';
+
+  const table = document.getElementById('stdTable');
+  if(!pageRows.length){
+    table.innerHTML = '<tbody><tr><td colspan="23"><div class="query-empty">🔍 未查询到匹配的指标标准，请调整关键字或筛选条件</div></td></tr></tbody>';
+  }else{
+    const kw = stdState.name.trim();
+    // 列宽定义（前三列冻结：序号 44 / 指标编号 116 / 指标名称 180；右侧冻结：指标状态 90 + 操作 84）
+    const colW = [44,116,180,110,120,120,240,92,118,280,70,96,200,84,96,130,104,100,130,84,160,90,84];
+    let html = '<colgroup>' + colW.map(w=>'<col style="width:'+w+'px">').join('') + '</colgroup>';
+    html += '<thead><tr>'
+      + '<th class="stick stick-1">序号</th>'
+      + '<th class="stick stick-2">指标编号</th>'
+      + '<th class="stick stick-3">指标名称</th>'
+      + '<th>指标主题</th>'
+      + '<th>一级分类</th>'
+      + '<th>二级分类</th>'
+      + '<th>指标定义</th>'
+      + '<th>指标类型</th>'
+      + '<th>指标口径</th>'
+      + '<th>指标计算公式</th>'
+      + '<th>指标单位（金控展示）</th>'
+      + '<th>业务单元</th>'
+      + '<th>数据范围</th>'
+      + '<th>更新频次</th>'
+      + '<th>时间维度</th>'
+      + '<th>业务单元供数部门</th>'
+      + '<th>业务单元业务对接人</th>'
+      + '<th>指标责任人</th>'
+      + '<th>指标管理部门</th>'
+      + '<th>版本号</th>'
+      + '<th>安全级别</th>'
+      + '<th class="stick-r2">指标状态</th>'
+      + '<th class="stick-r">操作</th>'
+      + '</tr></thead><tbody>';
+    // 普通文本单元格：空值显示「—」，超出一行自动换行，title 提供全文
+    const txt = (v, left)=>{
+      if(stdIsEmpty(v)) return '<td><span class="tag-none">—</span></td>';
+      return '<td' + (left ? ' class="t-left"' : '') + ' title="' + escHtml(v) + '">' + escHtml(v) + '</td>';
+    };
+    pageRows.forEach(it=>{
+      const typeCls = it.type==='派生指标' ? 'derived' : 'base';
+      html += '<tr data-no="' + it.no + '">'
+        + '<td class="std-no stick stick-1">' + it.no + '</td>'
+        + '<td class="std-code stick stick-2">' + escHtml(it.code) + '</td>'
+        + '<td class="t-left stick stick-3"><div class="std-name">' + stdMark(it.name, kw) + '</div></td>'
+        + txt(it.theme)
+        + txt(it.cat1)
+        + txt(it.cat2)
+        + txt(it.definition, true)
+        + '<td><span class="std-badge ' + typeCls + '">' + escHtml(it.type||'—') + '</span></td>'
+        + '<td><span class="std-badge neutral">' + escHtml(it.caliber||'—') + '</span></td>'
+        + txt(it.formula, true)
+        + (stdIsEmpty(it.unit) ? '<td><span class="tag-none">—</span></td>' : '<td>' + escHtml(it.unit) + '</td>')
+        + txt(it.bizUnit)
+        + txt(it.dataRange, true)
+        + (stdIsEmpty(it.freq) ? '<td><span class="tag-none">—</span></td>' : '<td>' + escHtml(it.freq) + '</td>')
+        + txt(it.timeDim)
+        + txt(it.supplyDept)
+        + txt(it.bizContact)
+        + txt(it.owner)
+        + txt(it.mgmtDept)
+        + txt(it.version)
+        + (stdIsEmpty(it.securityLevel) ? '<td><span class="tag-none">—</span></td>'
+          : '<td><span class="std-sec ' + (String(it.securityLevel).indexOf('L1')===0 ? 'l1' : String(it.securityLevel).indexOf('L2')===0 ? 'l2' : String(it.securityLevel).indexOf('L4')===0 ? 'l4' : 'l3') + '" title="' + escHtml(it.securityLevel) + '">' + escHtml(it.securityLevel) + '</span></td>')
+        + '<td class="stick-r2">' + stdStatusHtml(it.status) + '</td>'
+        + '<td class="stick-r"><button class="link-btn" data-action="std-detail" data-no="' + it.no + '" type="button">详情 →</button></td>'
+        + '</tr>';
+    });
+    html += '</tbody>';
+    table.innerHTML = html;
+  }
+  renderStdPager(pages, cur);
+}
+
+function renderStdPager(pages, cur){
+  const wrap = document.getElementById('stdPagerBtns');
+  if(pages <= 1){ wrap.innerHTML = ''; return; }
+  let html = '<button class="std-page" data-action="std-page" data-page="' + (cur-1) + '"' + (cur<=1?' disabled':'') + ' type="button">‹ 上一页</button>';
+  const nums = [];
+  for(let p=1; p<=pages; p++){
+    if(p===1 || p===pages || Math.abs(p-cur)<=2) nums.push(p);
+    else if(nums[nums.length-1] !== '…') nums.push('…');
+  }
+  nums.forEach(p=>{
+    if(p==='…'){ html += '<span class="std-page-dots">…</span>'; }
+    else{
+      html += '<button class="std-page' + (p===cur?' active':'') + '" data-action="std-page" data-page="' + p + '" type="button">' + p + '</button>';
+    }
+  });
+  html += '<button class="std-page" data-action="std-page" data-page="' + (cur+1) + '"' + (cur>=pages?' disabled':'') + ' type="button">下一页 ›</button>';
+  wrap.innerHTML = html;
+}
+
+// 详情抽屉：按 基础信息/业务属性/技术属性/管理属性 分组展示全部字段
+function openStdDetail(no){
+  const it = STD_DATA.items.find(x=>x.no===no);
+  if(!it) return;
+  const m = STD_DATA.meta;
+  const path = stdCatPath(it).join(' / ');
+  let head = '<div class="std-drawer-head">'
+    + '<div class="std-drawer-title">' + escHtml(it.name) + '</div>'
+    + '<div class="std-drawer-code">' + escHtml(it.code) + (path ? '　·　' + escHtml(path) : '') + '</div>'
+    + '<div class="std-drawer-tags">'
+    +   '<span class="std-badge base"><em>指标主题：</em>' + escHtml(stdIsEmpty(it.theme)?'—':it.theme) + '</span>'
+    +   '<span class="std-badge neutral"><em>指标口径：</em>' + escHtml(stdIsEmpty(it.caliber)?'—':it.caliber) + '</span>'
+    +   '<span class="std-badge neutral"><em>业务单元：</em>' + escHtml(stdIsEmpty(it.bizUnit)?'—':it.bizUnit) + '</span>'
+    +   '<span class="std-badge neutral"><em>更新频次：</em>' + escHtml(stdIsEmpty(it.freq)?'—':it.freq) + '</span>'
+    +   (it.isRegulatory==='是' ? '<span class="std-badge reg">监管指标</span>' : '')
+    + '</div>'
+    + '<button class="std-drawer-close" data-action="std-close" type="button" title="关闭">✕</button>'
+    + '</div>';
+  let body = '';
+  m.groups.forEach(g=>{
+    const fields = m.fields.filter(f=>f.group===g.key && f.key!=='no');
+    body += '<div class="std-group"><div class="std-group-title">' + escHtml(g.label) + '</div>'
+      + '<table class="std-detail-table"><tbody>';
+    fields.forEach(f=>{
+      const v = it[f.key];
+      const empty = stdIsEmpty(v);
+      body += '<tr><th>' + escHtml(f.label) + '</th>'
+        + '<td class="' + (empty?'empty':'') + '">' + (empty ? '—' : escHtml(v)) + '</td></tr>';
+    });
+    body += '</tbody></table></div>';
+  });
+  const drawer = document.getElementById('stdDrawer');
+  drawer.innerHTML = head + '<div class="std-drawer-body">' + body + '</div>';
+  drawer.classList.add('show');
+  drawer.setAttribute('aria-hidden','false');
+  document.getElementById('stdOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeStdDetail(){
+  document.getElementById('stdDrawer').classList.remove('show');
+  document.getElementById('stdDrawer').setAttribute('aria-hidden','true');
+  document.getElementById('stdOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function resetStdFilters(){
+  stdState.name=''; stdState.code=''; stdState.theme=''; stdState.bizUnit='';
+  stdState.freq=''; stdState.timeDim=''; stdState.status='';
+  document.getElementById('stdName').value = '';
+  document.getElementById('stdClass').value = '';
+  ['stdTheme','stdBizUnit','stdFreq','stdTimeDim','stdStatus'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  stdUpdateCaliberCombo();
+  applyStd();
+}
+
+// 顶部导航模块切换：data=数据应用 / cock=驾驶舱（独立全屏模块） / query=指标查询
+function switchModule(mod){
+  const dataEl = document.getElementById('moduleData');
+  const dataWasHidden = dataEl.style.display === 'none';
+  document.querySelectorAll('.topnav-item').forEach(b=>{
+    b.classList.toggle('active', b.dataset.module===mod);
+  });
+  dataEl.style.display = (mod==='data') ? '' : 'none';
+  document.getElementById('moduleQuery').style.display = (mod==='query') ? '' : 'none';
+  document.getElementById('moduleCock').style.display = (mod==='cock') ? '' : 'none';
+  if(mod==='query'){
+    initStdModule();
+    window.scrollTo({top:0});
+  }else if(mod==='cock'){
+    window.scrollTo({top:0});
+  }else{
+    closeStdDetail();
+    /* 仅当从其他模块进入数据应用（模块原为隐藏）且无选中报表时，默认展示资产负债简表；
+       模块内切换报表不触发，否则非银行报表会被抢回 01 */
+    if(dataWasHidden){
+      /* 已有任意报表面板激活（含刚切换的非银行报表）则不兜底 */
+      const anyRep = Array.prototype.some.call(document.querySelectorAll('.sheet-panel'), p=>
+        p.classList.contains('active') && p.id.indexOf('panel-cock-') !== 0);
+      if(!anyRep) switchTab('01');
+      /* 从其他模块切回时回到页顶，避免视口停留在旧滚动位置看似「没反应」 */
+      window.scrollTo({top:0});
+    }
+  }
+}
+/* 驾驶舱页面子菜单（顶部导航「驾驶舱」下）：构建选项 / 同步选中态与当前页名 */
+const COCK_PAGE_ICONS = {group:'🌐', bank:'🏦', asset:'💼', trust:'📈', ins:'🛡️', lease:'🚛'};
+function cockPageName(c){ return c.key==='group' ? c.name : c.name+'驾驶舱'; }
+function buildCockPageSelect(){
+  const list = document.getElementById('cockNavSub');
+  if(!list || typeof COCKPITS==='undefined') return;
+  list.innerHTML = `<div class="topnav-sub-cap"><span>驾驶舱页面</span><b>COCKPIT</b></div>`
+    + COCKPITS.map(c=>`<button type="button" class="topnav-sub-item" data-action="cock-page" data-key="cock-${c.key}"><span class="tsub-ico">${COCK_PAGE_ICONS[c.key]||'📊'}</span>${cockPageName(c)}</button>`).join('');
+}
+function syncCockPage(key){
+  const list = document.getElementById('cockNavSub');
+  if(list) list.querySelectorAll('.topnav-sub-item').forEach(o=>o.classList.toggle('active', o.dataset.key===key));
+  const drop = document.getElementById('cockNavDrop');
+  if(drop) drop.classList.remove('open');
+}
+
+/* ============================================================
+   初始化
+   ============================================================ */
+renderTabs();
+renderContent();
+buildCockPageSelect();
+// 默认显示：驾驶舱模块 -> 集团总览（全屏铺满，顶栏下拉切换页面）
+switchTab(typeof COCKPITS!=='undefined' ? 'cock-group' : '01');
+
+// 指标标准库：名称/编号实时检索 + 回车查询；指标口径输入实时过滤
+document.getElementById('stdName').addEventListener('input', (e)=>{ stdState.name = e.target.value; applyStd(); });
+document.getElementById('stdName').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ stdState.name = e.target.value; applyStd(); } });
+document.getElementById('stdClass').addEventListener('input', (e)=>{ stdState.code = e.target.value; applyStd(); });
+document.getElementById('stdClass').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ stdState.code = e.target.value; applyStd(); } });
+document.getElementById('stdCaliber').addEventListener('input', (e)=>{ stdState.caliber = e.target.value; applyStd(); });
+
+// 每页条数切换：重置到第一页并刷新列表
+document.getElementById('stdPageSize').addEventListener('change', (e)=>{
+  const n = parseInt(e.target.value, 10);
+  stdState.pageSize = isNaN(n) ? 10 : n;
+  applyStd();
+});
+
+// 全局事件委托：顶部导航模块切换 + 查询/导出 + 指标查询操作
+document.addEventListener('click', (e)=>{
+  const nav = e.target.closest('[data-module]');
+  if(nav){
+    if(nav.dataset.module==='cock'){
+      /* 「驾驶舱」顶导航：仅开合子菜单；页面切换由子菜单项触发 */
+      const drop = document.getElementById('cockNavDrop');
+      if(drop) drop.classList.toggle('open');
+      return;
+    }
+    switchModule(nav.dataset.module);
+    return;
+  }
+  const btn = e.target.closest('[data-action]');
+  if(!btn) return;
+  const action = btn.dataset.action;
+  const key = btn.dataset.key;
+  if(action === 'query') querySheet(key);
+  else if(action === 'export') exportSheet(key);
+  else if(action === 'toggle-overview') toggleOverview(key);
+  else if(action === 'caliber-switch'){
+    // 指标口径页签切换：同步切换当前报表面板内的页签、概览 KPI 与明细面板
+    const panel = btn.closest('.sheet-panel');
+    if(panel){
+      const pane = btn.dataset.pane;
+      panel.querySelectorAll('.caliber-tab').forEach(b=>b.classList.toggle('active', b===btn));
+      panel.querySelectorAll('.caliber-pane').forEach(p=>p.classList.toggle('active', p.dataset.pane===pane));
+    }
+  }
+  else if(action === 'cock-toggle'){
+    const sel = btn.closest('.fz-select');
+    if(sel) sel.classList.toggle('open');
+  }
+  else if(action === 'cock-page'){
+    /* 顶部「驾驶舱」子菜单：切换驾驶舱页面（switchTab 内同步选中态并收起子菜单） */
+    switchTab(btn.dataset.key);
+  }
+  else if(action === 'cock-company'){
+    const sel = btn.closest('.fz-select');
+    if(sel) sel.classList.remove('open');
+    const grp = COCKPITS.find(c=>c.key==='group');
+    if(grp) renderCockCompanyView(grp, parseInt(btn.dataset.idx,10));
+  }
+  else if(action === 'gk-cal'){
+    /* 集团总览-口径页签切换：重渲染该分组卡片为所选口径的值 */
+    const gi = parseInt(btn.dataset.gid,10), calIdx = parseInt(btn.dataset.cal,10);
+    const co = GQ_VIEW.c && GQ_VIEW.c.companies ? GQ_VIEW.c.companies[GQ_VIEW.idx] : null;
+    const g = co && co.groups ? co.groups[gi] : null;
+    if(g){
+      const sw = document.getElementById('gk-calswitch-'+gi);
+      if(sw) sw.querySelectorAll('.gk-caltab').forEach((t,i)=>t.classList.toggle('active', i===calIdx));
+      const rowEl = document.getElementById('gk-calrows-'+gi);
+      if(rowEl){
+        let n = 0;
+        rowEl.innerHTML = g.picks.map(p=>{
+          const k = cockPick(Object.assign({}, p, {cal:calIdx}));
+          return k ? groupCardHtml(k, n++) : '';
+        }).join('');
+      }
+    }
+  }
+  else if(action === 'gk-mcal'){
+    /* 多口径指标卡：卡内药丸切换，仅重渲染本卡 */
+    const uid = parseInt(btn.dataset.uid,10), ci = parseInt(btn.dataset.cal,10);
+    const p = GK_MCAL[uid];
+    const el = document.getElementById('gk-mcal-' + uid);
+    if(p && el) el.outerHTML = mcalCardHtml(p, ci, uid);
+  }
+  else if(action === 'nav-sheet'){
+    /* 左侧报表菜单点击：切换报表并滚动到内容区顶部（保证切换可见） */
+    switchTab(btn.dataset.sheet, true);
+  }
+  else if(action === 'nav-toggle'){
+    btn.classList.toggle('open');
+    if(btn.nextElementSibling) btn.nextElementSibling.classList.toggle('open');
+  }
+  else if(action === 'std-search') applyStd();
+  else if(action === 'std-reset') resetStdFilters();
+  else if(action === 'std-detail') openStdDetail(parseInt(btn.dataset.no,10));
+  else if(action === 'std-close') closeStdDetail();
+  else if(action === 'std-page'){
+    const p = parseInt(btn.dataset.page,10);
+    if(!isNaN(p) && p>=1){
+      stdState.page = p;
+      applyStd(false);
+      const el = document.getElementById('stdMain');
+      if(el){
+        const y = el.getBoundingClientRect().top + window.pageYOffset - 66;
+        window.scrollTo({top:Math.max(y,0), behavior:'smooth'});
+      }
+    }
+  }
+});
+
+// 指标标准库：点击表格行打开详情
+document.addEventListener('click', (e)=>{
+  if(e.target.closest('[data-action]') || e.target.closest('[data-module]')) return;
+  const row = e.target.closest('tr[data-no]');
+  if(row) openStdDetail(parseInt(row.dataset.no,10));
+});
+
+// 指标标准库：点击遮罩或按 Esc 关闭详情抽屉
+document.getElementById('stdOverlay').addEventListener('click', closeStdDetail);
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeStdDetail(); });
+
+// 集团总览：点击公司下拉外部时收起；驾驶舱顶导航子菜单点击外部时收起
+document.addEventListener('click', (e)=>{
+  if(!e.target.closest('.fz-select')) document.querySelectorAll('.fz-select.open').forEach(s=>s.classList.remove('open'));
+  if(!e.target.closest('.topnav-drop')){
+    const d = document.getElementById('cockNavDrop');
+    if(d) d.classList.remove('open');
+  }
+});
+
+// 数据日期年/月下拉变更后自动查询；指标标准库筛选条件变更即时查询
+document.addEventListener('change', (e)=>{
+  const t = e.target;
+  if(t.classList && t.classList.contains('ym-select')) querySheet(t.dataset.key);
+  if(t.dataset && t.dataset.stdKey){
+    stdState[t.dataset.stdKey] = t.value;
+    // 业务单元变更 → 指标口径联动刷新（清空已选口径、重建候选清单）
+    if(t.dataset.stdKey==='bizUnit') stdUpdateCaliberCombo();
+    applyStd();
+  }
+});
+</script>
+<script>switchTab('lease01');</script>
+</body>
+</html>

@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>需求文档 · 华润保险模块（数据应用）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;color:#1f2937;font-size:14px;line-height:1.75;background:#eef1f6;}
+.page{max-width:1180px;margin:0 auto;background:#fff;box-shadow:0 2px 16px rgba(15,40,71,.10);}
+/* 封面头部 */
+.cover{background:linear-gradient(135deg,#0f2847 0%,#1a3a6b 55%,#2a5298 100%);color:#fff;padding:44px 56px 36px;}
+.cover h1{font-size:26px;letter-spacing:2px;margin-bottom:8px;}
+.cover .sub{font-size:14px;opacity:.85;letter-spacing:1px;}
+.cover .meta{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:22px;font-size:12.5px;}
+.cover .meta span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:3px 14px;}
+.body{padding:34px 56px 60px;}
+h2{font-size:19px;color:#1a3a6b;border-left:5px solid #c8962e;padding-left:12px;margin:38px 0 14px;letter-spacing:1px;}
+h2:first-of-type{margin-top:6px;}
+h3{font-size:16.5px;color:#1a3a6b;margin:30px 0 10px;padding:8px 12px;background:linear-gradient(90deg,#eef3fa,#f8fafd);border-radius:6px;border-left:4px solid #2a5298;}
+h3 .cnt,h4 .cnt,h5 .cnt{font-size:12px;color:#c8962e;font-weight:600;margin-left:8px;}
+h4{font-size:14.5px;color:#2a5298;margin:20px 0 8px;}
+h5{font-size:13.5px;color:#2a5298;margin:16px 0 6px;}
+h6{font-size:13px;color:#2a5298;margin:14px 0 6px;}
+p{margin:6px 0;}
+.brief{color:#4b5563;}
+ul.tight,ol.tight{margin:6px 0 6px 22px;}
+ul.tight li,ol.tight li{margin:4px 0;}
+ol.toc{margin:8px 0 8px 24px;}
+ol.toc li,ul.toc li{margin:3px 0;}
+ul.toc{list-style:none;margin-left:0;columns:2;}
+ul.toc li a{color:#1a3a6b;text-decoration:none;}
+ul.toc li a:hover{text-decoration:underline;color:#2a5298;}
+a{color:#2a5298;}
+/* 表格 */
+.doc-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0 14px;}
+.doc-table th{background:linear-gradient(135deg,#1a3a6b,#2a5298);color:#fff;padding:7px 9px;border:1px solid rgba(255,255,255,.22);font-weight:600;text-align:center;white-space:nowrap;}
+.doc-table th.sub{background:linear-gradient(135deg,#2a5298,#3a6bb0);font-size:11.5px;}
+.doc-table td{border:1px solid #dde3ec;padding:6px 9px;text-align:left;vertical-align:middle;}
+.doc-table tbody tr:nth-child(even){background:#f7f9fc;}
+.doc-table td.c{text-align:center;}
+.doc-table td.num{font-family:Consolas,"Courier New",monospace;font-weight:600;}
+.kv th{background:#f0f4fa;color:#1a3a6b;border:1px solid #dde3ec;width:130px;text-align:left;white-space:nowrap;}
+/* 表头示意（还原页面蓝底两级表头） */
+.head-demo{width:auto;min-width:60%;}
+/* 明细行表 */
+.rows{min-width:100%;}
+.rows td.name{font-weight:400;}
+.rows td.name.lv0{font-weight:700;color:#1a3a6b;text-align:left;}
+.rows td.name.lv1{font-family:"SimHei","Heiti SC","Microsoft YaHei",sans-serif;text-align:left;padding-left:26px;}
+.rows td.name.lv2{color:#9ca3af;text-align:left;padding-left:44px;}
+.rows td.cfm,.rows th.cfm{text-align:center;width:64px;color:#c8962e;font-weight:700;}
+td.cfm{text-align:center;color:#c8962e;font-weight:700;}
+.rows td.ttype{text-align:center;width:84px;white-space:nowrap;}
+.rows th.ttype{width:84px;}
+/* 时间类型徽章：时点指标=蓝、期间指标=橙（一眼区分） */
+.tt{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11.5px;font-weight:700;letter-spacing:.5px;}
+.tt-point{background:#dce8f8;color:#1a4a8a;}
+.tt-period{background:#fde3c8;color:#b45309;}
+.ph{color:#6f7b88;font-weight:700;font-family:"SimHei","Microsoft YaHei",sans-serif;letter-spacing:1px;}
+.xmark{color:#c0392b;font-weight:700;}
+/* 导出文件名称高亮（2.1 导出说明：导出名称琥珀色高亮） */
+.hl-exp{background:#ffe9b3;color:#8a5a00;font-weight:700;padding:1px 5px;border-radius:3px;}
+/* 标签（与平台一致：考核=蓝、高质量=绿） */
+.tag{display:inline-block;padding:1px 9px;border-radius:4px;font-size:11.5px;font-weight:600;white-space:nowrap;margin:1px 2px;}
+.tag.assess{background:#dce8f8;color:#2a5298;}
+.tag.hq{background:#eaf7f0;color:#0d8a68;}
+/* 提示与确认框 */
+.tip{background:#fff8e6;border:1px solid #f0dca8;border-radius:6px;padding:8px 12px;font-size:12.5px;color:#7a5c10;margin:8px 0;}
+.confirm-box{background:#eef7f1;border:1px solid #bfe3c9;border-radius:6px;padding:10px 14px;font-size:13px;color:#1d6b45;margin:12px 0;}
+.dev-box{background:#eef3fa;border:1px solid #c6d8ee;border-radius:6px;padding:10px 14px;font-size:13px;color:#274b7d;margin:12px 0;}
+.none{color:#9ca3af;font-size:12.5px;}
+code{background:#f2f4f8;border:1px solid #e0e5ee;border-radius:4px;padding:1px 6px;font-family:Consolas,monospace;font-size:12px;color:#2a5298;}
+.footer{padding:18px 56px 30px;color:#9ca3af;font-size:12px;border-top:1px solid #eef1f6;}
+@media print{
+  body{background:#fff;}
+  .page{box-shadow:none;max-width:none;}
+  section{page-break-inside:avoid;}
+  h3{page-break-after:avoid;}
+}
+.proto *{ margin:0; padding:0; box-sizing:border-box; }.proto{
+  --c-primary:#1a3a6b;
+  --c-primary-light:#2a5298;
+  --c-accent:#c8962e;
+  --c-accent-light:#e0b35a;
+  --c-bg:#f0f2f5;
+  --c-card:#ffffff;
+  --c-text:#1f2937;
+  --c-text-light:#6b7280;
+  --c-border:#e5e7eb;
+  --c-success:#10b981;
+  --c-warning:#f59e0b;
+  --c-danger:#ef4444;
+  --c-info:#3b82f6;
+}.proto{
+  font-family:"Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif;
+  background:var(--c-bg);
+  color:var(--c-text);
+  font-size:14px;
+  line-height:1.6;
+}.proto .header{
+  background:linear-gradient(135deg,#0f2847 0%,#1a3a6b 50%,#2a5298 100%);
+  color:#fff;
+  padding:10px 32px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  position:sticky; top:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+}.proto .header-left{display:flex; align-items:center; gap:12px;}.proto .header-logo{
+  width:34px; height:34px;
+  background:linear-gradient(135deg,var(--c-accent),var(--c-accent-light));
+  border-radius:7px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; font-weight:700; color:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}.proto .header h1{font-size:17px; font-weight:600; letter-spacing:1px;}.proto .header-sub{font-size:11px; opacity:0.8; margin-top:1px;}.proto .header-nav{
+  display:flex; align-items:center; gap:32px;
+  position:absolute; left:50%; transform:translateX(-50%);
+}.proto .topnav-item{
+  padding:4px 2px;
+  border:none;
+  background:transparent;
+  color:rgba(255,255,255,0.72);
+  font-size:15px; font-weight:600; letter-spacing:3px;
+  cursor:pointer; font-family:inherit;
+  transition:color 0.2s;
+  position:relative;
+}.proto .topnav-item:hover{color:#fff;}.proto .topnav-item.active{color:#fff;}.proto .topnav-item.active::after{
+  content:'';
+  position:absolute; left:0; right:0; bottom:-8px;
+  height:3px; border-radius:2px;
+  background:linear-gradient(135deg,var(--c-accent),var(--c-accent-light));
+}.proto .query-page{padding:12px 20px 24px;}.proto .query-card{
+  background:var(--c-card);
+  border-radius:10px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  padding:18px 20px 20px;
+}.proto .query-toolbar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:12px;}.proto .query-input{
+  flex:1; min-width:240px;
+  border:1px solid var(--c-border); border-radius:6px;
+  padding:8px 12px; font-size:13px; font-family:inherit;
+  outline:none; transition:border-color 0.2s, box-shadow 0.2s;
+}.proto .query-input:focus{border-color:var(--c-primary); box-shadow:0 0 0 3px rgba(26,58,107,0.10);}.proto .std-form{display:grid; grid-template-columns:repeat(4,1fr); gap:12px 14px; margin-bottom:14px;}.proto .std-form-item{display:flex; align-items:center; gap:8px; min-width:0;}.proto .std-form-label{flex-shrink:0; width:140px; font-size:13px; color:#4b5563; white-space:nowrap; text-align:right;}.proto .std-ctrl{
+  flex:1; min-width:0; height:36px;
+  border:1px solid #d7dbe0; border-radius:5px;
+  padding:0 12px; font-size:13px; font-family:inherit;
+  color:var(--c-text); background:#fff; outline:none;
+  transition:border-color 0.2s, box-shadow 0.2s;
+}.proto .std-ctrl:focus{border-color:var(--c-primary); box-shadow:0 0 0 3px rgba(26,58,107,0.10);}.proto select.std-ctrl{cursor:pointer;}.proto input.std-ctrl::placeholder{color:#b6bcc6;}.proto .std-form-actions{grid-column:4 / 5; display:flex; justify-content:flex-end; align-items:center; gap:12px;}.proto .std-multiselect{position:relative; flex:1; min-width:0;}.proto .std-ms-btn{width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:pointer; text-align:left;}.proto .std-ms-btn:disabled{background:#f5f6f8; color:#a6adb8; cursor:not-allowed;}.proto .std-ms-btn:disabled .std-tree-chev{color:#c3c9d2;}.proto .std-ms-sel{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--c-text);}.proto .std-ms-sel.placeholder{color:#b6bcc6;}.proto .std-ms-pop{
+  display:none; position:absolute; top:calc(100% + 4px); left:0; right:0; min-width:200px;
+  max-height:220px; overflow:auto; z-index:80;
+  background:#f7f8fa; border:1px solid #e3e6ea; border-radius:6px;
+  box-shadow:0 10px 28px rgba(15,40,71,.14); padding:6px 0;
+}.proto .std-multiselect.show .std-ms-pop{display:block;}.proto .std-ms-row{display:flex; align-items:center; gap:8px; padding:7px 12px; cursor:pointer; user-select:none;}.proto .std-ms-row:hover{background:#fdf6e7;}.proto .std-ms-row .std-tree-cb{width:15px; height:15px; flex-shrink:0; margin:0; accent-color:var(--c-primary); cursor:pointer;}.proto .std-ms-row .std-tree-lb{font-size:13.5px; color:#333c4a;}.proto .std-treeselect{position:relative; flex:1; min-width:0;}.proto .std-tree-btn{width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:pointer; text-align:left;}.proto .std-tree-sel{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--c-text);}.proto .std-tree-sel.placeholder{color:#b6bcc6;}.proto .std-tree-chev{flex-shrink:0; color:#8a94a3; font-size:11px; transition:transform .2s;}.proto .std-treeselect.show .std-tree-chev{transform:rotate(180deg);}.proto .std-tree-pop{
+  display:none; position:absolute; top:calc(100% + 4px); left:0; right:0; min-width:340px;
+  max-height:312px; overflow:auto; z-index:80;
+  background:#f7f8fa; border:1px solid #e3e6ea; border-radius:6px;
+  box-shadow:0 10px 28px rgba(15,40,71,.14); padding:6px 0;
+}.proto .std-treeselect.show .std-tree-pop{display:block;}.proto .std-tree-row{display:flex; align-items:center; gap:8px; padding:7px 12px; cursor:pointer; user-select:none;}.proto .std-tree-row:hover{background:#fdf6e7;}.proto .std-tree-cb{width:15px; height:15px; flex-shrink:0; margin:0; accent-color:var(--c-primary); cursor:pointer;}.proto .std-tree-exp{width:14px; flex-shrink:0; text-align:center; color:#8a94a3; font-size:10px; cursor:pointer;}.proto .std-tree-exp.none{cursor:default; visibility:hidden;}.proto .std-tree-lb{font-size:13.5px; color:#333c4a; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}.proto .btn-std{
+  min-width:88px; height:36px; border-radius:5px;
+  font-size:14px; letter-spacing:3px; cursor:pointer; font-family:inherit; transition:all 0.2s;
+}.proto .btn-std-search{
+  background:linear-gradient(135deg,var(--c-primary),var(--c-primary-light));
+  border:1px solid var(--c-primary); color:#fff;
+  box-shadow:0 2px 6px rgba(26,58,107,0.25);
+}.proto .btn-std-search:hover{background:linear-gradient(135deg,var(--c-primary-light),#3a6bb0); border-color:var(--c-primary-light);}.proto .btn-std-reset{background:#fff; border:1px solid var(--c-primary); color:var(--c-primary);}.proto .btn-std-reset:hover{background:#eef4ff;}.proto .query-select{
+  border:1px solid var(--c-border); border-radius:6px;
+  padding:8px 10px; font-size:13px; font-family:inherit;
+  color:var(--c-text); background:#fff; outline:none; cursor:pointer;
+  max-width:230px;
+}.proto .query-select:disabled{background:#f6f7f9; color:#b0b6bf; cursor:not-allowed;}.proto .std-pager-total{font-size:12px; color:#4b5563; white-space:nowrap;}.proto .query-table-wrap{overflow-x:auto; max-height:calc(100vh - 280px); overflow-y:auto;}.proto .std-table mark{background:#ffe9b3; color:#8a5a00; font-weight:700; padding:0 1px; border-radius:2px;}.proto .tag-none{color:#c0c4cc;}.proto .link-btn{
+  border:none; background:transparent; color:var(--c-info);
+  font-size:12px; cursor:pointer; font-family:inherit;
+  padding:3px 8px; border-radius:4px; white-space:nowrap;
+}.proto .link-btn:hover{background:#eff6ff; text-decoration:underline;}.proto .query-empty{text-align:center; color:var(--c-text-light); padding:40px 0; font-size:13px;}.proto .std-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px;}.proto .std-stats .std-stat{
+  background:linear-gradient(150deg,#fdfeff 0%,#e8f1fb 100%); border-radius:10px; padding:12px 16px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  border-left:4px solid var(--c-primary);
+  position:relative; overflow:hidden;
+  transition:transform 0.15s, box-shadow 0.15s;
+}.proto .std-stats .std-stat > *{position:relative; z-index:1;}.proto .std-stats .std-stat::after{
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(150deg,#f2f8ff 0%,#d7e9fa 100%);
+  opacity:0; transition:opacity 0.2s ease;
+  pointer-events:none;
+}.proto .std-stats .std-stat:hover{transform:translateY(-2px); box-shadow:0 4px 10px rgba(15,40,71,0.16);}.proto .std-stats .std-stat:hover::after{opacity:1;}.proto .std-stats .std-stat.accent{border-left-color:var(--c-accent); background:linear-gradient(150deg,#fffdf6 0%,#faf0d9 100%);}.proto .std-stats .std-stat.accent::after{background:linear-gradient(150deg,#fdf8ea 0%,#f6e6c0 100%);}.proto .std-stats .std-stat.accent:hover{box-shadow:0 4px 10px rgba(200,150,46,0.24);}.proto .std-stats .std-stat.info{border-left-color:var(--c-info); background:linear-gradient(150deg,#fbfdff 0%,#e4eefd 100%);}.proto .std-stats .std-stat.info::after{background:linear-gradient(150deg,#f3f8ff 0%,#d2e4fb 100%);}.proto .std-stats .std-stat.info:hover{box-shadow:0 4px 10px rgba(59,130,246,0.24);}.proto .std-stats .std-stat.warning{border-left-color:var(--c-warning); background:linear-gradient(150deg,#fffdf7 0%,#fdefd3 100%);}.proto .std-stats .std-stat.warning::after{background:linear-gradient(150deg,#fef9ec 0%,#fae4b6 100%);}.proto .std-stats .std-stat.warning:hover{box-shadow:0 4px 10px rgba(245,158,11,0.24);}.proto .std-stats .std-stat.danger{border-left-color:var(--c-danger); background:linear-gradient(150deg,#fffbfb 0%,#fde7e7 100%);}.proto .std-stats .std-stat.danger::after{background:linear-gradient(150deg,#fef3f3 0%,#fbd5d9 100%);}.proto .std-stats .std-stat.danger:hover{box-shadow:0 4px 10px rgba(239,68,68,0.24);}.proto .std-stat .kpi-value{font-size:22px;}.proto .std-stat.accent .kpi-value{color:var(--c-accent);}.proto .std-stat.info .kpi-value{color:var(--c-info);}.proto .std-stat.warning .kpi-value{color:var(--c-warning);}.proto .std-stat.danger .kpi-value{color:var(--c-danger);}.proto .std-main{min-width:0;}.proto .std-table-wrap{max-height:calc(100vh - 260px);}.proto .std-table{min-width:2850px; table-layout:fixed;}.proto .data-table.std-table td{white-space:normal; word-break:break-word; line-height:1.55;}.proto .data-table.std-table th{white-space:normal; word-break:break-word; line-height:1.4;}.proto .std-table td.t-left{text-align:left; padding-left:12px;}.proto .std-table tbody tr{cursor:pointer;}.proto .std-table td.std-no{color:var(--c-text-light); font-size:11px;}.proto .std-table td.std-code{font-family:Consolas,"Courier New",monospace; color:var(--c-primary-light); font-size:12px;}.proto .std-name{font-weight:600; color:var(--c-text); text-align:left; line-height:1.5;}.proto .std-table .stick{position:sticky; z-index:2; background:#fff;}.proto .std-table tbody tr:nth-child(even) .stick{background:#f8f9fb;}.proto .std-table tbody tr:hover .stick{background:#fff8e6;}.proto .std-table thead th.stick{background:#1f4276; z-index:3;}.proto .std-table .stick-1{left:0;}.proto .std-table .stick-2{left:44px;}.proto .std-table .stick-3{left:184px;}.proto .std-table .stick-4{left:364px; box-shadow:10px 0 14px -10px rgba(15,40,71,0.35);}.proto .std-table .stick-r{position:sticky; right:0; z-index:2; background:#fff;}.proto .std-table .stick-r2{position:sticky; right:84px; z-index:2; background:#fff; box-shadow:-10px 0 14px -10px rgba(15,40,71,0.35);}.proto .std-table tbody tr:nth-child(even) .stick-r,.proto .std-table tbody tr:nth-child(even) .stick-r2{background:#f8f9fb;}.proto .std-table tbody tr:hover .stick-r,.proto .std-table tbody tr:hover .stick-r2{background:#fff8e6;}.proto .std-table thead th.stick-r,.proto .std-table thead th.stick-r2{background:#1f4276; z-index:3;}.proto .std-badge{
+  display:inline-block; padding:2px 9px; border-radius:11px;
+  font-size:11px; font-weight:600; white-space:nowrap; line-height:1.6;
+}.proto .std-badge.base{background:#eef4ff; color:#1a3a6b;}.proto .std-badge + .std-badge{margin-left:4px;}.proto .std-sec{
+  display:inline-block; padding:2px 10px; border-radius:4px;
+  color:#fff; font-weight:600; font-size:12px; white-space:nowrap; line-height:1.6;
+}.proto .std-sec.l1{background:#6ec7c7;}.proto .std-sec.l2{background:#55d90b;}.proto .std-sec.l3{background:#f0980f;}.proto .std-sec.l4{background:#e87d7d;}.proto .std-status{display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:500; white-space:nowrap;}.proto .std-status::before{content:''; width:8px; height:8px; border-radius:50%; background:currentColor; flex-shrink:0;}.proto .std-status.unpub{color:#f0980f;}.proto .std-status.pub{color:#52c41a;}.proto .std-status.off{color:#aeb4bd;}.proto .std-badge.derived{background:linear-gradient(135deg,#c8962e,#e0b35a); color:#fff;}.proto .std-badge.reg{background:#fdecec; color:#ef4444; border:1px solid #fbcaca;}.proto .std-badge.neutral{background:#f3f4f6; color:#6b7280;}.proto .std-badge.hq{background:#eaf7f0; color:#0d8a68;}.proto .std-pager{display:flex; align-items:center; justify-content:center; gap:12px; margin-top:14px; flex-wrap:wrap;}.proto .std-pager-btns{display:flex; align-items:center; gap:6px; flex-wrap:wrap;}.proto .std-page-size{
+  border:1px solid var(--c-border); border-radius:6px;
+  padding:6px 8px; font-size:12px; font-family:inherit;
+  color:var(--c-text); background:#fff; outline:none; cursor:pointer;
+}.proto .std-page{
+  min-width:30px; height:30px; padding:0 8px;
+  border:1px solid var(--c-border); background:#fff; border-radius:6px;
+  font-size:12px; color:var(--c-text); cursor:pointer; font-family:inherit;
+  transition:all 0.15s;
+}.proto .std-page:hover:not(:disabled):not(.active){border-color:var(--c-primary); color:var(--c-primary);}.proto .std-page.active{background:var(--c-primary); border-color:var(--c-primary); color:#fff; font-weight:600;}.proto .std-page:disabled{opacity:0.4; cursor:not-allowed;}.proto .std-page-dots{color:var(--c-text-light); font-size:12px; padding:0 2px;}.proto .std-overlay{
+  position:fixed; inset:0; background:rgba(15,32,60,0.45);
+  opacity:0; pointer-events:none; transition:opacity 0.25s; z-index:200;
+}.proto .std-overlay.show{opacity:1; pointer-events:auto;}.proto .std-drawer{
+  position:fixed; top:0; right:-580px; width:560px; max-width:94vw; height:100vh;
+  background:#fff; z-index:201; display:flex; flex-direction:column;
+  transition:right 0.28s ease; box-shadow:-8px 0 30px rgba(0,0,0,0.18);
+}.proto .std-drawer.show{right:0;}.proto .std-drawer-head{
+  background:linear-gradient(135deg,#0f2847,#1a3a6b 60%,#2a5298);
+  color:#fff; padding:18px 22px 16px; position:relative; flex-shrink:0;
+}.proto .std-drawer-title{font-size:16px; font-weight:700; padding-right:36px; line-height:1.5;}.proto .std-drawer-code{font-size:12px; opacity:0.85; margin-top:6px; font-family:Consolas,"Courier New",monospace;}.proto .std-drawer-tags{display:flex; gap:6px; margin-top:10px; flex-wrap:wrap;}.proto .std-drawer-tags .std-badge em{font-style:normal; font-weight:400; opacity:0.72;}.proto .std-drawer-head .std-badge.base{background:rgba(255,255,255,0.16); color:#fff;}.proto .std-drawer-head .std-badge.neutral{background:rgba(255,255,255,0.14); color:rgba(255,255,255,0.92);}.proto .std-drawer-head .std-badge.derived{background:linear-gradient(135deg,var(--c-accent),var(--c-accent-light)); color:#fff;}.proto .std-drawer-head .std-badge.reg{background:rgba(239,68,68,0.22); color:#ffd7d7; border:1px solid rgba(255,255,255,0.3);}.proto .std-drawer-close{
+  position:absolute; top:14px; right:14px;
+  width:28px; height:28px; border-radius:50%;
+  border:none; background:rgba(255,255,255,0.15); color:#fff;
+  font-size:13px; cursor:pointer; transition:background 0.2s;
+}.proto .std-drawer-close:hover{background:rgba(255,255,255,0.3);}.proto .std-drawer-body{flex:1; overflow-y:auto; padding:16px 22px 28px;}.proto .std-group{margin-bottom:18px;}.proto .std-tabs{display:flex; gap:2px; border-bottom:1px solid var(--c-border); margin:2px 0 12px;}.proto .std-tab{
+  padding:8px 20px; font-size:13px; font-family:inherit; color:#5a6b82;
+  background:transparent; border:none; border-bottom:2px solid transparent;
+  cursor:pointer; transition:color 0.15s, border-color 0.15s; white-space:nowrap;
+}.proto .std-tab:hover{color:var(--c-primary);}.proto .std-tab.active{color:var(--c-primary); font-weight:600; border-bottom-color:var(--c-primary);}.proto .std-tab-pane{display:none;}.proto .std-tab-pane.active{display:block;}.proto .std-group-title{
+  font-size:13px; font-weight:700; color:var(--c-primary);
+  padding-left:10px; border-left:3px solid var(--c-accent);
+  margin-bottom:6px;
+}.proto .std-detail-table{width:100%; border-collapse:collapse; font-size:13px; table-layout:fixed;}.proto .std-detail-table th{
+  width:170px; text-align:left; vertical-align:top;
+  color:#8a919c; font-weight:600; font-size:12px; line-height:1.6;
+  background:#f7f9fc; padding:8px 12px; border:1px solid var(--c-border);
+  word-break:break-word;
+}.proto .std-detail-table td{
+  padding:8px 12px; border:1px solid var(--c-border);
+  color:var(--c-text); line-height:1.6; word-break:break-word; text-align:left;
+}.proto .std-detail-table td.empty{color:#c0c4cc;}.proto .layout{
+  display:flex;
+  gap:0;
+  align-items:flex-start;
+  padding:0 20px;
+}.proto .sidebar{
+  width:210px;
+  flex-shrink:0;
+  background:#fff;
+  margin:8px 0;
+  border-radius:10px;
+  padding:8px 8px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  position:sticky;
+  top:8px;
+  max-height:calc(100vh - 16px);
+  overflow-y:auto;
+}.proto .nav-item{
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:10px 12px;
+  border:none;
+  background:transparent;
+  color:var(--c-text);
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  border-radius:6px;
+  margin-bottom:2px;
+  transition:all 0.2s;
+  font-family:inherit;
+  border-left:3px solid transparent;
+  white-space:normal;
+  line-height:1.4;
+}.proto .nav-item:hover{background:#f0f2f5; color:var(--c-primary);}.proto .nav-item.active{
+  background:linear-gradient(135deg,var(--c-primary),var(--c-primary-light));
+  color:#fff;
+  border-left-color:var(--c-accent);
+  box-shadow:0 2px 6px rgba(26,58,107,0.3);
+}.proto .nav-parent{
+  display:flex; justify-content:space-between; align-items:center; gap:6px;
+  width:100%; text-align:left;
+  padding:10px 10px;
+  border:none; background:transparent;
+  color:var(--c-primary);
+  font-size:13.5px; font-weight:700; letter-spacing:1px;
+  cursor:pointer; border-radius:6px; margin-bottom:2px;
+  font-family:inherit; transition:background 0.2s;
+}.proto .nav-parent:hover{background:#eef3fa;}.proto .nav-children{display:none; padding-left:6px;}.proto .nav-children.open{display:block;}.proto .nav-group-head{
+  display:flex; justify-content:space-between; align-items:center; gap:6px;
+  width:100%; text-align:left;
+  border:none; background:transparent;
+  padding:7px 8px 7px 14px;
+  font-size:12.5px; font-weight:600; color:var(--c-text);
+  cursor:pointer; border-radius:6px; margin-bottom:1px;
+  font-family:inherit; transition:background 0.2s;
+}.proto .nav-group-head:hover{background:#f2f6fc; color:var(--c-primary);}.proto .nav-parent::after,.proto .nav-group-head::after{
+  content:'▸'; font-size:11px; color:var(--c-text-light);
+  transition:transform 0.2s; flex-shrink:0;
+}.proto .nav-parent.open::after,.proto .nav-group-head.open::after{transform:rotate(90deg);}.proto .nav-parent.nav-fixed{cursor:default;}.proto .nav-parent.nav-fixed::after{display:none;}.proto .nav-group .nav-item{padding-left:26px; font-size:12.5px;}.proto .nav-empty{font-size:11px; color:#b0b6bf; padding:3px 8px 6px 28px;}.proto .nav-parent.nav-ledger{color:#8a5a00;}.proto .nav-parent.nav-ledger:hover{background:#fdf4dc;}.proto .dim-dash,.proto .dim-na{
+  color:#6f7b88; font-weight:700; font-style:normal;
+  font-family:'SimHei','Heiti SC','Microsoft YaHei',sans-serif;
+}.proto .dim-dash{letter-spacing:2px;}.proto .dim-na{letter-spacing:.5px; font-size:.92em;}.proto .content{flex:1; min-width:0; padding:8px 0 24px 12px;}.proto .sheet-panel{display:none;}.proto .sheet-panel.active{display:block;}.proto .panel-header{
+  background:#fff;
+  border-radius:10px;
+  padding:16px 20px;
+  margin-bottom:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  display:flex; justify-content:space-between; align-items:center;
+}.proto .panel-title{font-size:16px; font-weight:700; color:var(--c-primary);}.proto .panel-actions{display:flex; gap:8px; align-items:center;}.proto .query-freq-box{display:flex; align-items:center; gap:6px; background:#f8f9fb; border:1px solid var(--c-border); border-radius:6px; padding:4px 10px; white-space:nowrap;}.proto .query-freq-label{font-size:12px; color:var(--c-text-light); font-weight:600;}.proto .query-freq-value{font-size:12.5px; color:var(--c-primary); font-weight:700; background:#eef3fa; border-radius:4px; padding:1px 8px;}.proto .ym{display:flex; align-items:center; gap:6px; background:#fff; border:1.5px solid var(--c-info); border-radius:10px; padding:3px 10px; box-shadow:0 1px 4px rgba(59,130,246,0.15); white-space:nowrap;}.proto .ym-label{font-size:12.5px; color:var(--c-text); font-weight:600;}.proto .ym-select{border:none; background:transparent; font-size:13.5px; color:var(--c-primary); font-weight:700; cursor:pointer; font-family:inherit; outline:none; padding:2px; transition:color 0.15s;}.proto .ym-select:hover,.proto .ym-select:focus{color:var(--c-info);}.proto .cock-base{font-size:12px; color:var(--c-text-light); background:#f8f9fb; border:1px solid var(--c-border); border-radius:6px; padding:4px 10px; white-space:nowrap;}.proto .cock-desc{font-size:12.5px; color:var(--c-text-light); margin:0 0 12px;}.proto .cock-companies{display:grid; grid-template-columns:repeat(auto-fit,minmax(430px,1fr)); gap:12px; margin-bottom:12px;}.proto .cock-company{background:#fff; border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,0.08); padding:14px 16px; border-top:3px solid var(--c-primary);}.proto .cock-company-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}.proto .cock-company-head b{font-size:14px; color:var(--c-primary); letter-spacing:1px;}.proto .cock-group-title{font-size:12px; font-weight:700; color:var(--c-primary); border-left:3px solid var(--c-accent); padding-left:6px; margin:10px 0 6px;}.proto .cock-group-title:first-of-type{margin-top:0;}.proto .cock-charts{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:12px;}.proto .chart-card{background:#fff; border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,0.08); padding:14px 16px; min-width:0;}.proto .chart-title{font-size:13px; font-weight:700; color:var(--c-text); margin-bottom:10px;}.proto .ck-bar{display:flex; height:18px; border-radius:9px; overflow:hidden; margin-bottom:10px;}.proto .ck-legend{list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; font-size:12px;}.proto .ck-legend li{display:flex; align-items:center; gap:6px; min-width:0;}.proto .ck-legend i{width:10px; height:10px; border-radius:3px; flex-shrink:0;}.proto .ck-legend .ck-leg-name{color:var(--c-text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}.proto .ck-legend b{margin-left:auto; color:var(--c-primary);}.proto .ck-legend em{font-style:normal; color:var(--c-text-light); width:46px; text-align:right;}.proto .ck-legend.simple{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));}.proto .ck-vbars{display:flex; align-items:stretch; gap:14px; height:160px; padding:0 6px;}.proto .ck-vbar{flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; min-width:0;}.proto .ck-vbar b{font-size:11px; color:var(--c-primary);}.proto .ck-vbar-col{width:70%; max-width:46px; border-radius:6px 6px 0 0; margin-top:auto;}.proto .ck-vbar span{font-size:11px; color:var(--c-text-light); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;}.proto .ck-gauge{text-align:center;}.proto .ck-gauge-val{font-size:24px; font-weight:800; fill:var(--c-primary);}.proto .ck-gauge-sub{font-size:10px; fill:var(--c-text-light);}.proto .ck-axis{font-size:10px; fill:var(--c-text-light);}.proto .ck-trend{width:100%; height:auto;}.proto .toast{position:fixed; top:20px; right:20px; background:var(--c-primary); color:#fff; padding:10px 18px; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.25); z-index:9999; font-size:13px; opacity:0; transform:translateX(20px); transition:all 0.3s; pointer-events:none; max-width:360px;}.proto .toast.show{opacity:1; transform:translateX(0);}.proto .btn{
+  padding:6px 14px;
+  border:1px solid var(--c-border);
+  background:#fff;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+  color:var(--c-text);
+  font-family:inherit;
+  transition:all 0.2s;
+  display:inline-flex; align-items:center; gap:4px;
+}.proto .btn:hover{border-color:var(--c-primary); color:var(--c-primary);}.proto .btn-primary{
+  background:var(--c-primary);
+  color:#fff;
+  border-color:var(--c-primary);
+}.proto .btn-primary:hover{background:var(--c-primary-light); color:#fff;}.proto #panel-cock-group{
+  --gq-blue:#0d6ef0; --gq-blue2:#39a1f7; --gq-border:#cfe3f8; --gq-dim:#8aa2bd;
+  
+  --gq-up:#e5484d; --gq-down:#0aa865; --gq-text:#33475f;
+  background:linear-gradient(180deg,#eaf4fd 0%,#f3f9ff 100%);
+  color:var(--gq-text);
+  border:1px solid var(--gq-border); border-radius:12px; padding:0; overflow:hidden; position:relative;
+}.proto #panel-cock-group .cock-desc{color:#6f8bab; padding:12px 22px 0; margin:0; font-size:12px;}.proto .gq-bar{display:flex; align-items:center; gap:14px; padding:0 16px; height:58px; position:relative; z-index:0;}.proto .gq-bar-bg{position:absolute; left:0; right:0; top:0; height:78px; z-index:-1; pointer-events:none;}.proto .gq-bar-bg::before{content:''; position:absolute; left:0; right:0; top:0; height:58px; background:linear-gradient(180deg,#66b1f8,#4b9cf5);}.proto .gq-bar-bg::after{
+  content:''; position:absolute; left:25%; right:25%; top:0; height:78px; border-radius:0 0 16px 16px;
+  background:linear-gradient(180deg,#66b1f8 0%,#4b9cf5 74%,#3d8ef0 100%);
+}.proto .gq-fil{position:absolute; width:20px; height:20px; top:58px; background:linear-gradient(180deg,#4b9cf5,#3d8ef0);}.proto .gq-fil-l{left:calc(25% - 20px); -webkit-mask:radial-gradient(circle at 0 100%,transparent 19px,#000 20px); mask:radial-gradient(circle at 0 100%,transparent 19px,#000 20px);}.proto .gq-fil-r{left:75%; -webkit-mask:radial-gradient(circle at 100% 100%,transparent 19px,#000 20px); mask:radial-gradient(circle at 100% 100%,transparent 19px,#000 20px);}.proto .gq-bar-left{display:flex; align-items:center; gap:10px; flex-shrink:0; z-index:5;}.proto .gq-sel{
+  display:flex; align-items:center; gap:7px; background:#fff; border:1px solid #cfe0f4; border-radius:4px;
+  padding:6px 10px; color:#33475f; font-size:13px; font-weight:600; font-family:inherit;
+  box-shadow:0 1px 4px rgba(20,90,180,0.15);
+}.proto button.gq-sel{cursor:pointer; transition:box-shadow .2s;}.proto button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}.proto .gq-sel-ico{font-size:12px;}.proto .gq-sel-chev{color:#7d94ad; font-size:11px; transition:transform .25s;}.proto .fz-select.open .gq-sel-chev{transform:rotate(180deg);}.proto .gq-title{flex:1; display:flex; justify-content:center; min-width:0;}.proto .gq-title b{
+  display:inline-block; max-width:100%; padding:2px 10px;
+  color:#fff; font-size:22px; font-weight:800; letter-spacing:6px; text-align:center;
+  text-shadow:0 1px 4px rgba(0,40,110,0.5); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}.proto .gq-meta{flex-shrink:0; color:#eaf6ff; font-size:12px; text-shadow:0 1px 2px rgba(0,40,110,0.35);}.proto .fz-select{position:relative; display:inline-block; min-width:150px; width:auto;}.proto .fz-select-name{flex:1; text-align:left; font-weight:600;}.proto .fz-select-list{
+  position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:30;
+  background:#fff; border:1px solid #cfe0f4; border-radius:6px; padding:4px;
+  box-shadow:0 10px 26px rgba(20,70,150,0.22); display:none;
+}.proto .fz-select.open .fz-select-list{display:block;}.proto .fz-select-opt{
+  display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:5px;
+  cursor:pointer; color:#33475f; font-size:13px; transition:background .15s;
+  border-left:3px solid transparent;
+}.proto .fz-select-opt:hover{background:#f0f7ff;}.proto .fz-select-opt.active{background:#e3f1ff; border-left-color:var(--gq-blue); color:var(--gq-blue); font-weight:700;}.proto .fz-select-opt i{width:7px; height:7px; border-radius:50%; background:#b9cfe6; flex-shrink:0;}.proto .fz-select-opt.active i{background:var(--gq-blue); box-shadow:0 0 6px rgba(13,110,240,0.6);}.proto #moduleCock{min-height:calc(100vh - 64px); display:flex; flex-direction:column;}.proto .topnav-drop{position:relative; display:flex; align-items:center;}.proto .topnav-chev{font-size:10px; margin-left:5px; transition:transform .18s;}.proto .topnav-drop.open .topnav-chev{transform:rotate(180deg);}.proto .topnav-sub{
+  display:none; position:absolute; top:calc(100% + 12px); left:50%; transform:translateX(-50%);
+  min-width:216px; background:linear-gradient(180deg,#ffffff 0%,#f5faff 100%);
+  border:1px solid rgba(120,170,240,.38); border-radius:12px;
+  box-shadow:0 16px 42px rgba(8,40,100,.28), 0 2px 8px rgba(8,40,100,.12);
+  padding:8px; z-index:200;
+}.proto .topnav-sub::before{
+  content:''; position:absolute; top:-5.5px; left:50%; margin-left:-5px; width:10px; height:10px;
+  background:#fff; border-left:1px solid rgba(120,170,240,.38); border-top:1px solid rgba(120,170,240,.38);
+  transform:rotate(45deg); border-radius:2px 0 0 0;
+}.proto .topnav-drop.open .topnav-sub{display:block; animation:gkSubIn .18s ease-out;}@keyframes gkSubIn{
+  from{opacity:0; transform:translateX(-50%) translateY(-7px);}
+  to{opacity:1; transform:translateX(-50%) translateY(0);}
+}.proto .topnav-sub-cap{
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-size:10px; color:#8aa2bd; letter-spacing:2px; padding:4px 10px 7px;
+  border-bottom:1px dashed #dceafa; margin-bottom:6px;
+}.proto .topnav-sub-cap b{color:#69a5e8; font-weight:700; letter-spacing:1.5px;}.proto .topnav-sub-item{
+  display:flex; align-items:center; gap:9px; width:100%; text-align:left;
+  padding:7px 9px; border-radius:9px; font-size:12.5px; color:#33475f; cursor:pointer;
+  transition:background .14s, color .14s, box-shadow .14s; position:relative;
+}.proto .topnav-sub-item + .topnav-sub-item{margin-top:2px;}.proto .topnav-sub-item:hover{background:#eaf4ff; color:#0d6ef0;}.proto .topnav-sub-item:hover .tsub-ico{transform:scale(1.12); border-color:#9cc7f5;}.proto .topnav-sub-item.active{
+  background:linear-gradient(90deg,#0d6ef0,#39a1f7); color:#fff; font-weight:700;
+  box-shadow:0 4px 12px rgba(13,110,240,.35);
+}.proto .topnav-sub-item.active::after{content:'✓'; margin-left:auto; font-size:11px; opacity:.92;}.proto .tsub-ico{
+  width:25px; height:25px; border-radius:7px; background:#eaf4ff; border:1px solid #d8eafb;
+  display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0;
+  transition:transform .14s, border-color .14s;
+}.proto .topnav-sub-item.active .tsub-ico{background:rgba(255,255,255,.18); border-color:rgba(255,255,255,.4);}.proto .cock-full{flex:1; min-height:0; padding:0;}.proto .cock-full .sheet-panel{padding-bottom:26px;}.proto .gk-strip{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  background:#f4faff; border:1px solid #d8eafb; border-radius:6px; padding:8px 12px;
+  margin:14px 0 12px; color:var(--gq-blue); font-size:15px; font-weight:800; letter-spacing:2px;
+}.proto .gk-strip::before{content:'》'; color:#69b1f5; font-size:14px;}.proto .gk-strip::after{content:'《'; color:#69b1f5; font-size:14px;}.proto .gk-strip-sep{width:1px; height:15px; background:#a8d4f5; border-radius:1px;}.proto .gk-strip:first-child{margin-top:0;}.proto .fz-company-view{padding:26px 20px 6px;}.proto .gk-row{display:grid; grid-template-columns:repeat(auto-fill,minmax(232px,1fr)); gap:14px; margin-bottom:4px;}.proto .gk-card{
+  background:#fff; border:1px solid var(--gq-border); border-radius:8px;
+  box-shadow:0 2px 10px rgba(30,120,220,0.10); overflow:hidden;
+  display:flex; flex-direction:column; transition:box-shadow .2s, transform .2s;
+}.proto .gk-card:hover{transform:translateY(-3px); box-shadow:0 8px 22px rgba(30,120,220,0.18);}.proto .gk-head{
+  display:flex; align-items:center; gap:8px; padding:8px 12px;
+  background:linear-gradient(90deg,#39a1f7,#0d6ef0); color:#fff; font-size:13px; font-weight:700; letter-spacing:1px;
+}.proto .gk-head::before{content:''; width:7px; height:7px; border-radius:50%; background:#fff; box-shadow:0 0 6px rgba(255,255,255,0.9); flex-shrink:0;}.proto .gk-head .gk-info{margin-left:auto; font-size:11px; opacity:.75; font-weight:400;}.proto .gk-tip{
+  position:relative; display:inline-flex; align-items:center; justify-content:center;
+  width:15px; height:15px; margin-left:6px; border-radius:50%; flex-shrink:0; vertical-align:1px;
+  background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.55); color:#fff;
+  font-size:10px; font-weight:700; cursor:help; transition:all .15s; line-height:1;
+}.proto .gk-tip:hover{background:#fff; border-color:#fff; color:#0d6ef0;}.proto .gk-tip-float{
+  position:fixed; z-index:300; display:none; pointer-events:none;
+  background:rgba(23,35,54,.96); color:#fff; font-size:12px; font-weight:400; line-height:1.6;
+  padding:8px 12px; border-radius:8px; max-width:260px; letter-spacing:.5px;
+  box-shadow:0 6px 18px rgba(15,40,71,.28);
+}.proto .gk-body{display:flex; align-items:center; gap:12px; padding:12px; flex:1;}.proto .gk-trend12{padding:0 12px 10px;}.proto .gk-t12-cap{
+  font-size:10px; color:#8aa2bd; letter-spacing:1px; margin-bottom:4px;
+  border-top:1px dashed #e4eefb; padding-top:7px;
+}.proto .gk-trend12 svg{width:100%; height:auto; display:block;}.proto .gk-wide-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:14px;}.proto .gk-wide-row .gk-wide-card{margin-bottom:0; min-height:224px;}.proto .gk-wide-row .gk-wide-body{grid-template-columns:120px minmax(0,1fr); gap:6px 14px; padding:12px 16px 10px 14px;}.proto .gk-wide-row .gk-wide-left{flex-direction:column; align-items:stretch; gap:7px; padding:2px 8px 2px 0;}.proto .gk-wide-row .gk-numblock{min-width:0; padding:0; align-items:flex-start;}.proto .gk-wide-row .gk-numblock b{font-size:22px;}.proto .gk-wide-row .gk-numblock i{font-size:10px;}.proto .gk-wide-row .gk-stats{width:100%; gap:4px;}.proto .gk-wide-row .gk-stat{font-size:10.5px; justify-content:space-between;}.proto .gk-wide-row .gk-stat>span{min-width:0;}.proto .gk-wide-card{margin-bottom:14px;}.proto .gk-wide-body{
+  display:grid; grid-template-columns:216px minmax(0,1fr); gap:6px 18px;
+  padding:10px 16px 8px; align-items:center;
+}.proto .gk-wide-left{display:flex; align-items:center; gap:12px; border-right:1px dashed #dceafa; padding:2px 14px 2px 0;}.proto .gk-wide-left .gk-numblock{padding:0 4px 0 0; min-width:88px;}.proto .gk-wide-chart{min-width:0;}.proto .gk-wide-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:2px;}.proto .gk-wide-title{color:#0d6ef0; font-size:13px; font-weight:800; letter-spacing:1px;}.proto .gk-wide-title::before{content:'▸'; margin-right:6px; font-size:11px;}.proto .gk-wide-legend{display:flex; gap:14px; font-size:10px; color:#5b7590;}.proto .gk-wide-legend .lb{width:12px; height:9px; border-radius:2px; background:linear-gradient(180deg,#f0a63a,#f8d488); display:inline-block; margin-right:5px; vertical-align:-1px;}.proto .gk-wide-legend .ll{width:8px; height:8px; border-radius:50%; background:#fff; border:2px solid #2f9bf2; display:inline-block; margin-right:5px;}.proto .gk-wide-chart svg{width:100%; height:auto; min-height:158px; display:block;}@media (max-width:980px){.proto .gk-wide-row{grid-template-columns:1fr;}.proto .gk-wide-body{grid-template-columns:1fr;}.proto .gk-wide-left{border-right:none; padding-right:0;}}.proto .gk-t12-hover{cursor:pointer;}.proto .gk-t12-hover:hover{fill:rgba(47,155,242,.08);}.proto .gk-t12-tip{
+  position:fixed; z-index:999; pointer-events:none; min-width:98px;
+  background:linear-gradient(160deg,rgba(16,42,84,.96),rgba(9,24,52,.96));
+  border:1px solid rgba(90,160,255,.45); border-radius:7px; padding:6px 10px 7px;
+  box-shadow:0 8px 22px rgba(4,20,50,.45), 0 0 0 3px rgba(64,140,255,.12);
+  backdrop-filter:blur(4px); color:#dfeaff; font-size:11px;
+  display:flex; flex-direction:column; gap:3px;
+}.proto .gk-t12-tip b{font-size:11px; color:#fff; letter-spacing:1px; border-bottom:1px solid rgba(120,170,255,.28); padding-bottom:3px;}.proto .gk-t12-tip span{display:flex; justify-content:space-between; align-items:baseline; gap:12px; color:#9fc0ea;}.proto .gk-t12-tip i{font-style:normal; font-weight:800; color:#ffd479; font-size:12px;}.proto .gk-t12-tip i.up{color:#7ed957;}.proto .gk-t12-tip i.down{color:#ff7d7d;}.proto .gk-gauge{flex-shrink:0;}.proto .gk-numblock{
+  flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-width:96px; padding:8px 8px 12px;
+}.proto .gk-numblock .gk-np-cap{font-size:10px; color:var(--c-text); letter-spacing:1px; margin-bottom:5px;}.proto .gk-numblock b{
+  font-size:26px; font-weight:800; line-height:1.1;
+  background:linear-gradient(135deg,#0d6ef0,#39a1f7);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}.proto .gk-numblock i{font-style:normal; font-size:11px; color:#8aa2bd; margin-top:3px;}.proto .gk-stats{flex:1; min-width:0; display:flex; flex-direction:column; gap:6px;}.proto .gk-stat{display:flex; align-items:baseline; gap:8px; font-size:12px;}.proto .gk-stat>span{color:var(--c-text); flex-shrink:0; min-width:52px;}.proto .gk-stat b{color:var(--gq-blue); font-size:16px; font-weight:800;}.proto .gk-stat b.gk-dimv{color:#33475f; font-size:13px;}.proto .gk-stat i{font-style:normal; color:#8aa2bd; font-size:11px;}.proto .gk-stat .kpi-delta{font-weight:700;}.proto #panel-cock-group .kpi-delta.up{color:var(--gq-up);}.proto #panel-cock-group .kpi-delta.down{color:var(--gq-down);}.proto #panel-cock-group .kpi-delta.neutral{color:#9db3c8;}.proto .gk-2r{flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:9px; padding:2px 0;}.proto .gk-2r-line{display:flex; align-items:baseline; justify-content:space-between; gap:8px;}.proto .gk-2r-l{display:flex; align-items:baseline; gap:5px; min-width:0;}.proto .gk-2r-l>span{font-size:10px; color:var(--c-text); letter-spacing:1px; flex-shrink:0;}.proto .gk-2r-l b{
+  font-size:20px; font-weight:800; line-height:1.15; white-space:nowrap;
+  background:linear-gradient(135deg,#0d6ef0,#39a1f7);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}.proto .gk-2r-l b.sm{font-size:15px;}.proto .gk-2r-l i{font-style:normal; font-size:10.5px; color:#8aa2bd; white-space:nowrap;}.proto .gk-2r-v{display:inline-flex; align-items:baseline; gap:5px; white-space:nowrap; min-width:0;}.proto .gk-2r-v b,.proto .gk-2r-v i{flex-shrink:0;}.proto .gk-stat b,.proto .gk-stat i,.proto .gk-numblock b,.proto .gk-numblock i{white-space:nowrap;}.proto .gk-2r-r{display:flex; align-items:baseline; gap:5px; font-size:11px; flex-shrink:0;}.proto .gk-2r-r>span{color:var(--c-text);}.proto .gk-calswitch{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px;}.proto .gk-caltab{
+  border:1px solid #b9d7f5; background:#fff; color:#33475f; font-size:12px; font-weight:600;
+  padding:6px 14px; border-radius:16px; cursor:pointer; transition:all .18s; letter-spacing:.5px;
+}.proto .gk-caltab:hover{border-color:#39a1f7; color:#0d6ef0; background:#f0f8ff;}.proto .gk-caltab.active{
+  background:linear-gradient(90deg,#39a1f7,#0d6ef0); border-color:transparent; color:#fff;
+  box-shadow:0 3px 10px rgba(13,110,240,.30);
+}.proto .gk-mcal-body{flex-direction:column; align-items:stretch; gap:9px;}.proto .gk-mcal-tabs{display:flex; gap:6px; flex-wrap:wrap;}.proto .gk-mcal-tab{
+  border:1px solid #cfe0f4; background:#f4f9ff; color:#51708f; font-size:10.5px; font-weight:700;
+  padding:3px 11px; border-radius:12px; cursor:pointer; transition:all .15s; letter-spacing:.5px;
+}.proto .gk-mcal-tab:hover{border-color:#39a1f7; color:#0d6ef0; background:#eaf5ff;}.proto .gk-mcal-tab.active{background:linear-gradient(90deg,#39a1f7,#0d6ef0); border-color:transparent; color:#fff; box-shadow:0 2px 8px rgba(13,110,240,.28);}.proto .gk-mcal-row{display:flex; align-items:center; gap:12px;}.proto .gk-mcal-row .gk-numblock{padding:0 4px 0 0; min-width:88px;}.proto .gk-table-section{padding:6px 0 14px;}.proto #panel-cock-group .table-card{background:#fff; border:1px solid var(--gq-border); border-radius:8px; box-shadow:0 2px 10px rgba(30,120,220,0.10);}.proto #panel-cock-group .data-table thead{background:linear-gradient(90deg,#39a1f7,#0d6ef0);}.proto #panel-cock-group .data-table th{color:#fff; border-color:rgba(255,255,255,0.25);}.proto #panel-cock-group .data-table td.yoy.up{color:var(--gq-up);}.proto #panel-cock-group .data-table td.yoy.down{color:var(--gq-down);}.proto #panel-cock-group .data-table td.yoy.neutral{color:#9db3c8;}.proto .kpi-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:12px;
+}.proto .sheet-panel .kpi-card{
+  border-radius:10px;
+  padding:14px 16px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  border-left:4px solid var(--c-primary);
+  position:relative;
+  overflow:hidden;
+  transition:transform 0.25s ease, box-shadow 0.25s ease;
+}.proto .sheet-panel .kpi-card > *{position:relative; z-index:1;}.proto .sheet-panel .kpi-card::after{
+  content:'';
+  position:absolute; inset:0;
+  opacity:0;
+  transition:opacity 0.25s ease;
+  pointer-events:none;
+}.proto .sheet-panel .kpi-card:hover{transform:translateY(-4px);}.proto .sheet-panel .kpi-card:hover::after{opacity:1;}.proto .sheet-panel .kpi-row .kpi-card:nth-child(1){border-left-color:#2a5298; background:linear-gradient(150deg,#f4f9ff 0%,#d8e8fb 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(1)::after{background:linear-gradient(150deg,#e9f2fd 0%,#c6ddf8 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(1):hover{box-shadow:0 8px 20px rgba(42,82,152,0.22);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(1) .kpi-value{color:#2a5298;}.proto .sheet-panel .kpi-row .kpi-card:nth-child(2){border-left-color:#c8962e; background:linear-gradient(150deg,#fffaee 0%,#f8ecca 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(2)::after{background:linear-gradient(150deg,#fdf4dc 0%,#f3e1af 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(2):hover{box-shadow:0 8px 20px rgba(200,150,46,0.26);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(2) .kpi-value{color:#a97b1e;}.proto .sheet-panel .kpi-row .kpi-card:nth-child(3){border-left-color:#0f9d76; background:linear-gradient(150deg,#f1fbf6 0%,#d3f0e1 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(3)::after{background:linear-gradient(150deg,#e5f8ee 0%,#bfead3 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(3):hover{box-shadow:0 8px 20px rgba(16,185,129,0.24);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(3) .kpi-value{color:#0d8a68;}.proto .sheet-panel .kpi-row .kpi-card:nth-child(4){border-left-color:#d4626e; background:linear-gradient(150deg,#fff6f7 0%,#fadce0 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(4)::after{background:linear-gradient(150deg,#fdeef0 0%,#f5c9cf 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(4):hover{box-shadow:0 8px 20px rgba(212,98,110,0.24);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(4) .kpi-value{color:#c04855;}.proto .sheet-panel .kpi-row.kpi-row-6{grid-template-columns:repeat(6,1fr);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(5){border-left-color:#2a5298; background:linear-gradient(150deg,#f4f9ff 0%,#d8e8fb 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(5)::after{background:linear-gradient(150deg,#e9f2fd 0%,#c6ddf8 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(5):hover{box-shadow:0 8px 20px rgba(42,82,152,0.22);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(5) .kpi-value{color:#2a5298;}.proto .sheet-panel .kpi-row .kpi-card:nth-child(6){border-left-color:#c8962e; background:linear-gradient(150deg,#fffaee 0%,#f8ecca 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(6)::after{background:linear-gradient(150deg,#fdf4dc 0%,#f3e1af 100%);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(6):hover{box-shadow:0 8px 20px rgba(200,150,46,0.26);}.proto .sheet-panel .kpi-row .kpi-card:nth-child(6) .kpi-value{color:#a97b1e;}.proto .kpi-label{font-size:12px; color:var(--c-text-light); margin-bottom:6px;}.proto .kpi-value{font-size:24px; font-weight:700; color:var(--c-primary);}.proto .kpi-card.accent .kpi-value{color:var(--c-accent);}.proto .kpi-card.success .kpi-value{color:var(--c-success);}.proto .kpi-card.warning .kpi-value{color:var(--c-warning);}.proto .kpi-card.danger .kpi-value{color:var(--c-danger);}.proto .kpi-unit{font-size:12px; font-weight:500; color:var(--c-accent); margin-left:10px; letter-spacing:0.5px;}.proto .kpi-trends{
+  margin-top:8px;
+  display:flex; flex-direction:column; gap:4px;
+}.proto .kpi-trend-row{display:flex; justify-content:space-between; align-items:center; font-size:12px;}.proto .kpi-trend-name{color:var(--c-text-light);}.proto .kpi-delta{font-family:"Courier New",monospace; font-weight:600; white-space:nowrap;}.proto .kpi-delta.up{color:var(--c-danger);}.proto .kpi-delta.down{color:var(--c-success);}.proto .kpi-delta.neutral{color:var(--c-text-light); font-weight:400;}.proto .collapse-bar{
+  display:flex; align-items:center; gap:8px;
+  background:var(--c-card);
+  border:1px dashed var(--c-border);
+  border-radius:8px;
+  padding:8px 14px;
+  margin-bottom:10px;
+  font-size:13px; font-weight:600; color:var(--c-text-light);
+  cursor:pointer; user-select:none;
+  transition:all 0.2s;
+}.proto .collapse-bar:hover{border-color:var(--c-primary); color:var(--c-primary); background:#f8fafd;}.proto .collapse-bar.expanded{color:var(--c-primary); border-style:solid;}.proto .collapse-arrow{display:inline-block; font-size:10px; transition:transform 0.2s;}.proto .collapse-bar.expanded .collapse-arrow{transform:rotate(90deg);}.proto .collapse-hint{margin-left:auto; font-size:11px; font-weight:400; color:#9ca3af;}.proto .overview-area.collapsed{display:none;}.proto .table-card{
+  background:#fff;
+  border-radius:10px;
+  padding:16px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  overflow:hidden;
+}.proto .table-wrap{overflow-x:auto; max-height:600px; overflow-y:auto;}.proto .data-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+  min-width:900px;
+}.proto .data-table thead{
+  position:sticky; top:0; z-index:5;
+  background:linear-gradient(135deg,var(--c-primary),var(--c-primary-light));
+  color:#fff;
+}.proto .data-table th{
+  padding:8px 10px;
+  text-align:center;
+  font-weight:600;
+  font-size:12px;
+  white-space:nowrap;
+  border:1px solid rgba(255,255,255,0.15);
+}.proto .data-table th.sub-head{
+  background:linear-gradient(135deg,#2a5298,#3a6bb0);
+  font-size:11px;
+}.proto .data-table td{
+  padding:7px 10px;
+  text-align:center;
+  border:1px solid var(--c-border);
+  white-space:nowrap;
+}.proto .data-table tbody tr:nth-child(even){background:#f8f9fb;}.proto .data-table tbody tr:hover{background:#fff8e6;}.proto .data-table tbody tr.row-sep{background:transparent;}.proto .data-table tbody tr.row-sep:hover{background:transparent;}.proto .data-table tbody tr.row-sep td{padding:0; height:14px; border:none;}.proto .data-table td.text-left{text-align:left; padding-left:12px;}.proto .data-table td.indicator-name{font-weight:500; color:var(--c-primary); text-align:left; padding-left:12px;}.proto .data-table td.indicator-name.lv0{font-weight:600; color:var(--c-primary);}.proto .data-table td.indicator-name.lv1{font-weight:400; font-family:"SimHei","Heiti SC","Microsoft YaHei",sans-serif; color:var(--c-text); text-align:right; padding-right:12px;}.proto .data-table td.indicator-name.lv2{font-weight:400; color:#9ca3af; text-align:right; padding-right:12px;}.proto #panel-ins02 td.indicator-name.lv0{font-weight:700;}.proto #panel-ins02 td.indicator-name.lv1{font-weight:600; color:var(--c-primary); text-align:left; padding-left:12px; font-family:inherit;}.proto #panel-ins02 td.indicator-name.lv2{font-weight:400; font-family:"SimHei","Heiti SC","Microsoft YaHei",sans-serif; color:var(--c-text); text-align:right; padding-right:12px;}.proto #panel-ins02 td.indicator-name.lv3{font-weight:400; color:#9ca3af; text-align:right; padding-right:12px;}.proto .data-table td.value{font-family:"Courier New",monospace; font-weight:600;}.proto .data-table td.value.empty{color:var(--c-text-light); font-weight:400;}.proto .data-table td.assess{font-weight:600;}.proto .assess-tag{
+  display:inline-block; padding:2px 10px; border-radius:5px;
+  background:#dce8f8; color:#2a5298;
+  font-size:11px; font-weight:600; white-space:nowrap; line-height:1.6;
+}.proto .assess-tag.hq{background:#eaf7f0; color:#0d8a68;}.proto .assess-tag + .assess-tag{margin-left:4px;}.proto .data-table td.yoy{font-family:"Courier New",monospace; white-space:nowrap;}.proto .data-table td.yoy.up{color:var(--c-danger); font-weight:600;}.proto .data-table td.yoy.down{color:var(--c-success); font-weight:600;}.proto .data-table td.yoy.neutral{color:var(--c-text-light);}.proto .data-table td.yoy .delta-arrow{
+  display:inline-block;
+  font-size:9px;
+  line-height:1;
+  margin-right:3px;
+  transform:translateY(-1px);
+  font-family:Arial,sans-serif;
+}.proto .data-table td.progress-cell{
+  position:relative;
+  min-width:120px;
+}.proto .progress-bar-wrap{
+  display:flex; align-items:center; gap:6px; justify-content:center;
+}.proto .progress-bar{
+  flex:1;
+  height:6px;
+  background:#e5e7eb;
+  border-radius:3px;
+  overflow:hidden;
+  max-width:80px;
+}.proto .progress-fill{
+  height:100%;
+  border-radius:3px;
+  background:linear-gradient(90deg,var(--c-success),#34d399);
+}.proto .progress-fill.mid{background:linear-gradient(90deg,var(--c-warning),#fbbf24);}.proto .progress-fill.low{background:linear-gradient(90deg,var(--c-danger),#f87171);}.proto .progress-text{font-size:11px; font-weight:600; min-width:36px; text-align:left;}.proto .data-table .group-row{
+  background:linear-gradient(135deg,#eef2f9,#dbe5f1);
+  font-weight:700;
+  color:var(--c-primary);
+  text-align:left;
+  padding-left:12px;
+}.proto .caliber-tabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;}.proto .caliber-tab{
+  border:1px solid var(--c-border); background:#fff; border-radius:6px;
+  padding:6px 16px; cursor:pointer; font-family:inherit;
+  display:flex; flex-direction:column; align-items:flex-start;
+  transition:all 0.2s; text-align:left;
+}.proto .caliber-tab-name{font-size:13px; font-weight:600; color:var(--c-text); line-height:1.4;}.proto .caliber-tab-sub{font-size:11px; font-weight:400; color:var(--c-text-light); line-height:1.4;}.proto .caliber-tab:hover{border-color:var(--c-primary);}.proto .caliber-tab:hover .caliber-tab-name{color:var(--c-primary);}.proto .caliber-tab.active{
+  background:linear-gradient(135deg,var(--c-primary),var(--c-primary-light));
+  border-color:var(--c-primary);
+  box-shadow:0 2px 6px rgba(26,58,107,0.3);
+}.proto .caliber-tab.active .caliber-tab-name{color:#fff;}.proto .caliber-tab.active .caliber-tab-sub{color:rgba(255,255,255,0.78);}.proto .caliber-pane{display:none;}.proto .caliber-pane.active{display:block;}.proto .kpi-row.caliber-pane.active{display:grid;}.proto .cat-filter{display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;}.proto .cat-filter-label{font-size:13px; font-weight:600; color:var(--c-text);}.proto .cat-filter-btn{
+  border:1px solid var(--c-border); background:#fff; border-radius:16px;
+  padding:5px 18px; cursor:pointer; font-family:inherit;
+  font-size:13px; font-weight:600; color:var(--c-text); transition:all 0.2s;
+}.proto .cat-filter-btn:hover{border-color:var(--c-primary); color:var(--c-primary);}.proto .cat-filter-btn.active{
+  background:linear-gradient(135deg,var(--c-primary),var(--c-primary-light));
+  border-color:var(--c-primary); color:#fff;
+  box-shadow:0 2px 6px rgba(26,58,107,0.3);
+}.proto ::-webkit-scrollbar{width:8px; height:8px;}.proto ::-webkit-scrollbar-track{background:#f1f1f1;}.proto ::-webkit-scrollbar-thumb{background:#c5c5c5; border-radius:4px;}.proto ::-webkit-scrollbar-thumb:hover{background:#a0a0a0;}@media(max-width:1300px){.proto .std-stats{grid-template-columns:repeat(3,1fr);}
+}@media(max-width:1200px){.proto .kpi-row{grid-template-columns:repeat(2,1fr);}.proto .kpi-row.kpi-row-6{grid-template-columns:repeat(3,1fr);}.proto .sidebar{width:170px;}.proto .std-form{grid-template-columns:repeat(2,1fr);}.proto .std-form-actions{grid-column:1 / -1;}
+}@media(max-width:900px){.proto .std-stats{grid-template-columns:repeat(2,1fr);}
+}@media(max-width:768px){.proto .layout{flex-direction:column;}.proto .kpi-row.kpi-row-6{grid-template-columns:repeat(2,1fr);}.proto .sidebar{width:100%; position:static; max-height:none;}.proto .header{flex-wrap:wrap; gap:8px;}.proto .header-nav{position:static; transform:none; margin:0 auto; gap:24px;}.proto .topnav-item{padding:4px 8px;}.proto .std-form{grid-template-columns:1fr;}.proto .std-form-actions{grid-column:auto;}
+}
+
+.proto{border:1px solid #d5dce8;border-radius:8px;background:#f4f6fa;padding:16px 18px;margin:10px 0 20px;}
+.proto .sheet-panel{display:block !important;}
+.proto .btn,.proto select{pointer-events:none;}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="cover">
+  <h1>华润保险模块 · 数据应用需求文档</h1>
+  <div class="sub">金控指标体系数据应用平台 —— 固定报表管理 / 华润保险（3 张报表）</div>
+  <div class="meta">
+    <span>版本：V1.4</span><span>编制日期：2026-10-10</span>
+  </div>
+</div>
+
+<div class="body">
+
+<h2 id="toc">目录</h2>
+<ul class="toc">
+  <li><a href="#intro">一、引言</a></li>
+  <li><a href="#func">二、功能需求</a></li>
+  <li><a href="#part-fixed">2.1　固定报表需求说明</a></li>
+  <li><a href="#common">2.1.1　通用需求（3 张报表共用）</a></li>
+  <li><a href="#sheet-ins01">2.1.2.1　01-财务指标</a></li><li><a href="#sheet-ins02">2.1.2.2　02-业务指标</a></li><li><a href="#sheet-ins03">2.1.2.3　03-关键管理指标</a></li>
+  <li><a href="#ledger">2.2　报表台账管理需求说明</a></li>
+  <li><a href="#perm">三、权限说明</a></li>
+  <li><a href="#confirm">四、业务确认</a></li>
+</ul>
+
+<h2 id="intro">一、引言</h2>
+<h3>1、需求背景</h3>
+<p>金控集团战略部推进指标体系数据化应用，在金控指标体系之上建设「数据应用」，以「固定报表管理、报表台账管理」模块将各业务板块指标体系固化为线上报表，替代线下 Excel 报送与查阅，实现指标展示口径的统一与实时化。</p>
+<p>本文档为平台<b>华润保险模块</b>的需求说明：围绕 3 张固定报表，定义页面框架、指标清单、层级与标签、展示与取值规则，作为开发实现与业务核对的依据。文档中指标名称、单位、层级与列结构均与指标体系梳理结果一致。</p>
+<h3>2、术语与定义</h3>
+<table class="doc-table">
+  <thead><tr><th style="width:160px;">术语/列名</th><th>口径说明</th></tr></thead>
+  <tbody>
+    <tr><td>当月值-实际</td><td>当月单月发生数（流量指标）；比率类指标（ROE、华润燃气存量用户保费占比）不适用时置 --</td></tr>
+    <tr><td>当月值-环比</td><td>当月较上月变动幅度（%）；比率类为百分点差（ppt）；指标当月值不适用时置 --</td></tr>
+    <tr><td>截止本月末-实际</td><td>本年累计发生数（流量），以各指标口径为准</td></tr>
+    <tr><td>同比</td><td>较上年同期变动幅度（%）；比率类指标为百分点差（ppt）</td></tr>
+    <tr><td>全年预算 / 预算达成率</td><td>全年预算来源于业务在通用报送平台的维护数据；达成率 =（截止本月末实际 ÷ 全年预算）× 100%（含进度条分色：≥95% 绿、85~95 黄、&lt;85% 红）；详见 <a href="#budget-rule">2.1.1.8</a></td></tr>
+    <tr><td>考核指标</td><td>纳入绩效考核的指标，蓝色标签；唯一有权显示预算/达成率的行</td></tr>
+    <tr><td>高质量指标</td><td>高质量发展监测指标，绿色标签；可与考核指标双标签并存</td></tr>
+    <tr><td>ppt</td><td>percentage point，百分点：两个百分比数值的算术差（如 12.50%→11.70% 为 +0.8ppt）</td></tr>
+    <tr><td>N/A 与 --</td><td>N/A=所选期间无历史数据（灰）；--=该指标此列不适用/无值（灰色加粗）</td></tr>
+  </tbody>
+</table>
+<h3>3、需求范围</h3>
+<p><b>入口路径</b>：平台顶部导航「数据应用」→ 左侧菜单「固定报表管理 → 华润保险」→ 点击报表名称进入对应页面；报表台账入口为「报表台账管理 → 华润保险」。</p>
+<p><b>范围内</b>：①<b>固定报表需求说明（2.1）</b>：华润保险 3 张固定报表的通用展示需求（2.1.1）与分报表差异化需求（2.1.2），含页面框架、数据日期与期间查询、指标概览卡片、明细表结构与取值口径、预算一致性与单元格合并规则；②<b>报表台账管理需求说明（2.2）</b>：平台「报表台账管理」菜单下华润保险 3 张报表台账的页面结构、取数与展示规则。</p>
+<p><b>范围外</b>：数据接口与 ETL 实现、通用报送平台的预算维护功能、平台权限体系实现（权限需求见第三章）。</p>
+<p><b>报表清单</b>（共 3 张）：</p>
+<table class="doc-table">
+  <thead><tr><th>编号</th><th>报表名称</th><th>更新频率</th><th>指标行数</th><th>指标概览卡片</th><th>当月值列组</th><th>较年初列</th><th>全年预算列</th><th>指标属性标签列</th></tr></thead>
+  <tbody>
+  <tr><td class="c">01</td><td><a href="#sheet-ins01">01-财务指标</a></td><td class="c">月度</td><td class="c">4</td><td class="c">无</td><td class="c">有</td><td class="c"><span class="ph">无</span></td><td class="c">有</td><td class="c">有</td></tr><tr><td class="c">02</td><td><a href="#sheet-ins02">02-业务指标</a></td><td class="c">月度</td><td class="c">46</td><td class="c">4 张</td><td class="c">有</td><td class="c"><span class="ph">无</span></td><td class="c">有</td><td class="c">有</td></tr><tr><td class="c">03</td><td><a href="#sheet-ins03">03-关键管理指标</a></td><td class="c">月度</td><td class="c">6</td><td class="c">无</td><td class="c">有</td><td class="c"><span class="ph">无</span></td><td class="c">有</td><td class="c">有</td></tr>
+  </tbody>
+</table>
+<p class="tip">注：华润保险 3 张表均无「较年初」列（2026-09-15 按要求删除，表头与全部明细行同步移除）；3 张表表头统一两级结构——「当月值」分组（实际/环比）、「截止本月末」分组（实际/同比）。</p>
+
+<h2 id="func">二、功能需求</h2>
+<h3 id="part-fixed">2.1　固定报表需求说明</h3>
+<p class="brief">本节约定华润保险 3 张固定报表的通用展示与取值规则（2.1.1），以及每张报表的差异化需求（2.1.2）；报表台账管理需求见 2.2。</p>
+<h4 id="common">2.1.1　通用需求（3 张报表共用）</h4>
+
+<h5>2.1.1.1　页面框架</h5>
+<p>每张报表页面自上而下由三部分组成（02-业务指标含 ②，01/03 表无概览区，仅 ①③）：</p>
+<ol class="toc" style="list-style:decimal;margin-left:24px;">
+  <li><b>面板头</b>：左侧页面标题；右侧依次为「更新频率」块（月度）、「📅 数据日期」年+月双下拉、「📥 导出」按钮。</li>
+  <li><b>指标概览</b>（仅 02-业务指标）：折叠条（「指标概览」，默认展开，可点击收起）+ 4 张 KPI 卡片（淡蓝/淡金/淡绿/淡粉四色轮排）；卡片含 指标名、数值+单位、同比行（本报表卡片不显示较年初行）。</li>
+  <li><b>明细表</b>：白底卡片内两级表头 + 全量指标行；表头吸顶、超高滚动（最大高度约 600px）。</li>
+</ol>
+
+<h5>2.1.1.2　数据日期与期间查询</h5>
+<ul class="tight">
+  <li><b>年份下拉</b>：可选范围 <b>2023 ～ 当前年度</b>，默认选中<b>当前年度</b>。</li>
+  <li><b>月份下拉</b>：可选范围为所选年份的 1~12 月，默认选中<b>日历上月</b>（有数据）；若当前为 1 月，则默认选中<b>上一年 12 月</b>（年份随之联动为上一年）。</li>
+  <li>切换年/月后<b>自动查询</b>并重渲染页面，右上角 toast 提示「已加载 XXXX 年 X 月 数据 · 报表名」。</li>
+  <li><b>查询加载后无数据</b>：保留表头、指标行结构（及 KPI 卡片，如有），数值显示灰色 <code>N/A</code>，toast 提示「无历史数据，仅显示报表结构」。</li>
+</ul>
+
+<h5>2.1.1.3　指标名称层级样式</h5>
+<ul class="tight">
+  <li><b>01-财务指标 / 03-关键管理指标</b>：单层结构，统一一级样式（加粗、深蓝色、左对齐顶格）。</li>
+  <li><b>02-业务指标（四级层级，仅本报表生效）</b>：<b>一级（lv0）</b>=保费规模/佣金收入（序号 1/24），加粗靠左；<b>二级（lv1）</b>=机构/产融/香港/市场化业务 8 个合计（序号 2/5/16/20/25/28/39/43），半粗、深蓝、靠左；<b>三级（lv2）</b>=各业务明细指标，黑体、靠右；<b>四级（lv3）</b>=「其中：」明细，浅灰、靠右。</li>
+</ul>
+
+<h5>2.1.1.4　指标属性标签列（含该列的报表）</h5>
+<ol class="tight">
+  <li>蓝色标签「考核指标」；绿色标签「高质量指标」。</li>
+  <li>无标签 → 灰色占位 <span class="ph">--</span>。</li>
+  <li>指标属性标签取值逻辑：根据指标编号从指标台账中获取。</li>
+</ol>
+
+<h5>2.1.1.5　数值与涨跌显示规范</h5>
+<ol class="tight">
+  <li>数值列：数值展示采用千分位格式，保留 2 位小数。</li>
+  <li>涨跌规范：正增长<b>红色 ▲</b>、负增长<b>绿色 ▼</b>、零值灰色无箭头（金融业惯例：红涨绿跌）。</li>
+  <li>同比/环比/较年初：列表头不带 (%) 后缀，单位随数值单元格自带（% 或 ppt），保留 2 位小数。</li>
+  <li>占位符统一：数据级占位 - → 灰色加粗 <span class="ph">--</span>；取不到数据 → 灰色 <code>N/A</code>。</li>
+  <li>比率类指标（单位 %）的变动值用 ppt（百分点），金额/数量类用 %。</li>
+</ol>
+
+<h5>2.1.1.6　指标取值说明（当月值、截止本月末）</h5>
+<ol class="tight">
+  <li><b>当月值</b>：适用于<b>期间指标</b>，同指标分组编码下，取时间维度为【本月数】；金额类指标当月值为当月单月发生数（演示数据=截止本月末÷12），比例类指标当月值不适用时置 --（如 ROE、华润燃气存量用户保费占比）。</li>
+  <li><b>截止本月末</b>：<b>期间指标</b>取时间维度为【本年累计数】；<b>时点指标</b>取时间维度为【本月末】。</li>
+</ol>
+<div class="dev-box"><b>特别说明（开发人员）</b>：报表页面<b>前端不展示</b><code>指标标准编号</code>、<code>指标分组编号</code>，<b>底层表必须包含该两个字段</b>，编号需与<b>指标标准台账</b>保持一致，否则无法实现指标落标。</div>
+
+<h5>2.1.1.7　指标计算公式说明</h5>
+<table class="doc-table">
+  <thead>
+    <tr><th colspan="2">时间类型</th><th colspan="2">当月值</th><th colspan="3">截止本月末</th></tr>
+    <tr><th class="sub">时间类型</th><th class="sub">举例</th><th class="sub">实际</th><th class="sub">环比</th><th class="sub">实际</th><th class="sub">同比</th><th class="sub">较年初</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="c"><span class="tt tt-period">期间值</span></td><td><b>金额类</b>（保费、收入、利润）</td><td>截止本月累计-截止上月累计</td><td>(本月当月值-上月当月值)/上月当月值【%】</td><td>本年累计数</td><td>(本年累计-去年同月累计)/去年同月累计【%】</td><td>不适用</td></tr>
+    <tr><td class="c"><span class="tt tt-point">时点值</span></td><td><b>金额类</b>（余额、规模）</td><td>不适用</td><td>不适用</td><td>本月末余额</td><td>(本月末余额-去年同月末余额)/去年同月末余额【%】</td><td>(本月末余额-年初余额)/年初余额【%】</td></tr>
+    <tr><td class="c"><span class="tt tt-period">期间值</span></td><td><b>比率类</b>（ROE、新增不良率）</td><td>不适用</td><td>不适用</td><td>本月末数</td><td>本期比率-去年同期比率【百分点】</td><td>不适用</td></tr>
+    <tr><td class="c"><span class="tt tt-point">时点值</span></td><td><b>比率类</b>（不良率、占比、覆盖率）</td><td>不适用</td><td>不适用</td><td>本月末数</td><td>本期比率-去年同期比率【百分点】</td><td>本期比率-年初比率【百分点】</td></tr>
+  </tbody>
+</table>
+
+<h5 id="budget-rule">2.1.1.8　预算一致性规则</h5>
+<ul class="tight">
+  <li>业务在<b>通用报送平台</b>维护了全年预算的指标，则显示「全年预算」「预算达成率」值；否则两列一律 <span class="ph">--</span>。</li>
+  <li>预算达成率 = （截止本月末实际值 ÷ 全年预算）× 100%，单元格内含进度条：≥95% 绿色、85%~95% 黄色、&lt;85% 红色。</li>
+  <li>华润保险模块<b>无净增量口径例外指标</b>；当前演示数据中含预算的指标为：01 表 4 项（营业收入、利润总额、ROE、EVA）、03 表 6 项（全部）、02 表 2 项（华润燃气业务保费规模、香港业务佣金收入，均为考核指标）。</li>
+</ul>
+<div class="dev-box"><b>特别说明</b>：<b>全年预算值</b>为<b>年度维度数据</b>：获取全年预算值时，依据 <code>指标标准编号 + 对应年度</code> 作为<b>联合主键</b>，读取该指标的全年预算值。</div>
+
+<h5>2.1.1.9　单元格合并</h5>
+<p>「指标分类」「指标分项」列，单元格按相同分类规则纵向合并（仅 02-业务指标使用）：指标分类 序号 1~23=保费规模、24~46=佣金收入；指标分项合并区间见本报表原型样式；</p>
+
+<h4 id="perrep">2.1.2　分报表需求</h4>
+
+<section id="sheet-ins01">
+  <h5>2.1.2.1　01-财务指标　<span class="cnt">4 项指标</span></h5>
+  <h6>（1）报表基本信息</h6>
+  <table class="doc-table kv"><tbody>
+    <tr><th>左侧菜单名称</th><td>01-财务指标</td><th>页面标题</th><td>财务指标</td></tr>
+    <tr><th>更新频率</th><td>月度（数据日期下拉为 1~12 月）</td>
+        <th>指标行数</th><td>4 行</td></tr>
+    <tr><th>指标概览</th><td>无</td>
+        <th>明细表列数</th><td>10 列（含指标名称等结构列）</td></tr>
+    <tr><th>数据起始期间</th><td>2023 ～ 当前年度，默认选中当前年度</td>
+        <th>导出</th><td>面板右上角「📥 导出」按钮</td></tr>
+  </tbody></table>
+  <h6>（2）指标概览卡片</h6>
+  <p>本报表未配置核心 KPI，页面<b>不渲染指标概览模块</b>（无折叠条与 KPI 卡片），面板头下直接为明细表。</p>
+  <h6>（3）导出说明</h6>
+  <ul class="tight">
+    <li><b>导出样式</b>：导出表头与数据展示保持和系统页面一致；</li>
+    <li><b>导出文件名称</b>：统一为<span class="hl-exp">「华润保险-报表名称-数据期间.xlsx」</span>；月度报表数据期间为「年-月」（如 <span class="hl-exp">华润保险-01-财务指标-2026-08.xlsx</span>）。</li>
+  </ul>
+  <h6>（4）指标明细说明</h6>
+  <p class="tip">下表展示本报表页面的全部表头与对应指标清单，不显示具体指标值：指标在当前列不适用时，对应单元格以 <span class="xmark">×</span> 标记；空白单元格表示该指标在对应列有数值；</p>
+  
+  <table class="doc-table rows detail"><thead><tr><th rowspan="2">序号</th><th rowspan="2">指标名称</th><th rowspan="2">单位</th><th rowspan="2">指标属性标签</th>
+    <th colspan="2">当月值</th><th colspan="2">截止本月末</th>
+    <th rowspan="2">全年预算</th><th rowspan="2">预算达成率</th><th rowspan="2" class="ttype">时间类型</th></tr>
+    <tr><th class="sub">实际</th><th class="sub">环比</th><th class="sub">实际</th><th class="sub">同比</th></tr></thead><tbody><tr><td class="c">1</td><td class="name lv0">营业收入</td><td class="c">万元</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">2</td><td class="name lv0">利润总额</td><td class="c">万元</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">3</td><td class="name lv0">ROE</td><td class="c">%</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">4</td><td class="name lv0">EVA</td><td class="c">万元</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr></tbody></table>
+  <h6>（5）系统原型示意图</h6>
+  <p class="tip">以下截图取自<b>当前系统页面实机界面</b>（演示数据；下拉、按钮等控件为页面原样，Word 内不可交互）。</p>
+  <p align="center" style="margin:8pt 0"><img src="shots_ins/ins_fix01.png" width="620" style="width:100%;max-width:100%;border:0.5pt solid #7F7F7F;"/></p>
+</section>
+
+<section id="sheet-ins02">
+  <h5>2.1.2.2　02-业务指标　<span class="cnt">46 项指标</span></h5>
+  <h6>（1）报表基本信息</h6>
+  <table class="doc-table kv"><tbody>
+    <tr><th>左侧菜单名称</th><td>02-业务指标</td><th>页面标题</th><td>业务指标</td></tr>
+    <tr><th>更新频率</th><td>月度（数据日期下拉为 1~12 月）</td>
+        <th>指标行数</th><td>46 行</td></tr>
+    <tr><th>指标概览</th><td>4 张</td>
+        <th>明细表列数</th><td>12 列（含指标名称等结构列）</td></tr>
+    <tr><th>数据起始期间</th><td>2023 ～ 当前年度，默认选中当前年度</td>
+        <th>导出</th><td>面板右上角「📥 导出」按钮</td></tr>
+  </tbody></table>
+  <h6>（2）指标概览卡片</h6>
+  <p>面板顶部共 <b>4 张</b>指标概览卡片（淡蓝/淡金/淡绿/淡粉四色轮排），各卡片的指标与展示内容如下：</p><ul class="tight"><li><b>卡片1·保费规模</b>：展示<b>截止本月末</b>（单位：万元）、<b>同比</b>；本报表卡片不显示「较年初」行。</li><li><b>卡片2·产融业务保费规模</b>：展示<b>截止本月末</b>（单位：万元）、<b>同比</b>；本报表卡片不显示「较年初」行。</li><li><b>卡片3·佣金收入</b>：展示<b>截止本月末</b>（单位：万元）、<b>同比</b>；本报表卡片不显示「较年初」行。</li><li><b>卡片4·香港业务佣金收入</b>：展示<b>截止本月末</b>（单位：万元）、<b>同比</b>；本报表卡片不显示「较年初」行。</li></ul>
+  <h6>（3）导出说明</h6>
+  <ul class="tight">
+    <li><b>导出样式</b>：导出表头与数据展示保持和系统页面一致；</li>
+    <li><b>导出文件名称</b>：统一为<span class="hl-exp">「华润保险-报表名称-数据期间.xlsx」</span>；月度报表数据期间为「年-月」（如 <span class="hl-exp">华润保险-02-业务指标-2026-08.xlsx</span>）。</li>
+  </ul>
+  <h6>（4）指标明细说明</h6>
+  <p class="tip">下表展示本报表页面的全部表头与对应指标清单，不显示具体指标值：指标在当前列不适用时，对应单元格以 <span class="xmark">×</span> 标记；空白单元格表示该指标在对应列有数值；</p>
+  <p class="tip"><b>指标分类筛选条</b>：表头上方设「指标分类：全部 / 保费规模 / 佣金收入」筛选按钮组，点击按分类过滤明细行（序号 1~23=保费规模、24~46=佣金收入）；筛选状态在期间查询重渲染后保持。</p>
+  <table class="doc-table rows detail"><thead><tr><th rowspan="2">序号</th><th rowspan="2">指标分类</th><th rowspan="2">指标分项</th><th rowspan="2">指标名称</th><th rowspan="2">单位</th><th rowspan="2">指标属性标签</th>
+    <th colspan="2">当月值</th><th colspan="2">截止本月末</th>
+    <th rowspan="2">全年预算</th><th rowspan="2">预算达成率</th><th rowspan="2" class="ttype">时间类型</th></tr>
+    <tr><th class="sub">实际</th><th class="sub">环比</th><th class="sub">实际</th><th class="sub">同比</th></tr></thead><tbody><tr><td class="c">1</td><td class="c" rowspan="23">保费规模</td><td class="c"><span class="ph">--</span></td><td class="name lv0">保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">2</td><td class="c">机构业务总保费</td><td class="name lv1">机构业务保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">3</td><td class="c" rowspan="2">机构业务保费明细</td><td class="name lv2">财险保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">4</td><td class="name lv2">团险保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">5</td><td class="c">产融业务总保费</td><td class="name lv1">产融业务保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">6</td><td class="c">产融业务保费明细</td><td class="name lv2">燃气业务保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">7</td><td class="c" rowspan="2">燃气业务保费明细</td><td class="name lv3">其中：华润燃气业务保费规模</td><td class="c">万元</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">8</td><td class="name lv3">其中：市场燃气业务保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">9</td><td class="c" rowspan="7">产融业务保费明细</td><td class="name lv2">商户保险保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">10</td><td class="name lv2">银保保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">11</td><td class="name lv2">产融创新场景保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">12</td><td class="name lv3">其中：社区保险保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">13</td><td class="name lv3">其中：其他产融创新场景保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">14</td><td class="name lv3">其中：职域保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">15</td><td class="name lv3">其中：其他融融保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">16</td><td class="c">香港业务总保费</td><td class="name lv1">香港业务保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">17</td><td class="c" rowspan="3">香港业务保费明细</td><td class="name lv2">商水险保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">18</td><td class="name lv2">员福险保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">19</td><td class="name lv2">寿险保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">20</td><td class="c">市场化业务总保费</td><td class="name lv1">市场化业务保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">21</td><td class="c">机构市场化业务保费</td><td class="name lv2">机构市场化业务保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">22</td><td class="c">产融市场化业务保费</td><td class="name lv2">产融市场化业务保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">23</td><td class="c">香港市场化业务保费</td><td class="name lv2">香港市场化业务保费规模</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">24</td><td class="c" rowspan="23">佣金收入</td><td class="c"><span class="ph">--</span></td><td class="name lv0">佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">25</td><td class="c">机构业务总佣金</td><td class="name lv1">机构业务佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">26</td><td class="c" rowspan="2">机构业务佣金明细</td><td class="name lv2">财险佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">27</td><td class="name lv2">团险佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">28</td><td class="c">产融业务总佣金</td><td class="name lv1">产融业务佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">29</td><td class="c">产融业务佣金明细</td><td class="name lv2">燃气业务佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">30</td><td class="c" rowspan="2">燃气业务佣金明细</td><td class="name lv3">其中：华润燃气业务佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">31</td><td class="name lv3">其中：市场燃气业务佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">32</td><td class="c" rowspan="7">产融业务佣金明细</td><td class="name lv2">商户保险佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">33</td><td class="name lv2">银保佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">34</td><td class="name lv2">产融创新场景佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">35</td><td class="name lv3">其中：社区保险佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">36</td><td class="name lv3">其中：其他产融创新场景佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">37</td><td class="name lv3">其中：职域佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">38</td><td class="name lv3">其中：其他融融佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">39</td><td class="c">香港业务总佣金</td><td class="name lv1">香港业务佣金收入</td><td class="c">万元</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">40</td><td class="c" rowspan="3">香港业务佣金明细</td><td class="name lv2">商水险佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">41</td><td class="name lv2">员福险佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">42</td><td class="name lv2">寿险佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">43</td><td class="c">市场化业务总佣金</td><td class="name lv1">市场化业务佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">44</td><td class="c">机构市场化业务佣金</td><td class="name lv2">机构市场化业务佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">45</td><td class="c">产融市场化业务佣金</td><td class="name lv2">产融市场化业务佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">46</td><td class="c">香港市场化业务佣金</td><td class="name lv2">香港市场化业务佣金收入</td><td class="c">万元</td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr></tbody></table>
+  <h6>（5）系统原型示意图</h6>
+  <p class="tip">以下截图取自<b>当前系统页面实机界面</b>（演示数据；下拉、按钮等控件为页面原样，Word 内不可交互）。</p>
+  <p align="center" style="margin:8pt 0"><img src="shots_ins/ins_fix02.png" width="620" style="width:100%;max-width:100%;border:0.5pt solid #7F7F7F;"/></p>
+</section>
+
+<section id="sheet-ins03">
+  <h5>2.1.2.3　03-关键管理指标　<span class="cnt">6 项指标</span></h5>
+  <h6>（1）报表基本信息</h6>
+  <table class="doc-table kv"><tbody>
+    <tr><th>左侧菜单名称</th><td>03-关键管理指标</td><th>页面标题</th><td>关键管理指标</td></tr>
+    <tr><th>更新频率</th><td>月度（数据日期下拉为 1~12 月）</td>
+        <th>指标行数</th><td>6 行</td></tr>
+    <tr><th>指标概览</th><td>无</td>
+        <th>明细表列数</th><td>10 列（含指标名称等结构列）</td></tr>
+    <tr><th>数据起始期间</th><td>2023 ～ 当前年度，默认选中当前年度</td>
+        <th>导出</th><td>面板右上角「📥 导出」按钮</td></tr>
+  </tbody></table>
+  <h6>（2）指标概览卡片</h6>
+  <p>本报表未配置核心 KPI，页面<b>不渲染指标概览模块</b>（无折叠条与 KPI 卡片），面板头下直接为明细表。</p>
+  <h6>（3）导出说明</h6>
+  <ul class="tight">
+    <li><b>导出样式</b>：导出表头与数据展示保持和系统页面一致；</li>
+    <li><b>导出文件名称</b>：统一为<span class="hl-exp">「华润保险-报表名称-数据期间.xlsx」</span>；月度报表数据期间为「年-月」（如 <span class="hl-exp">华润保险-03-关键管理指标-2026-08.xlsx</span>）。</li>
+  </ul>
+  <h6>（4）指标明细说明</h6>
+  <p class="tip">下表展示本报表页面的全部表头与对应指标清单，不显示具体指标值：指标在当前列不适用时，对应单元格以 <span class="xmark">×</span> 标记；空白单元格表示该指标在对应列有数值；</p>
+  
+  <table class="doc-table rows detail"><thead><tr><th rowspan="2">序号</th><th rowspan="2">指标名称</th><th rowspan="2">单位</th><th rowspan="2">指标属性标签</th>
+    <th colspan="2">当月值</th><th colspan="2">截止本月末</th>
+    <th rowspan="2">全年预算</th><th rowspan="2">预算达成率</th><th rowspan="2" class="ttype">时间类型</th></tr>
+    <tr><th class="sub">实际</th><th class="sub">环比</th><th class="sub">实际</th><th class="sub">同比</th></tr></thead><tbody><tr><td class="c">1</td><td class="name lv0">华润燃气存量用户保费占比</td><td class="c">%</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"><span class="xmark">✗</span></td><td class="c"><span class="xmark">✗</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">2</td><td class="name lv0">集团及其他产业客户保费规模</td><td class="c">万元</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">3</td><td class="name lv0">融融业务总中收</td><td class="c">万元</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">4</td><td class="name lv0">市场业务净收入</td><td class="c">万元</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">5</td><td class="name lv0">产融业务规模</td><td class="c">万元</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr><tr><td class="c">6</td><td class="name lv0">华润燃气存量用户每年新增客户数</td><td class="c">万户</td><td class="c"><span class="tag assess">考核指标</span></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c ttype"><span class="tt tt-period">期间指标</span></td></tr></tbody></table>
+  <h6>（5）系统原型示意图</h6>
+  <p class="tip">以下截图取自<b>当前系统页面实机界面</b>（演示数据；下拉、按钮等控件为页面原样，Word 内不可交互）。</p>
+  <p align="center" style="margin:8pt 0"><img src="shots_ins/ins_fix03.png" width="620" style="width:100%;max-width:100%;border:0.5pt solid #7F7F7F;"/></p>
+</section>
+
+<h3 id="ledger">2.2　报表台账管理需求说明</h3>
+<p class="brief">本节约定平台「报表台账管理」一级菜单下华润保险 3 张报表台账的页面结构、取数与展示规则。台账与固定报表同源取数，按年度横向展开各月末值，供业务逐年回溯核对。</p>
+<h4>2.2.1　模块定位与入口</h4>
+<ul class="tight">
+  <li><b>菜单层级</b>：「报表台账管理」为一级菜单，与「固定报表管理」同级；结构为 报表台账管理 → 公司分组（华润保险）→ 各报表台账，菜单名 = 报表名称 +「台账」（如「01-财务指标台账」）。</li>
+  <li><b>菜单样式</b>：台账菜单采用金色主题；一级菜单固定展开、不可收起（与固定报表管理一致）。</li>
+</ul>
+<h4>2.2.2　台账页面结构</h4>
+<ul class="tight">
+  <li><b>台账头部</b>：面板标题为「报表名称 · 年度台账」；右侧为更新频率块（月度）、📅 数据年度下拉、「📥 导出」按钮。</li>
+  <li><b>台账表格</b>：<b>单级表头</b> = 结构列（01/03 表：序号、指标名称、单位；02 表：序号、指标分类、指标分项、指标名称、单位；<b>不显示指标属性标签列</b>）+ 各月「N月末」单列；<b>不设同比列</b>。</li>
+  <li><b>结构列合并</b>：02 表的指标分类/指标分项沿用固定报表的 rowspan 纵向合并规则（仅保留结构列内的合并）。</li>
+  <li><b>无指标概览</b>：台账页面移除 KPI 卡片，仅保留台账表格。</li>
+</ul>
+<h4>2.2.3　台账取数与展示规则</h4>
+<ul class="tight">
+  <li><b>取数列</b>：取固定报表「截止本月末-实际」列作为各月末台账值；与固定报表同源取数（指标、维度与数据模型复用原固定报表）。</li>
+  <li><b>年度范围</b>：可选范围 2023 ～ 当前年度，默认选中当前年度。</li>
+  <li><b>月份列展示</b>：当前年度展示 1 月至本月；历史年度展示 1—12 月。</li>
+  <li><b>月内数值推算</b>：累计流量类指标 = 年末值 × m/12；存量/比率类指标年内缓变（12 月 = 原值）。</li>
+  <li><b>缺数口径</b>：台账口径下所有指标均应有月末值；仅个别月份未取到数（源值空、-、非数值）→ 统一 <code>N/A</code>，<b>不用 --</b>。</li>
+</ul>
+<h4>2.2.4　台账查询与导出</h4>
+<ul class="tight">
+  <li><b>年度查询</b>：仅年度下拉（无月份）；切换年度仅重渲染当前台账面板，toast 提示「已加载 YYYY 年 1—M 月台账 · 报表标题」。</li>
+  <li><b>导出</b>：台账头部「📥 导出」按钮导出当前年度台账表（演示占位，正式环境对接导出接口）。</li>
+  <li><b>导出样式</b>：导出表头与数据展示保持和系统页面一致（结构列 + 各月「N月末」单列，不含同比列与指标属性标签列）；</li>
+  <li><b>导出文件名称</b>：统一为<span class="hl-exp">「华润保险-报表名称台账-数据年度年.xlsx」</span>；数据年度为当前所选台账年度（如 <span class="hl-exp">华润保险-01-财务指标台账-2026年.xlsx</span>）。</li>
+</ul>
+<h4>2.2.5　系统原型示意图</h4>
+<p class="tip">以下截图取自<b>当前系统页面实机界面</b>（演示数据；下拉、按钮等控件为页面原样，Word 内不可交互）。</p>
+
+  <h5>01-财务指标台账</h5>
+  <p align="center" style="margin:8pt 0"><img src="shots_ins/ins_led01.png" width="620" style="width:100%;max-width:100%;border:0.5pt solid #7F7F7F;"/></p>
+  <h5>02-业务指标台账</h5>
+  <p align="center" style="margin:8pt 0"><img src="shots_ins/ins_led02.png" width="620" style="width:100%;max-width:100%;border:0.5pt solid #7F7F7F;"/></p>
+  <h5>03-关键管理指标台账</h5>
+  <p align="center" style="margin:8pt 0"><img src="shots_ins/ins_led03.png" width="620" style="width:100%;max-width:100%;border:0.5pt solid #7F7F7F;"/></p>
+
+<h2 id="perm">三、权限说明</h2>
+<ul class="tight">
+  <li><b>菜单权限</b>：华润保险报表挂接于平台「数据应用 → 固定报表管理」菜单下，其对应报表台账挂接于一级菜单「报表台账管理」下（与固定报表管理同级，结构为 报表台账管理 → 公司分组 → 各报表台账）；两者查看权限均遵循平台统一的角色-菜单权限管理，用户获授「固定报表管理 → 华润保险」「报表台账管理 → 华润保险」菜单权限后方可进入查看。为全体战略部人员开放固定报表管理与报表台账管理模块权限。</li>
+  <li><b>数据范围</b>：报表数据为华润保险全量指标体系范围，暂不划分数据范围。</li>
+  <li><b>功能权限</b>：支持战略部全体人员筛选和导出功能。</li>
+  <li><b>维护权限</b>：全年预算等报送类数据由业务人员在通用报送平台维护，本模块只读展示，不提供数据维护入口。</li>
+</ul>
+
+<h2 id="confirm">四、业务确认</h2>
+<table class="doc-table">
+  <thead><tr><th style="width:150px;">确认角色</th><th style="width:180px;">公司-部门</th><th style="width:140px;">确认人（签字）</th><th style="width:120px;">日期</th><th>确认意见</th></tr></thead>
+  <tbody>
+    <tr><td>需求提出负责人</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>需求开发负责人</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>需求设计负责人</td><td></td><td></td><td></td><td></td></tr>
+  </tbody>
+</table>
+
+</div>
+<div class="footer">华润保险模块 · 数据应用需求文档 V1.4 ｜ 生成日期 2026-10-10</div>
+</div>
+</body>
+</html>

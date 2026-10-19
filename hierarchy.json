@@ -1,0 +1,1182 @@
+{
+ "01-资产负债简表(20个)": [
+  {
+   "row": 4,
+   "name": "总资产",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 5,
+   "name": "贷款",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 6,
+   "name": "普通贷款",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 7,
+   "name": "福费廷",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 8,
+   "name": "票据贴现",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 9,
+   "name": "投资类资产",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 10,
+   "name": "债券投资",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 11,
+   "name": "同业投资",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 12,
+   "name": "信托基金投资",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 13,
+   "name": "其他投资",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 14,
+   "name": "存拆放同业",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 15,
+   "name": "买入返售",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 16,
+   "name": "存放央行",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 17,
+   "name": "总负债",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 18,
+   "name": "存款",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 19,
+   "name": "应付债券",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 20,
+   "name": "同业存拆放",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 21,
+   "name": "卖出回购",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 22,
+   "name": "向央行借款",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 23,
+   "name": "所有者权益",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  }
+ ],
+ "02-损益表简表(14个)": [
+  {
+   "row": 5,
+   "name": "营业收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 6,
+   "name": "利息净收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 7,
+   "name": "非息净收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 8,
+   "name": "其中：手续费及佣金净收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 9,
+   "name": "其他非息收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 10,
+   "name": "投资收益",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 11,
+   "name": "公允价值变动损益",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 12,
+   "name": "业务及管理费",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 13,
+   "name": "税金及附加",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 14,
+   "name": "拨备前利润",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 15,
+   "name": "信用减值损失",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 16,
+   "name": "利润总额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 17,
+   "name": "所得税",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 18,
+   "name": "净利润",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  }
+ ],
+ "03-关键监测指标(21个)": [
+  {
+   "row": 5,
+   "name": "流动性覆盖率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 6,
+   "name": "净稳定资金比例",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 7,
+   "name": "流动性缺口率（90天）",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 8,
+   "name": "核心负债比例",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 9,
+   "name": "拨备覆盖率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 10,
+   "name": "贷款拨备率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 11,
+   "name": "资产利润率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 12,
+   "name": "资本利润率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 13,
+   "name": "风险资产利润率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 14,
+   "name": "成本收入比",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 15,
+   "name": "资本净额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 16,
+   "name": "资本充足率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 17,
+   "name": "一级资本净额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 18,
+   "name": "一级资本充足率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 19,
+   "name": "核心一级资本净额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 20,
+   "name": "核心一级资本充足率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 21,
+   "name": "杠杆率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 22,
+   "name": "风险加权资产",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 23,
+   "name": "房地产贷款集中度",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 24,
+   "name": "非同业集团客户集中度",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 25,
+   "name": "非同业单一客户集中度",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  }
+ ],
+ "04-收入结构（21个）": [
+  {
+   "row": 5,
+   "name": "全行营收",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 6,
+   "name": "公司条线考核营收",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 7,
+   "name": "其中：公司条线-存款营收",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 8,
+   "name": "公司条线-贷款营收",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 9,
+   "name": "零售条线考核营收",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 10,
+   "name": "其中：零售条线-存款营收",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 11,
+   "name": "零售条线-贷款营收",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 12,
+   "name": "金融市场条线考核营收",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 13,
+   "name": "司库营收",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 14,
+   "name": "全行利息净收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 15,
+   "name": "公司条线利息净收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 16,
+   "name": "零售条线利息净收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 17,
+   "name": "全行非息收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 18,
+   "name": "其中：全行手续费及佣金净收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 19,
+   "name": "公司条线非息收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 20,
+   "name": "其中：公司条线手续费及佣金净收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 21,
+   "name": "零售条线非息收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 22,
+   "name": "其中：零售条线手续费及佣金净收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 23,
+   "name": "全行投资收益",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 24,
+   "name": "其中：金融市场投资收益",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 25,
+   "name": "其他收入",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  }
+ ],
+ "05-成本结构（18个）": [
+  {
+   "row": 4,
+   "name": "公司条线成本合计",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 5,
+   "name": "其中：公司条线-运营成本",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 6,
+   "name": "公司条线-风险成本",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 7,
+   "name": "公司条线-资本成本",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 8,
+   "name": "公司条线-EVA",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 9,
+   "name": "公司条线-RAROC",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 10,
+   "name": "零售条线成本合计",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 11,
+   "name": "其中：零售条线-运营成本",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 12,
+   "name": "零售条线-风险成本",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 13,
+   "name": "零售条线-资本成本",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 14,
+   "name": "零售条线-EVA",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 15,
+   "name": "零售条线-RAROC",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 16,
+   "name": "金融市场条线成本合计",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 17,
+   "name": "其中：金融市场-运营成本",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 18,
+   "name": "金融市场-风险成本",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 19,
+   "name": "金融市场-资本成本",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 20,
+   "name": "金融市场-EVA",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 21,
+   "name": "金融市场-RAROC",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  }
+ ],
+ "06-存贷结构(26个)": [
+  {
+   "row": 5,
+   "name": "存款余额（全行）",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 6,
+   "name": "公司低成本存款余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 7,
+   "name": "公司定期存款余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 8,
+   "name": "个人低成本存款余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 9,
+   "name": "个人定期存款余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 10,
+   "name": "个人AUM月日均",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 11,
+   "name": "其中：个人非存AUM月日均",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 12,
+   "name": "代发客户AUM月日均",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 13,
+   "name": "存款年日均（全行）",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 14,
+   "name": "其中：低成本存款年日均",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 15,
+   "name": "低成本存款占比",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 16,
+   "name": "产融协同低成本存款年日均余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 17,
+   "name": "公司存款年日均",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 18,
+   "name": "公司低成本存款年日均",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 19,
+   "name": "个人存款年日均",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 20,
+   "name": "个人低成本存款年日均",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 21,
+   "name": "公司-贷款余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 22,
+   "name": "公司-房地产贷款余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 23,
+   "name": "公司-贸易融资",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 24,
+   "name": "公司-中小企业贷款余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 25,
+   "name": "公司-科技企业客群净增余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 26,
+   "name": "绿色金融余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 27,
+   "name": "产业金融余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 28,
+   "name": "个人-贷款余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 29,
+   "name": "个人抵押贷余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 30,
+   "name": "个人按揭贷余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 31,
+   "name": "个人信用贷余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 32,
+   "name": "其中：润薪贷、AUM贷、财富贷、车位贷",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 33,
+   "name": "个人平台贷余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 34,
+   "name": "贴现余额",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  }
+ ],
+ "07-利率结构(15个)": [
+  {
+   "row": 4,
+   "name": "贷款对客收益率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 5,
+   "name": "贷款对客收益率-对公",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 6,
+   "name": "贷款对客收益率-个人",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 7,
+   "name": "贷款对客收益率-贴现",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 8,
+   "name": "债券投资收益率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 9,
+   "name": "同业资产收益率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 10,
+   "name": "生息资产收益率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 11,
+   "name": "存款对客付息率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 12,
+   "name": "存款对客付息率-公司",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 13,
+   "name": "存款对客付息率-个人",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 14,
+   "name": "应付债券付息率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 15,
+   "name": "同业负债付息率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 16,
+   "name": "付息负债付息率",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 17,
+   "name": "存贷利差",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 18,
+   "name": "净息差",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  }
+ ],
+ "08-客群结构(10个)": [
+  {
+   "row": 5,
+   "name": "公司有效授信客户数",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 6,
+   "name": "其中：大中有效授信客户数",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 7,
+   "name": "中小有效授信客户数",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 8,
+   "name": "基石客户",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 9,
+   "name": "产融协同客户数",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 10,
+   "name": "零售客户数",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 11,
+   "name": "零售中高端客户数",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 12,
+   "name": "代发客户数",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 13,
+   "name": "零售高净值客户数",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 14,
+   "name": "手机银行客户数",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 15,
+   "name": "润E企用户数",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 16,
+   "name": "现金管理客户数",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  }
+ ],
+ "09-风险情况(14个)": [
+  {
+   "row": 5,
+   "name": "亿元",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 6,
+   "name": "亿元",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 7,
+   "name": "亿元",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 8,
+   "name": "亿元",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 9,
+   "name": "亿元",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 10,
+   "name": "亿元",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 11,
+   "name": "亿元",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 12,
+   "name": "亿元",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 13,
+   "name": "%",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 14,
+   "name": "%",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 15,
+   "name": "%",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 16,
+   "name": "%",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 17,
+   "name": "亿元",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 18,
+   "name": "%",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  },
+  {
+   "row": 19,
+   "name": "亿元",
+   "bold": false,
+   "indent": 0,
+   "lead": 0
+  }
+ ]
+}
