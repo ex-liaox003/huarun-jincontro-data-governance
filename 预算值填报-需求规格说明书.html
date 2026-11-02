@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>需求文档 · 预算值填报（数据应用）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;color:#1f2937;font-size:14px;line-height:1.75;background:#eef1f6;}
+.page{max-width:1180px;margin:0 auto;background:#fff;box-shadow:0 2px 16px rgba(15,40,71,.10);}
+.cover{background:linear-gradient(135deg,#0f2847 0%,#1a3a6b 55%,#2a5298 100%);color:#fff;padding:44px 56px 36px;}
+.cover h1{font-size:26px;letter-spacing:2px;margin-bottom:8px;}
+.cover .sub{font-size:14px;opacity:.85;letter-spacing:1px;}
+.cover .meta{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:22px;font-size:12.5px;}
+.cover .meta span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:3px 14px;}
+.body{padding:34px 56px 60px;}
+h2{font-size:19px;color:#1a3a6b;border-left:5px solid #c8962e;padding-left:12px;margin:38px 0 14px;letter-spacing:1px;}
+h2:first-of-type{margin-top:6px;}
+h3{font-size:16.5px;color:#1a3a6b;margin:30px 0 10px;padding:8px 12px;background:linear-gradient(90deg,#eef3fa,#f8fafd);border-radius:6px;border-left:4px solid #2a5298;}
+h4{font-size:14.5px;color:#2a5298;margin:20px 0 8px;}
+p{margin:6px 0;}
+.brief{color:#4b5563;}
+ul.tight,ol.tight{margin:6px 0 6px 22px;}
+ul.tight li,ol.tight li{margin:4px 0;}
+ol.toc{margin:8px 0 8px 24px;}
+ol.toc li{margin:3px 0;}
+a{color:#2a5298;}
+.doc-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0 14px;}
+.doc-table th{background:linear-gradient(135deg,#1a3a6b,#2a5298);color:#fff;padding:7px 9px;border:1px solid rgba(255,255,255,.22);font-weight:600;text-align:center;white-space:nowrap;}
+.doc-table td{border:1px solid #dde3ec;padding:6px 9px;text-align:left;vertical-align:middle;}
+.doc-table tbody tr:nth-child(even){background:#f7f9fc;}
+.doc-table td.c{text-align:center;}
+.kv th{background:#f0f4fa;color:#1a3a6b;border:1px solid #dde3ec;width:150px;text-align:left;white-space:nowrap;}
+.tip{background:#fff8e6;border:1px solid #f0dca8;border-radius:6px;padding:8px 12px;font-size:12.5px;color:#7a5c10;margin:8px 0;}
+.dev-box{background:#eef3fa;border:1px solid #c6d8ee;border-radius:6px;padding:10px 14px;font-size:13px;color:#274b7d;margin:12px 0;}
+code{background:#f2f4f8;border:1px solid #e0e5ee;border-radius:4px;padding:1px 6px;font-family:Consolas,monospace;font-size:12px;color:#2a5298;}
+.req-star{color:#c0392b;font-weight:700;}
+.btn-demo{display:inline-block;border:1px solid #c6d8ee;background:#f4f8fd;border-radius:6px;padding:1px 10px;font-size:12px;color:#1a3a6b;font-weight:600;white-space:nowrap;}
+.footer{padding:18px 56px 30px;color:#9ca3af;font-size:12px;border-top:1px solid #eef1f6;}
+@media print{body{background:#fff;}.page{box-shadow:none;max-width:none;}section{page-break-inside:avoid;}h3{page-break-after:avoid;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="cover">
+  <h1>预算值填报 · 需求规格说明书</h1>
+  <div class="sub">战略部数据应用平台 —— 数据应用 / 预算值填报管理</div>
+  <div class="meta">
+    <span>文档版本：V1.0</span>
+    <span>编制日期：2026-10-28</span>
+    <span>所属模块：数据应用 → 预算值填报管理 → 预算值填报</span>
+    <span>读者对象：业务人员 · 开发人员 · 测试人员</span>
+  </div>
+</div>
+
+<div class="body">
+
+<h2>目 录</h2>
+<ol class="toc">
+  <li><a href="#s1">一、引言</a></li>
+  <li><a href="#s2">二、功能需求</a></li>
+  <li><a href="#s3">三、权限说明</a></li>
+  <li><a href="#s4">四、业务确认</a></li>
+</ol>
+
+<h2 id="s1">一、引言</h2>
+
+<h3>1.1　需求背景</h3>
+<p>各业务单元（华润银行、华润资产、华润信托、华润保险、华润租赁）的年度预算指标，目前分散在线下 Excel 中填报，口径不统一、汇总慢、难以追溯。需要在数据应用平台中提供一张<b>线上预算值填报表</b>：指标清单由系统从指标标准库自动加载，业务单元负责人只需选择年度与单元，逐项填写全年预算值并提交，实现"指标统一、填报便捷、数据可查"。</p>
+
+<h3>1.2　术语与定义</h3>
+<table class="doc-table">
+<thead><tr><th style="width:170px;">术语</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>预算指标</td><td>指标标准库中【是否有全年预算】= 是 的指标；只有这类指标需要填报全年预算值。</td></tr>
+<tr><td>预算年度</td><td>本次填报的目标年度，如 2027 年。下拉可选项为 2025 年 ~ 当前自然年+1，<b>倒序展示</b>（最新年度在最前）。</td></tr>
+<tr><td>全年预算值</td><td>该指标在所选预算年度的全年计划数，单位跟随指标本身（亿元、%、户等）。</td></tr>
+<tr><td>最新实际值</td><td>系统自动带出的该指标最近一期实际数。</td></tr>
+<tr><td>指标标准编号</td><td>指标的唯一编号。</td></tr>
+</tbody>
+</table>
+
+<h3>1.3　需求范围</h3>
+<p>预算指标清单自动加载、预算值在线填写与编辑、Excel/CSV 模板导入、必填校验与提交、列表导出、草稿会话内暂存。</p>
+
+<h2 id="s2">二、功能需求</h2>
+
+<h3>2.1　页面入口与整体布局</h3>
+<p>平台顶部一级菜单「预算值填报管理」（与「报表台账管理」同级），下挂唯一明细页「预算值填报」。页面自上而下分三区：</p>
+<table class="doc-table">
+<thead><tr><th style="width:120px;">区域</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td class="c">标题栏</td><td>页面标题「预算指标填报表 · {业务单元}」；右侧操作按钮：<span class="btn-demo">🖊 编辑</span> <span class="btn-demo">✅ 提交</span> <span class="btn-demo">📤 导入</span> <span class="btn-demo">📥 导出</span></td></tr>
+<tr><td class="c">查询条件栏</td><td>两个下拉：<b>业务单元选择</b>、<b>预算年度选择</b>；旁边显示当前状态提示（👁 仅查看 / ✏️ 编辑中）。数据字典见 2.1.1</td></tr>
+<tr><td class="c">填报表格</td><td>指标明细表（列定义见 2.2）+ 底部填报说明文字</td></tr>
+</tbody>
+</table>
+
+<h4>2.1.1　查询条件数据字典</h4>
+<table class="doc-table">
+<thead><tr><th style="width:110px;">查询条件</th><th style="width:110px;">字典值</th><th>取值说明</th></tr></thead>
+<tbody>
+<tr><td>业务单元选择</td><td class="c">华润银行、华润资产、华润信托、华润保险、华润租赁</td><td>默认选中当前业务人员有权限的业务单元：<br>华润银行：蔡舒婧；华润资产：杨洁飞；华润租赁：邓紫峰；华润信托：郑展翔；华润保险：滕琨玉；<br>所有权限：林万里、方宏玲（默认选中「华润银行」）。</td></tr>
+<tr><td>预算年度选择</td><td class="c">2025 年 ~ 当前自然年+1</td><td>枚举区间内全部年度，<b>倒序展示</b>（最新年度在最前）；如当前为 2026 年，则选项为 2027、2026、2025；默认选中最新年度。</td></tr>
+</tbody>
+</table>
+
+<h3>2.2　指标清单自动加载</h3>
+<p>选择「业务单元」后，系统从该单元的指标标准库中自动加载全部<b>预算指标</b>，无需人工维护清单。表格共 8 列：</p>
+<table class="doc-table">
+<thead><tr><th style="width:40px;">序</th><th style="width:150px;">列名</th><th style="width:90px;">必填</th><th>来源与规则</th></tr></thead>
+<tbody>
+<tr><td class="c">1</td><td>业务单元</td><td class="c">自动</td><td>取当前所选单元名称。</td></tr>
+<tr><td class="c">2</td><td>指标标准编号</td><td class="c">自动</td><td>单元前缀 + 顺序号，如 <code>STR_CRB_00000001</code>。只读。</td></tr>
+<tr><td class="c">3</td><td>指标名称</td><td class="c">自动</td><td>指标标准库名称；"其中："前缀自动去除展示，鼠标悬停可见全称。只读。</td></tr>
+<tr><td class="c">4</td><td>指标单位</td><td class="c">自动</td><td>取指标标准库单位列。只读。</td></tr>
+<tr><td class="c">5</td><td>{X-1} 年预算值</td><td class="c">自动</td><td>上一年预算值。当前指标标准库无历史预算数据时显示 <code>--</code> 占位。</td></tr>
+<tr><td class="c">6</td><td>最新实际值</td><td class="c">自动</td><td>系统加载该指标最近一期实际数；无数据显示 <code>--</code>。</td></tr>
+<tr><td class="c">7</td><td>最新实际值日期</td><td class="c">自动</td><td>固定为上一自然月月末，格式 YYYY-MM-DD。</td></tr>
+<tr><td class="c">8</td><td><span class="req-star">*</span>{X} 年预算值</td><td class="c"><b>必填</b></td><td><b>唯一人工填写列</b>。输入框，仅允许数值（数字 + 单个小数点），粘贴非数值字符自动过滤。</td></tr>
+</tbody>
+</table>
+<div class="tip">清单为空时（该单元暂无预算指标），表格区提示：「未查询到匹配的数据，请先在指标标准库中去维护"是否有全年预算"值」。</div>
+
+<h3>2.3　编辑与填写</h3>
+<ol class="tight">
+<li>默认进入页面为<b>仅查看</b>态，预算值输入框只读、不可点击。</li>
+<li>点击 <span class="btn-demo">🖊 编辑</span> 进入编辑态：按钮变为「编辑中 · 完成」，输入框可填写，占位提示"必填，全年预算值"；查询条件下拉同时锁定，防止填错单元。</li>
+<li>填写中每次输入即时暂存（<b>会话内草稿</b>）：同一次浏览中切换业务单元/年度再切回，已填值不丢；刷新或关闭页面后草稿清空。</li>
+<li>再次点击「编辑中 · 完成」退回仅查看态。</li>
+</ol>
+
+<h3>2.4　导入（Excel/CSV 模板）</h3>
+<p>点击 <span class="btn-demo">📤 导入</span> 选择模板文件，系统按<b>指标名称</b>自动匹配填充当前单元、当前年度的预算值列。</p>
+<table class="doc-table">
+<thead><tr><th style="width:130px;">项目</th><th>规则</th></tr></thead>
+<tbody>
+<tr><td>文件格式</td><td><code>.xlsx</code> / <code>.xls</code> / <code>.csv</code>（CSV 页面直接解析；Excel 文件首次使用时联网加载解析组件）。</td></tr>
+<tr><td>表头</td><td>保持和当前页面一致；导入加载时，仅导入「<b>{X} 年全年预算值</b>」列，其他列不导入。</td></tr>
+<tr><td>导入校验</td><td><b>1、表头与格式校验：</b>检查导入文件表头是否缺失、与模板是否完全一致；校验单元格内容，仅允许录入纯数值，非数字内容直接拦截，报错格式与观远原生导入失败提示保持一致。<br><b>2、指标匹配校验：</b>校验文件内指标名称以及编号是否存在于当前页面指标清单；若存在未匹配的指标，弹出提示：<b>"当前指标清单中，有部分指标未查询到匹配数据，请先在指标标准库维护该指标'是否有全年预算'字段"</b>。</td></tr>
+<tr><td>叠加行为</td><td>导入前先暂存页面已填内容，导入结果<b>叠加</b>其上（同名指标以文件值覆盖），不冲突。</td></tr>
+<tr><td>导入结果</td><td>成功：提示"已匹配填充 N 项"，自动进入编辑态便于核对补填。失败：表头缺失、解析失败等均给出对应提示，<b>不清空</b>任何已填值。</td></tr>
+</tbody>
+</table>
+<div class="tip"><b>特别说明：</b>导入「{X} 年全年预算值」时，系统校验导入数据中的年度必须与当前页面所选年度<b>保持一致，禁止跨年度导入</b>。例如：不可将 2027 年预算数据导入至 2026 年度页面。</div>
+
+<h3>2.5　提交与校验</h3>
+<ol class="tight">
+<li>点击 <span class="btn-demo">✅ 提交</span>，系统校验当前单元<b>全部指标行</b>的「*{X} 年预算值」均已填写。</li>
+<li>存在未填项 → 提交失败：提示未填数量，未填输入框标红并显示"请输入预算值"，自动进入编辑态可直接补填；补填后红框即时消失。</li>
+<li>全部填写 → 提交成功：提示「提交成功」，页面退回仅查看态。</li>
+</ol>
+
+<h3>2.6　导出</h3>
+<p>点击 <span class="btn-demo">📥 导出</span>，将当前页面表格（含全部列与已填值）导出为 Excel 文件，文件名与页面标题一致（预算指标填报表 · {业务单元}）。导出为只读快照，不影响页面状态。</p>
+<div class="tip"><b>特别说明：</b>仅可导出当前所选业务单元的数据。</div>
+
+<h2 id="s3">三、权限说明</h2>
+<table class="doc-table">
+<thead><tr><th style="width:150px;">角色</th><th>权限</th></tr></thead>
+<tbody>
+<tr><td class="c">业务单元负责人</td><td>可查看、编辑、导入、提交<b>本业务单元</b>的预算值；只能填报自己有权限的单元。</td></tr>
+<tr><td class="c">集团预算管理员</td><td>可查看全部业务单元填报情况，可导出汇总；不代填业务单元数据。</td></tr>
+<tr><td class="c">其他用户</td><td>仅查看（或按平台统一菜单权限隐藏本模块）。</td></tr>
+</tbody>
+</table>
+<div class="tip">原型演示阶段所有功能全员可用；正式上线按上述角色对接平台统一权限体系。</div>
+
+<h2 id="s4">四、业务确认</h2>
+<ul class="tight">
+<li>预算指标口径：仅【是否有全年预算】= 是 的指标需填报，是否正确？</li>
+<li>最新实际值取数日期固定为上一自然月月末，是否满足对数需要？</li>
+<li>提交后进入线下/线上审批流的具体链路，需与预算管理办公室另行确认。</li>
+<li>导入模板是否需要平台提供统一下载？（当前版本支持任意符合表头规则的文件）</li>
+</ul>
+
+</div>
+<div class="footer">战略部数据应用平台 · 预算值填报需求规格说明书 V1.0 · 2026-10-28 · 配套页面：index.html → 数据应用 → 预算值填报管理</div>
+</div>
+</body>
+</html>

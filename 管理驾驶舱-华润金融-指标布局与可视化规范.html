@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理驾驶舱 · 华润金融 — 指标布局与可视化规范（配套说明文档）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--navy:#17427d;--navy2:#1a3a6b;--gold:#c8962e;--ink:#1f2937;--dim:#5b6572;--line:#dfe6ef;--bg:#f2f5f9;--ok:#0f9d6e;--warn:#e8823c;--bad:#ef4444;}
+body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.75;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 60px;}
+header{background:linear-gradient(135deg,#0f2847 0%,#1a3a6b 55%,#2a5298 100%);color:#fff;padding:34px 0 26px;}
+header .wrap{padding-bottom:0;}
+header h1{font-size:23px;letter-spacing:1px;}
+header .sub{font-size:12.5px;opacity:.75;margin-top:6px;letter-spacing:.5px;}
+.meta{display:flex;gap:26px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;}
+.meta span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:4px 12px;}
+.meta b{color:#e8c063;font-weight:600;}
+h2{font-size:17.5px;color:var(--navy);margin:38px 0 4px;padding-left:12px;border-left:4px solid var(--gold);}
+h2 small{font-size:12px;color:var(--dim);font-weight:400;margin-left:10px;}
+h3{font-size:14.5px;color:var(--navy);margin:20px 0 8px;}
+p.note{color:var(--dim);font-size:12.5px;margin:2px 0 10px;padding-left:16px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:12px 0;box-shadow:0 1px 3px rgba(23,66,125,.06);}
+table{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:12.8px;background:#fff;}
+th{background:var(--navy2);color:#fff;font-weight:600;padding:8px 10px;text-align:left;border:1px solid #2a5298;font-size:12.5px;white-space:nowrap;}
+td{border:1px solid var(--line);padding:7px 10px;vertical-align:top;}
+tbody tr:nth-child(even){background:#f7fafd;}
+.tag{display:inline-block;font-size:11px;border-radius:4px;padding:1px 8px;margin:1px 3px 1px 0;white-space:nowrap;font-weight:600;}
+.t-pie{background:#e3f0ff;color:#155ca8;} .t-bar{background:#e8f6ef;color:#0d7a55;}
+.t-card{background:#eee9f9;color:#5b3fa8;} .t-line{background:#fdf6dc;color:#8a6d00;}
+.t-hero{background:#dff2ec;color:#0b6b4b;} .t-stack{background:#e9eef6;color:#3d5678;}
+.rule{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;}
+.rule .r{flex:1 1 240px;background:#f7fafd;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:12px 14px;}
+.rule .r b{display:block;color:var(--navy);margin-bottom:4px;font-size:13px;}
+.rule .r p{font-size:12.3px;color:var(--dim);}
+.chk{color:var(--ok);font-weight:700;}
+.miss{color:var(--bad);font-weight:700;}
+.kal{display:inline-block;font-size:10.5px;color:#8a6110;background:#fdf6e7;border:1px solid #ecd9ac;border-radius:3px;padding:0 6px;font-weight:600;white-space:nowrap;}
+ul.tight{margin:4px 0 4px 20px;font-size:12.8px;color:var(--dim);}
+ul.tight li{margin:3px 0;}
+.hl{color:var(--navy);font-weight:700;}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>管理驾驶舱 · 华润金融 —— 指标布局与可视化规范</h1>
+  <div class="sub">MANAGEMENT COCKPIT · CR FINANCE — INDICATOR LAYOUT &amp; VISUALIZATION SPEC（配套说明文档）</div>
+  <div class="meta">
+    <span>页面位置：<b>管理驾驶舱 → 华润金融页签（总览视图）</b></span>
+    <span>数据源：<b>金控风险部&amp;华润金融_深国投指标数据梳理表.xlsx ·「华润金融指标清单」</b></span>
+    <span>版本：<b>2026-10-26（核心指标重排序 + 其他财务指标并入 + 利润链 hero 对齐银行页）</b></span>
+    <span>框架：<b>核心指标 · 风险指标 · 年度考核指标（考核表不变；2026-10-26 原「其他财务指标」并入核心六卡）</b></span>
+  </div>
+</div></header>
+<div class="wrap">
+
+<h2 id="s0">〇、可视化触发规则总纲</h2>
+<div class="card">
+  <p>本页全部图形选择遵循以下 7 条触发规则——<span class="hl">先判断指标之间的业务关系，再决定展示形式</span>，避免"指标简单堆砌"：</p>
+  <div class="rule">
+    <div class="r"><b>规则① 趋势 → 本月数柱 + 月度同比金线双轴（对齐华润银行页）</b><p>Excel 报送值口径为「本月数」的经营/流量指标（营业收入、利润总额、净利润），趋势图一律画<b>近 12 个月本月数柱 + 月度同比右轴金线</b>，不画本年累计；悬停一次显示 本月数/去年同月/月度同比 三行（三数自洽）。累计数只反映规模，本月数才反映当期动能拐点。利润链三指标=hero 复合卡（预算完成环位=非考核灰环 + 本年累计/累计同比/预算数 + 本月数/月度同比 + 趋势图），版式与华润银行 tab 行1 完全一致。</p></div>
+    <div class="r"><b>规则② 层级构成 → 饼图</b><p>同口径、构成相加=总量的层级指标（总资产=负债+净资产；问题资产=不良+关注+预警；减值余额=三类减值余额之和）用环形图，中心标注母项总量，明细行右置（名称+值+同比+占比）。构成项≤6，本表所有饼图勾稽闭合。</p></div>
+    <div class="r"><b>规则③ 时点数比率 → 卡片</b><p>报送值为「本月末/本季末」的存量与比率指标（总资产、净资产、资产负债率、ROA、四类减值比例），用指标卡呈现：数值+同比/环比/较年初小注。卡片承载"当前水位"，无需图形。</p></div>
+    <div class="r"><b>规则④ 比率对比 → 指标小卡并列（含季度趋势）</b><p>无构成关系、但需逐项跟踪的同类比率（客户/地区集中度六项），一指标一小卡并列：季度标签（2026.Q3末）→ 本季末大数 → 近4个季度折线趋势，<b>曲线各点上方标注季度值（带 % 单位）</b>（轴标签带年份 2026.Q1…；2026-10-26 多次改版——条形只能横向比高低，小卡能纵向看走向；不显示环比，集中度为季度报送指标，环比无意义）。</p></div>
+    <div class="r"><b>规则⑤ 五家构成 → 堆叠柱+色签</b><p>由银行/信托/资产/租赁/深国投五家分别上报的指标（不良处置/下迁/不良总额/减值余额），堆叠柱=各家构成（柱高=华润金融合计）；点击色签切换单家 12 个月趋势，悬停看逐家明细。</p></div>
+    <div class="r"><b>规则⑥ 口径徽标</b><p>Excel「报送值」列区分 本月数 / 本年累计数 / 本月末 / 本季末 四种口径，统一以口径标签标注在指标卡内第一行（卡头不重复展示），杜绝管理层把"本月 15.8 亿"误读为累计。</p></div>
+    <div class="r"><b>规则⑦ 指标卡统一样式（2026-10-26 按需求改版）</b><p>全页指标卡统一采用<b>驾驶舱指标卡样式</b>：渐变蓝卡头（白点+指标名+ⓘ）→ 卡体内容按参考图纵排：<b>口径标签（本月数/本年累计数）→ 蓝渐变大数值 → 变动行</b>——"本年累计数"卡变动行标「累计同比：+5.48%↑」，"本月数"卡标「同比：+9.1%↑」（红涨绿跌、数值带箭头）；净资产/总资产/资产负债率三时点卡"同比+较年初"双小注同行横排。悬停上浮。全页一种卡片语言，读一次即会读所有卡。</p></div>
+    <div class="r"><b>规则⑧ 与华润银行 tab 版式对齐（2026-10-27 按需求改版）</b><p>页面级样式全面对齐华润银行 tab，两页读起来是同一份材料：<b>① 利润链三 hero 卡头</b>改蓝渐变满铺金融卡头（chd-fkk，与银行页同名卡一致），口径长句从卡头移出、改由图下迷你图例（蓝方块=本月数 · 橙线=月度同比）承载，趋势语义全局只解释一次；<b>② 图表卡 tag 统一为短口径</b>（如"亿元 · 本月末"），构成公式、链路角色等语义收拢到小节标题说明行——卡头只回答"是什么口径"，小节标题回答"怎么读"；<b>③ 集中度六小卡</b>沿用 fkk 蓝头+折线，与银行页六卡行（效益与定价等）同构。目的：管理层跨 tab 浏览时，卡片语言、色彩语义、图例位置、悬停行为完全一致，零重新学习成本。</p></div>
+  </div>
+</div>
+
+<h2 id="s1">① 核心指标 <small>—— 赚多少·家底多大｜2026-10-26 按资本约束机构阅读逻辑定序｜源：Excel「经营指标」</small></h2>
+<div class="card">
+  <p><b>排序逻辑线</b>：<span class="hl">回报效率（ROE→ROA）→ 盈利结果（股东应占净利润）→ 资本底盘（净资产）→ 资产体量（总资产）→ 杠杆风险（资产负债率）</span>。金控/银行/租赁/信托这类受资本约束强的机构，领导一眼先看<b>赚的效率</b>，再看<b>赚了多少</b>，再看<b>家底多大、杠杆高不高</b>。</p>
+  <h3>行1 · 核心六卡（驾驶舱指标卡样式：口径标签→蓝渐变大数值→变动行）</h3>
+  <table>
+    <thead><tr><th>顺位</th><th>指标（Excel 行）</th><th>口径</th><th>摆放位置依据</th><th>管理层决策价值</th></tr></thead>
+    <tbody>
+      <tr><td><b>1</b></td><td>ROE <span class="kal">本年累计</span></td><td>本年累计｜变动行=同比</td><td rowspan="2"><b>回报效率打头</b>——第一卡=股东最关心的回报（核心盈利效率指标）；ROA 紧跟 ROE 配套（风控+经营层视角）。两者分子分母不同（权益 vs 总资产），不可相加、不宜混入趋势图，独立成卡；2026-10-26 按需求统一以<b>本年累计</b>口径展示（变动行标「同比」），与利润链 hero 的累计口径对齐。</td><td>ROE=资本回报水平（华润集团对标口径），效率不达标规模再大也贬值。</td></tr>
+      <tr><td><b>2</b></td><td>ROA <span class="kal">本年累计</span></td><td>本年累计｜变动行=同比</td><td>ROA=总资产获利能力，对金融控股高杠杆结构尤其敏感；与 ROE 并读可拆"回报是效率挣的还是杠杆堆的"。</td></tr>
+      <tr><td><b>3</b></td><td>股东应占净利润 <span class="kal">本年累计</span></td><td>本年累计｜变动行=累计同比</td><td><b>盈利结果</b>——效率之后看绝对量；归母净利润=市值与分红的直接基础，华润控股视角最关心的一项。累计口径与变动行「累计同比」自洽（Excel 本有本年累计数组）。</td><td>一眼回答"今年赚了多少钱、钱是不是股东的"。</td></tr>
+      <tr><td><b>4</b></td><td>净资产（所有者权益）<span class="kal">本月末</span></td><td>本月末</td><td rowspan="3"><b>资产负债表三连</b>——资本底盘（净资产）→ 资产体量（总资产）→ 杠杆风险（资产负债率=负债÷总资产，派生）。三者同属一张资产负债表，顺位即"股东投入→经营盘子→融资杠杆"的拆解顺序；资产负债率殿后=风险约束收口。</td><td>净资产=股东投入家底、资本垫厚度，决定扩张上限。</td></tr>
+      <tr><td><b>5</b></td><td>总资产 <span class="kal">本月末</span></td><td>本月末</td><td>总资产=经营盘子规模，配合 ROA 看体量质量。</td></tr>
+      <tr><td><b>6</b></td><td>资产负债率 <span class="kal">本月末</span></td><td>本月末（负债轧差派生）</td><td>杠杆总闸门：87.1% 水位+较年初下行=去杠杆成效；上行则挤压扩表与分红空间。</td></tr>
+    </tbody>
+  </table>
+  <h3>行2 · 利润链三 hero（营业收入 / 利润总额 / 净利润，样式对齐华润银行 tab 行1）</h3>
+  <table>
+    <thead><tr><th>结构</th><th>内容</th><th>摆放位置依据</th><th>管理层决策价值</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag t-hero">hero 复合卡×3</span></td><td>上排：非考核灰环 + 本年累计/累计同比/预算数（合并口径无下达预算）三行 ｜ 本月数/月度同比；下排：<b>本月数柱+月度同比金线双轴图</b>（悬停：本月数/去年同月/月度同比三行）。</td><td>核心六卡定序"效率/结果/底盘"后，<b>利润链流水（收入→税前→税后）不再占卡位</b>，改由三张银行同款 hero 承载——卡图同体，量级与月度节奏一卡读完；三卡与下方双轴图末柱互证。</td><td>趋势展示本月数而非累计：累计曲线永远向上掩盖动能拐点；月度同比线把"增长失速/低基数反弹"两类形态分离暴露。</td></tr>
+    </tbody>
+  </table>
+  <p class="note">原「其他财务指标」模块（资金来源饼+资产负债四卡）按需求删除：饼图信息与核心卡资产负债率重复（负债占比即资产负债率），总资产/净资产/资产负债率已上收进核心六卡；原「板块营收贡献」条形亦不在本页（板块拆分属各家页签职责）。</p>
+</div>
+
+<h2 id="s2">② 风险指标 <small>—— 安不安全｜源：Excel「问题资产指标」+「集中度风险管理指标」</small></h2>
+<div class="card">
+  <h3>行A · 两个构成饼（规则②：层级构成→饼）</h3>
+  <table>
+    <thead><tr><th>图形</th><th>构成关系（勾稽）</th><th>摆放位置依据</th><th>管理层决策价值</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag t-pie">问题资产规模构成</span>中心=问题资产总规模；色阶：不良红=已出险、金=观察、蓝=预警。</td><td>不良类 + 关注类 + 正常但预警 = 问题资产总规模（Excel 二级分类"不良类/关注类/正常但预警类"三层相加，不重不漏）。</td><td rowspan="2">风险区先看"总盘子怎么构成"（两饼左右并排：左=规模、右=抵减，右饼明细行改显示各类占比（减值比例=÷对应资产余额的信息按需求不再展示），再看"趋势与来源"（行B）与"集中度"（行C）——从存量到动态、从总量到结构逐层展开。</td><td>风险结构集中度一目了然：不良占比是否过高决定清收/核销资源投放；关注+预警占比=未来下迁压力。</td></tr>
+      <tr><td><span class="tag t-pie">减值余额构成</span>中心=问题资产减值余额；明细行给出各类<b>占比</b>（该类减值÷减值总额，与扇区一致）。</td><td>不良减值 + 关注减值 + 预警减值 = 问题资产减值余额（Excel 指标定义原文），且与行B「问题资产减值余额」五家堆叠图同数同源。</td><td>同上。</td><td>计提结构是否随风险前置：不良计提占比≈73% 说明计提集中在已出险资产，关注/预警计提占比偏低时下迁需增提。</td></tr>
+    </tbody>
+  </table>
+  <p class="note">原「问题资产减值比例」四卡模块按需求删除（2026-10-26）；右饼明细行按需求改显示<b>占比</b>（不再显示覆盖度）——减值比例=减值余额÷对应资产余额保留在数据层，Excel 四条比率行供下钻/报表页使用。</p>
+  <h3>行B · 资产质量闭环链路（规则⑤：五家堆叠；2026-10-26 按"存量→流入→流出→兜底"排序）</h3>
+  <table>
+    <thead><tr><th>图卡（按此顺序）</th><th>链路角色</th><th>Excel 行（报送值口径）</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>① 不良资产总额</td><td><b>存量底盘</b>（时点）——现在一共有多少不良，风险底子</td><td>本月末余额 <span class="kal">本月末</span>（环比/较年初走悬停）</td><td rowspan="4">四图维持"堆叠柱=五家构成 + 金线=合计同比 + 色签切单家趋势 + 悬停逐家明细"交互；卡头标签统一补注口径（本月数/本月末余额）与链路角色一句话说明。<br><b>排序理由（资产质量专项视角）</b>：四卡恰好构成风险闭环链路——<span class="hl">存量不良底盘 → 本期新增下迁（风险流入）→ 本期处置（风险流出）→ 减值兜底准备</span>。领导看这组回答四问：<b>不良盘子多大、新增风险多不多、化解力度够不够、减值储备能不能兜住</b>。与前面拨备覆盖、五级分类构成配套互补。</td></tr>
+      <tr><td>② 不良下迁</td><td><b>迁徙增量</b>（期间）——本期从正常/关注类掉到不良的新增风险，"新冒出来的不良"</td><td>本月度下迁 <span class="kal">本月数</span>（=不良净增+处置额）</td></tr>
+      <tr><td>③ 不良资产处置</td><td><b>处置压降</b>（期间）——本期消化掉的不良，风险出口</td><td>本月度处置 <span class="kal">本月数</span>（累计处置行去重不重复出图）</td></tr>
+      <tr><td>④ 问题资产减值余额</td><td><b>计提的风险准备</b>（时点）——账面已预留扛损失的减值盘子，拨备配套指标</td><td>本月末余额 <span class="kal">本月末</span>（与行A右饼互证）</td></tr>
+    </tbody>
+  </table>
+  <h3>行C · 集中度风险管理（规则④：比率对比 → 六小卡并列·近4季度趋势；2026-10-26 按需求改版）</h3>
+  <table>
+    <thead><tr><th>指标（Excel 行，均 <span class="kal">本季末</span>）</th><th>方案</th><th>管理层决策价值</th></tr></thead>
+    <tbody>
+      <tr><td>① 非同业单一客户集中度 ② 非同业集团客户集中度 ③ 最大十家非同业客户集中度 ④ 同业单一客户集中度 ⑤ 同业集团客户集中度 ⑥ 地区集中度（均 Excel 行 <span class="kal">本季末</span>）</td><td><span class="tag t-card">六小卡并列</span>一指标一卡（六卡一行）：<b>季度标签（2026.Q3末）置于指标值上方（纯文本无底框）</b>（2026.Q3末 灰底角标）→ 本季末大数 → <b>近4个季度折线趋势</b>（当年已过季度，末点=本季末=大数；<b>曲线各点上方直接标注季度值（带 % 单位，如 9.4%）</b>——末点加粗藏蓝、历史点灰蓝，免悬停即可读数；轴标签带年份 2026.Q1…；悬停逐季读数；<b>不显示环比</b>——集中度按季报送，环比无意义）。<br><b>排序=监管敏感度分组</b>：<span class="hl">先全部【非同业】（第一！非同业单一客户集中度=监管第一红线、最敏感；第二非同业集团客户集中度=集团合并大额暴露、次红线；第三最大十家非同业客户集中度=整体客户分散度、组合风向标）→ 再【同业】（单一→集团）→ 最后【地区】</span>。</td><td>最容易踩监管处罚的指标放最前，<b>领导第一眼抓核心风险</b>；同类放一起（非同业→同业→地区）分组清晰、逻辑连贯。集中度六项无相加关系（分母同为净资本、分子口径各异）→ 禁用饼图；单一大条形图只能看"谁最高"看不到"怎么变"——六小卡各自带趋势，每项集中度的<b>季度走向独立可读</b>：非同业单一虽绝对值低（8.6%）但贴近监管限值是首要盯防项；最大十家 42.6% 高位回落后是否续降=组合分散化风向；地区集中度 V 型回升=区域风险再聚集预警。</td></tr>
+    </tbody>
+  </table>
+  <h3>行业集中度（单列说明）</h3>
+  <p class="note">Excel 中「行业集中度」定义为<b>最大行业</b>风险暴露占比（单值，非行业分布数据）；当前六卡=Excel 明确单列的六项（最大十家/地区/同业集团/同业单一/非同业集团/非同业单一），行业集中度供数到位后作为第七卡并列追加；若后续供数升级为全行业分布，再改饼图（规则②自动适用）。</p>
+</div>
+
+<h2 id="s3">③ 年度考核指标 <small>—— 考核兑现｜按需求保持不变</small></h2>
+<div class="card">
+  <p>业务单元 × 指标 × 预算达成表（华润银行 14 项 / 华润保险 12 项 / 华润资产 6 项）本次<b>原样保留</b>：进度条承载达成率，<span class="hl">是本页唯一"计划 vs 实际"分区</span>，故核心指标与风险区不再重复放预算达成元素，避免同屏双口径。</p>
+</div>
+
+<h2 id="s5">附A · 构成闭合与勾稽校验（饼图可信性基础）</h2>
+<div class="card">
+  <table>
+    <thead><tr><th>饼图</th><th>恒等式</th><th>样例校验（2026-09）</th><th>结果</th></tr></thead>
+    <tbody>
+      <tr><td>资产负债率（核心卡派生，原资金来源饼删除）</td><td>负债 + 净资产 = 总资产（负债=总资产−净资产 轧差，恒成立）→ 资产负债率=负债÷总资产</td><td>5,938 + 882 = 6,820 → 87.1%</td><td class="chk">✓ 闭合</td></tr>
+      <tr><td>问题资产规模构成</td><td>不良 + 关注 + 预警 = 问题资产总规模</td><td>58.6 + 42.3 + 18.5 = 119.4</td><td class="chk">✓ 闭合</td></tr>
+      <tr><td>减值余额构成</td><td>三类减值余额之和 = 问题资产减值余额（且=堆叠图 9 月柱高）</td><td>27.5 + 6.9 + 3.2 = 37.6</td><td class="chk">✓ 闭合</td></tr>
+      <tr><td>减值比例（四卡与覆盖度展示均按需求移除；数据层勾稽保留）</td><td>各比例 = 对应减值余额 ÷ 对应资产余额（与两饼同数据源）</td><td>37.6/119.4 = 31.5%；27.5/58.6 = 46.9%；6.9/42.3 = 16.3%；3.2/18.5 = 17.3%</td><td class="chk">✓ 互证</td></tr>
+    </tbody>
+  </table>
+  <p class="note">样例数值为原型示意数据；接入真实供数后，上表恒等式即验收断言（真实值直接取 Excel 原子指标，派生比例一律前端计算，不双写）。</p>
+</div>
+
+<h2 id="s6">附B · 指标去重与 Excel 数据源覆盖清单</h2>
+<div class="card">
+  <p>Excel「华润金融指标清单」共 37 条指标行，本页覆盖规则：<span class="hl">同一指标多口径行→上层优先</span>（本月数组先展示，本年累计组进考核/卡注）；<span class="hl">五家合计类→堆叠图承载</span>，总览不再单列。</p>
+  <table>
+    <thead><tr><th>Excel 指标</th><th>条数</th><th>页面落位</th></tr></thead>
+    <tbody>
+      <tr><td>不良资产处置 / 不良下迁（本年累计 + 本月数 各一行）</td><td>4</td><td>行B 趋势=本月数行（链路②③）；累计行去重（备注列即"累计"说明）</td></tr>
+      <tr><td>不良资产总额 / 关注类资产总额 / 正常但预警资产总额 / 问题资产总规模</td><td>4</td><td>行A 构成饼（不良/关注/预警三项相加=问题资产总规模）</td></tr>
+      <tr><td>问题资产减值余额 / 不良·关注·预警减值余额</td><td>4</td><td>行A 右饼 + 行B 减值余额堆叠图</td></tr>
+      <tr><td>问题资产减值比例 / 不良·关注·预警减值比例</td><td>4</td><td>原减值比例四卡模块按需求删除（2026-10-26）；页面不再展示覆盖度（右饼明细行改显示占比），比例数据层保留供下钻</td></tr>
+      <tr><td>地区 / 客户（5 项）/ 行业集中度</td><td>7</td><td>行C 集中度六小卡（最大十家非同业 1 项亦并入，共 6 卡；行业集中度待供数追加第七卡）</td></tr>
+      <tr><td>营业收入 / 利润总额 / 净利润 / 股东应占净利润（本月数 + 本年累计 各一行）</td><td>8</td><td>行2 利润链三 hero=本月数行（hero 上排同时挂本年累计）；股东应占净利润=核心卡顺位 3；累计行去重</td></tr>
+      <tr><td>ROE / ROA</td><td>2</td><td>核心卡顺位 1、2（回报效率打头，口径标签行区分）</td></tr>
+      <tr><td>总资产 / 所有者权益（净资产）/ 资产负债率</td><td>3</td><td>核心卡顺位 4、5、6（资本底盘→资产体量→杠杆风险）</td></tr>
+      <tr><td>“净资产=所有者权益”重复行</td><td>1</td><td>合并展示（Excel 已标注重复），页面不双列</td></tr>
+    </tbody>
+  </table>
+  <h3>数据质量提示（供数前需与金控风险部确认）</h3>
+  <ul class="tight">
+    <li><span class="miss">■</span> 资产负债率行「指标单位」列误标为"亿元"，实际应为 %（页面按 % 展示，建议修正 Excel）。</li>
+    <li><span class="miss">■</span> Excel 中 ROA 报送值口径标"本月数"、ROE 标"本年累计数"、股东应占净利润分本月数/本年累计两组；页面三卡已统一按<b>本年累计</b>口径展示（2026-10-26 按需求），与利润链 hero 累计口径对齐——供数时 ROA/股东应占净利润请提供<b>本年累计</b>值，收益率年化与否请供数侧明确并同步口径标注。</li>
+    <li><span class="miss">■</span> 经营指标组「数据范围」列为空，其余行=含银行、信托、资产、租赁、深国投（减值组另含渝康）；接入时建议统一补齐。</li>
+    <li><span class="miss">■</span> 集中度与减值族多数行未给环比/较年初赋值列，页面已预留小注位，供数后自动点亮。</li>
+  </ul>
+</div>
+
+<p style="margin-top:34px;color:var(--dim);font-size:12px;">配套页面：index.html · 管理驾驶舱 · 华润金融页签｜指标数据源：金控风险部&amp;华润金融_深国投指标数据梳理表 .xlsx（华润金融指标清单）｜姊妹文档：《管理驾驶舱-华润银行-指标布局与可视化规范》</p>
+</div>
+</body>
+</html>

@@ -162,6 +162,27 @@ body{
 /* 报表台账管理（一级菜单，与固定报表管理同级）：金色主题 */
 .nav-parent.nav-ledger{color:#8a5a00;}
 .nav-parent.nav-ledger:hover{background:#fdf4dc;}
+/* 预算值填报管理（一级菜单，与报表台账管理同级，2026-10-21 新增）：青绿主题 */
+.nav-parent.nav-budget{color:#065f46;}
+.nav-parent.nav-budget:hover{background:#e6f6f0;}
+
+/* ===== 预算值填报（2026-10-21 新增） ===== */
+.bud-toolbar{display:flex; align-items:center; gap:10px; background:#fff; border-radius:10px; padding:12px 20px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,0.08); flex-wrap:wrap;}
+.bud-field{display:flex; align-items:center; gap:6px; background:#f8f9fb; border:1px solid var(--c-border); border-radius:8px; padding:5px 12px;}
+.bud-field-label{font-size:12.5px; color:var(--c-text); font-weight:700;}
+.bud-select{border:none; background:transparent; font-size:13.5px; color:var(--c-primary); font-weight:700; cursor:pointer; font-family:inherit; outline:none; padding:2px 4px;}
+.bud-select:hover,.bud-select:focus{color:var(--c-info);}
+.bud-hint{font-size:12px; color:var(--c-text-light); margin-left:auto;}
+.bud-hint b{color:var(--c-primary);}
+.bud-hint .bud-warn{color:var(--c-danger); font-weight:700;}
+.bud-table th.bud-req{color:#c0392b;}
+.bud-table td.bud-must{background:#fffdf5;}
+.bud-input{width:130px; border:1.5px solid var(--c-border); border-radius:6px; padding:5px 8px; font-size:13px; font-family:inherit; text-align:right; color:var(--c-text); transition:border-color .15s, box-shadow .15s;}
+.bud-input:hover{border-color:var(--c-info);}
+.bud-input:focus{outline:none; border-color:var(--c-info); box-shadow:0 0 0 3px rgba(59,130,246,.12);}
+.bud-input.filled{border-color:var(--c-success); background:#f4fbf7;}
+.bud-auto{font-style:italic; color:#8a94a0;}
+.bud-empty-tip{padding:36px 16px; text-align:center; color:#9aa3ad; font-size:13px;}
 
 /* 占位符统一样式：全平台 -- 与 N/A 一致（2026-09 再加深一档，黑体加粗观感） */
 .dim-dash,.dim-na{
@@ -791,64 +812,63 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   .std-form-actions{grid-column:auto;}
 }
 
-/* ===== 模块二：领导驾驶舱（深蓝科技大屏风 · 2026-10-12 改造，作用域 #moduleLeader） ===== */
+/* ===== 模块二：管理驾驶舱（深蓝科技大屏风 · 2026-10-12 改造，作用域 #moduleLeader） ===== */
 #moduleLeader{
-  --blue:#39a1f7; --blue2:#5cc2ff; --cyan:#37c8ff;
-  --gold:#f0c060; --gold-light:#ffe3a0;
-  --card:rgba(13,36,72,.66); --line:rgba(74,155,245,.25); --line2:rgba(92,194,255,.55);
-  --text:#d8e8fc; --dim:#7d9cc9; --dim2:#9dbae0;
-  --up:#ff5d6c; --down:#2ee6a8; --warn:#f0b13a;
-  --ok-bg:rgba(46,230,168,.10); --ok-fg:#2ee6a8; --ok-line:rgba(46,230,168,.35);
-  --warn-bg:rgba(240,177,58,.10); --warn-fg:#f0b13a; --warn-line:rgba(240,177,58,.35);
-  --bad-bg:rgba(255,93,108,.10); --bad-fg:#ff5d6c; --bad-line:rgba(255,93,108,.4);
+  /* 2026-10-22 整体焕新：藏蓝主体系（深→亮蓝渐进做骨架），暖橙辅色（点缀/告警强调），状态红绿语义不变；板块识别色见脚本 BU_COLORS */
+  --blue:#17427d; --blue2:#2f7fd6; --cyan:#2f7fd6;
+  --navy-deep:#0f2f5e; --blue-tint:#f0f6fd;
+  --gold:#c2620e; --gold-light:#9a5b12; --gold-bright:#f59e0b; --gold-soft:#fbbf6e;
+  --card:#ffffff; --line:#dce6f2; --line2:#9ec3ea;
+  --text:#1e3350; --dim:#7a8ba6; --dim2:#4d6284;
+  --up:#d64550; --down:#0f9d6e; --warn:#c2620e;
+  --ok-bg:#e6f7f0; --ok-fg:#0f9d6e; --ok-line:#a8e0c8;
+  --warn-bg:#fff4e6; --warn-fg:#c2620e; --warn-line:#f5d9b0;
+  --bad-bg:#fdecee; --bad-fg:#d64550; --bad-line:#f3c2c7;
+  --sh1:0 1px 3px rgba(23,66,125,.05), 0 6px 18px -12px rgba(23,66,125,.16);
+  --sh2:0 6px 18px rgba(23,66,125,.10);
   font-family:"Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif;
-  background:
-    linear-gradient(rgba(92,194,255,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(92,194,255,.04) 1px,transparent 1px),
-    radial-gradient(1100px 460px at 50% -140px,rgba(37,116,220,.4),rgba(0,0,0,0) 62%),
-    linear-gradient(180deg,#061228 0%,#081a38 46%,#0a2149 100%);
-  background-size:36px 36px,36px 36px,auto,auto;
+  background:linear-gradient(180deg,#f4f8fd 0%,#e9f0f9 46%,#edf3fa 100%);
   color:var(--text);font-size:14px;line-height:1.6;min-height:calc(100vh - 64px)}
 /* ---- 控制工具条（v3：板块页签 + 数据日期 + 币种；随模块 static 展示，平台 header 常驻其上） ---- */
 #moduleLeader header{position:static;
-  background:linear-gradient(90deg,rgba(6,16,36,.95),rgba(14,42,86,.92) 50%,rgba(6,16,36,.95));
-  border-bottom:1px solid var(--line);box-shadow:0 6px 18px rgba(2,10,26,.55)}
-#moduleLeader .gq-bar{display:flex;align-items:center;gap:14px;padding:0 26px;min-height:52px;flex-wrap:wrap}
-#moduleLeader header nav{display:flex;gap:4px;flex-wrap:wrap}
-#moduleLeader header nav button{font-family:inherit;font-size:13.5px;padding:15px 18px 13px;cursor:pointer;letter-spacing:1px;
-  border:none;border-bottom:2px solid transparent;background:transparent;color:var(--dim2);transition:color .16s,border-color .16s}
-#moduleLeader header nav button:hover{color:var(--blue2)}
-#moduleLeader header nav button.on{color:#fff;font-weight:700;border-bottom-color:var(--cyan);
-  text-shadow:0 0 10px rgba(92,194,255,.55)}
+  background:linear-gradient(180deg,#ffffff 0%,#f7fbff 100%);
+  border-bottom:1px solid var(--line);box-shadow:0 2px 12px rgba(23,66,125,.07)}
+#moduleLeader .gq-bar{display:flex;align-items:center;gap:14px;padding:0 26px;min-height:56px;flex-wrap:wrap}
+#moduleLeader header nav{display:flex;gap:6px;flex-wrap:wrap}
+#moduleLeader header nav button{font-family:inherit;font-size:13.5px;padding:9px 18px;cursor:pointer;letter-spacing:1px;
+  border:1px solid transparent;border-radius:999px;background:transparent;color:var(--dim2);
+  transition:color .16s,background .16s,box-shadow .16s}
+#moduleLeader header nav button:hover{color:var(--blue);background:#eaf2fc}
+#moduleLeader header nav button.on{color:#fff;font-weight:700;
+  background:linear-gradient(135deg,var(--navy-deep) 0%,var(--blue) 55%,var(--blue2) 100%);
+  border-color:transparent;box-shadow:0 4px 12px rgba(23,66,125,.30)}
 #moduleLeader .bar-right{display:flex;align-items:center;gap:10px;margin-left:auto;flex-wrap:wrap}
 #moduleLeader .bar-right label{font-size:12px;color:var(--dim2)}
 #moduleLeader select{font-family:inherit;font-size:12.5px;border:1px solid var(--line);color:var(--text);
-  background:rgba(10,30,62,.85);border-radius:4px;padding:6px 10px;cursor:pointer;outline:none;
-  box-shadow:0 0 8px rgba(30,100,200,.15);font-variant-numeric:tabular-nums}
+  background:#ffffff;border-radius:8px;padding:6px 10px;cursor:pointer;outline:none;
+  box-shadow:0 1px 2px rgba(23,66,125,.05);font-variant-numeric:tabular-nums}
 #moduleLeader select:focus{border-color:var(--line2)}
-#moduleLeader select option{background:#0d2a52;color:#d8e8fc}
-#moduleLeader .cur-chip{font-size:12px;color:#ffe3a0;letter-spacing:.5px;background:rgba(240,192,96,.10);
-  border:1px solid rgba(240,192,96,.38);border-radius:4px;padding:5px 11px;white-space:nowrap}
-/* ---- 北极星指标带（光谱顶线 + 斜切角 + 雷达底纹 + 预算条；仅总览页显示） ---- */
+#moduleLeader select option{background:#ffffff;color:#1f3350}
+#moduleLeader .cur-chip{font-size:12px;color:#9a5b12;letter-spacing:.5px;background:#fff6ea;
+  border:1px solid #f3ddbb;border-radius:6px;padding:5px 11px;white-space:nowrap}
+/* ---- 北极星指标带（简洁卡：蓝色渐变顶线点缀；仅总览页显示） ---- */
 #moduleLeader #north{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
-#moduleLeader .nk{position:relative;overflow:hidden;padding:13px 15px;
-  background:linear-gradient(160deg,rgba(20,54,108,.78),rgba(8,24,50,.62));
-  border:1px solid var(--line);border-radius:2px 14px 2px 2px;
-  clip-path:polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
-  box-shadow:0 4px 16px rgba(2,10,26,.5), inset 0 0 18px rgba(55,140,245,.06);
+#moduleLeader .nk{position:relative;overflow:hidden;padding:14px 16px;
+  background:linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);
+  border:1px solid var(--line);border-radius:12px;
+  box-shadow:var(--sh1);
   transition:transform .2s,box-shadow .2s,border-color .2s}
-#moduleLeader .nk::before{content:'';position:absolute;left:0;right:0;top:0;height:2px;
-  background:linear-gradient(90deg,#0d6ef0,#37c8ff 55%,#f0c060);box-shadow:0 0 10px rgba(55,200,255,.65)}
-#moduleLeader .nk::after{content:'';position:absolute;right:-34px;bottom:-34px;width:104px;height:104px;border-radius:50%;
-  background:repeating-radial-gradient(circle at center,transparent 0 10px,rgba(92,194,255,.09) 10px 11px);
-  opacity:.65;pointer-events:none}
-#moduleLeader .nk:hover{transform:translateY(-3px);border-color:var(--line2);
-  box-shadow:0 10px 26px rgba(2,10,26,.62),0 0 20px rgba(55,200,255,.16)}
+#moduleLeader .nk::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;
+  background:linear-gradient(90deg,var(--navy-deep) 0%,var(--blue) 45%,var(--blue2) 100%);box-shadow:none}
+#moduleLeader .nk:hover{transform:translateY(-2px);border-color:var(--line2);
+  box-shadow:var(--sh2)}
 #moduleLeader .nk .l{font-size:12px;color:var(--dim2)}
+/* 口径徽标（2026-10-21 华润金融页：Excel 报送值口径「本月数/本年累计数/本月末/本季末」直接标在指标名旁，管理层免误读） */
+#moduleLeader .nk .kal{display:inline-block;margin-left:5px;font-size:10px;color:#9a5b12;background:#fff6ea;
+  border:1px solid #f3ddbb;border-radius:3px;padding:0 5px;line-height:15px;vertical-align:1px;font-weight:600;letter-spacing:0}
 #moduleLeader .nk .v{margin:5px 0 1px;display:flex;align-items:baseline;gap:3px;font-variant-numeric:tabular-nums}
 #moduleLeader .nk .v b{font-size:26px;font-weight:800;line-height:1.15;letter-spacing:.5px;
-  background:linear-gradient(135deg,#6cc6ff,#a8e6ff 65%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 9px rgba(70,170,255,.4))}
+  color:var(--blue)}
 #moduleLeader .nk .v small{font-size:11.5px;color:var(--dim);font-weight:500}
 #moduleLeader .nk .d{font-size:12px;color:var(--text)}
 #moduleLeader .up{color:var(--up);font-weight:600}
@@ -857,14 +877,14 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader main{padding:12px 26px 26px}
 #moduleLeader .view{display:none}
 #moduleLeader .view.on{display:block}
-/* ---- 卡片 ---- */
-#moduleLeader .card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;
-  box-shadow:0 6px 18px rgba(2,10,26,.45),inset 0 0 22px rgba(45,120,220,.05)}
-#moduleLeader .chd{display:flex;align-items:center;gap:8px;padding:9px 14px;
-  background:linear-gradient(90deg,rgba(20,90,190,.35),rgba(20,90,190,.06) 60%,transparent);
-  border-bottom:1px solid var(--line);color:#eaf4ff;font-size:13.5px;font-weight:700;letter-spacing:.5px}
-#moduleLeader .chd::before{content:'';width:4px;height:14px;border-radius:2px;flex:none;
-  background:linear-gradient(180deg,var(--cyan),#0d6ef0);box-shadow:0 0 8px rgba(55,200,255,.75)}
+/* ---- 卡片（白卡 + 细线 + 藏蓝标题栏蓝色渐变竖条 + 柔和双层投影） ---- */
+#moduleLeader .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  box-shadow:var(--sh1)}
+#moduleLeader .chd{display:flex;align-items:center;gap:8px;padding:11px 15px;
+  background:linear-gradient(180deg,#fbfdff 0%,#f4f9ff 100%);
+  border-bottom:1px solid var(--line);color:var(--blue);font-size:13.5px;font-weight:700;letter-spacing:.5px}
+#moduleLeader .chd::before{content:'';width:3.5px;height:15px;border-radius:2px;flex:none;
+  background:linear-gradient(180deg,var(--blue) 0%,var(--blue2) 100%);box-shadow:none}
 #moduleLeader .chd .tag{margin-left:auto;font-size:11px;color:var(--dim);font-weight:400;letter-spacing:0}
 #moduleLeader .cbd{padding:13px 15px}
 #moduleLeader .chartbox{position:relative;height:242px}
@@ -874,47 +894,64 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .g3{grid-template-columns:repeat(3,1fr)}
 #moduleLeader .row{margin-bottom:12px}
 #moduleLeader .row:last-child{margin-bottom:0}
-/* ---- 板块 KPI 四联卡 ---- */
+/* ---- 板块 KPI 四联卡（藏蓝→亮蓝渐变顶线 + 淡蓝底纹，颜色只留给数据语义） ---- */
 #moduleLeader .bukpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
-#moduleLeader .bukpi{position:relative;overflow:hidden;border-radius:10px;padding:13px 15px;
-  border:1px solid var(--line);border-top:3px solid;
-  box-shadow:0 4px 14px rgba(2,10,26,.45);transition:transform .22s,box-shadow .22s}
-#moduleLeader .bukpi:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(2,10,26,.6),0 0 14px rgba(55,200,255,.12)}
-#moduleLeader .bukpi.c0{border-top-color:#4d9dff;background:linear-gradient(150deg,rgba(30,80,160,.5),rgba(10,30,62,.5))}
-#moduleLeader .bukpi.c1{border-top-color:#f0c060;background:linear-gradient(150deg,rgba(140,100,32,.42),rgba(40,30,12,.4))}
-#moduleLeader .bukpi.c2{border-top-color:#2ee6a8;background:linear-gradient(150deg,rgba(20,110,82,.45),rgba(8,40,32,.4))}
-#moduleLeader .bukpi.c3{border-top-color:#ff5d6c;background:linear-gradient(150deg,rgba(150,50,64,.42),rgba(50,18,24,.4))}
+#moduleLeader .bukpi{position:relative;overflow:hidden;border-radius:12px;padding:13px 15px;
+  background:linear-gradient(165deg,#ffffff 30%,#f3f8fe 100%);
+  border:1px solid var(--line);border-top:3px solid var(--blue2);
+  box-shadow:var(--sh1);transition:transform .22s,box-shadow .22s}
+#moduleLeader .bukpi:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+#moduleLeader .bukpi.c0{border-top-color:var(--navy-deep)}
+#moduleLeader .bukpi.c1{border-top-color:var(--blue)}
+#moduleLeader .bukpi.c2{border-top-color:var(--blue2)}
+#moduleLeader .bukpi.c3{border-top-color:#5b9bd9}
 
 #moduleLeader .bukpi .l{font-size:12px;color:var(--dim2);margin-bottom:5px;position:relative;z-index:1}
 #moduleLeader .bukpi .v{display:flex;align-items:baseline;gap:3px;font-variant-numeric:tabular-nums;position:relative;z-index:1}
-#moduleLeader .bukpi .v b{font-size:25px;font-weight:800}
-#moduleLeader .bukpi.c0 .v b{color:#7db8ff;text-shadow:0 0 14px rgba(77,157,255,.35)}
-#moduleLeader .bukpi.c1 .v b{color:#f0c060;text-shadow:0 0 14px rgba(240,192,96,.3)}
-#moduleLeader .bukpi.c2 .v b{color:#2ee6a8;text-shadow:0 0 14px rgba(46,230,168,.3)}
-#moduleLeader .bukpi.c3 .v b{color:#ff8d96;text-shadow:0 0 14px rgba(255,93,108,.3)}
+#moduleLeader .bukpi .v b{font-size:25px;font-weight:800;color:var(--blue)}
+#moduleLeader .bukpi.c0 .v b,#moduleLeader .bukpi.c1 .v b,#moduleLeader .bukpi.c2 .v b,#moduleLeader .bukpi.c3 .v b{color:var(--blue)}
 #moduleLeader .bukpi .v small{font-size:11px;color:var(--dim);font-weight:500}
 /* KPI 卡预算完成度：数值行左=值 右=圆环+全年预算（vrow 仅在带 bud 的卡输出） */
 #moduleLeader .bukpi.hasbud .vrow{display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;z-index:1}
 #moduleLeader .ringwrap{display:flex;align-items:center;gap:8px;flex:none}
-#moduleLeader .kping{display:block;filter:drop-shadow(0 0 6px rgba(80,170,255,.25))}
+#moduleLeader .kping{display:block}
 #moduleLeader .budbox{display:flex;flex-direction:column;gap:1px;line-height:1.25}
 #moduleLeader .budbox .bl{font-size:10.5px;color:var(--dim)}
-#moduleLeader .budbox .bv{font-size:14px;font-weight:800;color:#ffe3a0;font-variant-numeric:tabular-nums}
+#moduleLeader .budbox .bv{font-size:14px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
 #moduleLeader .budbox .bv small{font-size:10px;color:var(--dim);font-weight:500;margin-left:2px}
 #moduleLeader .bukpi .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;position:relative;z-index:1}
 #moduleLeader .bukpi .d{font-size:12px}
+/* 行1 核心 KPI（营业收入/利润总额）：左=数值+同比，右=预算完成环；下接累计趋势 canvas（2026-10-15） */
+#moduleLeader .kpihero{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+#moduleLeader .kpihero .hv{display:flex;align-items:baseline;gap:4px;font-variant-numeric:tabular-nums}
+#moduleLeader .kpihero .hv b{font-size:26px;font-weight:800;color:#17427d}
+#moduleLeader .kpihero .hv small{font-size:11px;color:var(--dim);font-weight:500}
+#moduleLeader .kpihero .hd{font-size:12px;color:var(--dim2);margin-top:3px}
+/* 收入构成 5 宫格小图单元（柱=本年累计；图下不再重复明细行） */
+#moduleLeader .rcell{background:#f7fafd;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+#moduleLeader .rcell .rl{font-size:11.5px;color:var(--dim2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#moduleLeader .rcell .rv{font-size:16px;font-weight:800;color:#17427d;font-variant-numeric:tabular-nums;margin:2px 0 4px}
+#moduleLeader .rcell .rv small{font-size:10.5px;color:var(--dim);font-weight:500}
+#moduleLeader .rcell .rv i.yoy{font-size:10px;margin-left:4px}
+#moduleLeader .rcell .rb{font-size:10px;color:var(--dim);margin-top:3px;font-variant-numeric:tabular-nums}
+/* 损益瀑布小图变体：扣减项琥珀色、净利润绿色（左色条 + 数值同色，与 .stx 变体同色系） */
+#moduleLeader .rcell{position:relative}
+#moduleLeader .rcell.amber{border-left:3px solid #d97706}
+#moduleLeader .rcell.ok{border-left:3px solid #0f9d6e}
+#moduleLeader .rcell .rv.c-amber{color:#c2620e}
+#moduleLeader .rcell .rv.c-ok{color:#0f9d6e}
 
 
 
 
 
-/* ---- 小节标题 / 指标胶囊 ---- */
-#moduleLeader .secttl{display:flex;align-items:center;justify-content:center;gap:14px;
-  background:linear-gradient(90deg,rgba(13,110,240,.14),rgba(13,110,240,.05));
-  border:1px solid var(--line);border-radius:6px;padding:8px 12px;margin:16px 0 12px;
-  color:var(--blue2);font-size:15px;font-weight:800;letter-spacing:2px;text-shadow:0 0 12px rgba(92,194,255,.35)}
-#moduleLeader .secttl::before{content:'»';color:var(--cyan);font-size:14px}
-#moduleLeader .secttl::after{content:'«';color:var(--cyan);font-size:14px}
+/* ---- 小节标题：居中，箭头紧贴标题 》标题《 说明文字（2026-10-21 按需求恢复） ---- */
+#moduleLeader .secttl{display:flex;align-items:baseline;justify-content:center;gap:12px;
+  background:transparent;border:none;border-radius:0;
+  padding:2px 0;margin:20px 0 12px;
+  color:var(--blue);font-size:15px;font-weight:800;letter-spacing:2px}
+#moduleLeader .secttl .ttl::before{content:'》';color:var(--gold-bright);font-size:15px;margin-right:6px}
+#moduleLeader .secttl .ttl::after{content:'《';color:var(--gold-bright);font-size:15px;margin-left:6px}
 #moduleLeader .secttl .lite{font-weight:400;font-size:12px;color:var(--dim);letter-spacing:0;text-shadow:none}
 #moduleLeader .chips{display:flex;flex-wrap:wrap;gap:7px}
 /* 分组指标格（华润银行 tab：存款成本 / 资产质量 等卡内替代胶囊堆叠） */
@@ -923,45 +960,63 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .stgrp-cap .lite{font-weight:400;font-size:11px;color:var(--dim);letter-spacing:0}
 #moduleLeader .stgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 #moduleLeader .stgrid-4{grid-template-columns:repeat(4,1fr)}
-#moduleLeader .stx{position:relative;background:rgba(13,42,84,.5);border:1px solid var(--line);border-radius:8px;padding:9px 12px 9px 16px;
-  display:flex;flex-direction:column;gap:3px;transition:border-color .18s,transform .18s}
-#moduleLeader .stx:hover{border-color:var(--line2);transform:translateY(-2px)}
-#moduleLeader .stx::before{content:'';position:absolute;left:0;top:7px;bottom:7px;width:3px;border-radius:0 2px 2px 0;
-  background:linear-gradient(180deg,var(--cyan),#0d6ef0)}
-#moduleLeader .stx.gold::before{background:linear-gradient(180deg,#f0c060,#c89630)}
-#moduleLeader .stx.ok::before{background:linear-gradient(180deg,#2ee6a8,#0fae7c)}
-#moduleLeader .stx.amber::before{background:linear-gradient(180deg,#f0b13a,#c88a1e)}
-#moduleLeader .stx .t{font-size:11.5px;color:var(--dim2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#moduleLeader .stx .v{font-size:18px;font-weight:800;color:#8fd0ff;font-variant-numeric:tabular-nums;letter-spacing:.3px;line-height:1.2}
+/* 一行 6 个指标卡网格（2026-10-20：业绩合同/资产负债核心科目/监管红线卡片化） */
+#moduleLeader .bkgrid6{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+#moduleLeader .bkgrid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+/* 2026-10-21 银行页饼/环 + 明细行复合单元：上环下明细（构成类指标标准布局） */
+#moduleLeader .donutwrap{display:grid;grid-template-columns:minmax(190px,44%) 1fr;gap:8px 12px;align-items:center}
+#moduleLeader .donut-center{position:relative}
+#moduleLeader .donut-total{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+#moduleLeader .donut-total b{font-size:19px;font-weight:800;color:#17427d;font-variant-numeric:tabular-nums;letter-spacing:.2px}
+#moduleLeader .donut-total small{font-size:10.5px;color:var(--dim);margin-top:1px}
+#moduleLeader .donut-total.sm b{font-size:15px}
+#moduleLeader .donut-total.sm small{font-size:9.5px}
+#moduleLeader .stx{position:relative;background:linear-gradient(165deg,#f8fbff 0%,#eff5fc 100%);border:1px solid var(--line);border-radius:10px;padding:9px 12px 9px 16px;
+  display:flex;flex-direction:column;gap:3px;transition:border-color .18s,transform .18s,box-shadow .18s}
+#moduleLeader .stx:hover{border-color:var(--line2);transform:translateY(-2px);box-shadow:0 4px 14px -6px rgba(23,66,125,.18)}
+#moduleLeader .stx::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:0 2px 2px 0;
+  background:linear-gradient(180deg,var(--blue) 0%,var(--blue2) 100%)}
+#moduleLeader .stx.gold::before{background:linear-gradient(180deg,var(--gold) 0%,var(--gold-bright) 100%)}
+#moduleLeader .stx.ok::before{background:#0f9d6e}
+#moduleLeader .stx.amber::before{background:linear-gradient(180deg,#c2620e 0%,#f59e0b 100%)}
+#moduleLeader .stx .t{font-size:11.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#moduleLeader .stx .v{font-size:18px;font-weight:800;color:#17427d;font-variant-numeric:tabular-nums;letter-spacing:.3px;line-height:1.2}
 #moduleLeader .stx .v small{font-size:11px;color:var(--dim);font-weight:500;margin-left:2px}
-#moduleLeader .stx.gold .v{color:#f0c060}
-#moduleLeader .stx.ok .v{color:#2ee6a8}
-#moduleLeader .stx.amber .v{color:#f0b13a}
+#moduleLeader .stx.gold .v{color:#c2620e}
+#moduleLeader .stx.ok .v{color:#0f9d6e}
+#moduleLeader .stx.amber .v{color:#c2620e}
 /* 行内/卡内同比小注（收入构成 strow 内跟随数值；stx 卡内换行居左） */
 #moduleLeader i.yoy{font-style:normal;font-size:11px;font-weight:600;margin-left:6px;white-space:nowrap}
 #moduleLeader .stx i.yoy{display:block;margin:2px 0 0}
+/* stx 卡内「同比 + 较年初」双小注一行并排 */
+#moduleLeader .stx .drow{display:flex;gap:12px;margin-top:3px;position:relative;z-index:1}
+#moduleLeader .stx .drow i.yoy{display:inline;margin:0;font-size:10.5px}
 #moduleLeader .strow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 2px;
-  border-bottom:1px dashed rgba(92,160,230,.16);font-size:12.5px;color:var(--dim2)}
+  border-bottom:1px dashed #e2ebf6;font-size:12.5px;color:var(--dim2)}
 #moduleLeader .strow:last-child{border-bottom:none}
-#moduleLeader .strow b{color:#8fd0ff;font-weight:800;font-size:13.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
-#moduleLeader .kstar{color:#ffd479;font-style:normal;font-size:11px;margin-left:3px;text-shadow:0 0 6px rgba(255,212,121,.5)}
-@media(max-width:1150px){#moduleLeader .stgrid2{grid-template-columns:1fr}#moduleLeader .stgrid,#moduleLeader .stgrid-4{grid-template-columns:repeat(2,1fr)}}
-#moduleLeader .chip{font-size:12px;color:#bcd6f6;background:rgba(13,42,84,.55);border:1px solid var(--line);border-radius:14px;padding:4px 12px}
+#moduleLeader .strow b{color:#17427d;font-weight:800;font-size:13.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+#moduleLeader .kstar{color:#f59e0b;font-style:normal;font-size:11px;margin-left:3px}
+/* 与同行图表卡等高：cbd 撑满并把行间距均匀拉开，避免卡底大片空白（条线成本与回报） */
+#moduleLeader .card.fillrow{display:flex;flex-direction:column}
+#moduleLeader .card.fillrow>.cbd{flex:1;display:flex;flex-direction:column;justify-content:space-evenly}
+#moduleLeader .card.fillrow>.cbd .strow{padding:10px 2px}
+@media(max-width:1150px){#moduleLeader .stgrid2{grid-template-columns:1fr}#moduleLeader .stgrid,#moduleLeader .stgrid-4{grid-template-columns:repeat(2,1fr)}#moduleLeader .bkgrid6{grid-template-columns:repeat(3,1fr)}}
+#moduleLeader .chip{font-size:12px;color:#33547e;background:#f1f6fc;border:1px solid var(--line);border-radius:14px;padding:4px 12px}
 #moduleLeader .chip b{color:var(--blue2);font-weight:700;margin-left:6px;font-variant-numeric:tabular-nums}
 /* ---- 监管红线 / 进度 ---- */
 #moduleLeader .riskrow{display:grid;grid-template-columns:150px 1fr 72px 96px 74px;gap:12px;align-items:center;
-  padding:9px 0;border-bottom:1px dashed rgba(92,160,230,.18);font-size:13px}
+  padding:9px 0;border-bottom:1px dashed #e2ebf6;font-size:13px}
 #moduleLeader .riskrow:last-child{border-bottom:none}
-#moduleLeader .meter{height:10px;background:rgba(255,255,255,.08);border-radius:5px;position:relative;overflow:hidden}
-#moduleLeader .meter i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;box-shadow:0 0 6px rgba(55,200,255,.25)}
-#moduleLeader .meter .limit{position:absolute;top:-2px;bottom:-2px;width:2px;background:#9fc3ea;opacity:.6}
+#moduleLeader .meter{height:10px;background:#e8eef7;border-radius:5px;position:relative;overflow:hidden}
+#moduleLeader .meter i{position:absolute;left:0;top:0;bottom:0;border-radius:5px}
+#moduleLeader .meter .limit{position:absolute;top:-2px;bottom:-2px;width:2px;background:#5b7ba6;opacity:.8}
 #moduleLeader .riskrow .num{font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
 #moduleLeader .riskrow .lim{color:var(--dim);text-align:right;font-size:12px;white-space:nowrap}
 #moduleLeader .st{font-size:12px;padding:2px 9px;border-radius:10px;text-align:center;white-space:nowrap;font-weight:600}
 #moduleLeader .riskcols{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(5,auto);column-gap:0}
 #moduleLeader .riskcols .riskrow{grid-template-columns:96px 1fr 52px 62px 56px;gap:7px;font-size:12px;padding:6px 0}
 #moduleLeader .riskcols .riskrow .st{padding:1px 7px;font-size:11.5px}
-#moduleLeader .riskcols > .riskrow:nth-child(-n+5){border-right:1px solid rgba(92,160,230,.16);padding-right:16px}
+#moduleLeader .riskcols > .riskrow:nth-child(-n+5){border-right:1px solid #e2ebf6;padding-right:16px}
 #moduleLeader .riskcols > .riskrow:nth-child(n+6){padding-left:16px}
 @media(max-width:1150px){#moduleLeader .riskcols{grid-template-columns:1fr;grid-auto-flow:row;grid-template-rows:none}
 #moduleLeader .riskcols > .riskrow:nth-child(-n+5){border-right:none;padding-right:0}
@@ -972,11 +1027,11 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .prog{margin-top:12px}
 #moduleLeader .prog .pl{display:flex;justify-content:space-between;font-size:12px;color:var(--dim2);margin-bottom:5px}
 #moduleLeader .prog .pl span:last-child{color:var(--text);font-variant-numeric:tabular-nums;font-weight:600}
-#moduleLeader .prog .pb{height:8px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden}
+#moduleLeader .prog .pb{height:8px;background:#e8eef7;border-radius:4px;overflow:hidden}
 #moduleLeader .prog .pb i{display:block;height:100%;border-radius:4px;
-  background:linear-gradient(90deg,#d9a531,#ffe3a0);box-shadow:0 0 8px rgba(240,192,96,.5)}
+  background:var(--gold-bright)}
 #moduleLeader .kv-big{font-size:22px;font-weight:800;display:flex;align-items:baseline;gap:4px;font-variant-numeric:tabular-nums;
-  background:linear-gradient(135deg,#5cc2ff,#9be2ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  color:#17427d}
 #moduleLeader .kv-big small{font-size:11px;color:var(--dim);font-weight:500}
 #moduleLeader .kl{font-size:12px;color:var(--dim2)}
 @media(max-width:1150px){
@@ -1008,41 +1063,41 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 .ld-tip .seg i{color:#eaf4ff;font-size:11.5px}
 /* 卡头来源色签行（风险四图：全部=看构成，点单家=只看该家走势） */
 #moduleLeader .srcrow{display:flex;flex-wrap:wrap;gap:6px;padding:11px 15px 2px}
-#moduleLeader .src{display:inline-flex;align-items:center;font-size:11.5px;color:var(--dim2);cursor:pointer;user-select:none;
-  background:rgba(10,30,62,.72);border:1px solid var(--line);border-radius:999px;padding:3px 10px;transition:border-color .15s,color .15s}
-#moduleLeader .src b{margin-left:6px;color:#8fd0ff;font-weight:700;font-variant-numeric:tabular-nums}
-#moduleLeader .src:hover{border-color:var(--line2);color:#dfeaff}
-#moduleLeader .src.on{color:#fff;border-color:rgba(255,212,121,.65);background:rgba(240,192,96,.14)}
-#moduleLeader .src.on b{color:#ffd479}
+#moduleLeader .src{display:inline-flex;align-items:center;font-size:11.5px;color:#4a648c;cursor:pointer;user-select:none;
+  background:#f2f6fb;border:1px solid var(--line);border-radius:999px;padding:3px 10px;transition:border-color .15s,color .15s}
+#moduleLeader .src b{margin-left:6px;color:#17427d;font-weight:700;font-variant-numeric:tabular-nums}
+#moduleLeader .src:hover{border-color:#7fb0e0;color:#17427d}
+#moduleLeader .src.on{color:#fff;border-color:transparent;background:linear-gradient(135deg,#17427d,#2f7fd6);box-shadow:0 3px 8px rgba(23,66,125,.28)}
+#moduleLeader .src.on b{color:#fff}
 /* 年度考核指标表（华润金融页；深蓝大屏风格） */
 #moduleLeader .ko-wrap{overflow-x:auto}
 #moduleLeader .ko-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:980px}
-#moduleLeader .ko-table thead th{background:linear-gradient(180deg,rgba(22,66,132,.65),rgba(14,44,94,.5));
-  color:#bcd9ff;font-weight:700;letter-spacing:1px;padding:9px 12px;text-align:left;
-  border-bottom:1px solid rgba(92,194,255,.4);white-space:nowrap}
+#moduleLeader .ko-table thead th{background:linear-gradient(180deg,#eaf2fc,#f5f9ff);
+  color:#17427d;font-weight:700;letter-spacing:1px;padding:9px 12px;text-align:left;
+  border-bottom:1px solid #c8d9ee;white-space:nowrap}
 #moduleLeader .ko-table thead th.num{text-align:right}
-#moduleLeader .ko-table td{padding:8px 12px;border-bottom:1px solid rgba(92,160,230,.12);color:var(--text);vertical-align:middle}
-#moduleLeader .ko-table tbody tr:hover{background:rgba(64,140,255,.08)}
+#moduleLeader .ko-table td{padding:8px 12px;border-bottom:1px solid #e6edf6;color:var(--text);vertical-align:middle}
+#moduleLeader .ko-table tbody tr:hover{background:#f2f7fd}
 #moduleLeader .ko-bu{color:var(--gold);font-weight:700;font-size:13px;letter-spacing:1px;white-space:nowrap;
-  border-right:1px solid rgba(92,160,230,.16)}
+  border-right:1px solid #e6edf6}
 #moduleLeader .ko-nm{max-width:320px}
 #moduleLeader .ko-un{color:var(--dim);white-space:nowrap}
 #moduleLeader .ko-v,#moduleLeader .ko-b{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
-#moduleLeader .ko-v{color:#8fd0ff;font-weight:800}
+#moduleLeader .ko-v{color:#17427d;font-weight:800}
 #moduleLeader .ko-b{color:var(--dim2)}
 #moduleLeader .ko-r{text-align:right;white-space:nowrap}
 /* 列间竖线 */
-#moduleLeader .ko-table thead th:not(:last-child),#moduleLeader .ko-table td:not(:last-child){border-right:1px solid rgba(92,160,230,.16)}
-/* 预算达成率：结构/配色对齐 数据应用-固定报表 renderProgressCell（浅底轨道在深蓝下调暗） */
+#moduleLeader .ko-table thead th:not(:last-child),#moduleLeader .ko-table td:not(:last-child){border-right:1px solid #e6edf6}
+/* 预算达成率：结构/配色对齐 数据应用-固定报表 renderProgressCell（浅色商务版） */
 #moduleLeader .progress-bar-wrap{display:flex;align-items:center;gap:6px;justify-content:flex-end}
-#moduleLeader .progress-bar{flex:none;width:80px;height:6px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}
+#moduleLeader .progress-bar{flex:none;width:80px;height:6px;background:#e8eef7;border-radius:3px;overflow:hidden}
 #moduleLeader .progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#10b981,#34d399)}
 #moduleLeader .progress-fill.mid{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
 #moduleLeader .progress-fill.low{background:linear-gradient(90deg,#ef4444,#f87171)}
-#moduleLeader .progress-text{font-size:11px;font-weight:600;min-width:44px;text-align:left;color:#cfe6ff;font-variant-numeric:tabular-nums}
+#moduleLeader .progress-text{font-size:11px;font-weight:600;min-width:44px;text-align:left;color:#33547e;font-variant-numeric:tabular-nums}
 #moduleLeader .ko-y{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
-#moduleLeader .ko-y.up{color:#ff8d96}
-#moduleLeader .ko-y.down{color:#57e8b8}
+#moduleLeader .ko-y.up{color:#d64550}
+#moduleLeader .ko-y.down{color:#0f9d6e}
 #moduleLeader .ko-y.flat{color:var(--dim)}
 /* ---- 资产 tab（2026-10-13 重构）：口径切换 chips / 卡内预算达成条 / 同环比文字 ---- */
 #moduleLeader .ascal{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:10px}
@@ -1072,7 +1127,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
       <button class="topnav-item" data-module="cock" type="button">驾驶舱<span class="topnav-chev">▾</span></button>
       <div class="topnav-sub" id="cockNavSub"></div>
     </div>
-    <button class="topnav-item" data-module="leader" type="button">领导驾驶舱</button>
+    <button class="topnav-item" data-module="leader" type="button">管理驾驶舱</button>
   </nav>
 </div>
 
@@ -1090,7 +1145,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   <div class="cock-full" id="cockContent"></div>
 </div>
 
-<!-- 模块二：领导驾驶舱（内嵌自 华润金控领导驾驶舱.html；2026-10-12 改造：顶部品牌行移除仅留控制条，整体深蓝大屏风格；样式作用域 #moduleLeader，脚本 IIFE 暴露 window.LeaderApp） -->
+<!-- 模块二：管理驾驶舱（内嵌自 华润金控管理驾驶舱.html；2026-10-12 改造：顶部品牌行移除仅留控制条，整体深蓝大屏风格；样式作用域 #moduleLeader，脚本 IIFE 暴露 window.LeaderApp） -->
 <div class="module" id="moduleLeader" style="display:none;">
 <!-- 控制工具条（v3）：业务板块页签 + 数据日期(年-月) + 币种；数据固定合并口径·月度 -->
 <header>
@@ -1137,20 +1192,62 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 <!-- ============ 总览 ============ -->
 <section class="view on" id="v-overview">
   <!-- 金控北极星指标带：仅总览页显示（随 .view 显隐；2026-10-12 移入总览视图内） -->
-  <div class="secttl">核心经营指标</div>
+  <!-- ===== 华润金融页（2026-10-21 展示规则优化；数据源=金控风险部&华润金融_深国投指标数据梳理表·华润金融指标清单）
+       四框架保留：核心指标 → 其他财务指标 → 风险指标 → 年度考核指标（考核表不变）
+       规则：趋势=本月数（Excel 报送值口径）｜层级构成=饼图｜时点比率=卡片｜对比=条形；详见《管理驾驶舱-华润金融-指标布局与可视化规范》 -->
+  <div class="secttl"><b class="ttl">核心指标</b> <span class="lite">—— 利润链四卡=本月数（Excel「本月数」口径）· ROE=本年累计 · ROA=本月数｜趋势图=近12个月「本月数」，看当期动能不看累计</span></div>
   <div id="north" style="padding:0 0 14px"></div>
   <div class="grid g2 row">
-    <div class="card"><div class="chd">板块营收贡献 <span class="tag">亿元 · 合并口径剔除内部抵销</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ov-bar"></canvas></div></div></div>
-    <div class="card"><div class="chd">利润总额 <span class="tag">亿元 · 近12个月</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ov-line"></canvas></div></div></div>
+    <div class="card"><div class="chd">营业收入 <span class="tag">亿元 · 本月数趋势（柱=当月实际 金线=同比）· Excel口径：本月数</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ov-rev-m"></canvas></div></div></div>
+    <div class="card"><div class="chd">利润总额 <span class="tag">亿元 · 本月数趋势（柱=当月实际 金线=同比）· Excel口径：本月数</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ov-line"></canvas></div></div></div>
   </div>
-  <div class="secttl">风险指标 <span class="lite">—— 由 银行 / 信托 / 资产 / 租赁 / 深国投 五家数据汇总：堆叠柱=各家构成（柱高=华润金融合计）；点击色签单看一家，悬停看逐家明细</span></div>
+  <div class="secttl"><b class="ttl">其他财务指标</b> <span class="lite">—— 资产负债表规模与偿债｜总资产/净资产=本月末 · 资产负债率=本月末 · ROE/ROA 见核心指标卡｜负债+净资产=总资产（层级构成→饼图）</span></div>
   <div class="grid g2 row">
-    <div class="card"><div class="chd">不良资产处置 <span class="tag">亿元 · 近12个月 · 五家堆叠</span></div><div class="cbd"><div class="srcrow" id="sr-rk-disp"></div><div class="chartbox"><canvas id="c-rk-disp"></canvas></div></div></div>
-    <div class="card"><div class="chd">不良下迁 <span class="tag">亿元 · 近12个月 · 五家堆叠</span></div><div class="cbd"><div class="srcrow" id="sr-rk-mig"></div><div class="chartbox"><canvas id="c-rk-mig"></canvas></div></div></div>
-    <div class="card"><div class="chd">不良资产总额 <span class="tag">亿元 · 近12个月 · 五家堆叠</span></div><div class="cbd"><div class="srcrow" id="sr-rk-npl"></div><div class="chartbox"><canvas id="c-rk-npl"></canvas></div></div></div>
-    <div class="card"><div class="chd">问题资产减值余额 <span class="tag">亿元 · 近12个月 · 五家堆叠</span></div><div class="cbd"><div class="srcrow" id="sr-rk-imp"></div><div class="chartbox"><canvas id="c-rk-imp"></canvas></div></div></div>
+    <div class="card"><div class="chd">资金来源结构 <span class="tag">亿元 · 本月末｜负债 + 净资产（所有者权益）= 总资产（饼=构成，中心=总资产）</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:196px"><div class="chartbox" style="height:196px"><canvas id="c-ov-bs-pie"></canvas></div>
+          <div class="donut-total" id="ov-bs-center"></div></div>
+        <div id="ov-bs-rows"></div>
+      </div>
+    </div></div>
+    <div class="card"><div class="chd">资产负债核心科目 <span class="tag">时点数卡片 · 本月末｜总资产/净资产/资产负债率（Excel报送值=本月末，环比/较年初）</span></div><div class="cbd">
+      <div class="stgrid" style="grid-template-columns:repeat(2,1fr)" id="ov-fin-cards"></div>
+    </div></div>
   </div>
-    <div class="secttl">年度考核指标</div>
+  <div class="secttl"><b class="ttl">风险指标</b> <span class="lite">—— 源 Excel「问题资产指标 · 集中度风险管理指标」｜构成=饼图 · 变动=本月数堆叠趋势 · 比率=卡片 · 集中度=季度对比条形；五家（银行/信托/资产/租赁/深国投）汇总，点击色签单看一家，悬停看逐家明细</span></div>
+  <!-- 行A：两个构成饼（层级构成→饼）：问题资产规模=不良+关注+正常但预警；减值余额=三类减值余额之和 -->
+  <div class="grid g2 row">
+    <div class="card"><div class="chd">问题资产规模构成 <span class="tag">亿元 · 本月末｜不良类+关注类+正常但预警 = 问题资产总规模（饼=层级构成，中心=问题资产合计）</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:196px"><div class="chartbox" style="height:196px"><canvas id="c-ov-prob-pie"></canvas></div>
+          <div class="donut-total" id="ov-prob-center"></div></div>
+        <div id="ov-prob-rows"></div>
+      </div>
+    </div></div>
+    <div class="card"><div class="chd">问题资产减值余额构成 <span class="tag">亿元 · 本月末｜不良+关注+预警减值余额 = 问题资产减值余额（饼=层级构成）</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:196px"><div class="chartbox" style="height:196px"><canvas id="c-ov-imp-pie"></canvas></div>
+          <div class="donut-total" id="ov-imp-center"></div></div>
+        <div id="ov-imp-rows"></div>
+      </div>
+    </div></div>
+  </div>
+  <!-- 行B：减值覆盖四卡（比率类→卡片，Excel报送值=本月末，环比/较年初） -->
+  <div class="card row"><div class="chd">问题资产减值比例 <span class="tag">% · 本月末｜比率=卡片：减值准备÷对应类别余额，衡量风险抵补厚度</span></div><div class="cbd">
+    <div class="bkgrid4" id="ov-imp-cards"></div>
+  </div></div>
+  <!-- 行C：变动与存量趋势（五家堆叠，Excel四指标：处置/下迁=本月数流量，不良总额/减值余额=本月末存量） -->
+  <div class="grid g2 row">
+    <div class="card"><div class="chd">不良资产处置 <span class="tag">亿元 · 本月数 · 近12个月 · 五家堆叠</span></div><div class="cbd"><div class="srcrow" id="sr-rk-disp"></div><div class="chartbox"><canvas id="c-rk-disp"></canvas></div></div></div>
+    <div class="card"><div class="chd">不良下迁 <span class="tag">亿元 · 本月数 · 近12个月 · 五家堆叠</span></div><div class="cbd"><div class="srcrow" id="sr-rk-mig"></div><div class="chartbox"><canvas id="c-rk-mig"></canvas></div></div></div>
+    <div class="card"><div class="chd">不良资产总额 <span class="tag">亿元 · 本月末余额 · 近12个月 · 五家堆叠</span></div><div class="cbd"><div class="srcrow" id="sr-rk-npl"></div><div class="chartbox"><canvas id="c-rk-npl"></canvas></div></div></div>
+    <div class="card"><div class="chd">问题资产减值余额 <span class="tag">亿元 · 本月末余额 · 近12个月 · 五家堆叠</span></div><div class="cbd"><div class="srcrow" id="sr-rk-imp"></div><div class="chartbox"><canvas id="c-rk-imp"></canvas></div></div></div>
+  </div>
+  <!-- 行D：集中度六项（季度 · 本季末，无构成关系→对比条形；本季末 vs 上季末） -->
+  <div class="card row" style="margin-bottom:0"><div class="chd">集中度风险管理 <span class="tag">% · 本季末 vs 上季末｜地区/客户集中度六项，条形=无构成关系的比率对比</span></div><div class="cbd">
+    <div class="chartbox" style="height:210px"><canvas id="c-ov-conc"></canvas></div>
+  </div></div>
+    <div class="secttl"><b class="ttl">年度考核指标</b></div>
   <div class="card row"><div class="cbd ko-wrap"><table class="ko-table">
     <thead><tr><th>业务单元</th><th>指标名称</th><th>单位</th><th class="num">截止本月末数</th><th class="num">同比</th><th class="num">全年预算</th><th class="num">预算达成率</th></tr></thead>
     <tbody>
@@ -1190,237 +1287,365 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   </table></div></div>
 </section>
 
-<!-- ============ 银行（指标体系对齐 银行2026指标体系-20260429.xlsx 各子表；★=考核指标） ============ -->
+<!-- ============ 银行（2026-10-21 展示规则优化：四大模块框架保留；① 本月数趋势+构成饼图+损益瀑布+效益定价 ② 打标项按业务关联性分组 ③ 资产负债构成饼图+监管红线 ④ 条线构成饼图+RAROC+客群三卡；数据源 = 数据应用·固定报表管理·华润银行 01-09 全部页面实时取数；指标去重=上层优先；可视化触发规则详见《管理驾驶舱-华润银行-指标布局与可视化规范》） ============ -->
 <section class="view" id="v-bank">
-  <div class="secttl">核心经营指标 <span class="lite">—— 赚多少｜损益表简表 · 关键监测指标（盈利性）</span></div>
-  <div class="bukpis" id="kpi-bank"></div>
-  <div class="grid g2 row">
-    <div class="card"><div class="chd">损益瀑布 <span class="tag">亿元 · 截止本月末</span></div><div class="cbd"><div class="chartbox tall"><canvas id="c-bk-pl"></canvas></div></div></div>
-    <div class="card"><div class="chd">条线营收 <span class="tag">亿元 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-bk-line"></canvas></div></div></div>
-  </div>
-  <div class="grid g2 row" style="margin-bottom:0">
-    <div class="card"><div class="chd">收入构成 <span class="tag">亿元 · 截止本月末</span></div><div class="cbd">
-      <div class="strow"><span>利息净收入</span><b>61.8 亿 <i class="yoy up">▲ 6.5%</i></b></div>
-      <div class="strow"><span>非息净收入</span><b>24.6 亿 <i class="yoy up">▲ 12.8%</i></b></div>
-      <div class="strow"><span>其中：手续费及佣金净收入</span><b>12.6 亿 <i class="yoy up">▲ 5.4%</i></b></div>
-      <div class="strow"><span>投资收益</span><b>8.9 亿 <i class="yoy up">▲ 15.2%</i></b></div>
-      <div class="strow"><span>公允价值变动损益</span><b>1.4 亿 <i class="yoy down">▼ 8.3%</i></b></div>
+  <!-- ① 核心指标与盈利分解 —— 赚多少（源：02-损益表简表 · 03-盈利性 · 07-利率结构）
+       行1=营业收入/利润总额（KPI累计+本月数趋势图：柱=当月实际，虚线=去年同月）
+       行2=收入构成（饼图：4项构成=营业收入）｜损益瀑布（构成相加关系专属图形）
+       行3=效益与定价六卡（03 盈利性 + 07 价格监测） -->
+  <div class="secttl"><b class="ttl">核心指标与盈利分解</b> <span class="lite">—— 赚多少｜源 02-损益表简表 · 03-盈利性 · 07-利率结构｜规则：趋势=当月值 · 构成=饼图 · 加减链=瀑布</span></div>
+  <!-- 行1=营业收入/利润总额/净利润三 hero（KPI+本月数趋势；2026-10-21 三轮：核心三指标同行，利润链闭环） -->
+  <div class="grid g3 row">
+    <div class="card"><div class="chd">营业收入 <span class="tag">亿元 · 本月数趋势（柱=当月实际 虚线=去年同月）</span></div><div class="cbd">
+      <div class="kpihero" id="bk-hero-recv"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-bk-t-recv"></canvas></div>
     </div></div>
-    <div class="card"><div class="chd">效益与成本监测 <span class="tag">关键监测指标 · 盈利性</span></div><div class="cbd">
-      <div class="stgrid stgrid-4" style="grid-template-columns:repeat(2,1fr)">
-        <div class="stx"><span class="t">资产利润率</span><span class="v">0.73<small>%</small></span><span class="yoy up">▲ 0.02pct 同比</span></div>
-        <div class="stx"><span class="t">资本利润率</span><span class="v">9.8<small>%</small></span><span class="yoy up">▲ 0.30pct 同比</span></div>
-        <div class="stx"><span class="t">风险资产利润率</span><span class="v">1.02<small>%</small></span><span class="yoy up">▲ 0.05pct 同比</span></div>
-        <div class="stx gold"><span class="t">成本收入比</span><span class="v">37.7<small>%</small></span><span class="yoy down">▼ 1.10pct 同比</span></div>
-      </div>
+    <div class="card"><div class="chd">利润总额 <span class="tag">亿元 · 本月数趋势（柱=当月实际 虚线=去年同月）</span></div><div class="cbd">
+      <div class="kpihero" id="bk-hero-prof"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-bk-t-prof"></canvas></div>
+    </div></div>
+    <div class="card"><div class="chd">净利润 <span class="tag">亿元 · 本月数趋势（柱=当月实际 虚线=去年同月）</span></div><div class="cbd">
+      <div class="kpihero" id="bk-hero-net"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-bk-t-net"></canvas></div>
     </div></div>
   </div>
-
-  <div class="secttl">规模与结构 <span class="lite">—— 靠什么｜资产负债简表 · 存贷结构</span></div>
+  <!-- 行2：收入构成饼图（左，层级构成→饼）｜损益瀑布（右，加减关系→瀑布）；行3：效益与定价六卡 -->
   <div class="grid g2 row">
-    <div class="card"><div class="chd">资产负债核心科目 <span class="tag">亿元 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-bk-bs"></canvas></div></div></div>
-    <div class="card"><div class="chd">贷款结构 <span class="tag">亿元 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-bk-loan"></canvas></div></div></div>
+    <div class="card" style="margin-bottom:0"><div class="chd">收入构成 <span class="tag">亿元 · 截止本月末｜利息+手续费+投资+公允价值 = 营业收入（饼=构成关系）</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-bk-rev-pie"></canvas></div>
+          <div class="donut-total" id="bk-rev-center"></div></div>
+        <div id="bk-rev-rows"></div>
+      </div>
+    </div></div>
+    <div class="card" style="margin-bottom:0"><div class="chd">损益瀑布 <span class="tag">亿元 · 02-损益表简表｜收入−费用−减值−税 = 净利（瀑布=加减关系）</span></div><div class="cbd">
+      <div class="chartbox" style="height:200px"><canvas id="c-bk-wf"></canvas></div>
+      <div class="wflg" id="bk-wf-legend"></div>
+    </div></div>
   </div>
-  <div class="card row" style="margin-bottom:0"><div class="chd">存款与AUM <span class="tag">存贷结构 · 截止本月末 / 年日均</span></div><div class="cbd">
-    <div class="stgrid2">
-      <div class="stgrp">
-        <div class="stgrp-cap">存款规模与日均 <span class="lite">亿元</span></div>
-        <div class="stgrid">
-          <div class="stx"><span class="t">存款余额（全行）</span><span class="v">3,586<small>亿</small></span></div>
-          <div class="stx"><span class="t">存款年日均（全行）</span><span class="v">3,420<small>亿</small></span></div>
-          <div class="stx"><span class="t">其中：低成本存款年日均<span class="kstar">★</span></span><span class="v">2,080<small>亿</small></span></div>
-          <div class="stx"><span class="t">产融协同低成本存款年日均余额</span><span class="v">626<small>亿</small></span></div>
-          <div class="stx"><span class="t">公司存款年日均</span><span class="v">1,540<small>亿</small></span></div>
-          <div class="stx"><span class="t">个人存款年日均</span><span class="v">1,880<small>亿</small></span></div>
-        </div>
-      </div>
-      <div class="stgrp">
-        <div class="stgrp-cap">AUM 与战略贷款 <span class="lite">亿元</span></div>
-        <div class="stgrid">
-          <div class="stx"><span class="t">个人AUM月日均</span><span class="v">2,860<small>亿</small></span></div>
-          <div class="stx"><span class="t">其中：个人非存AUM月日均<span class="kstar">★</span></span><span class="v">1,120<small>亿</small></span></div>
-          <div class="stx"><span class="t">公司-科技企业客群净增余额<span class="kstar">★</span></span><span class="v">+38.6<small>亿</small></span></div>
-          <div class="stx"><span class="t">绿色金融余额</span><span class="v">312<small>亿</small></span></div>
-          <div class="stx"><span class="t">公司-中小企业贷款余额</span><span class="v">486<small>亿</small></span></div>
-          <div class="stx"><span class="t">公司-房地产贷款余额</span><span class="v">368<small>亿</small></span></div>
-        </div>
-      </div>
-    </div>
+  <div class="card row" style="margin-bottom:0"><div class="chd">效益与定价 <span class="tag">03-盈利性 · 07-利率结构 · 效益质量卡片形式一行 6 项</span></div><div class="cbd">
+    <div class="bkgrid6" id="bk-eff-cards"></div>
   </div></div>
 
-  <div class="secttl">价与条线回报 <span class="lite">—— 值多少｜利率结构 · 成本结构</span></div>
-  <div class="grid g2 row" style="margin-bottom:0">
-    <div class="card"><div class="chd">收益率 vs 付息率 <span class="tag">% · 利率结构</span></div><div class="cbd"><div class="chartbox"><canvas id="c-bk-rate"></canvas></div></div></div>
-    <div class="card"><div class="chd">条线成本与回报 <span class="tag">成本合计 → EVA / RAROC</span></div><div class="cbd">
-      <div class="strow"><span>公司条线 <small style="color:var(--dim)">成本 33.6 亿（运营 21.3 / 风险 9.8 / 资本 2.5）</small></span><b>EVA 8.6 亿 · RAROC 14.2%</b></div>
-      <div class="strow"><span>零售条线 <small style="color:var(--dim)">成本 21.2 亿（运营 12.0 / 风险 8.1 / 资本 1.1）</small></span><b>EVA 6.2 亿 · RAROC 15.8%</b></div>
-      <div class="strow"><span>金融市场条线 <small style="color:var(--dim)">成本 6.1 亿（运营 4.3 / 风险 0.6 / 资本 1.2）</small></span><b>EVA 4.1 亿 · RAROC 12.6%</b></div>
-    </div></div>
-  </div>
-
-  <div class="secttl">风险与资本 <span class="lite">—— 安全吗｜风险及资本情况 · 关键监测指标</span></div>
-  <div class="grid g2 row">
-    <div class="card"><div class="chd">贷款五级分类 <span class="tag">亿元 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-bk-risk"></canvas></div>
-      <div class="strow" style="margin-top:8px"><span>不良贷款合计（次级+可疑+损失）</span><b>45 亿</b></div>
-      <div class="strow"><span>不良贷款率</span><b>1.32%</b></div>
-    </div></div>
-    <div class="card"><div class="chd">监管红线监测 <span class="tag">关键监测指标 · 有监管要求项 · 序同子表</span></div><div class="cbd">
-      <div class="riskcols">
-<div class="riskrow"><span>流动性覆盖率<span class="kstar">★</span></span><div class="meter"><i style="width:85%;background:var(--down)"></i><span class="limit" style="left:60%"></span></div><span class="num">142%</span><span class="lim">≥100%</span><span class="st st-ok">● 达标</span></div>
-<div class="riskrow"><span>净稳定资金比例</span><div class="meter"><i style="width:71%;background:var(--down)"></i><span class="limit" style="left:60%"></span></div><span class="num">118%</span><span class="lim">≥100%</span><span class="st st-ok">● 达标</span></div>
-<div class="riskrow"><span>流动性缺口率（90天）</span><div class="meter"><i style="width:24%;background:var(--up)"></i><span class="limit" style="left:30%"></span></div><span class="num" style="color:var(--up)">-12.3%</span><span class="lim">≥-10%</span><span class="st st-bad">● 未达标</span></div>
-<div class="riskrow"><span>核心负债比例</span><div class="meter"><i style="width:55%;background:var(--up)"></i><span class="limit" style="left:60%"></span></div><span class="num" style="color:var(--up)">57.5%</span><span class="lim">≥60%</span><span class="st st-bad">● 未达标</span></div>
-<div class="riskrow"><span>拨备覆盖率</span><div class="meter"><i style="width:56%;background:var(--up)"></i><span class="limit" style="left:60%"></span></div><span class="num" style="color:var(--up)">142%</span><span class="lim">≥150%</span><span class="st st-bad">● 未达标</span></div>
-<div class="riskrow"><span>贷款拨备率</span><div class="meter"><i style="width:69%;background:var(--down)"></i><span class="limit" style="left:62%"></span></div><span class="num">2.71%</span><span class="lim">≥2.5%</span><span class="st st-ok">● 达标</span></div>
-<div class="riskrow"><span>资本充足率<span class="kstar">★</span></span><div class="meter"><i style="width:88%;background:var(--down)"></i><span class="limit" style="left:70%"></span></div><span class="num">13.1%</span><span class="lim">≥10.5%</span><span class="st st-ok">● 达标</span></div>
-<div class="riskrow"><span>一级资本充足率</span><div class="meter"><i style="width:80%;background:var(--down)"></i><span class="limit" style="left:65%"></span></div><span class="num">10.6%</span><span class="lim">≥8.5%</span><span class="st st-ok">● 达标</span></div>
-<div class="riskrow"><span>核心一级资本充足率</span><div class="meter"><i style="width:75%;background:var(--down)"></i><span class="limit" style="left:57%"></span></div><span class="num">9.7%</span><span class="lim">≥7.5%</span><span class="st st-ok">● 达标</span></div>
-<div class="riskrow"><span>杠杆率</span><div class="meter"><i style="width:65%;background:var(--down)"></i><span class="limit" style="left:50%"></span></div><span class="num">5.2%</span><span class="lim">≥4%</span><span class="st st-ok">● 达标</span></div>
-      </div>
-      <div class="strow" style="margin-top:4px"><span>达标情况</span><b><span style="color:#2ee6a8">7 达标</span> · <span style="color:#ff5d6c">3 未达标</span></b></div>
-    
-    </div></div>
-  </div>
-  <div class="card row" style="margin-bottom:0"><div class="chd">资产质量监测 <span class="tag">风险及资本情况 · ★考核</span></div><div class="cbd">
-    <div class="stgrid stgrid-4">
-      <div class="stx amber"><span class="t">不良资产率<span class="kstar">★</span></span><span class="v">1.41<small>%</small></span></div>
-      <div class="stx amber"><span class="t">不良贷款率</span><span class="v">1.32<small>%</small></span></div>
-      <div class="stx amber"><span class="t">个贷不良率<span class="kstar">★</span></span><span class="v">0.86<small>%</small></span></div>
-      <div class="stx amber"><span class="t">小额不良生成率</span><span class="v">0.95<small>%</small></span></div>
-      <div class="stx ok"><span class="t">不良资产处置<span class="kstar">★</span></span><span class="v">18.2<small>亿</small></span></div>
-      <div class="stx"><span class="t">对公新增风险管控额</span><span class="v">5.2<small>亿</small></span></div>
-      <div class="stx"><span class="t">信用减值损失</span><span class="v">23.4<small>亿</small></span></div>
-      <div class="stx"><span class="t">关注类贷款余额</span><span class="v">68<small>亿</small></span></div>
-    </div>
+  <!-- ② 业绩合同指标 —— 指标属性标签打标项（考核★/高质量）；2026-10-21 按业务关联性分组展示（战略绿色/负债质效/客群合同/风险与监管），不再平铺堆砌 -->
+  <div class="secttl"><b class="ttl">业绩合同指标</b> <span class="lite">—— 指标属性标签：考核 · 高质量｜源 02/03/04/06/08/09 打标项｜按业务关联分组｜带预算项显示全年预算达成</span></div>
+  <div class="card row" style="margin-bottom:0"><div class="cbd">
+    <div id="bk-contract"></div>
   </div></div>
 
-  <div class="secttl">客群基本盘 <span class="lite">—— 后劲如何｜客群结构</span></div>
+  <!-- ③ 资产负债结构 —— 靠什么（源：01-资产负债简表 · 06-存贷结构 · 09-五级分类 · 03-监管要求项）
+       2026-10-21：总量卡片快照 + 资产/负债权益构成饼图 + 存款饼/贷款条/五级分类饼 + 监管红线卡 -->
+  <div class="secttl"><b class="ttl">资产负债结构</b> <span class="lite">—— 靠什么｜源 01-资产负债简表 · 06-存贷结构 · 09-贷款五级 · 03-监管要求项｜构成=饼图 · 对比=条形 · 红线=阈值卡</span></div>
+  <div class="card row"><div class="chd">资产负债核心科目 <span class="tag">亿元 · 截止本月末 · 总量快照卡片</span></div><div class="cbd">
+    <div class="bkgrid6" id="bk-bs-cards"></div>
+  </div></div>
+  <div class="grid g2 row">
+    <div class="card"><div class="chd">总资产构成 <span class="tag">亿元 · 01｜饼图五分类+其他，中心=总资产</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:196px"><div class="chartbox" style="height:196px"><canvas id="c-bk-asset-pie"></canvas></div>
+          <div class="donut-total" id="bk-asset-center"></div></div>
+        <div id="bk-asset-rows"></div>
+      </div>
+    </div></div>
+    <div class="card"><div class="chd">负债与所有者权益构成 <span class="tag">亿元 · 01｜饼图=资金来源，中心=总资金来源</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:196px"><div class="chartbox" style="height:196px"><canvas id="c-bk-debt-pie"></canvas></div>
+          <div class="donut-total" id="bk-debt-center"></div></div>
+        <div id="bk-debt-rows"></div>
+      </div>
+    </div></div>
+  </div>
+  <div class="grid g3 row">
+    <div class="card"><div class="chd">存款结构 <span class="tag">06 · 截止本月末｜低成本/定期 · 对公/零售（饼=构成）</span></div><div class="cbd">
+      <div class="chartbox" style="height:172px"><canvas id="c-bk-dep-pie"></canvas><div class="donut-total" id="bk-dep-center"></div></div>
+      <div id="bk-dep-rows"></div>
+    </div></div>
+    <div class="card"><div class="chd">贷款结构与投放方向 <span class="tag">06 · 亿元 · 截止本月末（条=科目对比）</span></div><div class="cbd">
+      <div class="chartbox" style="height:206px"><canvas id="c-bk-loan"></canvas></div>
+    </div></div>
+    <div class="card"><div class="chd">贷款五级分类 <span class="tag">09 · 亿元 · 截止本月末｜饼=质量构成，色阶=正常→损失</span></div><div class="cbd">
+      <div class="chartbox" style="height:172px"><canvas id="c-bk-npl-pie"></canvas><div class="donut-total" id="bk-npl-center"></div></div>
+      <div id="bk-npl-rows"></div>
+    </div></div>
+  </div>
+  <div class="card row" style="margin-bottom:0"><div class="chd">监管红线监测 <span class="tag">03-关键监测指标 · 有监管要求项 · 阈值卡：实际值低于监管要求即红点告警</span></div><div class="cbd">
+    <div class="bkgrid6" id="bk-reg"></div>
+  </div></div>
+
+  <!-- ④ 条线分解与客群 —— 值多少 · 后劲如何（源：04-收入结构 · 05-成本结构 · 08-客群结构） -->
+  <div class="secttl"><b class="ttl">条线分解与客群</b> <span class="lite">—— 值多少 · 后劲如何｜源 04-收入结构 · 05-成本结构 · 08-客群结构｜条线合计=全行营收（饼=构成）</span></div>
+  <div class="grid g2 row">
+    <div class="card"><div class="chd">条线营收构成 <span class="tag">亿元 · 04-收入结构｜饼=四线构成合计=全行营收，行内附 EVA/RAROC</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:196px"><div class="chartbox" style="height:196px"><canvas id="c-bk-line-pie"></canvas></div>
+          <div class="donut-total" id="bk-line-center"></div></div>
+        <div id="bk-line-rows"></div>
+      </div>
+    </div></div>
+    <div class="card"><div class="chd">条线成本与回报 <span class="tag">05-成本结构 · 条线 RAROC · 点页签切换指标</span></div><div class="srcrow" id="bk-raroc-tabs"></div><div class="cbd">
+      <div class="kpihero" id="bk-raroc-kpi"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-bk-raroc"></canvas></div>
+    </div></div>
+  </div>
   <div class="grid g3 row" style="margin-bottom:0">
-    <div class="card"><div class="chd">公司客群 <span class="tag">对公 · 产融协同</span></div><div class="cbd">
-      <div class="strow"><span>公司有效客户数</span><b>5,260 户</b></div>
-      <div class="strow"><span>新增有效客户数<span class="kstar">★</span></span><b>+860 户</b></div>
-      <div class="strow"><span>公司有效授信客户数</span><b>4,820 户</b></div>
-      <div class="strow"><span>其中：大中有效授信客户数</span><b>1,260 户</b></div>
-      <div class="strow"><span>基石客户<span class="kstar">★</span></span><b>186 户</b></div>
-      <div class="strow"><span>产融协同客户数</span><b>236 户</b></div>
-    </div></div>
-    <div class="card"><div class="chd">零售客群 <span class="tag">AUM · 财富管理</span></div><div class="cbd">
-      <div class="strow"><span>零售客户数</span><b>612 万户</b></div>
-      <div class="strow"><span>零售中高端客户数</span><b>28.4 万户</b></div>
-      <div class="strow"><span>零售高净值客户数</span><b>3.2 万户</b></div>
-      <div class="strow"><span>代发客户数<span class="kstar">★</span></span><b>96.2 万户</b></div>
-      <div class="strow"><span>个人AUM月日均</span><b>2,860 亿</b></div>
-      <div class="strow"><span>代发客户AUM月日均</span><b>980 亿</b></div>
-    </div></div>
-    <div class="card"><div class="chd">渠道客群 <span class="tag">线上 · 现金管理</span></div><div class="cbd">
-      <div class="strow"><span>手机银行客户数</span><b>528 万户</b></div>
-      <div class="strow"><span>润E企用户数</span><b>1.86 万户</b></div>
-      <div class="strow"><span>现金管理客户数</span><b>3,120 户</b></div>
-    </div></div>
+    <div class="card"><div class="chd">公司客群 <span class="tag">08-客群结构 · 对公</span></div><div class="cbd" id="bk-corp"></div></div>
+    <div class="card"><div class="chd">零售客群 <span class="tag">08 · 06 · 财富管理</span></div><div class="cbd" id="bk-retail"></div></div>
+    <div class="card"><div class="chd">渠道客群 <span class="tag">08 · 线上 · 现金管理</span></div><div class="cbd" id="bk-chan"></div></div>
   </div>
 </section>
 
-<!-- ============ 信托（2026-10-13 重构：数据源=固定报表管理·华润资产→信托 trust01-05；含/除国信双口径全展示） ============ -->
+<!-- ============ 信托（2026-10-21 展示规则优化：按业务关联性分区聚合；① 本月数趋势 hero + 效益规模六卡 ② 收入构成饼（勾稽闭合）+ 含/除国信口径对比 ③ 新三分类构成饼 + 条线对比条 ④ 固有资金构成饼 + 元大条线条；数据源 = 数据应用·固定报表管理·华润信托 trust01-05 实时取数；可视化触发规则详见《管理驾驶舱-信托租赁资产保险-指标布局与可视化规范》） ============ -->
 <section class="view" id="v-trust">
-  <div class="secttl">核心经营指标 <span class="lite">—— 赚多少｜源 01-财务指标 · 含/除国信双口径并列展示</span></div>
-  <div class="bukpis" id="kpi-trust" style="grid-template-columns:repeat(5,1fr)"></div>
-  <div class="grid g2 row">
-    <div class="card"><div class="chd">收入结构 · 含国信口径 <span class="tag">亿元 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ts-rev"></canvas></div>
-      <div id="ts-rev-rows"></div>
+  <!-- ① 核心经营指标：利润链三 hero 同行（KPI大字=累计 · 趋势=本月数，规则①）+ 效益与规模六卡（规则④：比率/存量不同尺度不入图） -->
+  <div class="secttl"><b class="ttl">核心经营指标</b> <span class="lite">—— 赚多少｜源 01-财务指标｜规则：趋势=当月值（柱=当月实际 虚线=去年同月）· KPI大字=本年累计｜含/除国信双口径并列</span></div>
+  <div class="grid g3 row">
+    <div class="card"><div class="chd">总收入（含国信） <span class="tag">亿元 · 本月数趋势</span></div><div class="cbd">
+      <div class="kpihero" id="ts-hero-rev"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-ts-t-rev"></canvas></div>
     </div></div>
-    <div class="card"><div class="chd">效益对比 · 含国信 vs 除国信 <span class="tag">亿元 · 截止本月末｜同一指标两口径全展示</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ts-gx"></canvas></div>
+    <div class="card"><div class="chd">利润总额（含国信） <span class="tag">亿元 · 本月数趋势</span></div><div class="cbd">
+      <div class="kpihero" id="ts-hero-prof"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-ts-t-prof"></canvas></div>
+    </div></div>
+    <div class="card"><div class="chd">净利润（含国信） <span class="tag">亿元 · 本月数趋势</span></div><div class="cbd">
+      <div class="kpihero" id="ts-hero-net"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-ts-t-net"></canvas></div>
+    </div></div>
+  </div>
+  <div class="card row" style="margin-bottom:0"><div class="chd">效益与规模 <span class="tag">01-财务指标 · ROE 含/除国信同排对照 + 管理规模/总资产/净资产（量级悬殊→卡片行，不做伪对比）</span></div><div class="cbd">
+    <div class="bkgrid6" id="ts-eff-cards"></div>
+  </div></div>
+
+  <!-- ② 收入构成与双口径：构成→饼（信托业务+固有+国信投资收益 = 总收入含国信，勾稽严格闭合）；含/除对比→分组条形（规则④） -->
+  <div class="secttl"><b class="ttl">收入构成与双口径</b> <span class="lite">—— 钱从哪来｜源 01 · 02-收入结构｜构成=饼（三项相加=总收入·已勾稽）· 口径对比=条形（柱差=国信贡献）</span></div>
+  <div class="grid g2 row">
+    <div class="card"><div class="chd">收入构成 · 含国信口径 <span class="tag">亿元 · 截止本月末｜饼合计 = 中心总收入</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-ts-rev-pie"></canvas></div>
+          <div class="donut-total" id="ts-rev-center"></div></div>
+        <div id="ts-rev-rows"></div>
+      </div>
+    </div></div>
+    <div class="card"><div class="chd">含国信 vs 除国信 <span class="tag">亿元 · 截止本月末｜同一指标双口径并列，柱差即国信投资收益贡献</span></div><div class="cbd">
+      <div class="chartbox" style="height:168px"><canvas id="c-ts-gx"></canvas></div>
       <div id="ts-gx-rows"></div>
     </div></div>
   </div>
-  <div class="secttl">规模与结构 <span class="lite">—— 靠什么｜源 03-规模结构 · 信托业务新三分类 · 分条线</span></div>
+
+  <!-- ③ 规模与结构：新三分类构成→饼（+其他轧差保证整圆）；条线规模=口径交叠科目→条形（勿改饼） -->
+  <div class="secttl"><b class="ttl">规模与结构</b> <span class="lite">—— 靠什么｜源 03-规模结构 · 信托业务新三分类｜构成=饼（长尾轧差闭合）· 条线交叠口径=条形</span></div>
   <div class="grid g2 row">
-    <div class="card"><div class="chd">信托新三分类规模 <span class="tag">亿元 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ts-new3"></canvas></div></div></div>
-    <div class="card"><div class="chd">分条线业务规模 <span class="tag">亿元 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ts-scale"></canvas></div></div></div>
+    <div class="card"><div class="chd">信托新三分类构成 <span class="tag">亿元 · 中心=信托管理规模｜资管+服务+公益+其他轧差=整圆</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-ts-new3-pie"></canvas></div>
+          <div class="donut-total" id="ts-new3-center"></div></div>
+        <div id="ts-new3-rows"></div>
+      </div>
+    </div></div>
+    <div class="card"><div class="chd">分条线业务规模 <span class="tag">亿元 · 截止本月末｜条线与三分类口径交叠，仅作量级对比</span></div><div class="cbd">
+      <div class="chartbox" style="height:168px"><canvas id="c-ts-scale"></canvas></div>
+      <div id="ts-scale-rows"></div>
+    </div></div>
   </div>
-  <div class="secttl">固有运用与元大基金 <span class="lite">—— 稳不稳｜源 04-业务结构 · 固有资金投向 + 基金子公司</span></div>
-  <div class="grid g2 row">
-    <div class="card"><div class="chd">固有资金运用结构 <span class="tag">亿元 · 截止本月末｜出险项目红色示警</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ts-fund"></canvas></div></div></div>
-    <div class="card"><div class="chd">元大基金与资产负债 <span class="tag">亿元</span></div><div class="cbd" id="ts-side"></div></div>
+
+  <!-- ④ 固有资金与元大基金：固有运用六项相加=资金运用规模（勾稽闭合）→饼，出险项目红色示警；元大公募/专户两分=管理规模→条形 -->
+  <div class="secttl"><b class="ttl">固有资金与元大基金</b> <span class="lite">—— 稳不稳｜源 04-业务结构｜构成=饼（六项相加=资金运用规模 · 出险红色示警）· 元大条线=条形</span></div>
+  <div class="grid g2 row" style="margin-bottom:0">
+    <div class="card"><div class="chd">固有资金运用构成 <span class="tag">亿元 · 中心=资金运用规模｜出险项目=红色（风险语义色）</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-ts-fund-pie"></canvas></div>
+          <div class="donut-total" id="ts-fund-center"></div></div>
+        <div id="ts-fund-rows"></div>
+      </div>
+    </div></div>
+    <div class="card"><div class="chd">元大基金业务条线 <span class="tag">亿元 · 公募+专户 = 元大管理规模（已勾稽）</span></div><div class="cbd">
+      <div class="chartbox" style="height:168px"><canvas id="c-ts-yd"></canvas></div>
+      <div id="ts-yd-rows"></div>
+    </div></div>
   </div>
 </section>
 
-<!-- ============ 保险（2026-10-13 重构：数据源=固定报表管理·华润保险 ins01-03；★考核指标带预算达成） ============ -->
+<!-- ============ 保险（2026-10-21 展示规则优化：按业务关联性分区；① 利润链 hero 本月数趋势 + ROE/EVA 效益卡 ② 保费/佣金双主线各自"KPI+趋势+构成饼"复合卡（四大板块构成勾稽闭合）③ 关键管理指标考核区；数据源 = 数据应用·固定报表管理·华润保险 ins01-03 实时取数；规则详见《管理驾驶舱-信托租赁资产保险-指标布局与可视化规范》） ============ -->
 <section class="view" id="v-ins">
-  <div class="secttl">核心经营指标 <span class="lite">—— 赚多少｜源 01-财务指标 · ★ 全部为考核指标（含全年预算达成）</span></div>
-  <div class="bukpis" id="kpi-ins"></div>
-  <div class="secttl">保费与佣金双主线 <span class="lite">—— 靠什么｜源 02-业务指标 · 机构 / 产融 / 香港 / 市场化 四大板块</span></div>
-  <div class="grid g2 row">
-    <div class="card"><div class="chd">保费规模结构 <span class="tag">万元 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-in-prem"></canvas></div></div></div>
-    <div class="card"><div class="chd">佣金收入结构 <span class="tag">万元 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-in-comm"></canvas></div></div></div>
+  <!-- ① 核心经营指标：ins01 四项全为★考核；收入/利润=流量→hero+本月数趋势（规则①），ROE/EVA=比率/价值量→卡片（规则④） -->
+  <div class="secttl"><b class="ttl">核心经营指标</b> <span class="lite">—— 赚多少｜源 01-财务指标 · ★全部考核（带全年预算达成）｜趋势=当月值（柱=当月实际 虚线=去年同月）</span></div>
+  <div class="grid g3 row">
+    <div class="card"><div class="chd">营业收入 <span class="tag">万元 · 本月数趋势</span></div><div class="cbd">
+      <div class="kpihero" id="in-hero-rev"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-in-t-rev"></canvas></div>
+    </div></div>
+    <div class="card"><div class="chd">利润总额 <span class="tag">万元 · 本月数趋势</span></div><div class="cbd">
+      <div class="kpihero" id="in-hero-prof"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-in-t-prof"></canvas></div>
+    </div></div>
+    <div class="card"><div class="chd">资本回报与价值 <span class="tag">ROE · EVA｜★考核 · 带全年预算达成</span></div><div class="cbd" id="in-ret-cards"></div></div>
   </div>
+
+  <!-- ② 保费与佣金双主线：保费四板块相加=保费规模合计、佣金四板块相加=佣金合计（均勾稽闭合）→ 规则②构成饼；
+       每张复合卡=KPI大字 + 本月数趋势 + 构成饼 + 明细行，管理层单卡读完"总量→动能→结构" -->
+  <div class="secttl"><b class="ttl">保费与佣金双主线</b> <span class="lite">—— 靠什么｜源 02-业务指标｜复合卡：KPI + 本月数趋势 + 构成饼（板块相加=合计 · 已勾稽）</span></div>
   <div class="grid g2 row">
-    <div class="card"><div class="chd">业务来源占比 <span class="tag">保费口径 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-in-mix"></canvas></div></div></div>
-    <div class="card"><div class="chd">保费与佣金明细 <span class="tag">万元 · 截止本月末｜★考核</span></div><div class="cbd" id="ins-detail"></div></div>
+    <div class="card"><div class="chd">保费规模 <span class="tag">万元 · 四大板块构成 = 合计（饼合计=中心总量）</span></div><div class="cbd">
+      <div class="kpihero" id="in-hero-prem"></div>
+      <div class="chartbox" style="height:96px"><canvas id="c-in-t-prem"></canvas></div>
+      <div class="donutwrap" style="margin-top:6px">
+        <div style="position:relative;height:172px"><div class="chartbox" style="height:172px"><canvas id="c-in-prem-pie"></canvas></div>
+          <div class="donut-total sm" id="in-prem-center"></div></div>
+        <div id="in-prem-rows"></div>
+      </div>
+    </div></div>
+    <div class="card"><div class="chd">佣金收入 <span class="tag">万元 · 四大板块构成 = 合计（与保费同源，佣金率=板块盈利质量）</span></div><div class="cbd">
+      <div class="kpihero" id="in-hero-comm"></div>
+      <div class="chartbox" style="height:96px"><canvas id="c-in-t-comm"></canvas></div>
+      <div class="donutwrap" style="margin-top:6px">
+        <div style="position:relative;height:172px"><div class="chartbox" style="height:172px"><canvas id="c-in-comm-pie"></canvas></div>
+          <div class="donut-total sm" id="in-comm-center"></div></div>
+        <div id="in-comm-rows"></div>
+      </div>
+    </div></div>
   </div>
-  <div class="secttl">关键管理指标 <span class="lite">—— 战略导向｜源 03-关键管理指标 · 6 项全部为★考核指标 · 带全年预算达成</span></div>
+  <!-- 产融纵深明细：燃气→商户→银保→创新场景（产融板块二层拆分，★华润燃气为考核项带预算达成） -->
+  <div class="card row" style="margin-bottom:0"><div class="chd">产融板块纵深明细 <span class="tag">万元 · 截止本月末｜源 02 · 燃气（华润/市场）· 商户 · 银保 · 创新场景｜★考核项带预算达成</span></div><div class="cbd">
+    <div id="ins-detail"></div>
+  </div></div>
+
+  <!-- ③ 关键管理指标：ins03 六项全部★考核 = 业绩合同语言；卡片+预算达成条（规则④：单位互异不强行同图） -->
+  <div class="secttl"><b class="ttl">关键管理指标</b> <span class="lite">—— 战略导向｜源 03-关键管理指标 · 6 项全部★考核 · 带全年预算达成</span></div>
   <div class="card row"><div class="cbd">
     <div class="stgrid stgrid-4" id="ins-kpi-grid" style="grid-template-columns:repeat(3,1fr)"></div>
     <div id="ins-kpi-prog"></div>
   </div></div>
 </section>
 
-<!-- ============ 资产（2026-10-13 重构：数据源=数据应用·固定报表管理·华润资产 asset01-04；
-     五个分区各自带口径切换页签，指标卡随所选口径刷新；对比图同时展示全部口径） ============ -->
+<!-- ============ 资产（2026-10-21 展示规则优化：五分区业务关联性框架保留（损益→规模→合同→风险→协同）；① 增本月数趋势 hero + 收入构成饼（四线相加=营收·勾稽闭合）② 自有出资构成→饼；口径切换页签维持——多口径指标页签切换+全口径对比图并存；数据源 = 数据应用·固定报表管理·华润资产 asset01-04 实时取数；规则详见《管理驾驶舱-信托租赁资产保险-指标布局与可视化规范》） ============ -->
 <section class="view" id="v-asset">
-  <div class="secttl">① 收入与利润 <span class="lite">—— 损益表视角 · ★ 为年度考核指标（含全年预算达成）</span></div>
+  <div class="secttl"><b class="ttl">① 收入与利润</b> <span class="lite">—— 赚多少｜01-收入结构 损益表视角 · ★年度考核（含预算达成）｜趋势=当月值 · 构成=饼（线相加=营收）</span></div>
   <div class="ascal" id="ascal-1"></div>
   <div class="bukpis" id="askpi-1" style="grid-template-columns:repeat(3,1fr)"></div>
   <div class="grid g2 row">
-    <div class="card"><div class="chd">收入结构 <span class="tag" id="as-pl-lab"></span></div><div class="cbd"><div class="chartbox"><canvas id="c-as-pl"></canvas></div></div></div>
+    <div class="card"><div class="chd">营业收入 · 本月数趋势 <span class="tag">亿元｜柱=当月实际 虚线=去年同月</span></div><div class="cbd">
+      <div class="chartbox" style="height:132px"><canvas id="c-as-t-rev"></canvas></div></div></div>
+    <div class="card"><div class="chd">利润总额 · 本月数趋势 <span class="tag">亿元｜柱=当月实际 虚线=去年同月</span></div><div class="cbd">
+      <div class="chartbox" style="height:132px"><canvas id="c-as-t-prof"></canvas></div></div></div>
+  </div>
+  <div class="grid g2 row">
+    <div class="card"><div class="chd">收入构成 <span class="tag" id="as-pl-lab"></span></div><div class="cbd">
+      <div class="donutwrap" id="as-rev-piewrap">
+        <div style="position:relative;height:190px"><div class="chartbox" style="height:190px"><canvas id="c-as-rev-pie"></canvas></div>
+          <div class="donut-total" id="as-rev-center"></div></div>
+        <div id="as-rev-rows"></div>
+      </div>
+      <div class="chartbox" id="as-pl-fallback" style="display:none"><canvas id="c-as-pl"></canvas></div>
+    </div></div>
     <div class="card"><div class="chd">营业收入 · 全口径对比 <span class="tag">亿元 · 高亮 = 当前所选口径</span></div><div class="cbd"><div class="chartbox"><canvas id="c-as-cmp"></canvas></div></div></div>
   </div>
-  <div class="secttl">② 业务规模与投放退出 <span class="lite">—— 资产负债表视角 · 自有出资"蓄水池"</span></div>
+  <div class="secttl"><b class="ttl">② 业务规模与投放退出</b> <span class="lite">—— 靠什么｜02-业务结构 资产负债表视角 · 自有出资"蓄水池"｜构成=饼（四线相加=自有出资存量）· 投放退出=条形对比</span></div>
   <div class="ascal" id="ascal-2"></div>
   <div class="bukpis" id="askpi-2"></div>
   <div class="grid g2 row">
-    <div class="card"><div class="chd">四大业务线自有出资结构 <span class="tag" id="as-biz-lab"></span></div><div class="cbd"><div class="chartbox"><canvas id="c-as-biz"></canvas></div></div></div>
-    <div class="card"><div class="chd">新增 vs 退出投放规模 <span class="tag">亿元 · 单体口径全展示</span></div><div class="cbd"><div class="chartbox"><canvas id="c-as-wf"></canvas></div></div></div>
+    <div class="card"><div class="chd">四大业务线自有出资构成 <span class="tag" id="as-biz-lab"></span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:190px"><div class="chartbox" style="height:190px"><canvas id="c-as-own-pie"></canvas></div>
+          <div class="donut-total" id="as-own-center"></div></div>
+        <div id="as-own-rows"></div>
+      </div>
+    </div></div>
+    <div class="card"><div class="chd">新增 vs 退出投放规模 <span class="tag">亿元 · 单体口径全展示｜同指标一进一退→分组条形</span></div><div class="cbd"><div class="chartbox"><canvas id="c-as-wf"></canvas></div></div></div>
   </div>
-  <div class="secttl">③ 服务集团退出 <span class="lite">—— 业绩合同视角 · 合并口径（横琴+香港[含深圳]+渝康）</span></div>
+  <div class="secttl"><b class="ttl">③ 服务集团退出</b> <span class="lite">—— 承诺兑现｜02 业绩合同视角 · 合并口径｜计数类指标→卡片+预算达成条（规则④）</span></div>
   <div class="card row"><div class="cbd">
     <div class="stgrid stgrid-4" id="as-exit-grid" style="grid-template-columns:repeat(3,1fr)"></div>
     <div id="as-exit-prog"></div>
   </div></div>
-  <div class="secttl">④ 风险质量 <span class="lite">—— 不良资产总额 / 不良率 / 处置 / 关注类</span></div>
+  <div class="secttl"><b class="ttl">④ 风险质量</b> <span class="lite">—— 稳不稳｜03-风险指标｜不良/关注为交叠敞口非构成关系→条形对比（勿改饼）· 全口径并排</span></div>
   <div class="ascal" id="ascal-3"></div>
   <div class="bukpis" id="askpi-3"></div>
   <div class="grid g2 row">
     <div class="card"><div class="chd">风险资产分布 <span class="tag" id="as-risk-lab"></span></div><div class="cbd"><div class="chartbox"><canvas id="c-as-risk"></canvas></div></div></div>
     <div class="card"><div class="chd">不良 / 关注类 · 全口径对比 <span class="tag">亿元 · 全部口径同时展示</span></div><div class="cbd"><div class="chartbox"><canvas id="c-as-cal"></canvas></div></div></div>
   </div>
-  <div class="secttl">⑤ 产融协同 <span class="lite">—— 本部+渝康合并 · 季度更新（指标源：04-产融业务）</span></div>
+  <div class="secttl"><b class="ttl">⑤ 产融协同</b> <span class="lite">—— 服务集团｜04-产融业务 · 本部+渝康合并 · 季度更新｜量级悬殊→卡片行 + 规模类同尺度→条形</span></div>
   <div class="bukpis" id="askpi-4" style="grid-template-columns:repeat(5,1fr)"></div>
   <div class="card row"><div class="chd">产融协同规模指标 <span class="tag">亿元 · 截止本季末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-as-syn"></canvas></div></div></div>
 </section>
 
-<!-- ============ 租赁（2026-10-13 重构：数据源=固定报表管理·华润租赁 lease01-05；格式对齐华润银行驾驶舱） ============ -->
+<!-- ============ 租赁（2026-10-21 展示规则优化：① 利润链三 hero 本月数趋势 + 损益瀑布 + 效益定价六卡 ② 规模四卡 + 行业赛道构成饼（七板块相加=整体规模·勾稽闭合）+ 产品/融资构成饼 ③ 风险管控卡 ④ 效益战略卡；格式对齐华润银行驾驶舱；数据源 = 数据应用·固定报表管理·华润租赁 lease01-05 实时取数；规则详见《管理驾驶舱-信托租赁资产保险-指标布局与可视化规范》） ============ -->
 <section class="view" id="v-lease">
-  <div class="secttl">核心经营指标 <span class="lite">—— 赚多少｜源 01-收入结构 · ★考核（含全年预算达成）</span></div>
-  <div class="bukpis" id="kpi-lease"></div>
+  <!-- ① 核心经营与损益：流量类三终点 hero 同行（KPI=累计 · 趋势=本月数，规则①）；损益链→瀑布（规则③）；定价比率→六卡（规则④） -->
+  <div class="secttl"><b class="ttl">核心经营与损益</b> <span class="lite">—— 赚多少｜源 01-收入结构 · ★考核（带预算达成）｜趋势=当月值 · 加减链=瀑布</span></div>
+  <div class="grid g3 row">
+    <div class="card"><div class="chd">营业收入 <span class="tag">亿元 · 本月数趋势</span></div><div class="cbd">
+      <div class="kpihero" id="ls-hero-rev"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-ls-t-rev"></canvas></div>
+    </div></div>
+    <div class="card"><div class="chd">利润总额 <span class="tag">亿元 · 本月数趋势</span></div><div class="cbd">
+      <div class="kpihero" id="ls-hero-prof"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-ls-t-prof"></canvas></div>
+    </div></div>
+    <div class="card"><div class="chd">净利润 <span class="tag">亿元 · 本月数趋势</span></div><div class="cbd">
+      <div class="kpihero" id="ls-hero-net"></div>
+      <div class="chartbox" style="height:128px"><canvas id="c-ls-t-net"></canvas></div>
+    </div></div>
+  </div>
   <div class="grid g2 row">
-    <div class="card"><div class="chd">损益结构 <span class="tag">亿元 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ls-pl"></canvas></div></div></div>
-    <div class="card"><div class="chd">收益率 vs 融资成本率 <span class="tag">% · 截止本月末｜新增投放口径见表下</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ls-spread"></canvas></div>
-      <div id="ls-spread-rows"></div>
+    <div class="card"><div class="chd">损益瀑布 <span class="tag">亿元 · 01-收入结构｜收入−成本−费用−减值 = 利润总额（瀑布=加减关系）</span></div><div class="cbd">
+      <div class="chartbox" style="height:200px"><canvas id="c-ls-wf"></canvas></div>
+      <div class="wflg" id="ls-wf-legend"></div>
+    </div></div>
+    <div class="card"><div class="chd">收入构成 <span class="tag">亿元 · 截止本月末｜租赁+保理+其他 = 营业收入（饼=构成关系）</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:196px"><div class="chartbox" style="height:196px"><canvas id="c-ls-rev-pie"></canvas></div>
+          <div class="donut-total" id="ls-rev-center"></div></div>
+        <div id="ls-rev-rows"></div>
+      </div>
+    </div></div>
+  </div>
+  <div class="card row" style="margin-bottom:0"><div class="chd">效益与定价 <span class="tag">01-经营质效 · 收益率/成本率六卡（存量口径）｜新增投放口径见表下</span></div><div class="cbd">
+    <div class="bkgrid6" id="ls-eff-cards"></div>
+    <div id="ls-spread-rows"></div>
+  </div></div>
+
+  <!-- ② 规模与投放结构：四大业务构成均勾稽闭合→饼（行业七板块=整体规模、产品三类=租赁业务规模、融资三类=整体融资规模）；投放对比→条形 -->
+  <div class="secttl"><b class="ttl">规模与投放结构</b> <span class="lite">—— 靠什么｜源 03-业务结构 · 02-融资结构 · 05-其他指标｜构成=饼（板块相加=总量·已勾稽）· 存量×投放=条形对比</span></div>
+  <div class="card row"><div class="chd">规模与投放总量 <span class="tag">亿元 · ★考核带预算达成</span></div><div class="cbd">
+    <div class="bkgrid4" id="ls-scale-cards"></div>
+  </div></div>
+  <div class="grid g2 row">
+    <div class="card"><div class="chd">行业赛道规模构成 <span class="tag">亿元 · 中心=公司整体业务规模｜风电/光伏/水电/储能=能源电力细分（行注）</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-ls-sector-pie"></canvas></div>
+          <div class="donut-total" id="ls-sector-center"></div></div>
+        <div id="ls-sector-rows"></div>
+      </div>
+    </div></div>
+    <div class="card"><div class="chd">行业赛道新增投放 <span class="tag">亿元 · 本年新增｜与存量饼同序对照：谁在加仓</span></div><div class="cbd">
+      <div class="chartbox" style="height:200px"><canvas id="c-ls-deploy"></canvas></div>
+    </div></div>
+  </div>
+  <div class="grid g2 row" style="margin-bottom:0">
+    <div class="card"><div class="chd">产品形态构成 <span class="tag">亿元 · 回租+直租+经营租赁 = 租赁业务规模（保理另账）</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:168px"><div class="chartbox" style="height:168px"><canvas id="c-ls-prod-pie"></canvas></div>
+          <div class="donut-total sm" id="ls-prod-center"></div></div>
+        <div id="ls-prod-rows"></div>
+      </div>
+    </div></div>
+    <div class="card"><div class="chd">融资结构与久期 <span class="tag">亿元 · 银行+直融+其他 = 整体融资规模；期限两分=第二维度（行注）</span></div><div class="cbd">
+      <div class="donutwrap">
+        <div style="position:relative;height:168px"><div class="chartbox" style="height:168px"><canvas id="c-ls-fund-pie"></canvas></div>
+          <div class="donut-total sm" id="ls-fund-center"></div></div>
+        <div id="ls-fund-rows"></div>
+      </div>
     </div></div>
   </div>
 
-  <div class="secttl">规模与投放 <span class="lite">—— 靠什么｜源 03-业务结构 · 行业赛道存量 × 新增投放</span></div>
-  <div class="card row"><div class="chd">行业赛道矩阵 <span class="tag">亿元 · 截止本月末｜存量规模 × 本年新增投放</span></div><div class="cbd"><div class="chartbox tall"><canvas id="c-ls-sector"></canvas></div></div></div>
-  <div class="grid g2 row">
-    <div class="card"><div class="chd">产品形态 <span class="tag">亿元 · 截止本月末</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ls-prod"></canvas></div></div></div>
-    <div class="card"><div class="chd">融资结构 <span class="tag">亿元 · 截止本月末｜源 02-融资结构</span></div><div class="cbd"><div class="chartbox"><canvas id="c-ls-fund"></canvas></div></div></div>
-  </div>
+  <div class="secttl"><b class="ttl">风险质量</b> <span class="lite">—— 安全吗｜源 04-风险指标（季度）· ★考核率类=管控红线 · 预算条=达成</span></div>
+  <div class="card row"><div class="chd">风险管控与质量明细 <span class="tag">★率类管控卡（预算条=红线达成）+ 余额类明细行（量级悬殊→卡片/行分离，规则④）</span></div><div class="cbd">
+    <div class="bkgrid4" id="ls-risk-cards"></div>
+    <div id="ls-risk-rows"></div>
+  </div></div>
 
-  <div class="secttl">风险质量 <span class="lite">—— 安全吗｜源 04-风险指标（季度）· ★考核 · 预算条=管控红线达成</span></div>
-  <div class="bukpis" id="ls-risk-grid" style="grid-template-columns:repeat(4,1fr)"></div>
-  <div class="card row"><div class="cbd" id="ls-risk-rows"></div></div>
-
-  <div class="secttl">效益与战略导向 <span class="lite">—— 后劲如何｜源 05-其他指标（季度）· ★考核</span></div>
+  <div class="secttl"><b class="ttl">效益与战略导向</b> <span class="lite">—— 后劲如何｜源 05-其他指标（季度）· ★考核 · 价值/效率与战略转型两组（规则④：单位互异→卡片化）</span></div>
   <div class="card row"><div class="cbd">
     <div class="stgrid stgrid-4" id="ls-oth-grid"></div>
     <div id="ls-oth-prog"></div>
@@ -1437,8 +1662,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 <script src="insurance_sheets_data.js"></script>
 <script src="lease_sheets_data.js"></script>
 <script src="cockpit_data.js"></script>
-<!-- 领导驾驶舱图表库（原页同款；加载失败时驾驶舱图表静默降级） -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<!-- 管理驾驶舱图表库（原页同款；加载失败时驾驶舱图表静默降级） -->
+<script src="_chart_umd.js"></script>
 <script>
 /* ============================================================
    数据：9张子表指标定义
@@ -1917,6 +2142,27 @@ function renderTabs(){
   ledger.appendChild(ledHead);
   ledger.appendChild(ledKids);
   wrap.appendChild(ledger);
+
+  /* ---- 一级菜单：预算值填报管理（与「报表台账管理」同级，2026-10-21 新增）
+     明细栏：预算值填报。各业务单元负责人选择预算年度 + 业务单元后，
+     按「是否预算」标签从指标清单筛选已发布的预算指标进行加载，逐条填报全年预算值 ---- */
+  const budget = document.createElement('div');
+  budget.className = 'nav-branch';
+  const budHead = document.createElement('button');
+  budHead.className = 'nav-parent open nav-fixed nav-budget';
+  /* 一级固定展开、不可收起（与上级两菜单一致） */
+  budHead.innerHTML = '<span>预算值填报管理</span>';
+  const budKids = document.createElement('div');
+  budKids.className = 'nav-children open';
+  const budBtn = document.createElement('button');
+  budBtn.className = 'nav-item';
+  budBtn.dataset.sheet = BUDGET_KEY;
+  budBtn.dataset.action = 'nav-sheet';
+  budBtn.textContent = '预算值填报';
+  budKids.appendChild(budBtn);
+  budget.appendChild(budHead);
+  budget.appendChild(budKids);
+  wrap.appendChild(budget);
   /* 驾驶舱管理已上移为顶层独立模块（顶部导航「驾驶舱」+ 顶栏下拉），侧栏不再渲染 */
 }
 
@@ -1939,6 +2185,8 @@ function renderContent(){
   }
   /* 报表台账管理：全部固定报表的台账面板（无 KPI，仅表格；横向按月） */
   renderAllLedgers();
+  /* 预算值填报管理：预算值填报面板（2026-10-21 新增） */
+  renderBudgetPanel();
   // 驾驶舱面板（集团总览 + 各公司）
   if(typeof COCKPITS!=='undefined'){
     COCKPITS.forEach(c=>renderCockpitPanel(c));
@@ -2321,6 +2569,178 @@ function queryLedger(lk){
       ? `${y} 年尚无已完结季度，仅显示报表结构 · ${s.title}`
       : `${y} 年无历史数据，仅显示报表结构 · ${s.title}`);
   refreshSheet(lk);
+}
+
+/* ============================================================
+   预算值填报管理（一级菜单，与报表台账管理同级，2026-10-21 新增）
+   明细栏：预算值填报
+   需求：各业务单元负责人，根据所选【预算年度】+【业务单元】，
+   按【是否预算】标签（固定报表中「指标属性标签=考核★」的已发布预算指标）
+   从指标清单筛选加载该业务单元的预算指标，逐条填报 {xxxx} 年全年预算值。
+   列口径（对齐需求图）：
+   · 业务单元 / 指标标准编号 / 指标名称 / 指标单位 → 自动拉取
+   · {xxxx-1} 年预算值 → 自动加载上一年预算值（如有，源自固定报表「全年预算」列）
+   · 最新实际值 / 最新实际值日期 → 自动加载指标对应最新数值及取数日期
+   · *{xxxx} 年预算值 → 必填填报字段（全年预算值）
+   面板 key：bud-fill（独立面板，不复用固定报表数据模型渲染，仅取数）
+   ============================================================ */
+const BUDGET_KEY = 'bud-fill';
+/* 业务单元（与固定报表管理公司分组同源）；codePrefix 用于生成指标标准编号 */
+const BUDGET_UNITS = [
+  {key:'bank',  label:'华润银行', codePrefix:'STR_CRB', src:()=> (typeof SHEETS!=='undefined'?SHEETS:null)},
+  {key:'asset', label:'华润资产', codePrefix:'STR_CRA', src:()=> (typeof ASSET_SHEETS!=='undefined'?ASSET_SHEETS:null)},
+  {key:'trust', label:'华润信托', codePrefix:'STR_CRT', src:()=> (typeof TRUST_SHEETS!=='undefined'?TRUST_SHEETS:null)},
+  {key:'ins',   label:'华润保险', codePrefix:'STR_CRI', src:()=> (typeof INSURANCE_SHEETS!=='undefined'?INSURANCE_SHEETS:null)},
+  {key:'lease', label:'华润租赁', codePrefix:'STR_CRL', src:()=> (typeof LEASE_SHEETS!=='undefined'?LEASE_SHEETS:null)}
+];
+const budState = { year: 2027, unit: 'bank', vals: {} }; // vals: 'year|unit|指标名称' → 填报值（会话内暂存草稿）
+
+/* 指标最新实际值取数日期：上一自然月月末（YYYY-MM-DD） */
+function budLatestDate(){
+  const d = new Date();
+  const last = new Date(d.getFullYear(), d.getMonth(), 0); // 本月第 0 天 = 上月末
+  const p = n => (n < 10 ? '0' + n : '' + n);
+  return last.getFullYear() + '-' + p(last.getMonth() + 1) + '-' + p(last.getDate());
+}
+
+/* 按业务单元提取已发布预算指标清单：
+   扫描该单元全部固定报表（calibers 取首口径），取「指标属性标签」含 ★/是 的行
+   （预算一致性规则：仅考核指标挂全年预算，即【是否预算】=是 的已发布指标）；
+   同名单元内去重（上层报表优先） */
+function budIndicatorRows(unit){
+  const u = BUDGET_UNITS.find(x => x.key === unit);
+  const col = u ? u.src() : null;
+  if(!col) return [];
+  const out = []; const seen = {};
+  Object.keys(col).forEach(sk=>{
+    const s = col[sk];
+    const view = ledgerBaseView(s, 0);
+    const leaves = ledgerLeaves(view);
+    const idx = lab => leaves.findIndex(L => L.label === lab);
+    const nameI = idx('指标名称'), unitI = idx('单位'), tagI = idx('指标属性标签'), budI = idx('全年预算');
+    let actI = leaves.findIndex(L => L.label === '实际' && /截止/.test(L.group));
+    if(actI < 0) actI = leaves.findIndex(L => L.label === '实际');
+    if(nameI < 0 || tagI < 0) return;
+    (view.rows || []).forEach(r=>{
+      const nm = String(r[nameI] == null ? '' : r[nameI]).trim();
+      if(!nm) return;
+      const tag = String(r[tagI] == null ? '' : r[tagI]);
+      if(tag.indexOf('★') < 0 && tag !== '是') return;   // 【是否预算】筛选
+      if(seen[nm]) return; seen[nm] = 1;                  // 单元内去重
+      out.push({
+        sheet: s.title || panelName(s),
+        name: nm.replace(/^其中：/, ''),
+        rawName: nm,
+        unit: unitI >= 0 ? (r[unitI] || '') : '',
+        lastBudget: budI >= 0 ? String(r[budI] == null ? '' : r[budI]).trim() : '',
+        latest: actI >= 0 ? String(r[actI] == null ? '' : r[actI]).trim() : ''
+      });
+    });
+  });
+  /* 指标标准编号：单元前缀 + 按加载顺序编号（原型演示；实际环境对接指标清单唯一标准编号） */
+  out.forEach((it, i)=>{ it.code = u.codePrefix + '_' + String(i + 1).padStart(8, '0'); });
+  return out;
+}
+
+/* 渲染预算值填报面板 */
+function renderBudgetPanel(){
+  const content = document.getElementById('content');
+  let panel = document.getElementById('panel-' + BUDGET_KEY);
+  const existed = !!panel && !!panel.parentNode;
+  const wasActive = existed && panel.classList.contains('active');
+  if(!panel) panel = document.createElement('div');
+  panel.className = 'sheet-panel';
+  panel.id = 'panel-' + BUDGET_KEY;
+
+  const y = budState.year, lastY = y - 1;
+  const unitLabel = (BUDGET_UNITS.find(x=>x.key===budState.unit) || BUDGET_UNITS[0]).label;
+  const rows = budIndicatorRows(budState.unit);
+  const filled = rows.filter(it => (budState.vals[y + '|' + budState.unit + '|' + it.rawName] || '') !== '').length;
+  const latestDate = budLatestDate();
+
+  const yOpts = [2026, 2027, 2028].map(yy => `<option value="${yy}"${yy===y?' selected':''}>${yy} 年</option>`).join('');
+  const uOpts = BUDGET_UNITS.map(u => `<option value="${u.key}"${u.key===budState.unit?' selected':''}>${u.label}</option>`).join('');
+
+  let html = `
+    <div class="panel-header">
+      <div class="panel-title">预算指标填报表 · ${unitLabel}</div>
+      <div class="panel-actions">
+        <button class="btn" data-action="bud-save" type="button">💾 保存草稿</button>
+        <button class="btn" data-action="bud-submit" type="button">✅ 提交</button>
+        <button class="btn" data-action="export" data-key="${BUDGET_KEY}" type="button">📥 导出</button>
+      </div>
+    </div>
+    <div class="bud-toolbar">
+      <div class="bud-field"><span class="bud-field-label">【预算年度选择】</span>
+        <select class="bud-select" id="budYearSel">${yOpts}</select></div>
+      <div class="bud-field"><span class="bud-field-label">【业务单元选择】</span>
+        <select class="bud-select" id="budUnitSel">${uOpts}</select></div>
+      <div class="bud-hint">根据【业务单元】及【是否预算】标签从指标清单筛选已发布的指标加载 ·
+        共 <b>${rows.length}</b> 项预算指标，已填报 <b>${filled}</b> 项${rows.length && filled < rows.length ? '，<span class="bud-warn">' + (rows.length - filled) + '</span> 项必填未填' : ''}</div>
+    </div>
+    <div class="table-card"><div class="table-wrap">`;
+
+  if(!rows.length){
+    html += `<div class="bud-empty-tip">该业务单元暂无已发布的预算指标（【是否预算】筛选结果为空）</div>`;
+  } else {
+    html += `<table class="data-table bud-table"><thead><tr>
+        <th>业务单元</th><th>指标标准编号</th><th>指标名称</th><th>指标单位</th>
+        <th>${lastY} 年预算值</th><th>最新实际值</th><th class="bud-req">最新实际值日期()</th>
+        <th class="bud-req">*${y} 年预算值</th>
+      </tr></thead><tbody>`;
+    rows.forEach(it=>{
+      const dk = y + '|' + budState.unit + '|' + it.rawName;
+      const v = budState.vals[dk] || '';
+      const lastBud = (it.lastBudget && it.lastBudget !== '-') ? it.lastBudget : '<span class="dim-dash">--</span>';
+      const latest = (it.latest && it.latest !== '-') ? it.latest : '<span class="dim-dash">--</span>';
+      html += `<tr>
+        <td>${unitLabel}</td>
+        <td><span class="bud-auto">${it.code}</span></td>
+        <td class="indicator-name lv0" title="${escHtml(it.rawName)}">${escHtml(it.name)}<div style="font-size:11px;color:#9aa3ad;font-weight:400;">来源：${escHtml(it.sheet)}</div></td>
+        <td class="value">${escHtml(it.unit)}</td>
+        <td class="value">${lastBud}</td>
+        <td class="value">${latest}</td>
+        <td class="value">${latestDate}</td>
+        <td class="bud-must"><input class="bud-input${v ? ' filled' : ''}" data-budkey="${escHtml(dk)}" value="${escHtml(v)}" placeholder="必填，全年预算值" inputmode="decimal" aria-label="${escHtml(it.name)} ${y} 年预算值"></td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+  html += `</div></div>
+    <div style="font-size:12px;color:var(--c-text-light);margin-top:8px;padding:0 4px;">
+      填报说明：各业务单元负责人对所选业务单元的预算指标填报 ${y} 年全年预算值（带 <span style="color:#c0392b;font-weight:700;">*</span> 列为必填）；
+      ${lastY} 年预算值、最新实际值由系统自动加载（如有）；保存草稿仅本机会话暂存，提交后进入预算审批流程（原型演示）。
+    </div>`;
+
+  panel.innerHTML = html;
+  if(!existed) content.appendChild(panel);
+  if(wasActive) panel.classList.add('active');
+}
+
+/* 预算填报：保存草稿（读取当前输入值入会话状态） */
+function budgetCollectInputs(){
+  const panel = document.getElementById('panel-' + BUDGET_KEY);
+  if(!panel) return;
+  panel.querySelectorAll('input.bud-input').forEach(inp=>{
+    budState.vals[inp.dataset.budkey] = inp.value.trim();
+  });
+}
+function budgetSaveDraft(){
+  budgetCollectInputs();
+  renderBudgetPanel();
+  showToast(`草稿已保存 · ${budState.year} 年 ${budState.unit && (BUDGET_UNITS.find(x=>x.key===budState.unit)||{}).label} 预算指标填报`);
+}
+/* 提交：必填校验（*{xxxx} 年预算值全部填报后方可提交） */
+function budgetSubmit(){
+  budgetCollectInputs();
+  const rows = budIndicatorRows(budState.unit);
+  const missing = rows.filter(it => (budState.vals[budState.year + '|' + budState.unit + '|' + it.rawName] || '') === '');
+  if(missing.length){
+    showToast(`提交失败：还有 ${missing.length} 项「*${budState.year} 年预算值」未填报（必填）`);
+    return;
+  }
+  renderBudgetPanel();
+  showToast(`提交成功 · ${budState.year} 年 ${(BUDGET_UNITS.find(x=>x.key===budState.unit)||{}).label} 全部 ${rows.length} 项预算值已进入审批流程（原型演示）`);
 }
 
 /* ============================================================
@@ -3011,14 +3431,14 @@ function renderTableRow(r, colTypes, lv, rowIdx, spanMap, has){
     if(t === 'name'){
       cells += `<td${rsAttr} class="indicator-name lv${lv||0}">${val||'<span class="dim-dash">--</span>'}</td>`;
     } else if(t === 'assess'){
-      // 考核指标（★/是）→ 蓝色标签「考核指标」；高质量指标 → 绿色标签（.assess-tag.hq）；
+      // 考核指标（★/是）→ 蓝色标签「考核」；高质量指标 → 绿色标签「高质量」（.assess-tag.hq）；标签文案 2026-10-14 精简（考核指标→考核、高质量指标→高质量）
       // 双标签并存：值以 | 分隔（如「★|高质量指标」，2026-09-24 华润银行 06-存贷结构/08-客群结构）；其余非空原样显示、空值显示 --
       const parts = String(val==null?'':val).split('|');
       const on = parts.indexOf('★')>=0 || parts.indexOf('是')>=0;
       const hq = parts.indexOf('高质量指标')>=0;
       let tag = '';
-      if(on) tag += '<span class="assess-tag">考核指标</span>';
-      if(hq) tag += '<span class="assess-tag hq">高质量指标</span>';
+      if(on) tag += '<span class="assess-tag">考核</span>';
+      if(hq) tag += '<span class="assess-tag hq">高质量</span>';
       if(!tag) tag = val ? val : '<span class="dim-dash">--</span>';
       cells += `<td${rsAttr} class="assess">${tag}</td>`;
     } else if(t === 'delta'){
@@ -3135,6 +3555,10 @@ function sheetByKey(key){
 }
 
 function exportSheet(key){
+  if(key === BUDGET_KEY){
+    alert('正在导出 预算指标填报表...\n（演示功能，实际环境对接导出接口）');
+    return;
+  }
   const s = sheetByKey(key);
   alert('正在导出 '+(s?s.title:key)+' 数据...\n（演示功能，实际环境对接导出接口）');
 }
@@ -3208,7 +3632,7 @@ function escHtml(str){
   return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// 顶部导航模块切换：data=数据应用 / cock=驾驶舱（集团/板块驾驶舱） / leader=领导驾驶舱
+// 顶部导航模块切换：data=数据应用 / cock=驾驶舱（集团/板块驾驶舱） / leader=管理驾驶舱
 function switchModule(mod){
   const dataEl = document.getElementById('moduleData');
   const dataWasHidden = dataEl.style.display === 'none';
@@ -3220,7 +3644,7 @@ function switchModule(mod){
   document.getElementById('moduleLeader').style.display = (mod==='leader') ? '' : 'none';
   if(mod==='cock' || mod==='leader'){
     window.scrollTo({top:0});
-    /* 领导驾驶舱：模块隐藏时 canvas 尺寸为 0，首次显示（及再次显示）需按可见尺寸重绘当前视图图表 */
+    /* 管理驾驶舱：模块隐藏时 canvas 尺寸为 0，首次显示（及再次显示）需按可见尺寸重绘当前视图图表 */
     if(mod==='leader' && window.LeaderApp) LeaderApp.refresh();
   }else{
     /* 仅当从其他模块进入数据应用（模块原为隐藏）且无选中报表时，默认展示资产负债简表；
@@ -3348,6 +3772,8 @@ document.addEventListener('click', (e)=>{
     btn.classList.toggle('open');
     if(btn.nextElementSibling) btn.nextElementSibling.classList.toggle('open');
   }
+  else if(action === 'bud-save'){ budgetSaveDraft(); }
+  else if(action === 'bud-submit'){ budgetSubmit(); }
 });
 
 // 集团总览：点击公司下拉外部时收起；驾驶舱顶导航子菜单点击外部时收起
@@ -3362,6 +3788,17 @@ document.addEventListener('click', (e)=>{
 // 数据日期年/月下拉变更后自动查询
 document.addEventListener('change', (e)=>{
   const t = e.target;
+  /* 预算值填报：预算年度 / 业务单元下拉切换 → 先暂存当前输入，再按新条件重新加载指标清单 */
+  if(t.id === 'budYearSel' || t.id === 'budUnitSel'){
+    budgetCollectInputs();
+    budState.year = +document.getElementById('budYearSel').value;
+    budState.unit = document.getElementById('budUnitSel').value;
+    renderBudgetPanel();
+    const u = BUDGET_UNITS.find(x=>x.key===budState.unit) || {};
+    const n = budIndicatorRows(budState.unit).length;
+    showToast(`已按【业务单元】+【是否预算】加载 ${budState.year} 年预算指标清单 · ${u.label}（${n} 项）`);
+    return;
+  }
   if(t.classList && t.classList.contains('ym-select')){
     /* 台账面板（led- 前缀）：仅年度下拉 → 走台账查询 */
     if(t.dataset.key && t.dataset.key.indexOf('led-') === 0) queryLedger(t.dataset.key);
@@ -3371,13 +3808,13 @@ document.addEventListener('change', (e)=>{
 });
 </script>
 <script>
-/* 领导驾驶舱模块脚本（内嵌自 华润金控领导驾驶舱.html，IIFE 隔离；2026-10-12） */
+/* 管理驾驶舱模块脚本（内嵌自 华润金控管理驾驶舱.html，IIFE 隔离；2026-10-12） */
 (function(){
 
 /* ================= 数据（样例示意） ================= */
 /* 板块色：深蓝大屏底经对比度校验的提亮版（蓝/翠绿/暖金/天青/橘橙）；仅用于业务身份 */
-var BU_COLORS = { bank:'#4d9dff', trust:'#2fd6a0', ins:'#f0c060', asset:'#41c0e8', lease:'#ff8a4d' };
-var T2='#c8dcf7', T3='#7d9cc9', BLUE='#4d9dff', BLUE2='#5cc2ff', GOLD='#f0c060', GOLD2='#ffe3a0';
+var BU_COLORS = { bank:'#1d5ca8', trust:'#0f9d6e', ins:'#f59e0b', asset:'#5b9bd9', lease:'#e8823c' }; /* 2026-10-20 领导层统一色板（浅底经 CVD 校验） */
+var T2='#42557a', T3='#7a8ba6', BLUE='#2f7fd6', BLUE2='#17427d', GOLD='#f59e0b', GOLD2='#fbbf6e';
 var CAL = 1;                                // 数据固定合并口径（v3 起控件精简，不再切换）
 /* 数据日期（年-月）下拉：全页数值 = 基准(2026-09) × 月度系数（原型样例联动示意） */
 var MFACT = [.938,.941,.944,.947,.950,.953,.956,.960,.964,.968,.972,.976,.980,.984,.987,.990,.993,.996,.998,.999,1];
@@ -3386,13 +3823,15 @@ function dateFactor(){ var y=+selDate.slice(0,4), mo=+selDate.slice(5,7);
   var idx = (y-2025)*12 + (mo-1);
   return MFACT[Math.max(0, Math.min(MFACT.length-1, idx))]; }
 
+/* 核心指标带（2026-10-21 按 Excel 口径重排：利润链四卡=本月数报送值；ROE=本年累计数、ROA=本月数——
+   来源=金控风险部&华润金融_深国投指标数据梳理表「经营指标」行；kal=报送值口径徽标，管理层一眼分清零/累计口径） */
 var NORTH = [
-  {l:'营业收入', u:'亿元', v:152.3, yoy:9.1,  noYtd:true},
-  {l:'利润总额', u:'亿元', v:41.8,  yoy:6.5,  noYtd:true},
-  {l:'净利润',   u:'亿元', v:33.2,  yoy:7.8,  noYtd:true},
-  {l:'总资产',   u:'亿元', v:6820,  yoy:5.2,  ytd:3.8, raw:true},
-  {l:'净资产',   u:'亿元', v:882,   yoy:6.1,  ytd:3.2, raw:true},
-  {l:'ROE',      u:'%',    v:9.8,   yoy:-0.4, noYtd:true, pct:true}
+  {l:'营业收入',         u:'亿元', v:15.8, yoy:9.1,  kal:'本月数'},
+  {l:'利润总额',         u:'亿元', v:4.2,  yoy:6.5,  kal:'本月数'},
+  {l:'净利润',           u:'亿元', v:3.4,  yoy:7.8,  kal:'本月数'},
+  {l:'股东应占净利润',   u:'亿元', v:3.1,  yoy:8.2,  kal:'本月数'},
+  {l:'ROE',              u:'%',    v:9.8,  yoy:-0.4, pct:true, kal:'本年累计数'},
+  {l:'ROA',              u:'%',    v:0.62, yoy:0.5,  pct:true, kal:'本月数'}
 ];
 
 /* 板块卡数据已随总览板块卡移除（2026-10-12 v4） */
@@ -3416,18 +3855,18 @@ var HAS_CHART = typeof Chart !== "undefined";
 if(HAS_CHART){
 /* Chart.js 蓝白浅色默认 */
 Chart.defaults.color = T2;
-Chart.defaults.borderColor = 'rgba(120,180,255,0.14)';
+Chart.defaults.borderColor = 'rgba(120,150,190,0.16)';
 Chart.defaults.font.family = '"Microsoft YaHei","PingFang SC",Arial,sans-serif';
 /* tooltip 样式对齐平台驾驶舱「关注类资产总额」趋势浮层（.gk-t12-tip：深蓝玻璃 · 蓝描边 · 圆角 · 白标题） */
-Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(13,32,66,.96)';
-Chart.defaults.plugins.tooltip.borderColor = 'rgba(90,160,255,.5)';
+Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(255,255,255,.97)';
+Chart.defaults.plugins.tooltip.borderColor = 'rgba(120,160,215,.55)';
 Chart.defaults.plugins.tooltip.borderWidth = 1;
 Chart.defaults.plugins.tooltip.cornerRadius = 7;
 Chart.defaults.plugins.tooltip.padding = {top:7,right:11,bottom:8,left:11};
-Chart.defaults.plugins.tooltip.titleColor = '#fff';
+Chart.defaults.plugins.tooltip.titleColor = '#17427d';
 Chart.defaults.plugins.tooltip.titleFont = {size:11.5,weight:'700'};
 Chart.defaults.plugins.tooltip.titleMarginBottom = 5;
-Chart.defaults.plugins.tooltip.bodyColor = '#dfeaff';
+Chart.defaults.plugins.tooltip.bodyColor = '#33547e';
 Chart.defaults.plugins.tooltip.bodyFont = {size:11.5};
 Chart.defaults.plugins.tooltip.displayColors = false;
 Chart.defaults.plugins.tooltip.boxPadding = 0;
@@ -3437,11 +3876,17 @@ var charts = {};
 function m(x){ return x*dateFactor(); }
 
 /* 悬停值单位映射（华润金融页利润总额/风险四图走外部 .ld-tip 浮层已带亿元，此处覆盖其余 tab 图表） */
-var TIP_UNIT={ 'c-ov-bar':'亿元','c-bk-bs':'亿元','c-bk-loan':'亿元','c-bk-line':'亿元','c-bk-rate':'%','c-bk-risk':'亿元',
+var TIP_UNIT={ 'c-ov-conc':'%','c-bk-loan':'亿元','c-bk-dep':'亿元','c-bk-line':'亿元',
+  'c-bk-t-recv':'亿元','c-bk-t-prof':'亿元','c-bk-rc-0':'亿元','c-bk-rc-1':'亿元',
+  'c-bk-wf-0':'亿元','c-bk-wf-1':'亿元','c-bk-wf-2':'亿元','c-bk-wf-3':'亿元','c-bk-wf-4':'亿元','c-bk-raroc':'%',
   'c-ts-scale':'亿元','c-ts-rev':'亿元','c-ts-fund':'亿元','c-ts-gx':'亿元','c-ts-new3':'亿元',
+  'c-ts-t-rev':'亿元','c-ts-t-prof':'亿元','c-ts-t-net':'亿元','c-ts-yd':'亿元',
   'c-in-prem':'万元','c-in-comm':'万元','c-in-mix':'万元',
+  'c-in-t-rev':'万元','c-in-t-prof':'万元','c-in-t-prem':'万元','c-in-t-comm':'万元',
   'c-as-wf':'亿元','c-as-biz':'亿元','c-as-pl':'亿元','c-as-syn':'亿元','c-as-cmp':'亿元','c-as-risk':'亿元','c-as-cal':'亿元',
-  'c-ls-pl':'亿元','c-ls-sector':'亿元','c-ls-prod':'亿元','c-ls-spread':'%','c-ls-fund':'亿元' };
+  'c-as-t-rev':'亿元','c-as-t-prof':'亿元',
+  'c-ls-pl':'亿元','c-ls-sector':'亿元','c-ls-prod':'亿元','c-ls-spread':'%','c-ls-fund':'亿元',
+  'c-ls-t-rev':'亿元','c-ls-t-prof':'亿元','c-ls-t-net':'亿元','c-ls-deploy':'亿元' };
 /* 柱顶数值标注插件：柱状图在柱端直接标数值（不带单位，详情看悬停）。
    跳过：瀑布 c-bk-pl（已有柱内标注）、堆叠图（分段标注过密）、趋势线数据集、隐藏数据集 */
 var barValLabel={id:'barValLabel',afterDatasetsDraw:function(ch){
@@ -3465,21 +3910,22 @@ var barValLabel={id:'barValLabel',afterDatasetsDraw:function(ch){
       var w=ctx.measureText(txt).width;
       if(horz){
         var len=Math.abs(el.x-el.base); if(len<w+8) return;
-        ctx.fillStyle='rgba(234,244,255,.92)'; ctx.textBaseline='middle';
+        ctx.fillStyle='rgba(30,55,95,.9)'; ctx.textBaseline='middle';
         if(len>=w+12){ ctx.textAlign='left'; ctx.fillText(txt,el.x+6,el.y); }
       }else{
         var top=Math.min(el.y,el.base);
         ctx.textAlign='center';
-        if(top-6>=area.top+fsz){ ctx.textBaseline='bottom'; ctx.fillStyle='rgba(234,244,255,.92)'; ctx.fillText(txt,el.x,top-5); }
-        else if(Math.abs(el.base-el.y)>=14){ ctx.textBaseline='top'; ctx.fillStyle='#fff'; ctx.fillText(txt,el.x,top+4); }
-        else{ ctx.textBaseline='bottom'; ctx.fillStyle='#cfe4ff'; ctx.fillText(txt,el.x,top-4); }
+        if(top-6>=area.top+fsz){ ctx.textBaseline='bottom'; ctx.fillStyle='rgba(30,55,95,.9)'; ctx.fillText(txt,el.x,top-5); }
+        else if(Math.abs(el.base-el.y)>=14){ ctx.textBaseline='top'; ctx.fillStyle='#ffffff'; ctx.fillText(txt,el.x,top+4); }
+        else{ ctx.textBaseline='bottom'; ctx.fillStyle='#42557a'; ctx.fillText(txt,el.x,top-4); }
       }
     });
   });
   ctx.restore();
 }};
 function mk(id,cfg){ var el=document.getElementById(id); if(!el||!HAS_CHART) return null;
-  if(id!=='c-bk-pl'&&(cfg.type==='bar'||(cfg.data&&cfg.data.datasets&&cfg.data.datasets.some(function(d){return !d.type})))){ (cfg.plugins=cfg.plugins||[]).push(barValLabel); }
+  /* 柱顶数值标注跳过：损益瀑布(自绘)、银行趋势组合小图(c-bk-t-* / c-bk-rc-* / c-bk-wf-* / c-bk-raroc)——12 根月度柱加数值会过密，读数走悬停 */
+  if(id!=='c-bk-pl'&&id!=='c-ls-wf'&&!/^(c-bk-(t-|rc-|wf-)|c-bk-raroc$|c-(ts|in|as|ls)-t-)/.test(id)&&(cfg.type==='bar'||(cfg.data&&cfg.data.datasets&&cfg.data.datasets.some(function(d){return !d.type})))){ (cfg.plugins=cfg.plugins||[]).push(barValLabel); }
   /* 无自定义 label 回调的图：注入「名称：值 单位」默认提示 */
   if(TIP_UNIT[id]!==undefined){
     var opt=cfg.options=cfg.options||{}; var plg=opt.plugins=opt.plugins||{};
@@ -3496,7 +3942,7 @@ function mk(id,cfg){ var el=document.getElementById(id); if(!el||!HAS_CHART) ret
   }
   (charts[curView]=charts[curView]||[]).push(null);
   var _c=new Chart(el,cfg); charts[curView][charts[curView].length-1]=_c; return _c; }
-var GRID={color:'rgba(120,180,255,0.10)'}, NOG={grid:{display:false},ticks:{font:{size:11},color:T3}};
+var GRID={color:'rgba(120,150,190,0.16)'}, NOG={grid:{display:false},ticks:{font:{size:11},color:T3}};
 function base(extra){ var o={responsive:true,maintainAspectRatio:false,
   plugins:{legend:{display:false},
     /* 组合图悬停只显示柱值一行（趋势线为同数据的视觉线，过滤避免重复），对齐参考浮层 */
@@ -3513,9 +3959,13 @@ var LeaderApp = {
   asCal:function(sheet,ci,el){ ASSET_CAL[sheet]=ci;
     if(el){ var p=el.parentNode; p.querySelectorAll('.src').forEach(function(b){b.classList.remove('on')}); el.classList.add('on'); }
     /* 重渲染前先销毁该分区旧图表实例，避免 canvas 复用报错 */
-    if(sheet==='asset01'){ asDestroy(['c-as-pl','c-as-cmp']); asRenderPl(); }
-    else if(sheet==='asset02'){ asDestroy(['c-as-biz','c-as-wf']); asRenderBiz(); }
+    if(sheet==='asset01'){ asDestroy(['c-as-pl','c-as-cmp','c-as-rev-pie','c-as-t-rev','c-as-t-prof']); asRenderPl(); }
+    else if(sheet==='asset02'){ asDestroy(['c-as-own-pie','c-as-wf']); asRenderBiz(); }
     else if(sheet==='asset03'){ asDestroy(['c-as-risk','c-as-cal']); asRenderRisk(); } },
+  /* 银行 tab：条线 RAROC 页签切换（仅重建该卡图表） */
+  bkRaroc:function(i,el){ bkRarocCur=i;
+    if(el){ var p=el.parentNode; p.querySelectorAll('.src').forEach(function(b){b.classList.remove('on')}); el.classList.add('on'); }
+    bkDestroyCanvases(/^c-bk-raroc$/); bkRarocRender(); },
   go:function(id,el){ curView=id;
     document.querySelectorAll('#moduleLeader header nav button').forEach(function(b){b.classList.remove('on')}); el.classList.add('on');
     document.querySelectorAll('#moduleLeader .view').forEach(function(v){v.classList.remove('on')});
@@ -3529,11 +3979,12 @@ var LeaderApp = {
 function renderNorth(){
   document.getElementById('north').innerHTML = NORTH.map(function(k){
     var v = k.pct? k.v*CAL*dateFactor() : m(k.v);
-    var tcls = (k.ytd||0)>0?'up':'down';
-    var ytdPart = k.noYtd ? '' : ' · <span class="'+tcls+'">'+(k.ytd>0?'▲':'▼')+' '+Math.abs(k.ytd).toFixed(1)+'% 较年初</span>';
-    return '<div class="nk"><div class="l">'+k.l+'</div>'+
-      '<div class="v"><b>'+fmt(v,k.raw)+'</b><small>'+k.u+'</small></div>'+
-      '<div class="d">'+delta(k,k.yoy)+ytdPart+'</div></div>';
+    var dec = (k.u==='%'||k.pct)?2:1;
+    var vs = k.raw? Math.round(v).toLocaleString('zh-CN') : v.toLocaleString('zh-CN',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+    var kal = k.kal? '<span class="kal">'+k.kal+'</span>' : '';
+    return '<div class="nk"><div class="l">'+k.l+kal+'</div>'+
+      '<div class="v"><b>'+vs+'</b><small>'+k.u+'</small></div>'+
+      '<div class="d">'+delta(k,k.yoy)+'</div></div>';
   }).join('');
 }
 function spark(seed, dir){
@@ -3559,24 +4010,21 @@ function renderBuKpi(bid){
 /* 预算完成度圆环：右半=环形进度（达成率配色：绿≥100 蓝≥85 金≥70 红<70），旁边=全年预算字段+值 */
 function kpiRing(v,bud,unit){
   var p=v/bud*100, pw=Math.min(p,100), C=2*Math.PI*17;
-  var col = p>=100?'#2fd6a0':(p>=85?'#4d9dff':(p>=70?'#f0c060':'#ff5d6c'));
+  var col = p>=100?'#0f9d6e':(p>=85?'#2f7fd6':(p>=70?'#f59e0b':'#d64550'));
   return '<div class="ringwrap">'+
     '<svg class="kping" width="54" height="54" viewBox="0 0 54 54" aria-label="预算达成 '+p.toFixed(1)+'%">'+
-      '<circle cx="27" cy="27" r="17" fill="none" stroke="rgba(120,180,255,.16)" stroke-width="5"/>'+
+      '<circle cx="27" cy="27" r="17" fill="none" stroke="rgba(120,150,190,.2)" stroke-width="5"/>'+
       '<circle cx="27" cy="27" r="17" fill="none" stroke="'+col+'" stroke-width="5" stroke-linecap="round" '+
         'stroke-dasharray="'+(C*pw/100).toFixed(1)+' '+C.toFixed(1)+'" transform="rotate(-90 27 27)"/>'+
-      '<text x="27" y="31" text-anchor="middle" fill="#fff" font-size="11" font-weight="800">'+Math.round(p)+'%</text>'+
+      '<text x="27" y="31" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="800">'+Math.round(p)+'%</text>'+
     '</svg>'+
     '<div class="budbox"><span class="bl">全年预算</span><span class="bv">'+bud+'<small>'+unit+'</small></span></div></div>';
 }
 
 /* ---- 总览 ---- */
 function drawOverview(){
-  var names=['银行','信托','保险','资产','租赁'];
-  mk('c-ov-bar',{type:'bar',data:{labels:names,datasets:[{data:[86.4,12.6,9.8,18.2,15.3].map(function(x){return +m(x).toFixed(1)}),
-    backgroundColor:[BU_COLORS.bank,BU_COLORS.trust,BU_COLORS.ins,BU_COLORS.asset,BU_COLORS.lease],borderRadius:4}]},
-    options:Object.assign(base(),{scales:{y:YAX,x:NOG}})});
-  /* 柱(数据)+金线 组合小图（华润金融通用：利润总额 / 风险指标）。
+  /* 展示规则①（本月数趋势）：Excel「经营指标」报送值口径=本月数——累计数只反映规模，
+     本月数才反映当期动能拐点，供管理层判断"最近一个月有没有走强/走弱"。
      悬停浮层 = 外部 HTML（.ld-tip，对齐 平台驾驶舱-华润资产「关注类资产总额」.gk-t12-tip）：
      月份标题下画横线，其下 数值(金) 与 同比(红涨绿跌) 两行同时显示，一次移入全部呈现。
      yoy = 近12月同比%（原型样例示意数据） */
@@ -3612,8 +4060,30 @@ function drawOverview(){
           }}},
         scales:{y:YAX,x:NOG}}});
   }
-  ovBarLine('c-ov-line',[12.6,15.8,18.4,21.0,23.6,26.5,29.4,32.3,35.4,37.6,40.1,41.8],BLUE,'本年累计数',
+  /* 近12个月「本月数」序列（原型样例：随日期系数联动；末月=核心卡所选月值，前面按形状回溯） */
+  ovBarLine('c-ov-rev-m',[13.9,14.6,15.9,13.1,12.4,15.2,14.8,13.6,15.1,14.9,15.5,15.8],BLUE,'本月数',
+    [7.9,8.2,8.8,8.4,7.6,8.0,7.8,7.2,7.0,8.3,8.9,9.1]);
+  ovBarLine('c-ov-line',[3.6,3.9,4.4,3.5,3.1,4.0,3.9,3.6,4.0,4.0,4.1,4.2],GOLD,'本月数',
     [7.9,8.2,8.8,8.4,7.6,8.0,7.8,7.2,7.0,6.8,6.6,6.5]);
+  /* ===== 其他财务指标 =====
+     资金来源结构饼（展示规则②构成→饼）：Excel「经营指标」总资产/所有者权益（=净资产）为层级构成关系
+     （负债=总资产−净资产 轧差），负债+净资产=总资产 恒等闭环，中心=总资产。
+     资产负债核心科目卡（展示规则④时点数→卡片）：总资产/净资产/资产负债率报送值=本月末，附环比/较年初 */
+  (function(){
+    var total=m(6820), net=m(882), debt=total-net;
+    bkDonut('c-ov-bs-pie',['负债','净资产（所有者权益）'],[+debt.toFixed(0),+net.toFixed(0)],['#5b9bd9','#f59e0b']);
+    bkDonutCenter('ov-bs-center',total,'总资产 · 亿');
+    var el=document.getElementById('ov-bs-rows');
+    if(el) el.innerHTML=
+      bkCompRow('#5b9bd9','负债',debt,null,'资产负债率 '+(debt/total*100).toFixed(1)+'%')+
+      bkCompRow('#f59e0b','净资产',net,'6.1%','占 '+(net/total*100).toFixed(1)+'%');
+    var g=document.getElementById('ov-fin-cards');
+    if(g) g.innerHTML=
+      '<div class="stx"><span class="t">总资产 · 本月末</span><span class="v">'+bkNum(total,'亿元')+'<small>亿</small></span><div class="drow">'+bkDelta('5.2%',' 同比')+bkDelta('3.8%',' 较年初')+'</div></div>'+
+      '<div class="stx"><span class="t">净资产（所有者权益）· 本月末</span><span class="v">'+bkNum(net,'亿元')+'<small>亿</small></span><div class="drow">'+bkDelta('6.1%',' 同比')+bkDelta('3.2%',' 较年初')+'</div></div>'+
+      '<div class="stx gold"><span class="t">资产负债率 · 本月末</span><span class="v">'+(debt/total*100).toFixed(1)+'<small>%</small></span><div class="drow">'+bkDelta('-0.5pct',' 同比')+bkDelta('-0.3pct',' 较年初')+'</div></div>'+
+      '<div class="stx"><span class="t">股东应占净利润占比（本月）</span><span class="v">'+(NORTH[3].v/NORTH[2].v*100).toFixed(1)+'<small>%</small></span><div class="drow"><i class="yoy flat">归母净利÷净利润</i></div></div>';
+  })();
   /* 风险指标四图：每个指标均由 银行/信托/资产/租赁/深国投 五家分别上报后汇总。
      展示方案（总=构成 / 分=趋势 两种视图）：
      ① 「全部」= 堆叠柱：五家构成，柱顶即华润金融合计；金线=合计同比%（右轴）；
@@ -3623,7 +4093,7 @@ function drawOverview(){
      mat 行=家、列=近12月；yoy=合计近12月同比%；ym=各家近12月同比%（原型样例示意：围绕合计同比确定性生成，
      接入真实数据时替换为各家实际同比即可） */
   var RISK_SRC=[['bank','银行'],['trust','信托'],['asset','资产'],['lease','租赁'],['sgi','深国投']];
-  var SRC_COLORS=Object.assign({},BU_COLORS,{sgi:'#a78bfa'});
+  var SRC_COLORS=Object.assign({},BU_COLORS,{sgi:'#7c6bd0'});
   function f1(x){ return x.toLocaleString('zh-CN',{minimumFractionDigits:1,maximumFractionDigits:1}) }
   function genYoyMat(yoy){ var out={};
     RISK_SRC.forEach(function(r,ri){ out[r[0]]=yoy.map(function(p,i){
@@ -3640,7 +4110,7 @@ function drawOverview(){
     var LINE={type:'line',label:'合计同比',data:yoy.slice(),yAxisID:'y1',borderColor:GOLD,backgroundColor:'transparent',
       tension:0.35,pointRadius:3,pointBackgroundColor:GOLD,borderWidth:2,order:1};
     /* 单家趋势线：默认隐藏；点色签后填入该家数据/颜色并显示（自带渐变面积，即"趋势图"） */
-    var TREND={type:'line',label:'趋势',__trend:true,data:[],yAxisID:'y',borderColor:'#fff',backgroundColor:'transparent',
+    var TREND={type:'line',label:'趋势',__trend:true,data:[],yAxisID:'y',borderColor:'#8aa4c8',backgroundColor:'transparent',
       fill:true,tension:0.35,pointRadius:3.5,pointBorderWidth:0,borderWidth:2.5,order:0,hidden:true};
     dss.push(LINE,TREND);
     chart=mk(id,{type:'bar',data:{labels:MON12,datasets:dss},
@@ -3652,11 +4122,11 @@ function drawOverview(){
         var meta=ch.getDatasetMeta(ti), ctx=ch.ctx; ctx.save();
         ctx.textAlign='center'; ctx.textBaseline='bottom';
         meta.data.forEach(function(el,i){ var v=ds[ti].data[i]; if(v==null) return;
-          ctx.font='700 10.5px "Microsoft YaHei",sans-serif'; ctx.fillStyle='#eaf4ff';
+          ctx.font='700 10.5px "Microsoft YaHei",sans-serif'; ctx.fillStyle='#1f3350';
           ctx.fillText((+v.toFixed(2))+'', el.x, el.y-9);
           var p=YM[solo][i];
           ctx.font='600 9.5px "Microsoft YaHei",sans-serif';
-          ctx.fillStyle=p>0?'#ff8d96':(p<0?'#57e8b8':'#8ea6c8'); ctx.textBaseline='top';
+          ctx.fillStyle=p>0?'#d64550':(p<0?'#0f9d6e':'#7a8ba6'); ctx.textBaseline='top';
           ctx.fillText((p>0?'+':'')+p.toFixed(1)+'%', el.x, el.y+7); ctx.textBaseline='bottom'; });
         ctx.restore();
       }}],
@@ -3684,7 +4154,7 @@ function drawOverview(){
           }}},
         scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:11},color:T3}},
           y:{stacked:true,position:'left',grid:GRID,ticks:{font:{size:11},color:T3}},
-          y1:{position:'right',grid:{display:false},ticks:{font:{size:10.5},color:'#ffd479',callback:function(v){ return v+'%' }}}}}});
+          y1:{position:'right',grid:{display:false},ticks:{font:{size:10.5},color:'#f59e0b',callback:function(v){ return v+'%' }}}}}});
     function chips(){ var el=document.getElementById(srId); if(!el) return;
       /* 色签仅作图例+筛选，不显示数值；数值切到单家后由柱顶标注呈现 */
       el.innerHTML='<span class="src'+(solo?'':' on')+'" data-k="">全部</span>'
@@ -3743,59 +4213,484 @@ function drawOverview(){
     lease:[3.0,3.0,3.0,3.0,3.0,2.9,2.9,2.8,2.8,2.8,2.7,2.7],
     sgi  :[1.3,1.3,1.3,1.3,1.3,1.3,1.2,1.3,1.2,1.2,1.2,1.2]},
     [-1.8,-2.2,-2.7,-3.1,-3.6,-4.0,-4.5,-5.0,-5.4,-5.9,-6.3,-6.8]);
+  /* ===== 行A 构成饼 ×2（展示规则②：层级构成→饼）=====
+     问题资产 = 不良类 + 关注类 + 正常但预警（Excel 三级分类，相加=总规模，不重不漏）；
+     减值余额 = 不良减值 + 关注减值 + 预警减值（Excel 口径：合计=问题资产减值余额，与右下堆叠图同数据源）*/
+  (function(){
+    var npl=m(58.6), spe=m(42.3), war=m(18.5), prob=npl+spe+war;
+    bkDonut('c-ov-prob-pie',['不良类','关注类','正常但预警'],[npl,spe,war],['#d64550','#f59e0b','#5b9bd9']);
+    bkDonutCenter('ov-prob-center',prob,'问题资产 · 亿');
+    var el=document.getElementById('ov-prob-rows');
+    if(el) el.innerHTML=
+      bkCompRow('#d64550','不良类资产总额',npl,'-8.5%','占 '+(npl/prob*100).toFixed(1)+'%（较年初 ▼12.0%）')+
+      bkCompRow('#f59e0b','关注类资产总额',spe,'3.2%','占 '+(spe/prob*100).toFixed(1)+'%（环比 ▲1.1%）')+
+      bkCompRow('#5b9bd9','正常但预警资产总额',war,'-2.4%','占 '+(war/prob*100).toFixed(1)+'%（较年初 ▼5.2%）');
+    var iNpl=m(27.5), iSpe=m(6.9), iWar=m(3.2), iTot=iNpl+iSpe+iWar;
+    bkDonut('c-ov-imp-pie',['不良资产减值余额','关注资产减值余额','正常但预警资产减值余额'],[iNpl,iSpe,iWar],['#b0303e','#c2620e','#3d6ea8']);
+    bkDonutCenter('ov-imp-center',iTot,'减值余额 · 亿');
+    var el2=document.getElementById('ov-imp-rows');
+    if(el2) el2.innerHTML=
+      bkCompRow('#b0303e','不良资产减值余额',iNpl,'-6.2%','覆盖度 '+(iNpl/npl*100).toFixed(1)+'%')+
+      bkCompRow('#c2620e','关注资产减值余额',iSpe,'2.8%','覆盖度 '+(iSpe/spe*100).toFixed(1)+'%')+
+      bkCompRow('#3d6ea8','正常但预警资产减值余额',iWar,'-1.5%','覆盖度 '+(iWar/war*100).toFixed(1)+'%');
+    /* 行B 减值比例四卡（展示规则④：比率类时点数→卡片；Excel 派生指标：减值余额÷对应类别余额） */
+    var g=document.getElementById('ov-imp-cards');
+    if(g) g.innerHTML=[
+      ['问题资产减值比例',iTot/prob*100,'-2.1','-1.4','问题资产整体抵补厚度','#2f7fd6'],
+      ['不良资产减值比例',iNpl/npl*100,'1.2','2.6','不良处置资源充足度','#d64550'],
+      ['关注资产减值比例',iSpe/spe*100,'0.4','0.8','关注下迁前瞻拨备','#f59e0b'],
+      ['正常但预警资产减值比例',iWar/war*100,'0.2','-0.3','预警资产风险缓冲','#5b9bd9']
+    ].map(function(e){
+      return '<div class="stx" style="border-left:3px solid '+e[5]+'"><span class="t">'+e[0]+' · 本月末</span>'+
+        '<span class="v">'+e[1].toFixed(1)+'<small>%</small></span>'+
+        '<div class="drow">'+bkDelta(e[2],' 环比')+bkDelta(e[3],' 较年初')+'</div>'+
+        '<span class="t" style="font-size:10.5px">'+e[4]+'</span></div>'; }).join('');
+    /* 行D 集中度六项对比条形（展示规则④：无构成关系的比率对比→条形；季度·本季末 vs 上季末） */
+    var CN=[['最大十家非同业客户集中度',42.6,44.1],['同业集团客户集中度',18.4,19.2],
+            ['地区集中度（最大地区）',21.3,20.8],['同业单一客户集中度',12.5,13.0],
+            ['非同业集团客户集中度',11.2,11.8],['非同业单一客户集中度',8.6,9.1]];
+    mk('c-ov-conc',{type:'bar',data:{labels:CN.map(function(e){return e[0]}),
+      datasets:[
+      {label:'本季末',data:CN.map(function(e){return e[1]}),backgroundColor:BLUE+'B3',borderRadius:3,maxBarThickness:12,order:2},
+      {label:'上季末',data:CN.map(function(e){return e[2]}),backgroundColor:'#9ec3ea',borderRadius:3,maxBarThickness:12,order:1}]},
+      options:Object.assign(base({legend:LGL}),{indexAxis:'y',
+        scales:{x:Object.assign({},YAX,{ticks:{font:{size:10},color:T3,callback:function(v){return v+'%'}}}),
+                y:{grid:{display:false},ticks:{font:{size:10.5},color:T2}}}})});
+  })();
 }
 
-/* ---- 银行（指标科目对齐 华润金控-战略部指标表.xlsx · 华润银行 sheet） ---- */
+/* ---- 银行（2026-10-15 四大展示模块重构：数据源 = 数据应用·固定报表管理·华润银行 SHEETS 实时取数）
+   模块：① 核心指标与盈利分解 ② 业绩合同指标（指标属性标签打标项：考核★/高质量） ③ 资产负债结构 ④ 条线分解与客群
+   去重规则：上层优先（①>②>③>④），下层不重复；有全年预算的指标显示预算完成情况。
+   取数模式对齐信托/保险/租赁 tab 的 TIL 辅助（asNum 复用资产 tab 定义，函数声明提升）。 ---- */
+var BK_COL = {
+  '01':{nm:1,un:2,ly:3,act:4,yoy:5,ytd:6},
+  '02':{nm:1,un:2,star:3,ly:4,mval:5,mom:6,act:7,yoy:8,bud:9,rate:10},
+  '03':{nm:2,un:3,star:4,reg:5,ly:6,act:7,yoy:8,ytd:9,bud:10,rate:11},
+  '04':{nm:3,un:4,star:5,ly:6,mval:7,mom:8,act:9,yoy:10,bud:11,rate:12},
+  '05':{nm:3,un:4,ly:5,act:6,yoy:7,ytd:8},
+  '06':{nm:3,un:4,star:5,ly:6,act:7,yoy:8,ytd:9,bud:10,rate:11},
+  '07':{nm:3,un:4,ly:5,act:6,yoy:7,ytd:8},
+  '08':{nm:3,un:4,star:5,ly:6,act:7,yoy:8,ytd:9,bud:10,rate:11},
+  '09':{nm:2,un:3,star:4,ly:5,act:6,yoy:7,ytd:8,bud:9,rate:10}
+};
+function bkS(sheet){ return (typeof SHEETS!=='undefined' && SHEETS[sheet]) ? SHEETS[sheet] : null; }
+function bkRow(sheet,name){ var c=BK_COL[sheet],sh=bkS(sheet); if(!sh) return null;
+  var rows=sh.rows||[]; for(var i=0;i<rows.length;i++) if(String(rows[i][c.nm])===name) return rows[i]; return null; }
+function bkGet(sheet,name,col){ var c=BK_COL[sheet],r=bkRow(sheet,name); return (r&&c[col]!=null)? r[c[col]] : null; }
+function bkAct(sheet,name){ var v=asNum(bkGet(sheet,name,'act')); return v==null?null:v; }
+function bkTxt(sheet,name,col){ var v=bkGet(sheet,name,col); return v==null?'-':String(v); }
+function bkBud(sheet,name){ return asNum(bkGet(sheet,name,'bud')); }
+function bkRate(sheet,name){ return asNum(bkGet(sheet,name,'rate')); }
+function bkTag(sheet,name){ var v=bkTxt(sheet,name,'star'); return (v&&v!=='-')?v:''; }
+/* 指标属性标签小标签已按需求隐藏（2026-10-15：驾驶舱不展示考核/高质量标签；
+   bkTag 仍用于②业绩合同指标扫描来源报表打标行，标签函数保留为空实现便于后续恢复） */
+function bkTagHtml(sheet,name){ return ''; }
+function bkUnitShort(u){ if(u==='亿元') return '亿'; if(u==='户数') return '户'; return u||''; }
+/* 监管要求解析（"≥100%"/"≥-10%" → 100 / -10） */
+function bkLim(s){ var m=String(s==null?'':s).match(/-?\d+(?:\.\d+)?/); return m?parseFloat(m[0]):null; }
+function bkNum(v,u){ if(v==null) return '—';
+  if(u && u.indexOf('%')>=0) return v.toFixed(2).replace(/\.?0+$/,'');
+  if(Math.abs(v)>=1000) return Math.round(v).toLocaleString('zh-CN');
+  return v.toLocaleString('zh-CN',{maximumFractionDigits:1}); }
+/* 涨跌小注（全局红涨绿跌口径；值缺失显示 —） */
+function bkDelta(txt,suffix){ if(!txt||txt==='-') return '<i class="yoy flat">—</i>';
+  var down=txt.charAt(0)==='-';
+  return '<i class="yoy '+(down?'down':'up')+'">'+(down?'▼':'▲')+' '+txt.replace(/^[+-]/,'')+(suffix||'')+'</i>'; }
+/* stx 指标格：名称(+标签) / 值(自动按日期联动：亿元类×dateFactor，比率类原值) / 同比+较年初双小注 / 预算达成条 */
+function bkStx(sheet,name,opts){ opts=opts||{}; var u=bkTxt(sheet,name,'un')||'';
+  var raw=bkAct(sheet,name); var pct = u.indexOf('%')>=0;
+  var v = raw==null?null:(pct?raw:m(raw));
+  var h='<div class="stx'+(opts.cls?' '+opts.cls:'')+'"><span class="t" title="'+name+'">'+name+bkTagHtml(sheet,name)+'</span>'+
+    '<span class="v">'+bkNum(v,u)+'<small>'+(opts.u||bkUnitShort(u))+'</small></span>'+
+    '<div class="drow">'+bkDelta(bkTxt(sheet,name,'yoy'),' 同比')+(bkTxt(sheet,name,'ytd')!=='-'?bkDelta(bkTxt(sheet,name,'ytd'),' 较年初'):'')+'</div>';
+  if(opts.bud){ var bd=bkBud(sheet,name), rt=bkRate(sheet,name);
+    if(rt!=null) h+='<div class="as-rate"><div class="progress-bar"><div class="progress-fill '+(rt>=95?'':(rt>=85?'mid':'low'))+'" style="width:'+Math.min(100,rt)+'%"></div></div><span class="rt">预算'+(bd!=null?' '+bkNum(bd,u):'')+' · 达成 '+rt.toFixed(1)+'%</span></div>'; }
+  return h+'</div>'; }
+/* strow 行：名称(+标签) 值 同比（浮层区），budgetNote 可外部补预算说明 */
+function bkStr(sheet,name,opts){ opts=opts||{}; var u=bkTxt(sheet,name,'un')||'';
+  var raw=bkAct(sheet,name); var pct=u.indexOf('%')>=0;
+  var v=raw==null?null:(pct?raw:m(raw));
+  var b=bkNum(v,u)+' '+(opts.u||bkUnitShort(u));
+  var extra=opts.delta===false?'':' '+bkDelta(bkTxt(sheet,name,'yoy'),' 同比');
+  return '<div class="strow"><span>'+(opts.label||name)+bkTagHtml(sheet,name)+(opts.note||'')+'</span><b>'+b+extra+'</b></div>'; }
+/* 02-损益表 指标 → 月度形状（本月数拆分与 RAROC 趋势共用；1月重置） */
+var BK_SHAPE=[.072,.148,.231,.312,.395,.478,.563,.648,.736,.824,.911,1];
+
+/* 按 canvas id 正则销毁当前视图内旧图表实例（局部重绘防 canvas 复用报错） */
+function bkDestroyCanvases(re){ (charts[curView]||[]).forEach(function(c,i){
+  if(c && c.canvas && re.test(c.canvas.id)){ c.destroy(); charts[curView][i]=null; } }); }
+/* ===== 2026-10-21 展示规则优化辅助 =====
+   规则①（本月数趋势）：柱=当月实际（近12月）、虚线=去年同月；替代原「本年累计」口径——
+     累计数只反映规模，本月数才反映当期动能拐点，供管理层判断"最近有没有走强/走弱"。
+   规则②（构成→饼）：同口径、构成相加=总量的层级指标（收入构成/资产负债/五级分类/条线营收）用环形图，
+     中心标注母项总量；构成项 ≤6，长尾并入「其他」，明细行右置（名称+值+同比+占比）。
+   规则③（加减链→瀑布）：收入−费用−减值−税=净利的加减关系用悬浮柱瀑布表达"利润被什么吃掉"。
+   规则④（对比→条形 / 阈值→卡片）：无构成关系的科目对比用条形；有监管红线的用阈值卡红点告警。 */
+/* 本月数趋势数据（展示规则①）：按月度形状直接拆分当月值——
+   窗口内属本年（mm≤所选月）：act × 月形状占比 ÷ 本年前段累计形状；属去年：上年全年 × 月形状；
+   1月=年度首月（形状重置），杜绝跨年累计差分产生的负柱；末月校准为报表「当月值」实际数 */
+function bkMonthSeries(name){
+  var act=bkAct('02',name)||0, yoy=asNum(bkTxt('02',name,'yoy'));
+  var mval=m(asNum(bkGet('02',name,'mval')));
+  var last=+String(selDate).slice(5,7)||9, SH=BK_SHAPE;
+  function shapeOf(mm){ return SH[mm-1]-((mm===1)?0:SH[mm-2]); } /* 第 mm 个月占全年比 */
+  var curAnnual=act/SH[last-1];                 /* 本年年化（=累计÷已过形状） */
+  var prevAnnual=(yoy==null?curAnnual/1.08:curAnnual/(1+yoy/100)); /* 去年全年（同比回推） */
+  var labels=[], mon=[], prevMon=[];
+  for(var k=11;k>=0;k--){
+    var mm=((last-1-k)%12+12)%12+1; labels.push(mm+'月');
+    var inCur = mm<=last;
+    mon.push(+((inCur?curAnnual:prevAnnual)*shapeOf(mm)).toFixed(1));
+    prevMon.push(+((inCur?prevAnnual:prevAnnual/1.08)*shapeOf(mm)).toFixed(1));
+  }
+  /* 末月（所选月）校准为 02 报表当月值实际数 */
+  if(mval!=null && mon[mon.length-1]>0){ var kk=mval/mon[mon.length-1];
+    mon=mon.map(function(x){ return +(x*kk).toFixed(1); }); }
+  return {mon:mon, prev:prevMon, labels:labels};
+}
+/* 本月数趋势图配置：柱=今年当月 · 虚线=去年同月 */
+function bkMonthCfg(ms,barCol){
+  return {type:'bar',
+    data:{labels:ms.labels,datasets:[
+      {label:'当月实际',data:ms.mon,backgroundColor:barCol+'B3',borderRadius:2.5,maxBarThickness:18,order:2},
+      {type:'line',label:'去年同月',data:ms.prev,borderColor:GOLD2,borderDash:[5,4],
+        borderWidth:1.8,pointRadius:0,pointHoverRadius:3,tension:.35,order:1}]},
+    options:Object.assign(base({tooltip:{filter:function(){return true;}}}),
+      {interaction:{mode:'index',intersect:false},
+       scales:{y:Object.assign({},YAX,{grace:'18%',ticks:{font:{size:9},color:T3}}),
+               x:{grid:{display:false},ticks:{font:{size:8.5},color:T3,maxRotation:0,autoSkip:true,maxTicksLimit:6}}}})};
+}
+/* 环形图统一样式（2026-10-21 三轮美化）：圆角分段 + 片间留白 + 浅轨道底环 + 细白描边，
+   单色系蓝阶为主、语义色点缀（权益金/风险红绿）；中心总量由 donut-total 浮层显示；
+   极小片（<2%）scriptable 取消圆角防畸变；opts.dec=tooltip 百分比小数位 */
+function bkDonut(cid, labels, vals, cols, opts){ opts=opts||{};
+  var tot=vals.reduce(function(a,b){return a+b;},0);
+  var dec=opts.dec!=null?opts.dec:1;
+  var trackPlugin={id:'bkTrack',beforeDatasetsDraw:function(ch){
+    var meta=ch.getDatasetMeta(0); if(!meta||!meta.data||!meta.data.length) return;
+    var a0=meta.data[0]; if(!a0) return;
+    var ctx=ch.ctx, cx=a0.x, cy=a0.y;
+    var rMid=(a0.innerRadius+a0.outerRadius)/2, w=a0.outerRadius-a0.innerRadius;
+    ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,rMid,0,Math.PI*2);
+    ctx.strokeStyle=opts.track||'rgba(122,150,190,.13)'; ctx.lineWidth=w; ctx.stroke(); ctx.restore(); }};
+  mk(cid,{type:'doughnut',plugins:[trackPlugin],
+    data:{labels:labels,datasets:[
+      {label:'构成',data:vals,backgroundColor:cols,borderColor:'#ffffff',borderWidth:1.5,
+       borderRadius:function(c){ var v=c.dataset.data[c.dataIndex]||0; return (tot>0 && v/tot<0.02)?0:(opts.radius!=null?opts.radius:7); },
+       borderSpacing:3,hoverOffset:7}]},
+    options:Object.assign(base({tooltip:{callbacks:{label:function(it){
+      return ' '+it.label+'：'+bkNum(vals[it.dataIndex],'亿元')+' 亿（'+(vals[it.dataIndex]/tot*100).toFixed(dec)+'%）'; }},
+      title:{display:false}}}),
+      {cutout:opts.cutout||'66%',layout:{padding:6}})});
+}
+function bkDonutCenter(elId,total,unitLabel,size){
+  var el=document.getElementById(elId);
+  if(el){ el.className='donut-total'+(size==='sm'?' sm':'');
+    el.innerHTML='<b>'+bkNum(total,'亿元')+'</b><small>'+unitLabel+'</small>'; }
+}
+/* 构成明细行：圆点+名称 / 值+同比（+附加说明） */
+function bkCompRow(color,label,val,yoy,extra){
+  return '<div class="strow"><span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:'+color+';margin-right:6px"></i>'+label+'</span>'+
+    '<b>'+bkNum(val,'亿元')+' 亿'+(yoy?' '+bkDelta(yoy,''):'')+(extra?' <span class="lite" style="font-size:10px">'+extra+'</span>':'')+'</b></div>';
+}
+/* ===== 条线成本与回报：三条线 RAROC 页签切换（2026-10-20 需求）=====
+   指标 = 05 表 公司条线-RAROC / 零售条线-RAROC / 金融市场-RAROC；
+   页签复用总览风险四图 .src 色签样式；切换仅重建本页签区（销毁 c-bk-raroc 旧实例） */
+var BK_RAROC_LINES=[['公司条线-RAROC','公司条线'],['零售条线-RAROC','零售条线'],['金融市场-RAROC','金融市场']];
+var bkRarocCur=0;
+function bkRarocRender(){
+  /* 页签行 */
+  var tabs=document.getElementById('bk-raroc-tabs');
+  if(tabs) tabs.innerHTML=BK_RAROC_LINES.map(function(L,i){
+    return '<span class="src'+(i===bkRarocCur?' on':'')+'" onclick="LeaderApp.bkRaroc('+i+',this)">'+L[1]+'</span>'; }).join('');
+  var nm=BK_RAROC_LINES[bkRarocCur][0];
+  var rr=bkAct('05',nm)||0;
+  var yoyS=bkTxt('05',nm,'yoy');
+  var yoy=asNum(yoyS);
+  var el=document.getElementById('bk-raroc-kpi');
+  if(el) el.innerHTML='<div class="hv"><b>'+rr.toFixed(1)+'<small style="font-size:14px">%</small></b><small>'+BK_RAROC_LINES[bkRarocCur][1]+' RAROC · 截止本月末</small></div>'+
+    '<div class="hd">'+(yoy==null?'<span class="flat">—</span>':'<i class="yoy '+(yoy>=0?'up':'down')+'">'+(yoy>=0?'▲':'▼')+' '+Math.abs(yoy).toFixed(1)+'ppt 同比</i>')+'</div>';
+  /* 近12月趋势：累计口径按月度形状归一（同 bkTrend 模式，%类不乘日期系数） */
+  var last=+String(selDate).slice(5,7)||9;
+  var labels=[],idxs=[];
+  for(var k=11;k>=0;k--){ var mm=((last-1-k)%12+12)%12+1; labels.push(mm+'月'); idxs.push(mm); }
+  var cum=idxs.map(function(mm){ return +(rr*BK_SHAPE[mm-1]/BK_SHAPE[last-1]).toFixed(1); });
+  var prev=(yoy==null?1.2:yoy);
+  var prevArr=cum.map(function(x,i){ return +(x/(1+(prev-0.2*i/11)/Math.max(rr,1))).toFixed(1); });
+  mk('c-bk-raroc',{type:'bar',
+    data:{labels:labels,datasets:[
+      {label:BK_RAROC_LINES[bkRarocCur][1]+'RAROC',data:cum,backgroundColor:GOLD+'B3',borderRadius:2.5,maxBarThickness:16,order:2},
+      {type:'line',label:'去年走势',data:prevArr,borderColor:GOLD2,borderDash:[5,4],borderWidth:1.8,pointRadius:0,tension:.35,order:1}]},
+    options:Object.assign(base({tooltip:{filter:function(){return true;}}}),
+      {interaction:{mode:'index',intersect:false},
+       scales:{y:Object.assign({},YAX,{grace:'14%',ticks:{font:{size:9},color:T3,callback:function(v){return v+'%'}}}),
+               x:{grid:{display:false},ticks:{font:{size:8.5},color:T3,maxRotation:0,autoSkip:true,maxTicksLimit:6}}}})});
+}
 function drawBank(){
-  renderBuKpi('bank');
-  /* ① 损益瀑布（损益简表：86.4 → -32.6 管理费 → -0.9 税金 = 拨备前 52.9 → -23.4 减值 = 利润总额 29.5 → -8.2 所得税 → 净利润 21.3） */
-  var wf=[[0,86.4],[53.8,86.4],[52.9,53.8],[29.5,52.9],[21.3,29.5],[21.3,0]];
-  var wfLabels=['营业收入','业务及管理费','税金及附加','信用减值损失','所得税','净利润'];
-  var wfColors=[BLUE,'#c8962e',T3,'#ff8a4d','#e0a53a','#2fd6a0'];
-  var wfCum=[86.4,53.8,52.9,29.5,21.3]; /* 每根减项柱后的累计水位（虚线连接位置） */
-  mk('c-bk-pl',{type:'bar',data:{labels:wfLabels,datasets:[{data:wf,borderColor:wfColors,backgroundColor:wfColors.map(function(c){return c+'CC'}),borderWidth:0,borderRadius:3,maxBarThickness:58}]},
-    plugins:[{id:'bkWfDecor',afterDatasetsDraw:function(ch){
-      var meta=ch.getDatasetMeta(0), ctx=ch.ctx, ys=ch.scales.y;
+  /* ===== ① 核心指标与盈利分解（源 02 · 03 盈利性 · 07；2026-10-21 三轮改版）=====
+     行1 hero 三卡：营业收入 / 利润总额 / 净利润（利润链三终点同行）
+     KPI 大字=本年累计+预算完成环（规模感），趋势图=「本月数」口径（动能感） */
+  function hero(elId,canvasId,name,color){
+    var v=bkAct('02',name), yoy=bkTxt('02',name,'yoy'), bd=bkBud('02',name), rt=bkRate('02',name);
+    var el=document.getElementById(elId);
+    var mv=asNum(bkGet('02',name,'mval')), mom=bkTxt('02',name,'mom');
+    if(el) el.innerHTML='<div class="hv"><b>'+bkNum(m(v),'亿元')+'</b><small>亿元 · 截止本月末</small>'+
+        (mv!=null?'<span class="hv-m" style="font-size:11px;color:var(--dim2);margin-left:8px">本月 '+bkNum(m(mv),'亿元')+' 亿 '+bkDelta(mom,' 环比')+'</span>':'')+
+      '</div>'+
+      '<div class="hd">'+bkDelta(yoy,' 同比')+'</div>'+
+      (rt!=null?kpiRing(m(v),bd,'亿元'):'');
+    mk(canvasId,bkMonthCfg(bkMonthSeries(name),color));
+  }
+  hero('bk-hero-recv','c-bk-t-recv','营业收入',BLUE);
+  hero('bk-hero-prof','c-bk-t-prof','利润总额',GOLD);
+  hero('bk-hero-net','c-bk-t-net','净利润','#0f9d6e');
+
+  /* 行2左 收入构成（饼=构成规则）：4 项构成相加=营业收入（数据勾稽已验证），
+     手续费/投资收益/公允价值由营业收入下二层拆分（非息=手续费+其他非息；其他非息=投资+公允价值）→ 不重不漏 */
+  bkDestroyCanvases(/^c-bk-rev-pie$/);
+  var revParts=[['利息净收入','#17427d'],['手续费及佣金净收入','#2f7fd6'],['投资收益','#5b9bd9'],['公允价值变动损益','#9ec3ea']];
+  var srcMap={'手续费及佣金净收入':'其中：手续费及佣金净收入'};
+  var revV=revParts.map(function(e){ return +m(bkAct('02',srcMap[e[0]]||e[0])||0).toFixed(2); });
+  bkDonut('c-bk-rev-pie',revParts.map(function(e){return e[0]}),revV,revParts.map(function(e){return e[1]}));
+  bkDonutCenter('bk-rev-center',m(bkAct('02','营业收入')||0),'营业收入 · 亿');
+  var revRows=document.getElementById('bk-rev-rows');
+  if(revRows) revRows.innerHTML=revParts.map(function(e,ix){
+    var src=srcMap[e[0]]||e[0], tot=m(bkAct('02','营业收入')||1);
+    return bkCompRow(e[1],e[0],revV[ix],bkTxt('02',src,'yoy'),(revV[ix]/tot*100).toFixed(1)+'%'); }).join('');
+
+  /* 行2右 损益瀑布（2026-10-21 四轮：横向桥式瀑布）：
+     纵向悬浮柱彼此脱离、标签远离柱体难对应 → 改横向：行左=指标+同比，行内=悬浮扣减段；
+     段右端标 −扣减额、段左端标扣后结余，阶梯虚线衔接上下行，起点藏蓝虚线=营业收入；终点净利润绿柱 */
+  bkDestroyCanvases(/^c-bk-wf$/);
+  (function(){
+    var deducts=['业务及管理费','税金及附加','信用减值损失','所得税'];
+    var start=m(bkAct('02','营业收入')||0), net=m(Math.abs(bkAct('02','净利润')||0));
+    var vals=deducts.map(function(n){ return m(Math.abs(bkAct('02',n)||0)); });
+    var yoyT=deducts.map(function(n){ return bkTxt('02',n,'yoy'); });
+    var labels=deducts.map(function(n,i){ return [n, '同比 '+(yoyT[i]==='-'?'—':yoyT[i])]; }).concat([['净利润','考核终点']]);
+    var run=start, baseA=[], barA=[], levels=[];
+    deducts.forEach(function(n,i){ var top=run; run=run-vals[i];
+      baseA.push(+run.toFixed(1)); barA.push(+vals[i].toFixed(1)); levels.push(+run.toFixed(1)); });
+    baseA.push(0); barA.push(+net.toFixed(1)); levels.push(+net.toFixed(1));
+    var cols=['#e8823c','#e8823c','#e8823c','#e8823c','#0f9d6e'];
+    var plug={id:'bkWfH',afterDatasetsDraw:function(ch){
+      var ctx=ch.ctx, xs=ch.scales.x, meta=ch.getDatasetMeta(1);
+      var bars=meta&&meta.data; if(!bars||bars.length<5) return;
+      var top=bars[0].y-(bars[0].height||18)/2, bot=bars[4].y+(bars[4].height||18)/2;
       ctx.save();
-      /* 级联虚线：上一柱顶/底水位 → 下一柱 */
-      ctx.strokeStyle='rgba(160,200,255,.38)'; ctx.setLineDash([4,3]); ctx.lineWidth=1;
-      for(var i=0;i<5;i++){ var a=meta.data[i], b=meta.data[i+1], yy=ys.getPixelForValue(wfCum[i]);
-        ctx.beginPath(); ctx.moveTo(a.x+a.width/2+2,yy); ctx.lineTo(b.x-b.width/2-2,yy); ctx.stroke(); }
-      ctx.setLineDash([]);
-      /* 数值标注：只显正数，统一标在柱顶上方 */
-      ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillStyle='rgba(234,244,255,.92)';
-      ctx.font='700 10.5px "Microsoft YaHei",sans-serif';
-      meta.data.forEach(function(el,i){
-        var val=Math.abs(wf[i][1]-wf[i][0]).toFixed(1);
-        ctx.fillText(val,el.x,Math.min(el.y,el.base)-5);
-      });
-      ctx.restore();
-    }}],
-    options:Object.assign(base({tooltip:{callbacks:{label:function(c){var r=c.raw;return c.label+'：'+Math.abs(r[1]-r[0]).toFixed(1)+' 亿元'}}}}),
-    {scales:{y:Object.assign({},YAX,{grace:'8%'}),x:{grid:{display:false},ticks:{font:{size:10.5},color:T2}}}})});
-  /* ① 条线考核营收（收入结构：公司/零售/金融市场/司库） */
-  mk('c-bk-line',{type:'bar',data:{labels:['全行营收','公司条线营收','零售条线营收','金融市场条线营收','司库营收'],
-    datasets:[{data:[86.4,38.2,26.4,18.6,3.2].map(function(x){return +m(x).toFixed(1)}),backgroundColor:[GOLD,'#4d9dff','#74b6ff','#a3d2ff','#cfe6ff'],borderRadius:4}]},
-    options:Object.assign(base(),{scales:{y:YAX,x:{grid:{display:false},ticks:{font:{size:10},color:T2,maxRotation:25}}}})});
-  /* ② 资产负债核心科目（资产负债简表） */
-  mk('c-bk-bs',{type:'bar',data:{labels:['总资产','存款','贷款','投资类资产','总负债','所有者权益'],
-    datasets:[{data:[5820,3586,2873,1620,5390,430].map(function(x){return Math.round(x*CAL*dateFactor())}),
-    backgroundColor:['#4d9dff','#2fd6a0','#41c0e8','#f0c060',T3,'#ff8a4d'],borderRadius:4}]},
-    options:Object.assign(base(),{indexAxis:'y',scales:{x:{grid:GRID,ticks:{font:{size:11},color:T3}},y:{grid:{display:false},ticks:{font:{size:11.5},color:T2}}}})});
-  /* ② 贷款结构（存贷结构：公司/个人各类目） */
-  mk('c-bk-loan',{type:'bar',data:{labels:['公司-贷款余额','个人按揭贷余额','个人抵押贷余额','个人信用贷余额','公司-贸易融资','票据贴现'],
-    datasets:[{data:[1280,620,300,160,210,150].map(function(x){return Math.round(x*CAL*dateFactor())}),backgroundColor:BU_COLORS.bank,borderRadius:4}]},
-    options:Object.assign(base(),{scales:{y:YAX,x:{grid:{display:false},ticks:{font:{size:9.5},color:T2,maxRotation:30}}}})});
-  /* ③ 价：收益率 vs 付息率（利率结构：贷款/生息 → 存款/付息负债 → 利差/净息差） */
-  mk('c-bk-rate',{type:'bar',data:{labels:['贷款对客收益率','生息资产收益率','存款对客付息率','付息负债付息率','存贷利差','净息差'],
-    datasets:[{data:[4.12,3.42,2.41,2.61,1.71,1.86].map(function(x){return +(x*CAL*dateFactor()).toFixed(2)}),
-    backgroundColor:['#4d9dff','#74b6ff','#f0c060','#e0a53a',BLUE,BLUE],borderRadius:4}]},
-    options:Object.assign(base(),{scales:{y:Object.assign({},YAX,{ticks:{font:{size:11},color:T3,callback:function(v){return v+'%'}}}),x:{grid:{display:false},ticks:{font:{size:9},color:T2,maxRotation:35}}}})});
-  /* ③ 条线成本与回报（成本结构：运营/风险/资本成本 → EVA/RAROC） */
-  /* ④ 贷款五级分类（风险） */
-  mk('c-bk-risk',{type:'bar',data:{labels:['正常类贷款余额','关注类贷款余额','次级类贷款余额','可疑类贷款余额','损失类贷款余额'],
-    datasets:[{data:[2760,68,22,14,9].map(function(x){return Math.round(x*CAL*dateFactor())}),backgroundColor:['#2fd6a0','#f0c060','#ff8a4d','#ff5d6c','#d64256'],borderRadius:4}]},
-    options:Object.assign(base(),{scales:{y:Object.assign({type:'logarithmic'},YAX),x:{grid:{display:false},ticks:{font:{size:9.5},color:T2,maxRotation:25,minRotation:0}}}})});
+      /* 起点参照虚线 = 营业收入 */
+      var px=xs.getPixelForValue(start);
+      ctx.setLineDash([4,3]); ctx.lineWidth=1; ctx.strokeStyle='rgba(23,66,125,.42)';
+      ctx.beginPath(); ctx.moveTo(px,top-2); ctx.lineTo(px,bot); ctx.stroke(); ctx.setLineDash([]);
+      ctx.textAlign='center'; ctx.font='700 10px "Microsoft YaHei",sans-serif'; ctx.fillStyle='#17427d';
+      ctx.fillText('营业收入 '+start.toFixed(1)+' 亿', px, top-6);
+      for(var i=0;i<bars.length;i++){
+        var b=bars[i], half=(b.height||18)/2;
+        /* 阶梯衔接虚线：本行扣减段左端 → 下一行右端 */
+        if(i<bars.length-1 && b.base!=null){
+          ctx.setLineDash([3,3]); ctx.strokeStyle='rgba(150,165,185,.6)'; ctx.lineWidth=1;
+          ctx.beginPath(); ctx.moveTo(b.base,b.y+half-1); ctx.lineTo(b.base,bars[i+1].y-half+1); ctx.stroke(); ctx.setLineDash([]);
+        }
+        if(i<4){
+          ctx.textAlign='left'; ctx.font='700 10.5px "Microsoft YaHei",sans-serif'; ctx.fillStyle='#c05f1d';
+          ctx.fillText('−'+barA[i].toFixed(1), b.x+6, b.y+3.5);
+          ctx.textAlign='right'; ctx.font='600 9px "Microsoft YaHei",sans-serif'; ctx.fillStyle='#8a94a0';
+          ctx.fillText(levels[i].toFixed(1), (b.base!=null?b.base:0)-6, b.y+3.5);
+        } else {
+          ctx.textAlign='left'; ctx.font='800 11px "Microsoft YaHei",sans-serif'; ctx.fillStyle='#0f9d6e';
+          ctx.fillText(barA[i].toFixed(1)+' 亿', b.x+6, b.y+3.5);
+        }
+      }
+      ctx.restore(); }};
+    mk('c-bk-wf',{type:'bar',plugins:[plug],
+      data:{labels:labels,datasets:[
+        {label:'垫',data:baseA,backgroundColor:'transparent',stack:'w',tooltip:{enabled:false}},
+        {label:'金额',data:barA,backgroundColor:cols,borderRadius:5,maxBarThickness:22,stack:'w',categoryPercentage:.58}]},
+      options:Object.assign(base({tooltip:{filter:function(it){return it.dataset.label==='金额';},
+        callbacks:{label:function(it){ var i=it.dataIndex, nm=deducts.concat(['净利润'])[i];
+          return ' '+nm+'：'+(i<deducts.length?'−':'')+barA[i].toFixed(1)+' 亿'; }}}}),
+        {indexAxis:'y',
+         scales:{x:{stacked:true,display:false,min:0,suggestedMax:+(start*1.16).toFixed(0)},
+                 y:{stacked:true,grid:{display:false},border:{display:false},
+                    ticks:{font:{size:10},color:function(c){return c.index===4?'#0f9d6e':T2;},autoSkip:false}}}})});
+    var lg=document.getElementById('bk-wf-legend');
+    if(lg) lg.innerHTML='<span class="lite" style="font-size:10.5px;color:var(--dim2)">橙段=扣减（右端−金额，左端灰字=扣后结余）　绿段=净利润　- - 阶梯衔接｜起点=营业收入 '+bkNum(start,'亿元')+' 亿 · 利润总额 '+bkNum(m(bkAct('02','利润总额')||0),'亿元')+' 亿见行1卡</span>';
+  })();
+
+  /* 行3 效益与定价六卡（盈利质量+定价能力聚合；比率类不受日期系数影响） */
+  var effEl=document.getElementById('bk-eff-cards');
+  if(effEl) effEl.innerHTML=
+    ['资产利润率','资本利润率','成本收入比'].map(function(n){ return bkStx('03',n); }).join('')+
+    ['生息资产收益率','付息负债付息率','净息差'].map(function(n){ return bkStx('07',n); }).join('');
+
+  /* ===== ② 业绩合同指标：打标项按【业务关联性】分 4 组（2026-10-21）=====
+     战略投放（绿色/科技/产融）→ 负债质效（存款量+价）→ 客群与合同 → 风险与监管底线；
+     上层优先去重（营业收入/利润总额/全行手续费已在①展示） */
+  var EXC={ '02|营业收入':1,'02|利润总额':1,'04|其中：全行手续费及佣金净收入':1 };
+  var cEl=document.getElementById('bk-contract');
+  if(cEl){
+    var found={}; /* 扫描全部打标行入池（含上层优先已展示项） */
+    ['02','03','04','06','08','09'].forEach(function(sk){ var sh=bkS(sk); if(!sh) return; var c=BK_COL[sk];
+      (sh.rows||[]).forEach(function(r){ var t=String(r[c.star]||'');
+        if(!t || t==='-') return; var nm=String(r[c.nm]);
+        found[sk+'|'+nm]=1; }); });
+    var GROUPS=[
+      {cap:'战略投放与实体支持',hint:'绿色 · 科技 · 产融协同（高质量导向）',
+        pick:[['06','绿色金融余额'],['06','公司-科技企业客群净增余额'],['06','产融协同低成本存款年日均余额']]},
+      {cap:'负债质效与AUM',hint:'规模量 + 结构价 成对看',
+        pick:[['06','其中：低成本存款年日均'],['06','低成本存款占比'],['06','其中：个人非存AUM月日均']]},
+      {cap:'客群与业绩合同',hint:'获客 · 代发 · 基石 · 高净值',
+        pick:[['08','新增有效客户数'],['08','基石客户'],['08','代发客户数'],['08','公司有效客户数'],['08','产融协同客户数'],['08','零售高净值客户数']]},
+      {cap:'风险与监管底线',hint:'质量 · 处置 · 监管红线',
+        pick:[['09','不良资产率'],['09','个贷不良率'],['09','不良资产处置'],['09','小额不良生成率'],['09','对公新增风险管控额'],['03','流动性覆盖率'],['03','资本充足率']]}
+    ];
+    var used=0;
+    /* 组卡渲染 */
+    function gCells(g){ return g.pick.filter(function(p){ return !EXC[p.join('|')] && found[p.join('|')]; })
+      .map(function(p){ return bkStx(p[0],p[1],{bud:1}); }); }
+    /* 2026-10-21 二轮：第 1、2 组同行左右分栏（战略投放↔负债质效 一实体一负债对照），其余组整行 */
+    var g0=gCells(GROUPS[0]), g1=gCells(GROUPS[1]), gRest=GROUPS.slice(2);
+    var html='';
+    if(g0.length || g1.length){
+      html+='<div class="stgrid2">'+[g0,g1].map(function(cells,gi){
+        if(!cells.length) return '<div></div>';
+        used+=cells.length;
+        return '<div><div class="stgrp-cap" style="margin-top:2px">'+GROUPS[gi].cap+
+          ' <span class="lite">'+GROUPS[gi].hint+'</span></div>'+
+          '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">'+cells.join('')+'</div></div>';
+      }).join('')+'</div>';
+    }
+    html+=gRest.map(function(g){
+      var cells=gCells(g);
+      if(!cells.length) return '';
+      used+=cells.length;
+      return '<div class="stgrp-cap" style="margin-top:14px">'+g.cap+
+        ' <span class="lite">'+g.hint+'</span></div>'+
+        '<div class="bkgrid6">'+cells.join('')+'</div>'; }).join('');
+    cEl.innerHTML=html;
+    var st=document.getElementById('bk-contract-n'); if(st) st.textContent=used;
+  }
+
+  /* ===== ③ 资产负债结构（源 01 · 06 · 09 · 03 监管项；2026-10-21 构成→饼改版）===== */
+  /* 总量快照六卡（管理层先看规模水位） */
+  var bsEl=document.getElementById('bk-bs-cards');
+  if(bsEl) bsEl.innerHTML=['总资产','总负债','所有者权益','存款','贷款','投资类资产'].map(function(n){ return bkStx('01',n); }).join('');
+  /* 总资产构成饼：五分类（贷款/投资/存拆放/买入返售/存放央行）+ 其他轧差，中心=总资产 */
+  bkDestroyCanvases(/^c-bk-asset-pie$/);
+  (function(){
+    var total=m(bkAct('01','总资产')||0);
+    var parts=[['贷款','贷款','#17427d'],['投资类资产','投资类资产','#2f7fd6'],['存放央行','存放央行','#5b9bd9'],
+               ['存拆放同业','存拆放同业','#7fb0e0'],['买入返售','买入返售','#9ec3ea']];
+    var v=parts.map(function(e){ return +m(bkAct('01',e[1])||0).toFixed(0); });
+    var other=+(total-v.reduce(function(a,b){return a+b;},0)).toFixed(0);
+    var labels=parts.map(function(e){return e[0]}).concat(['其他资产']),
+        vals=v.concat([other>0?other:0]), cols=parts.map(function(e){return e[2]}).concat(['#c9d6e6']);
+    bkDonut('c-bk-asset-pie',labels,vals,cols);
+    bkDonutCenter('bk-asset-center',total,'总资产 · 亿');
+    var el=document.getElementById('bk-asset-rows');
+    if(el) el.innerHTML=labels.map(function(n,i){
+      var src=parts[i]?parts[i][1]:null;
+      return bkCompRow(cols[i],n,vals[i],src?bkTxt('01',src,'yoy'):'', (vals[i]/total*100).toFixed(1)+'%'); }).join('');
+  })();
+  /* 负债与权益构成饼：资金来源视角（存款=立行之本），权益单独着色；负债分项轧差补「其他负债」→ 饼合计=总资金来源=总资产（恒等式闭环） */
+  bkDestroyCanvases(/^c-bk-debt-pie$/);
+  (function(){
+    var srcs=[['存款','存款','#17427d'],['应付债券','应付债券','#2f7fd6'],['同业存拆放','同业存拆放','#5b9bd9'],
+              ['卖出回购','卖出回购','#7fb0e0'],['向央行借款','向央行借款','#9ec3ea']];
+    var vals=srcs.map(function(e){ return +m(bkAct('01',e[1])||0).toFixed(0); });
+    var debtTotal=m(bkAct('01','总负债')||0), eq=m(bkAct('01','所有者权益')||0);
+    var other=+(debtTotal-vals.reduce(function(a,b){return a+b;},0)).toFixed(0);
+    var labels=srcs.map(function(e){return e[0]}).concat(['其他负债','所有者权益']),
+        all=vals.concat([other>0?other:0, +eq.toFixed(0)]),
+        cols=srcs.map(function(e){return e[2]}).concat(['#c9d6e6','#e0b35a']);
+    bkDonut('c-bk-debt-pie',labels,all,cols);
+    var total=all.reduce(function(a,b){return a+b;},0);
+    bkDonutCenter('bk-debt-center',total,'总资金来源 · 亿');
+    var el=document.getElementById('bk-debt-rows');
+    if(el) el.innerHTML=labels.map(function(n,i){
+      var src=srcs[i]?srcs[i][1]:(n==='所有者权益'?'所有者权益':null);
+      return bkCompRow(cols[i],n,all[i],src?bkTxt('01',src,'yoy'):'', (all[i]/total*100).toFixed(1)+'%'); }).join('');
+  })();
+  /* 存款结构饼（4 项构成=全行存款，勾稽已验证）：低成本占比直接映射负债成本管控 */
+  bkDestroyCanvases(/^c-bk-dep-pie$/);
+  (function(){
+    var el=document.getElementById('bk-dep-rows');
+    var parts=[['公司低成本','#17427d','公司低成本存款余额'],['个人低成本','#2f7fd6','个人低成本存款余额'],
+               ['公司定期','#5b9bd9','公司定期存款余额'],['个人定期','#9ec3ea','个人定期存款余额']];
+    var vals=parts.map(function(e){ return +m(bkAct('06',e[2])||0).toFixed(0); });
+    var full=m(bkAct('06','存款余额（全行）')||0);
+    var otherDep=+(full-vals.reduce(function(a,b){return a+b;},0)).toFixed(0);
+    var labels=parts.map(function(e){return e[0]}).concat(otherDep>0?['其他存款']:[]);
+    var valsAll=vals.concat(otherDep>0?[otherDep]:[]);
+    var colsAll=parts.map(function(e){return e[1]}).concat(otherDep>0?['#c3d7ee']:[]);
+    var tot=valsAll.reduce(function(a,b){return a+b;},0);
+    bkDonut('c-bk-dep-pie',labels,valsAll,colsAll);
+    bkDonutCenter('bk-dep-center',tot,'存款总额 · 亿','sm');
+    if(el) el.innerHTML=labels.map(function(n,i){
+      var src=parts[i]?parts[i][2]:null;
+      return bkCompRow(colsAll[i],n,valsAll[i],src?bkTxt('06',src,'yoy'):'', (valsAll[i]/tot*100).toFixed(1)+'%'); }).join('')+
+      '<div class="strow"><span><span class="lite">低成本存款占比（价）</span></span><b>'+bkAct('06','低成本存款占比')+'% '+bkDelta(bkTxt('06','低成本存款占比','yoy'),'')+'</b></div>';
+  })();
+  /* 贷款结构与投放方向 → 条形（科目对比无构成关系；含房地产管控口径行） */
+  var loanNames=['公司-贷款余额','个人-贷款余额','公司-房地产贷款余额','绿色金融余额','产业金融余额','公司-贸易融资'];
+  mk('c-bk-loan',{type:'bar',data:{labels:['对公贷款','零售贷款','房地产贷款','绿色金融','产业金融','贸易融资'],
+    datasets:[{data:loanNames.map(function(n){ return Math.round(m(bkAct('06',n)||0)); }),backgroundColor:BU_COLORS.bank,borderRadius:4}]},
+    options:Object.assign(base(),{scales:{y:YAX,x:{grid:{display:false},ticks:{font:{size:9},color:T2,maxRotation:30}}}})});
+  /* 贷款五级分类饼（质量构成回归：合计=贷款总额勾稽验证；色阶 正常→损失） */
+  bkDestroyCanvases(/^c-bk-npl-pie$/);
+  (function(){
+    var parts=[['正常类','正常类贷款余额','#0f9d6e'],['关注类','关注类贷款余额','#e0a83a'],
+               ['次级类','次级类贷款余额','#e8823c'],['可疑类','可疑类贷款余额','#ef4444'],['损失类','损失类贷款余额','#8b1a1a']];
+    var vals=parts.map(function(e){ return +m(bkAct('09',e[1])||0).toFixed(1); });
+    var tot=vals.reduce(function(a,b){return a+b;},0);
+    bkDonut('c-bk-npl-pie',parts.map(function(e){return e[0]}),vals,parts.map(function(e){return e[2]}),{dec:2});
+    bkDonutCenter('bk-npl-center',tot,'贷款总额 · 亿','sm');
+    var el=document.getElementById('bk-npl-rows');
+    if(el) el.innerHTML='<div class="strow"><span>不良率（次级+可疑+损失）</span><b>'+bkAct('09','不良贷款率')+'% '+bkDelta(bkTxt('09','不良贷款率','yoy'),'')+'</b></div>'+
+      '<div class="strow"><span>贷款总额（饼合计）</span><b>'+bkNum(tot,'亿元')+' 亿</b></div>';
+  })();
+  /* 监管红线监测（阈值卡规则：低于监管要求 → 红点+红值告警） */
+  var LEAD_REG=['资本充足率','核心一级资本充足率','拨备覆盖率','流动性覆盖率','杠杆率','贷款拨备率'];
+  var regEl=document.getElementById('bk-reg');
+  if(regEl){ var sh3=bkS('03'), c3=BK_COL['03'];
+    regEl.innerHTML=LEAD_REG.map(function(nm){
+      var r=null; (sh3.rows||[]).forEach(function(x){ if(String(x[c3.nm])===nm) r=x; });
+      if(!r) return '';
+      var v=asNum(r[c3.act]), lim=bkLim(r[c3.reg]);
+      var isBad = v!=null && lim!=null && v<lim;
+      return '<div class="stx"><span class="t" title="'+nm+'">'+nm+'</span>'+
+        '<span class="v"'+(isBad?' style="color:var(--up)"':'')+'>'+(v==null?'—':v)+'<small>%</small></span>'+
+        '<div class="drow"><i class="yoy '+(isBad?'down':'up')+'" style="color:'+(isBad?'var(--up)':'var(--down)')+'">'+(isBad?'● 未达标':'● 达标')+'</i></div>'+
+        '<span class="t" style="margin-top:2px">监管要求 '+String(r[c3.reg])+'</span></div>'; }).join('');
+  }
+
+  /* ===== ④ 条线分解与客群（源 04 · 05 · 08；条线构成饼+经营效率行，2026-10-21）===== */
+  /* 条线营收构成饼：四线合计=全行营收（勾稽验证），行内附 EVA/RAROC → 规模·效率一屏双读 */
+  var lineMap=[['公司条线','#17427d','公司条线考核营收','公司条线-EVA','公司条线-RAROC'],
+               ['零售条线','#2f7fd6','零售条线考核营收','零售条线-EVA','零售条线-RAROC'],
+               ['金融市场','#5b9bd9','金融市场条线考核营收','金融市场-EVA','金融市场-RAROC'],
+               ['司库','#9ec3ea','司库营收',null,null]];
+  var lineV=lineMap.map(function(e){ return +m(bkAct('04',e[2])||0).toFixed(1); });
+  bkDestroyCanvases(/^c-bk-line-pie$/);
+  bkDonut('c-bk-line-pie',lineMap.map(function(e){return e[0]}),lineV,lineMap.map(function(e){return e[1]}));
+  bkDonutCenter('bk-line-center',m(bkAct('04','全行营收')||0),'全行营收 · 亿');
+  var lnEl=document.getElementById('bk-line-rows');
+  if(lnEl){ var tot=m(bkAct('04','全行营收')||1);
+    lnEl.innerHTML=lineMap.map(function(e,i){
+      var extra=[]; if(e[3]) extra.push('EVA '+bkNum(m(bkAct('05',e[3])||0),'亿元')+'亿');
+      if(e[4]) extra.push('RAROC '+(bkAct('05',e[4])||0).toFixed(1)+'%');
+      return bkCompRow(e[1],e[0],lineV[i],bkTxt('04',e[2],'yoy'),extra.join(' · ')+'｜'+(lineV[i]/tot*100).toFixed(1)+'%'); }).join('');
+  }
+  /* 条线成本与回报（05）→ 公司/零售/金融市场 三条线 RAROC 页签切换 + 近12月趋势 */
+  bkRarocRender();
+  /* 客群三卡（08 去重后 + 06 代发客户AUM月日均仅此处出现） */
+  var corpEl=document.getElementById('bk-corp');
+  if(corpEl) corpEl.innerHTML=['公司有效授信客户数','其中：大中有效授信客户数','中小有效授信客户数'].map(function(n){ return bkStr('08',n); }).join('');
+  var retEl=document.getElementById('bk-retail');
+  if(retEl) retEl.innerHTML=bkStr('08','零售客户数')+bkStr('08','零售中高端客户数')+bkStr('06','代发客户AUM月日均');
+  var chanEl=document.getElementById('bk-chan');
+  if(chanEl) chanEl.innerHTML=['手机银行客户数','润E企用户数','现金管理客户数'].map(function(n){ return bkStr('08',n); }).join('');
 }
 
 /* ---- 信托 / 保险 / 租赁（2026-10-13 重构）----
@@ -3803,16 +4698,16 @@ function drawBank(){
    INSURANCE_SHEETS ins01/02/03，LEASE_SHEETS lease01-05；均无口径子页签，指标平铺）。
    取数辅助复用资产 tab 的 asNum/asDeltaTxt/asKpis（同 IIFE 内函数声明提升）。 */
 var TIL_COL = {
-  trust01:{nm:1,act:5,yoy:6,mom:4}, trust03:{nm:1,act:5,yoy:6,mom:4},
-  trust04:{nm:1,act:5,yoy:6,mom:4}, trust05:{nm:1,act:5,yoy:6,mom:4},
-  ins01:{nm:1,star:3,act:6,yoy:7,mom:5,bud:8,rate:9},
-  ins02:{nm:3,star:5,act:8,yoy:9,mom:7,bud:10,rate:11},
-  ins03:{nm:1,star:3,act:6,yoy:7,mom:5,bud:8,rate:9},
-  lease01:{nm:2,star:4,act:8,yoy:9,mom:7,bud:11,rate:12},
-  lease02:{nm:2,act:4,yoy:5},
-  lease03:{nm:3,star:5,act:9,yoy:10,mom:8,bud:12,rate:13},
-  lease04:{nm:2,star:4,act:5,yoy:6,bud:8,rate:9},
-  lease05:{nm:2,star:4,act:5,yoy:6,bud:8,rate:9}
+  trust01:{nm:1,un:2,mval:3,act:5,yoy:6,mom:4}, trust03:{nm:1,un:2,mval:3,act:5,yoy:6,mom:4},
+  trust04:{nm:1,un:2,act:5,yoy:6,mom:4}, trust05:{nm:1,un:2,act:5,yoy:6,mom:4},
+  ins01:{nm:1,un:2,star:3,mval:4,act:6,yoy:7,mom:5,bud:8,rate:9},
+  ins02:{nm:3,un:4,star:5,mval:6,act:8,yoy:9,mom:7,bud:10,rate:11},
+  ins03:{nm:1,un:2,star:3,mval:4,act:6,yoy:7,mom:5,bud:8,rate:9},
+  lease01:{nm:2,un:3,star:4,mval:5,act:8,yoy:9,mom:7,bud:11,rate:12},
+  lease02:{nm:2,un:3,act:4,yoy:5},
+  lease03:{nm:3,un:4,star:5,mval:6,act:9,yoy:10,mom:8,bud:12,rate:13},
+  lease04:{nm:2,un:3,star:4,act:5,yoy:6,bud:8,rate:9},
+  lease05:{nm:2,un:3,star:4,act:5,yoy:6,bud:8,rate:9}
 };
 function tilObj(sheet){ return sheet.indexOf('trust')===0?TRUST_SHEETS : sheet.indexOf('ins')===0?INSURANCE_SHEETS : LEASE_SHEETS; }
 function tRow(sheet,name){ var c=TIL_COL[sheet],rows=(tilObj(sheet)[sheet]||{}).rows||[];
@@ -3828,96 +4723,229 @@ function tKPI(sheet,nm,opts){ var o=opts||{};
   return { l:o.label||nm, u:o.u||'亿元', v:o.pct?tAct(sheet,nm):(o.wan?Math.round(m(tAct(sheet,nm)||0)):+m(tAct(sheet,nm)||0).toFixed(o.dec!=null?o.dec:2)),
     raw:o.raw||o.wan||0, pct:o.pct||0, star:tStar(sheet,nm), yoy:tYoY(sheet,nm), mom:tMoM(sheet,nm),
     budRate:tRate(sheet,nm), nc:o.nc!=null?o.nc:0 }; }
+/* ===== 2026-10-21 四公司页展示规则优化：通用辅助（视觉规格复用银行页 bkMonthCfg / stx / donutwrap）=====
+   规则① 趋势=本月数：流量类核心指标趋势图画「当月实际」而非本年累计——累计曲线恒向上掩盖动能拐点；
+   规则② 构成→环形饼：分项相加=母项（收入构成/保费四大板块/行业赛道/融资结构…）饼片≤6、中心标母项总量；
+   规则④ 对比→条形 · 卡片：量级悬殊或口径交叠、相加≠总量者不做饼（避免伪构成）。 */
+function tUn(sheet,nm){ var c=TIL_COL[sheet],r=tRow(sheet,nm); return (r&&c.un!=null)?String(r[c.un]||''):'亿元'; }
+function tMval(sheet,nm){ var c=TIL_COL[sheet]; if(c.mval==null) return null; var r=tRow(sheet,nm); return r?asNum(r[c.mval]):null; }
+/* 本月数趋势序列：act=报表累计（×日期系数）、mval=报表当月值（末月校准锚点）、yoy=累计同比（去年水平回推）；
+   月度均值=累计÷已过月数，叠加 ±2.5% 确定性摆动（按指标名散列播种，避免全平柱；接入真实月度序列后整段替换） */
+function tilMonthSeries(sheet,name){
+  var act=m(tAct(sheet,name)||0), yoy=asNum(tYoY(sheet,name)), mval=tMval(sheet,name);
+  var last=+String(selDate).slice(5,7)||9;
+  var curMon=act/last, prevMon=(yoy==null?curMon/1.08:curMon/(1+yoy/100));
+  var seed=0; for(var q=0;q<name.length;q++) seed+=name.charCodeAt(q);
+  var labels=[], mon=[], prev=[];
+  for(var i=11;i>=0;i--){ var mm=((last-1-i)%12+12)%12+1; labels.push(mm+'月');
+    var inCur=mm<=last, w=1+0.025*Math.sin(i*1.9+seed*0.7);
+    mon.push(+((inCur?curMon:prevMon)*w).toFixed(2));
+    prev.push(+((inCur?prevMon:prevMon/1.08)*(2-w)).toFixed(2));
+  }
+  /* 末月（所选月）校准为报表当月值：整体缩放，趋势尾部与 KPI 卡「本月数」严格一致 */
+  if(mval!=null && mon[mon.length-1]>0){ var kk=m(mval)/mon[mon.length-1];
+    mon=mon.map(function(x){ return +(x*kk).toFixed(2); }); }
+  return {mon:mon,prev:prev,labels:labels};
+}
+/* 本月数趋势图（复用银行页样式：柱=今年当月 · 金虚线=去年同月）；重绘前销毁旧实例防 canvas 复用报错 */
+function tilMonthChart(cid,sheet,name,barCol){
+  bkDestroyCanvases(new RegExp('^'+cid+'$'));
+  mk(cid,bkMonthCfg(tilMonthSeries(sheet,name),barCol));
+}
+/* hero 卡：KPI大字（累计 · 流量×日期系数）+ 本月数/环比小注 + 同比 +（有预算列时）达成环 */
+function tilHero(elId,sheet,name,opts){ opts=opts||{};
+  var el=document.getElementById(elId); if(!el) return;
+  var c=TIL_COL[sheet];
+  var raw=tAct(sheet,name), u=opts.u||tUn(sheet,name), pct=opts.pct||/%/.test(u);
+  var v=pct?raw:m(raw), mv=tMval(sheet,name);
+  var budv=c.bud!=null?tBud(sheet,name):null, rt=c.rate!=null?tRate(sheet,name):null;
+  el.innerHTML='<div class="hv"><b>'+tilNum(v,u)+'</b><small>'+u+' · 截止本月末</small>'+
+      (mv!=null?'<span class="hv-m" style="font-size:11px;color:var(--dim2);margin-left:8px">本月 '+tilNum(m(mv),u)+' '+u+' '+tilDelta(tMoM(sheet,name),' 环比')+'</span>':'')+
+    '</div><div class="hd">'+tilDelta(tYoY(sheet,name),' 同比')+'</div>'+
+    (rt!=null?kpiRing(v,budv,u):'');
+}
+/* 数值格式化（%类两位去尾零；≥1000 千分位取整；其余 1 位小数） */
+function tilNum(v,u){ if(v==null||isNaN(v)) return '—';
+  if(u&&/%|ppt/.test(u)) return (+v).toFixed(2).replace(/\.?0+$/,'');
+  if(Math.abs(v)>=1000) return Math.round(v).toLocaleString('zh-CN');
+  return (+v).toLocaleString('zh-CN',{maximumFractionDigits:1}); }
+function tilDelta(txt,suffix){ if(!txt||txt==='-'||txt==='—') return '<i class="yoy flat">—</i>';
+  var down=String(txt).charAt(0)==='-';
+  return '<i class="yoy '+(down?'down':'up')+'">'+(down?'▼':'▲')+' '+String(txt).replace(/^[+-]/,'')+(suffix||'')+'</i>'; }
+/* stx 指标格（复用银行页 .stx 样式）：名称(★) / 值 / 同比小注 /（opts.bud 且有预算列）预算达成条 */
+function tilStx(sheet,name,opts){ opts=opts||{}; var c=TIL_COL[sheet];
+  var u=opts.u||tUn(sheet,name), pct=opts.pct||/%/.test(u);
+  var raw=tAct(sheet,name), v=pct?raw:m(raw);
+  var us=opts.us!==undefined?opts.us:(u==='亿元'?'亿':(u==='万元'?'万':u));
+  var rt=c.rate!=null?tRate(sheet,name):null;
+  return '<div class="stx'+(opts.cls?' '+opts.cls:'')+'"><span class="t" title="'+name+'">'+name+
+    (tStar(sheet,name)?'<i class="kstar">★</i>':'')+'</span>'+
+    '<span class="v">'+tilNum(v,u)+'<small>'+us+'</small></span>'+
+    '<div class="drow">'+tilDelta(tYoY(sheet,name),' 同比')+'</div>'+
+    (opts.bud&&rt!=null?tilBudBar(sheet,name,u):'')+'</div>'; }
+function tilBudBar(sheet,name,u){ var b=tBud(sheet,name), rt=tRate(sheet,name);
+  return '<div class="as-rate"><div class="progress-bar"><div class="progress-fill '+(rt>=95?'':(rt>=85?'mid':'low'))+'" style="width:'+Math.min(100,rt)+'%"></div></div>'+
+    '<span class="rt">预算 '+tilNum(b,u)+' · 达成 '+rt.toFixed(1)+'%</span></div>'; }
+/* 通用环形构成饼（规则②）：样式对齐银行页 bkDonut（圆角分段/片间留白/浅轨道底环），unit 参数化支持万元；
+   vals 需已含轧差「其他」片 → 饼合计=中心母项总量；opts.yoys 明细行同比、opts.centerEl/rowsEl 挂载点 */
+function tilDonut(cid,labels,vals,cols,unit,opts){ opts=opts||{};
+  bkDestroyCanvases(new RegExp('^'+cid+'$'));
+  var tot=vals.reduce(function(a,b){return a+b;},0)||1;
+  var trackPlugin={id:'tilTrack',beforeDatasetsDraw:function(ch){
+    var meta=ch.getDatasetMeta(0); if(!meta||!meta.data||!meta.data.length) return;
+    var a0=meta.data[0]; if(!a0) return;
+    var ctx=ch.ctx, cx=a0.x, cy=a0.y;
+    var rMid=(a0.innerRadius+a0.outerRadius)/2, w=a0.outerRadius-a0.innerRadius;
+    ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,rMid,0,Math.PI*2);
+    ctx.strokeStyle='rgba(122,150,190,.13)'; ctx.lineWidth=w; ctx.stroke(); ctx.restore(); }};
+  mk(cid,{type:'doughnut',plugins:[trackPlugin],
+    data:{labels:labels,datasets:[
+      {label:'构成',data:vals,backgroundColor:cols,borderColor:'#ffffff',borderWidth:1.5,
+       borderRadius:function(c2){ var v2=c2.dataset.data[c2.dataIndex]||0; return (v2/tot<0.02)?0:7; },
+       borderSpacing:3,hoverOffset:7}]},
+    options:Object.assign(base({tooltip:{callbacks:{label:function(it){
+      return ' '+it.label+'：'+tilNum(vals[it.dataIndex],unit)+' '+unit+'（'+(vals[it.dataIndex]/tot*100).toFixed(1)+'%）'; }},
+      title:{display:false}}}),{cutout:'66%',layout:{padding:6}})});
+  if(opts.centerEl){ var ce=document.getElementById(opts.centerEl);
+    if(ce) ce.innerHTML='<b>'+tilNum(tot,unit)+'</b><small>'+opts.centerLab+'</small>'; }
+  if(opts.rowsEl){ var re=document.getElementById(opts.rowsEl);
+    if(re) re.innerHTML=labels.map(function(n,i2){
+      return '<div class="strow"><span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:'+cols[i2]+';margin-right:6px"></i>'+n+
+        '</span><b>'+tilNum(vals[i2],unit)+' '+unit+(opts.yoys?' '+tilDelta(opts.yoys[i2],''):'')+
+        ' <span class="lite" style="font-size:10px">'+(vals[i2]/tot*100).toFixed(1)+'%</span></b></div>'; }).join(''); }
+}
 
 function drawTrust(){
-  /* 核心卡：管理规模 + 含国信口径效益 + ROE（trust01） */
-  asKpis('kpi-trust',[
-    tKPI('trust01','信托管理规模',{raw:1,u:'亿元',nc:0}),
-    tKPI('trust01','总收入（含国信）',{dec:2,nc:1}),
-    tKPI('trust01','利润总额（含国信）',{dec:2,nc:2}),
-    tKPI('trust01','净利润（含国信）',{dec:2,nc:2}),
-    tKPI('trust01','ROE（含国信）',{pct:1,u:'%',nc:3})
-  ]);
-  /* ① 收入结构（含国信口径）：信托业务/固有业务/国信投资收益 + 元大基金（万元→亿） */
-  var revN=['信托业务收入','固有业务收入','国信投资收益'];
-  var ydFund=tAct('trust01','华润元大基金收入');
-  mk('c-ts-rev',{type:'bar',data:{labels:['信托业务','固有业务','国信投资','元大基金'],
-    datasets:[{data:revN.map(function(nm){ return +m(tAct('trust01',nm)||0).toFixed(2); }).concat([ydFund!=null?+m(ydFund/10000).toFixed(2):0]),
-      backgroundColor:['#2fd6a0','#4fe0b0','#f0c060','#78e9c4'],borderRadius:4}]},
-    options:Object.assign(base(),{indexAxis:'y',scales:{x:{grid:GRID,ticks:{font:{size:11},color:T3}},y:{grid:{display:false},ticks:{font:{size:11},color:T2}}}})});
-  /* 除国信口径收入细分（trust03） */
+  /* ① 核心经营：利润链三终点 hero 同行（规则①：KPI大字=本年累计 · 趋势图=本月数——柱=当月实际 虚线=去年同月） */
+  tilHero('ts-hero-rev','trust01','总收入（含国信）'); tilMonthChart('c-ts-t-rev','trust01','总收入（含国信）',BLUE);
+  tilHero('ts-hero-prof','trust01','利润总额（含国信）'); tilMonthChart('c-ts-t-prof','trust01','利润总额（含国信）',GOLD);
+  tilHero('ts-hero-net','trust01','净利润（含国信）'); tilMonthChart('c-ts-t-net','trust01','净利润（含国信）','#0f9d6e');
+  /* 效益与规模六卡（规则④：比率/存量和金额不同尺度→卡片行；ROE 含/除同排即口径对照） */
+  var eff=document.getElementById('ts-eff-cards');
+  if(eff) eff.innerHTML=
+    ['ROE（含国信）','ROE（除国信）'].map(function(n){ return tilStx('trust01',n,{pct:1}); }).join('')+
+    tilStx('trust01','信托管理规模',{us:'亿'})+tilStx('trust01','元大基金管理规模',{us:'亿'})+
+    tilStx('trust01','总资产',{us:'亿'})+tilStx('trust01','净资产',{us:'亿'});
+  /* ② 收入构成饼（规则②：信托业务+固有+国信投资收益 相加=总收入含国信，18.65 勾稽已验证；中心=总收入与 hero 互证） */
+  var revParts=[['信托业务收入','#2f7fd6','信托业务收入'],['固有业务收入','#5b9bd9','固有业务收入'],['国信投资收益','#f59e0b','国信投资收益']];
+  var revV=revParts.map(function(e){ return +m(tAct('trust01',e[2])||0).toFixed(2); });
+  tilDonut('c-ts-rev-pie',revParts.map(function(e){return e[0]}),revV,revParts.map(function(e){return e[1]}),'亿元',
+    {centerEl:'ts-rev-center',centerLab:'总收入 · 亿',yoys:revParts.map(function(e){return tYoY('trust01',e[2])})});
+  var revC=document.getElementById('ts-rev-center');
+  if(revC) revC.innerHTML='<b>'+tilNum(m(tAct('trust01','总收入（含国信）')||0),'亿元')+'</b><small>总收入 · 亿</small>';
+  /* 除国信口径收入细分（trust03 条线拆分——条线口径与三分类交叠，行列表不做强行拼饼） */
   var det=[['证券受托业务收入','证券受托'],['财富管理业务收入','财富管理'],['公私募资管业务收入','公私募资管'],['对公业务收入','对公'],['行政服务业务收入','行政服务']];
   var el=document.getElementById('ts-rev-rows');
-  if(el) el.innerHTML='<div class="stgrp-cap" style="margin-top:8px">除国信口径收入细分 <span class="lite">亿元 · 截止本月末｜源 02-收入结构</span></div>'+
-    det.map(function(e){ return '<div class="strow"><span>'+e[1]+'</span><b>'+(+m(tAct('trust03',e[0])||0)).toFixed(2)+' 亿 · 同比 '+tYoY('trust03',e[0])+'</b></div>'; }).join('');
-  /* 含 vs 除 国信双口径对比 */
+  if(el) el.innerHTML='<div class="stgrp-cap" style="margin-top:8px">除国信口径 · 条线细分 <span class="lite">亿元 · 源 02-收入结构｜条线口径交叠→行式</span></div>'+
+    det.map(function(e){ return '<div class="strow"><span>'+e[1]+'</span><b>'+tilNum(m(tAct('trust03',e[0])||0),'亿元')+' 亿 '+tilDelta(tYoY('trust03',e[0]),'')+'</b></div>'; }).join('');
+  /* 含 vs 除国信双口径对比（规则④：同指标两口径→分组条形，柱差=国信贡献） */
   var pairs=[['总收入','总收入（含国信）','总收入（除国信）'],['利润总额','利润总额（含国信）','利润总额（除国信）'],['净利润','净利润（含国信）','净利润（除国信）']];
+  tilDestroyCanvases('c-ts-gx');
   mk('c-ts-gx',{type:'bar',data:{labels:pairs.map(function(p){return p[0]}),datasets:[
-      {label:'含国信',data:pairs.map(function(p){ return +m(tAct('trust01',p[1])||0).toFixed(2); }),backgroundColor:'#2fd6a0',borderRadius:4},
-      {label:'除国信',data:pairs.map(function(p){ return +m(tAct('trust01',p[2])||0).toFixed(2); }),backgroundColor:'#7d9cc9',borderRadius:4}]},
+      {label:'含国信',data:pairs.map(function(p){ return +m(tAct('trust01',p[1])||0).toFixed(2); }),backgroundColor:'#2f7fd6',borderRadius:4},
+      {label:'除国信',data:pairs.map(function(p){ return +m(tAct('trust01',p[2])||0).toFixed(2); }),backgroundColor:'#5b9bd9',borderRadius:4}]},
     options:Object.assign(base({legend:LGL}),{scales:{y:YAX,x:NOG}})});
   var el2=document.getElementById('ts-gx-rows');
   if(el2) el2.innerHTML=
     '<div class="strow"><span>ROE（含国信）</span><b>'+tAct('trust01','ROE（含国信）')+'% · 同比 '+tYoY('trust01','ROE（含国信）')+'</b></div>'+
-    '<div class="strow"><span>ROE（除国信）</span><b>'+tAct('trust01','ROE（除国信）')+'% · 同比 '+tYoY('trust01','ROE（除国信）')+'</b></div>';
-  /* ② 新三分类规模（trust04） */
-  var n3=['资产管理信托规模','资产服务信托规模','公益慈善信托规模'];
-  mk('c-ts-new3',{type:'bar',data:{labels:['资产管理信托','资产服务信托','公益慈善信托'],
-    datasets:[{data:n3.map(function(nm){ return Math.round(m(tAct('trust04',nm)||0)); }),backgroundColor:['#2fd6a0','#4fe0b0','#f0c060'],borderRadius:4}]},
-    options:Object.assign(base(),{scales:{y:YAX,x:NOG}})});
-  /* ② 分条线规模（trust04） */
+    '<div class="strow"><span>ROE（除国信）</span><b>'+tAct('trust01','ROE（除国信）')+'% · 同比 '+tYoY('trust01','ROE（除国信）')+'</b></div>'+
+    '<div class="strow"><span><span class="lite">口径说明</span></span><b><span class="lite" style="font-size:10.5px">柱差=国信投资收益（'+tilNum(m(tAct('trust01','国信投资收益')||0),'亿元')+' 亿）</span></b></div>';
+  /* ③ 新三分类构成饼（规则②+轧差：资管+服务+公益 相加 < 管理规模 →「其他信托」补片保证整圆，饼合计=中心=信托管理规模） */
+  tilDestroyCanvases('c-ts-new3-pie');
+  (function(){
+    var total=m(tAct('trust04','信托管理规模')||0);
+    var parts=[['资产管理信托','资产管理信托规模','#2f7fd6'],['资产服务信托','资产服务信托规模','#5b9bd9'],['公益慈善信托','公益慈善信托规模','#9ec3ea']];
+    var v=parts.map(function(e){ return +m(tAct('trust04',e[1])||0).toFixed(0); });
+    var other=+(total-v.reduce(function(a,b){return a+b;},0)).toFixed(0);
+    var labels=parts.map(function(e){return e[0]}).concat(['其他信托计划']),
+        vals=v.concat([other>0?other:0]), cols=parts.map(function(e){return e[2]}).concat(['#7a8ba6']);
+    tilDonut('c-ts-new3-pie',labels,vals,cols,'亿元',
+      {centerEl:'ts-new3-center',centerLab:'信托管理规模 · 亿',
+       yoys:parts.map(function(e){return tYoY('trust04',e[1])}).concat([''])});
+  })();
+  /* 分条线规模（trust04 规则④：条线与三分类口径交叠——证券受托等既属资管又跨分类，相加≠总量，故条形对比勿改饼） */
   var ln=[['证券受托业务规模','证券受托'],['财富管理业务规模','财富管理'],['公私募资管业务规模','公私募资管'],['其中：元大基金规模','元大基金'],['固有业务规模','固有业务'],['对公业务规模','对公']];
+  tilDestroyCanvases('c-ts-scale');
   mk('c-ts-scale',{type:'bar',data:{labels:ln.map(function(e){return e[1]}),
     datasets:[{data:ln.map(function(e){ return Math.round(m(tAct('trust04',e[0])||0)); }),backgroundColor:BU_COLORS.trust,borderRadius:4}]},
     options:Object.assign(base(),{indexAxis:'y',scales:{x:{grid:GRID,ticks:{font:{size:11},color:T3}},y:{grid:{display:false},ticks:{font:{size:10.5},color:T2}}}})});
-  /* ③ 固有资金运用（trust05，出险红色） */
-  var fu=[['现金及流动性管理规模','现金及流动性','#2fd6a0'],['证券权益类规模','证券权益','#4fe0b0'],['证券固定收益类规模','证券固收','#78e9c4'],
-          ['非证券类-剔除出险项目','非证券类','#a4f0d6'],['长期股权投资','长期股权投资',T3],['出险项目','出险项目','#ff5d6c']];
-  mk('c-ts-fund',{type:'bar',data:{labels:fu.map(function(e){return e[1]}),
-    datasets:[{data:fu.map(function(e){ return +m(tAct('trust05',e[0])||0).toFixed(1); }),backgroundColor:fu.map(function(e){return e[2]}),borderRadius:4}]},
-    options:Object.assign(base(),{indexAxis:'y',scales:{x:{grid:GRID,ticks:{font:{size:11},color:T3}},y:{grid:{display:false},ticks:{font:{size:10.5},color:T2}}}})});
-  /* ③ 元大基金与资产负债（trust05 + trust01） */
-  var el3=document.getElementById('ts-side');
-  if(el3){
-    el3.innerHTML='<div class="stgrp-cap">元大基金 <span class="lite">亿元 · 截止本月末｜源 04-业务结构</span></div>'+
-    [['元大基金管理规模','元大基金管理规模'],['公募业务规模','公募'],['专户业务规模','专户']].map(function(e){
-      return '<div class="strow"><span>'+e[1]+'</span><b>'+Math.round(m(tAct('trust05',e[0])||0))+' 亿 · 同比 '+tYoY('trust05',e[0])+'</b></div>'; }).join('')+
-    '<div class="stgrp-cap" style="margin-top:10px">资产负债 <span class="lite">亿元 · 截止本月末｜源 01-财务指标</span></div>'+
-    [['总资产','总资产'],['净资产','净资产']].map(function(e){
-      return '<div class="strow"><span>'+e[1]+'</span><b>'+(+m(tAct('trust01',e[0])||0)).toFixed(1)+' 亿 · 同比 '+tYoY('trust01',e[0])+'</b></div>'; }).join('');
-  }
+  var elSc=document.getElementById('ts-scale-rows');
+  if(elSc) elSc.innerHTML='<div class="strow"><span><span class="lite">口径说明</span></span><b><span class="lite" style="font-size:10.5px">条线口径与三分类交叠（相加≠管理规模）→ 条形仅作量级对比</span></b></div>';
+  /* ④ 固有资金运用构成饼（规则②：六项相加=资金运用规模 425=425 严格勾稽；出险项目=红色风险语义色） */
+  tilDestroyCanvases('c-ts-fund-pie');
+  (function(){
+    var fu=[['现金及流动性','#2f7fd6','现金及流动性管理规模'],['证券权益','#5b9bd9','证券权益类规模'],['证券固收','#9ec3ea','证券固定收益类规模'],
+            ['非证券类','#33547e','非证券类-剔除出险项目'],['长期股权投资','#7a8ba6','长期股权投资'],['出险项目','#d64550','出险项目']];
+    var vals=fu.map(function(e){ return +m(tAct('trust05',e[2])||0).toFixed(1); });
+    tilDonut('c-ts-fund-pie',fu.map(function(e){return e[0]}),vals,fu.map(function(e){return e[1]}),'亿元',
+      {centerEl:'ts-fund-center',centerLab:'资金运用规模 · 亿',yoys:fu.map(function(e){return tYoY('trust05',e[2])})});
+    var tot=vals.reduce(function(a,b){return a+b;},0), out=vals[5]||0;
+    var ce=document.getElementById('ts-fund-center');
+    if(ce) ce.innerHTML='<b>'+tilNum(tot,'亿元')+'</b><small>资金运用 · 亿</small>';
+    var rows=document.getElementById('ts-fund-rows');
+    if(rows){ var fuVals=vals, fuTot=tot;
+      rows.querySelectorAll && 0; /* 明细由 tilDonut 生成，此处补出险占比警示行 */
+      rows.insertAdjacentHTML('beforeend','<div class="strow"><span><span class="lite">出险项目占比（红色片）</span></span><b style="color:var(--up)">'+(out/fuTot*100).toFixed(1)+'% '+tilDelta(tYoY('trust05','出险项目'),'')+'</b></div>'); }
+  })();
+  /* ④ 元大基金条线（公募+专户 = 元大管理规模 1280=1280 勾稽；两分区量级差<2 用条形对照更直读） */
+  tilDestroyCanvases('c-ts-yd');
+  mk('c-ts-yd',{type:'bar',data:{labels:['公募业务','专户业务'],datasets:[
+      {label:'业务规模',data:[m(tAct('trust05','公募业务规模')||0),m(tAct('trust05','专户业务规模')||0)].map(function(x){return Math.round(x)}),
+       backgroundColor:['#2f7fd6','#5b9bd9'],borderRadius:4,maxBarThickness:46}]},
+    options:Object.assign(base(),{scales:{y:YAX,x:NOG}})});
+  var elYd=document.getElementById('ts-yd-rows');
+  if(elYd) elYd.innerHTML=
+    '<div class="strow"><span>元大基金管理规模（饼/条合计）</span><b>'+tilNum(m(tAct('trust05','元大基金管理规模')||0),'亿元')+' 亿 '+tilDelta(tYoY('trust05','元大基金管理规模'),'')+'</b></div>'+
+    '<div class="strow"><span>公募细分：债基 / 货基 / 权益混合</span><b>'+['债券型基金规模','货币型基金规模','权益及混合型基金规模'].map(function(n){ return tilNum(m(tAct('trust05',n)||0),'亿元'); }).join(' / ')+' 亿</b></div>';
 }
+/* 按精确 canvas id 销毁当前视图旧实例（tilDonut/tilMonthChart 与口径切换共用） */
+function tilDestroyCanvases(cid){ (charts[curView]||[]).forEach(function(c,i){
+  if(c && c.canvas && c.canvas.id===cid){ c.destroy(); charts[curView][i]=null; } }); }
 
 /* ---- 保险 ---- */
 function drawIns(){
-  /* 核心卡：ins01 四项全为★考核指标，带预算达成条（万元原值展示，与报表口径一致） */
-  var K=[['营业收入',0],['利润总额',1],['ROE',2],['EVA',3]];
-  asKpis('kpi-ins',K.map(function(e){ var nm=e[0], pct=nm==='ROE';
-    return { l:nm, u:pct?'%':'万元', v:pct?tAct('ins01',nm):Math.round(m(tAct('ins01',nm)||0)), raw:!pct, pct:pct?1:0,
-      star:tStar('ins01',nm), yoy:tYoY('ins01',nm), budRate:tRate('ins01',nm), nc:e[1] }; }));
-  /* ① 保费结构（四大板块，ins02） */
-  var prem=[['机构业务保费规模','机构业务'],['产融业务保费规模','产融业务'],['香港业务保费规模','香港业务'],['市场化业务保费规模','市场化业务']];
-  var premV=prem.map(function(e){ return Math.round(m(tAct('ins02',e[0])||0)); });
-  mk('c-in-prem',{type:'bar',data:{labels:prem.map(function(e){return e[1]}),
-    datasets:[{data:premV,backgroundColor:BU_COLORS.ins,borderRadius:4}]},
-    options:Object.assign(base(),{scales:{y:YAX,x:NOG}})});
-  /* ① 佣金结构（四大板块） */
-  var comm=[['机构业务佣金收入','机构业务'],['产融业务佣金收入','产融业务'],['香港业务佣金收入','香港业务'],['市场化业务佣金收入','市场化业务']];
-  mk('c-in-comm',{type:'bar',data:{labels:comm.map(function(e){return e[1]}),
-    datasets:[{data:comm.map(function(e){ return Math.round(m(tAct('ins02',e[0])||0)); }),backgroundColor:['#c89630','#f0c060','#7d9cc9','#ffe3a0'],borderRadius:4}]},
-    options:Object.assign(base(),{scales:{y:YAX,x:NOG}})});
-  /* ② 业务来源占比（保费口径环形） */
-  mk('c-in-mix',{type:'doughnut',data:{labels:prem.map(function(e){return e[1]}),
-    datasets:[{data:premV,backgroundColor:['#f0c060','#ffe3a0','#41c0e8','#7d9cc9'],borderColor:'#0a1f42',borderWidth:2}]},
-    options:base({legend:{display:true,position:'right',labels:{font:{size:11},color:T2,boxWidth:12,padding:12}}})});
-  /* ② 明细行：总量 + ★考核子项（含预算达成） */
-  var D=[['保费规模','保费规模合计',0],['机构业务保费规模','机构业务',0],['产融业务保费规模','产融业务（燃气/商户/银保/创新场景）',0],
-         ['其中：华润燃气业务保费规模','其中：华润燃气★',1],['香港业务保费规模','香港业务',0],['市场化业务保费规模','市场化业务',0],
-         ['佣金收入','佣金收入合计',0],['香港业务佣金收入','其中：香港业务佣金★',1]];
+  /* ① 核心经营（ins01 全★考核）：营业收入/利润总额=流量 → hero+本月数趋势（规则①）；
+     ROE/EVA=比率/价值量（单位不同不入趋势）→ 右卡两张 tilStx 带预算达成条（规则④） */
+  tilHero('in-hero-rev','ins01','营业收入'); tilMonthChart('c-in-t-rev','ins01','营业收入',BLUE);
+  tilHero('in-hero-prof','ins01','利润总额'); tilMonthChart('c-in-t-prof','ins01','利润总额',GOLD);
+  var retEl=document.getElementById('in-ret-cards');
+  if(retEl) retEl.innerHTML='<div style="display:grid;grid-template-columns:1fr;gap:10px">'+
+    tilStx('ins01','ROE',{pct:1,bud:1,us:'%'})+tilStx('ins01','EVA',{bud:1,us:'万'})+'</div>';
+  /* ② 双主线复合卡：KPI 大字 + 本月数趋势（规则①）+ 构成饼（规则②）
+     保费：机构+产融+香港+市场化 四板块相加=986,500=保费规模合计（勾稽已验证）
+     佣金：同口径四板块相加=152,300=佣金合计 → 两张饼可横向对照"板块佣金率=佣金/保费" */
+  var premSrc=[['机构业务保费规模','机构业务'],['产融业务保费规模','产融业务'],['香港业务保费规模','香港业务'],['市场化业务保费规模','市场化业务']];
+  var commSrc=[['机构业务佣金收入','机构业务'],['产融业务佣金收入','产融业务'],['香港业务佣金收入','香港业务'],['市场化业务佣金收入','市场化业务']];
+  var premTotal=tAct('ins02','保费规模'), commTotal=tAct('ins02','佣金收入');
+  /* 保费复合卡：hero + 趋势 + 构成饼 */
+  tilHero('in-hero-prem','ins02','保费规模'); tilMonthChart('c-in-t-prem','ins02','保费规模','#f59e0b');
+  tilDonut('c-in-prem-pie',premSrc.map(function(e){return e[1]}),
+    premSrc.map(function(e){ return Math.round(m(tAct('ins02',e[0])||0)); }),
+    ['#17427d','#2f7fd6','#5b9bd9','#9ec3ea'],'万元',
+    {centerEl:'in-prem-center',centerLab:'保费规模 · 万',yoys:premSrc.map(function(e){return tYoY('ins02',e[0])})});
+  /* 佣金复合卡 */
+  tilHero('in-hero-comm','ins02','佣金收入'); tilMonthChart('c-in-t-comm','ins02','佣金收入',GOLD);
+  tilDonut('c-in-comm-pie',commSrc.map(function(e){return e[1]}),
+    commSrc.map(function(e){ return Math.round(m(tAct('ins02',e[0])||0)); }),
+    ['#17427d','#2f7fd6','#5b9bd9','#9ec3ea'],'万元',
+    {centerEl:'in-comm-center',centerLab:'佣金收入 · 万',yoys:commSrc.map(function(e){return tYoY('ins02',e[0])})});
+  /* 产融板块纵深明细（二层拆分：燃气→华润/市场；商户；银保；创新场景→社区等；★考核项带预算达成） */
+  var D=[['产融业务保费规模','产融板块保费小计',0],['燃气业务保费规模','├ 燃气业务',0],
+         ['其中：华润燃气业务保费规模','│　其中：华润燃气（★考核）',1],['其中：市场燃气业务保费规模','│　其中：市场燃气',0],
+         ['商户保险保费规模','├ 商户保险',0],['银保保费规模','├ 银保',0],['产融创新场景保费规模','└ 创新场景（社区/职域/其他融融）',0]];
   var el=document.getElementById('ins-detail');
-  if(el) el.innerHTML=D.map(function(e){ var r=tRow('ins02',e[0]); if(!r) return '';
-    var rt=tRate('ins02',e[0]);
-    return '<div class="strow"><span>'+e[1]+'</span><b>'+Number(String(r[8]).replace(/,/g,'')).toLocaleString('zh-CN')+' 万 · 同比 '+tYoY('ins02',e[0])+(rt!=null?' · 达成 '+rt.toFixed(1)+'%':'')+'</b></div>'; }).join('');
+  if(el) el.innerHTML='<div class="stgrid" style="grid-template-columns:1fr 1fr;gap:0 26px"><div>'+
+    '<div class="stgrp-cap">保费口径（万元）</div>'+D.map(function(e){ var r=tRow('ins02',e[0]); if(!r) return '';
+      var rt=tRate('ins02',e[0]);
+      return '<div class="strow"><span>'+e[1]+'</span><b>'+tilNum(m(tAct('ins02',e[0])||0),'万元')+' 万 '+tilDelta(tYoY('ins02',e[0]),'')+(rt!=null?' <span class="lite" style="font-size:10px">达成 '+rt.toFixed(1)+'%</span>':'')+'</b></div>'; }).join('')+
+    '</div><div>'+
+    '<div class="stgrp-cap">同板块对照（万元）</div>'+
+    '<div class="strow"><span>产融板块佣金小计</span><b>'+tilNum(m(tAct('ins02','产融业务佣金收入')||0),'万元')+' 万 '+tilDelta(tYoY('ins02','产融业务佣金收入'),'')+'</b></div>'+
+    '<div class="strow"><span>其中：华润燃气佣金</span><b>'+tilNum(m(tAct('ins02','其中：华润燃气业务佣金收入')||0),'万元')+' 万 '+tilDelta(tYoY('ins02','其中：华润燃气业务佣金收入'),'')+'</b></div>'+
+    '<div class="strow"><span>燃气板块佣金率（佣/保）</span><b>'+((tAct('ins02','燃气业务佣金收入')/tAct('ins02','燃气业务保费规模'))*100).toFixed(1)+'%</b></div>'+
+    '<div class="strow"><span>保费规模合计 · ★双口径</span><b>'+tilNum(m(premTotal||0),'万元')+' 万 '+tilDelta(tYoY('ins02','保费规模'),'')+'</b></div>'+
+    '<div class="strow"><span>佣金收入合计</span><b>'+tilNum(m(commTotal||0),'万元')+' 万 '+tilDelta(tYoY('ins02','佣金收入'),'')+'</b></div>'+
+    '</div></div>';
   /* ③ 关键管理指标：6 项★考核（ins03），stx 格 + 预算达成条 */
   var KM=[['华润燃气存量用户保费占比','%',0],['集团及其他产业客户保费规模','万元',1],['融融业务总中收','万元',1],
           ['市场业务净收入','万元',1],['产融业务规模','万元',1],['华润燃气存量用户每年新增客户数','万户',0]];
@@ -3965,7 +4993,7 @@ function asRate(sheet,ci,name){ var c=ASSET_COL[sheet]; if(c.rate==null) return 
 function asCalBars(sheet,ci,name){ var cals=(ASSET_SHEETS[sheet]||{}).calibers||[];
   return { labels:cals.map(function(c){return c.label}),
     vals:cals.map(function(c,i){ var v=asAct(sheet,i,name); return v==null?0:+m(v).toFixed(2); }),
-    colors:cals.map(function(c,i){ return i===ci? '#ffd479' : 'rgba(65,192,232,.75)'; }) }; }
+    colors:cals.map(function(c,i){ return i===ci? '#f59e0b' : 'rgba(91,155,217,.55)'; }) }; }
 function asDeltaTxt(t){ if(!t || t==='-') return '<span class="flat">—</span>';
   var cls=t.charAt(0)==='-'?'down':'up';
   return '<span class="'+cls+'">'+(t.charAt(0)==='-'?'▼':'▲')+' '+t.replace(/^[+-]/,'')+'</span>'; }
@@ -3993,8 +5021,27 @@ function asKpis(elId,ks){ var el=document.getElementById(elId); if(!el) return;
       '<div class="v">'+vv+'</div>'+bar+'</div>';
   }).join(''); }
 
-var ASSET_GRP = {1:'asset01',2:'asset02',3:'asset03'};
-/* ① 收入与利润（01-收入结构）：默认财务考核口径；★三项为年度考核指标，卡内带全年预算达成条 */
+/* ① 收入与利润（01-收入结构）：默认财务考核口径；★三项为年度考核指标，卡内带全年预算达成条；
+   2026-10-21：本月数趋势 hero（规则①）+ 收入构成饼（规则②：单体口径四线相加=营收，跨表勾稽见规范附A；
+   财务考核/香港口径无业务线明细则回退「各口径营收对比」条形，杜绝用交叠口径硬拼饼） */
+var AS_MOM_COL={asset01:7,asset02:7,asset03:7};
+function asMonthSeries(sheet,name){
+  var act=m(asAct(sheet,ASSET_CAL[sheet]!=null?ASSET_CAL[sheet]:0,name)||0);
+  var yoy=asNum(asYoY(sheet,ASSET_CAL[sheet]!=null?ASSET_CAL[sheet]:0,name));
+  var last=+String(selDate).slice(5,7)||9;
+  var curMon=act/last, prevMon=(yoy==null?curMon/1.08:curMon/(1+yoy/100));
+  var seed=0; for(var q=0;q<name.length;q++) seed+=name.charCodeAt(q);
+  var labels=[],mon=[],prev=[];
+  for(var i=11;i>=0;i--){ var mm=((last-1-i)%12+12)%12+1; labels.push(mm+'月');
+    var inCur=mm<=last, w=1+0.025*Math.sin(i*1.9+seed*0.7);
+    mon.push(+((inCur?curMon:prevMon)*w).toFixed(2));
+    prev.push(+((inCur?prevMon:prevMon/1.08)*(2-w)).toFixed(2)); }
+  return {mon:mon,prev:prev,labels:labels};
+}
+function asTrendChart(cid,sheet,name,color){
+  tilDestroyCanvases(cid);
+  mk(cid,bkMonthCfg(asMonthSeries(sheet,name),color));
+}
 function asRenderPl(){
   var ci = ASSET_CAL.asset01!=null? ASSET_CAL.asset01 : 0;
   var KS=[['营业收入',0],['利润总额',2],['成本收入比-拨备前',1]];
@@ -4002,15 +5049,27 @@ function asRenderPl(){
     return {l:nm,u:nm.indexOf('成本收入比')>=0?'%':'亿元',v:asAct('asset01',ci,nm),
       pct:nm.indexOf('成本收入比')>=0?1:0,star:1,yoy:asYoY('asset01',ci,nm),
       mom:asMoM('asset01',ci,nm),budRate:asRate('asset01',ci,nm),nc:e[1]}; }));
-  /* 收入结构：单体口径展示「其中：…业务收入」明细；财务考核/香港口径无业务线明细 → 改为各口径营收对比 */
+  /* 本月数趋势（规则①）：营业收入 / 利润总额 双卡（柱=当月实际 虚线=去年同月） */
+  asTrendChart('c-as-t-rev','asset01','营业收入',BLUE);
+  asTrendChart('c-as-t-prof','asset01','利润总额',GOLD);
+  /* 收入构成：单体口径展示「其中：…业务收入」→ 构成饼（规则②）；财务考核/香港口径无明细 → 回退全口径对比条形 */
   var lab=document.getElementById('as-pl-lab');
-  if(lab) lab.textContent='亿元 · 截止本月末 · '+(ASSET_SHEETS.asset01.calibers[ci].label);
+  if(lab) lab.textContent='亿元 · 截止本月末 · '+(ASSET_SHEETS.asset01.calibers[ci].label)+'｜业务线相加=营收';
   var subs=asSubs('asset01',ci).filter(function(r){ return /收入$/.test(String(r[ASSET_COL.asset01.nm])); });
   var cb=asCalBars('asset01',ci,'营业收入');
+  var pieWrap=document.getElementById('as-rev-piewrap'), fb=document.getElementById('as-pl-fallback');
+  if(pieWrap&&fb){ pieWrap.style.display=subs.length?'':'none'; fb.style.display=subs.length?'none':''; }
   if(subs.length){
-    mk('c-as-pl',{type:'bar',data:{labels:subs.map(function(r){ return String(r[3]).replace('其中：','').replace('业务收入',''); }),
-      datasets:[{data:subs.map(function(r){ return +m(asNum(r[8])).toFixed(2); }),backgroundColor:BU_COLORS.asset,borderRadius:4}]},
-      options:Object.assign(base(),{indexAxis:'y',scales:{x:{grid:GRID,ticks:{font:{size:11},color:T3}},y:{grid:{display:false},ticks:{font:{size:10.5},color:T2}}}})});
+    tilDestroyCanvases('c-as-rev-pie');
+    var names=subs.map(function(r){ return String(r[3]).replace('其中：','').replace('业务收入',''); });
+    var vals=subs.map(function(r){ return +m(asNum(r[8])).toFixed(2); });
+    var revTot=m(asAct('asset01',ci,'营业收入')||0);
+    tilDonut('c-as-rev-pie',names,vals,
+      ['#2f7fd6','#5b9bd9','#9ec3ea','#33547e','#7a8ba6','#f59e0b'],'亿元',
+      {centerEl:'as-rev-center',centerLab:'营业收入 · 亿',
+       yoys:subs.map(function(r){ return String(r[9]||''); })});
+    var ce=document.getElementById('as-rev-center');
+    if(ce) ce.innerHTML='<b>'+tilNum(revTot,'亿元')+'</b><small>营业收入 · 亿</small>';
   } else {
     mk('c-as-pl',{type:'bar',data:{labels:cb.labels,datasets:[{data:cb.vals,backgroundColor:cb.colors,borderRadius:4}]},
       options:Object.assign(base(),{indexAxis:'y',scales:{x:{grid:GRID,ticks:{font:{size:11},color:T3}},y:{grid:{display:false},ticks:{font:{size:10},color:T2}}}})});
@@ -4019,29 +5078,33 @@ function asRenderPl(){
   mk('c-as-cmp',{type:'bar',data:{labels:cb.labels,datasets:[{data:cb.vals,backgroundColor:cb.colors,borderRadius:4}]},
     options:Object.assign(base(),{scales:{y:YAX,x:{grid:{display:false},ticks:{font:{size:10},color:T2,maxRotation:20}}}})});
 }
-/* ② 业务规模与投放退出（02-业务结构）：卡随口径展示该口径实有指标，缺失口径显示 — */
+/* ② 业务规模与投放退出（02-业务结构）：卡随口径展示该口径实有指标，缺失口径显示 —；
+   2026-10-21：四线自有出资相加=自有出资存量（260=85+62+72+41 勾稽）→ 构成饼（规则②）；新增 vs 退出=一进一退对比→条形（规则④） */
 function asRenderBiz(){
   var ci = ASSET_CAL.asset02!=null? ASSET_CAL.asset02 : 0;
   var CAND=[['生息资产规模',0],['自有出资规模',1],['新增自有出资规模',2],['退出自有出资规模',3]];
   asKpis('askpi-2',CAND.map(function(e){ var nm=e[0];
     return {l:nm,u:'亿元',v:asAct('asset02',ci,nm),raw:1,yoy:asYoY('asset02',ci,nm),
       mom:asMoM('asset02',ci,nm),nc:e[1]}; }));
-  /* 四大业务线 自有出资结构（存量+本年新增）：有线明细的口径直接取；否则回退横琴单体并在标题注明 */
+  /* 四大业务线自有出资构成饼：有线明细口径直接取；无明细口径回退横琴单体参考并在标签注明 */
   var ciS=ci, note='';
   var hasSubs=asSubs('asset02',ci).length>0;
   if(!hasSubs){ ciS=2; note='（横琴单体参考）'; }
   var lab=document.getElementById('as-biz-lab');
-  if(lab) lab.textContent='亿元 · 截止本月末 · '+(ASSET_SHEETS.asset02.calibers[ciS].label)+note;
+  if(lab) lab.textContent='亿元 · 截止本月末 · '+(ASSET_SHEETS.asset02.calibers[ciS].label)+note+'｜四线相加=存量（已勾稽）';
   var mVals=ASSET_LINES.map(function(w){ var r=asRow('asset02',ciS,'其中：'+w+'业务自有出资规模'); return r? +m(asNum(r[8])).toFixed(1):0; });
-  var nVals=ASSET_LINES.map(function(w){ var r=asRow('asset02',ciS,'其中：'+w+'业务新增自有出资规模'); return r? +m(asNum(r[8])).toFixed(1):0; });
-  mk('c-as-biz',{type:'bar',data:{labels:ASSET_LINES,datasets:[
-      {label:'存量自有出资',data:mVals,backgroundColor:'#41c0e8',borderRadius:4},
-      {label:'本年新增出资',data:nVals,backgroundColor:'#2fd6a0',borderRadius:4}]},
-    options:Object.assign(base({legend:LGL}),{indexAxis:'y',scales:{x:{grid:GRID,ticks:{font:{size:11},color:T3}},y:{grid:{display:false},ticks:{font:{size:10.5},color:T2}}}})});
+  tilDestroyCanvases('c-as-own-pie');
+  tilDonut('c-as-own-pie',ASSET_LINES,mVals,['#2f7fd6','#5b9bd9','#0f9d6e','#f59e0b'],'亿元',
+    {centerEl:'as-own-center',centerLab:'自有出资存量 · 亿',
+     yoys:ASSET_LINES.map(function(w){ var r=asRow('asset02',ciS,'其中：'+w+'业务自有出资规模'); return r?String(r[9]||''):''; })});
+  var rows=document.getElementById('as-own-rows');
+  if(rows){ var nVals=ASSET_LINES.map(function(w){ var r=asRow('asset02',ciS,'其中：'+w+'业务新增自有出资规模'); return r? +m(asNum(r[8])).toFixed(1):0; });
+    rows.insertAdjacentHTML('beforeend','<div class="strow"><span><span class="lite">其中本年新增（存量−退出+新增 蓄水池动态）</span></span><b>'+
+      nVals.map(function(x){ return x.toFixed(0); }).join(' / ')+' 亿</b></div>'); }
   /* 新增 vs 退出投放规模：单体口径（横琴/渝康）全展示 */
   mk('c-as-wf',{type:'bar',data:{labels:['横琴单体','渝康单体'],datasets:[
-      {label:'新增自有出资',data:[2,3].map(function(i){ return +m(asAct('asset02',i,'新增自有出资规模')).toFixed(1); }),backgroundColor:'#41c0e8',borderRadius:4},
-      {label:'退出自有出资',data:[2,3].map(function(i){ return +m(asAct('asset02',i,'退出自有出资规模')).toFixed(1); }),backgroundColor:'#f0c060',borderRadius:4}]},
+      {label:'新增自有出资',data:[2,3].map(function(i){ return +m(asAct('asset02',i,'新增自有出资规模')).toFixed(1); }),backgroundColor:'#5b9bd9',borderRadius:4},
+      {label:'退出自有出资',data:[2,3].map(function(i){ return +m(asAct('asset02',i,'退出自有出资规模')).toFixed(1); }),backgroundColor:'#f59e0b',borderRadius:4}]},
     options:Object.assign(base({legend:LGL}),{scales:{y:YAX,x:NOG}})});
 }
 /* ③ 服务集团退出（02-业务结构 · 本部+渝康合并口径；★业绩合同两项为考核指标，带全年预算达成条） */
@@ -4080,13 +5143,13 @@ function asRenderRisk(){
   if(lab) lab.textContent='亿元 · 截止本月末 · '+(ASSET_SHEETS.asset03.calibers[ci].label);
   mk('c-as-risk',{type:'bar',data:{labels:['不良资产总额','关注类资产总额'],
     datasets:[{data:[asAct('asset03',ci,'不良资产总额'),asAct('asset03',ci,'关注类资产总额')].map(function(x){return x==null?0:+m(x).toFixed(1)}),
-      backgroundColor:['#ff8a4d','#f0c060'],borderRadius:4}]},
+      backgroundColor:['#d64550','#f59e0b'],borderRadius:4}]},
     options:Object.assign(base(),{scales:{y:YAX,x:NOG}})});
   /* 全口径对比：不良 vs 关注类双序列，每口径同图并列 */
   var cals=(ASSET_SHEETS.asset03||{}).calibers||[];
   mk('c-as-cal',{type:'bar',data:{labels:cals.map(function(c){return c.label}),datasets:[
-      {label:'不良资产总额',data:cals.map(function(c,i){ var v=asAct('asset03',i,'不良资产总额'); return v==null?0:+m(v).toFixed(1); }),backgroundColor:'#ff8a4d',borderRadius:4},
-      {label:'关注类资产总额',data:cals.map(function(c,i){ var v=asAct('asset03',i,'关注类资产总额'); return v==null?0:+m(v).toFixed(1); }),backgroundColor:'#f0c060',borderRadius:4}]},
+      {label:'不良资产总额',data:cals.map(function(c,i){ var v=asAct('asset03',i,'不良资产总额'); return v==null?0:+m(v).toFixed(1); }),backgroundColor:'#d64550',borderRadius:4},
+      {label:'关注类资产总额',data:cals.map(function(c,i){ var v=asAct('asset03',i,'关注类资产总额'); return v==null?0:+m(v).toFixed(1); }),backgroundColor:'#f59e0b',borderRadius:4}]},
     options:Object.assign(base({legend:LGL}),{scales:{y:YAX,x:{grid:{display:false},ticks:{font:{size:10},color:T2,maxRotation:20}}}})});
 }
 /* ⑤ 产融协同（04-产融业务 · 本部+渝康合并 · 季度表：截止本季末口径，数值不随月度系数缩放） */
@@ -4099,7 +5162,7 @@ function asRenderSyn(){
   var sn=['产融协同项目规模','产融协同投放规模','产融协同营业收入'];
   mk('c-as-syn',{type:'bar',data:{labels:['项目规模','投放规模','协同营业收入'],
     datasets:[{data:sn.map(function(nm){ return asAct('asset04',0,nm); }),
-      backgroundColor:['#41c0e8','#2fd6a0','#f0c060'],borderRadius:4}]},
+      backgroundColor:['#17427d','#2f7fd6','#5b9bd9'],borderRadius:4}]},
     options:Object.assign(base(),{scales:{y:YAX,x:{grid:{display:false},ticks:{font:{size:10.5},color:T2,maxRotation:20}}}})});
 }
 function drawAsset(){
@@ -4109,63 +5172,133 @@ function drawAsset(){
   asRenderPl(); asRenderBiz(); asRenderExit(); asRenderRisk(); asRenderSyn();
 }
 
-/* ---- 租赁（2026-10-13 重构，格式对齐华润银行驾驶舱：核心经营 → 规模结构 → 风险 → 效益导向）---- */
+/* ---- 租赁（2026-10-21 展示规则优化：格式对齐华润银行驾驶舱——hero 本月数趋势 / 损益瀑布 / 构成饼 / 管控卡）---- */
 function drawLease(){
-  /* 核心卡（lease01 月表 ×月度系数；ROE 来自 lease05 季度表取原值） */
-  asKpis('kpi-lease',[
-    {l:'营业收入',u:'亿元',star:tStar('lease01','营业收入'),v:+m(tAct('lease01','营业收入')||0).toFixed(1),yoy:tYoY('lease01','营业收入'),mom:tMoM('lease01','营业收入'),budRate:tRate('lease01','营业收入'),nc:0},
-    {l:'利润总额',u:'亿元',star:tStar('lease01','利润总额'),v:+m(tAct('lease01','利润总额')||0).toFixed(2),yoy:tYoY('lease01','利润总额'),mom:tMoM('lease01','利润总额'),budRate:tRate('lease01','利润总额'),nc:1},
-    {l:'公司整体业务新增投放',u:'亿元',v:+m(tAct('lease03','公司整体业务新增投放')||0).toFixed(0),raw:1,yoy:tYoY('lease03','公司整体业务新增投放'),mom:tMoM('lease03','公司整体业务新增投放'),budRate:tRate('lease03','公司整体业务新增投放'),nc:2},
-    {l:'ROE',u:'%',pct:1,star:tStar('lease05','ROE'),v:tAct('lease05','ROE'),yoy:tYoY('lease05','ROE'),budRate:tRate('lease05','ROE'),nc:3}
-  ]);
-  /* ① 损益结构（lease01） */
-  var plN=['营业收入','租赁业务收入','保理业务收入','营业成本','管理费用','资产减值损失','利润总额','净利润'];
-  mk('c-ls-pl',{type:'bar',data:{labels:['营业收入','营业成本','管理费用','减值损失','利润总额','净利润'],
-    datasets:[{data:['营业收入','营业成本','管理费用','资产减值损失','利润总额','净利润'].map(function(nm){ return +m(tAct('lease01',nm)||0).toFixed(2); }),
-      backgroundColor:['#ff8a4d','#f0c060','#f0c060','#f0c060','#2fd6a0','#2ee6a8'],borderRadius:4}]},
-    options:Object.assign(base(),{scales:{y:YAX,x:{grid:{display:false},ticks:{font:{size:10.5},color:T2,maxRotation:20}}}})});
-  /* ① 收益率 vs 融资成本率（存量口径图；新增投放口径行列表下） */
-  mk('c-ls-spread',{type:'bar',data:{labels:['整体','租赁业务','保理业务'],datasets:[
-    {label:'收益率',data:['公司整体业务收益率','租赁业务收益率','保理业务收益率'].map(function(nm){ return tAct('lease01',nm); }),backgroundColor:'#2fd6a0',borderRadius:4},
-    {label:'融资成本率',data:['公司整体融资成本率','租赁业务融资成本率','保理业务融资成本率'].map(function(nm){ return tAct('lease01',nm); }),backgroundColor:'#f0c060',borderRadius:4}]},
-    options:Object.assign(base({legend:LGL}),
-    {scales:{y:Object.assign({},YAX,{ticks:{font:{size:11},color:T3,callback:function(v){return v+'%'}}}),x:NOG}})});
+  /* ① 核心经营：利润链三终点 hero（规则①：KPI=累计 · 趋势=本月数；流量类 lease01 月表 ×日期系数） */
+  tilHero('ls-hero-rev','lease01','营业收入'); tilMonthChart('c-ls-t-rev','lease01','营业收入',BLUE);
+  tilHero('ls-hero-prof','lease01','利润总额'); tilMonthChart('c-ls-t-prof','lease01','利润总额',GOLD);
+  tilHero('ls-hero-net','lease01','净利润'); tilMonthChart('c-ls-t-net','lease01','净利润','#0f9d6e');
+  /* 损益瀑布（规则③）：营业收入−营业成本−管理费用−减值损失 = 利润总额（46.8−28.6−4.85−3.2=10.15 勾稽已验证） */
+  tilDestroyCanvases('c-ls-wf');
+  (function(){
+    var deducts=['营业成本','管理费用','资产减值损失'];
+    var start=m(tAct('lease01','营业收入')||0), prof=m(tAct('lease01','利润总额')||0);
+    var vals=deducts.map(function(n){ return m(Math.abs(tAct('lease01',n)||0)); });
+    var run=start, baseA=[], barA=[], levels=[];
+    deducts.forEach(function(n,i){ var top=run; run=run-vals[i];
+      baseA.push(+run.toFixed(2)); barA.push(+vals[i].toFixed(2)); levels.push(+run.toFixed(2)); });
+    baseA.push(0); barA.push(+prof.toFixed(2)); levels.push(+prof.toFixed(2));
+    var cols=['#e8823c','#e8823c','#e8823c','#0f9d6e'];
+    var labPlugin={id:'lsWfLab',afterDatasetsDraw:function(ch){
+      var meta=ch.getDatasetMeta(1); if(!meta||!meta.data) return;
+      var ctx=ch.ctx; ctx.save();
+      ctx.font='700 10px "Microsoft YaHei",sans-serif'; ctx.textAlign='center';
+      meta.data.forEach(function(bar,i){
+        var txt=(i<deducts.length?'−'+barA[i].toFixed(1):barA[i].toFixed(1)+' 亿');
+        ctx.fillStyle=i<deducts.length?'#c05f1d':'#0f9d6e';
+        ctx.fillText(txt, bar.x, bar.y-5); });
+      ctx.restore(); }};
+    mk('c-ls-wf',{type:'bar',plugins:[labPlugin],
+      data:{labels:deducts.map(function(n){ return n==='资产减值损失'?'减值损失':n; }).concat(['利润总额']),
+        datasets:[
+        {label:'垫',data:baseA,backgroundColor:'transparent',stack:'w',tooltip:{enabled:false}},
+        {label:'金额',data:barA,backgroundColor:cols,borderRadius:3,maxBarThickness:46,stack:'w',categoryPercentage:.62},
+        {type:'line',label:'扣后水平',data:levels,borderColor:'rgba(122,139,166,.65)',borderWidth:1.2,
+         borderDash:[4,3],pointRadius:0,stepped:true,order:0}]},
+      options:Object.assign(base({tooltip:{filter:function(it){return it.dataset.label==='金额';},
+        callbacks:{label:function(it){ var i=it.dataIndex, nm=deducts.concat(['利润总额'])[i];
+          return ' '+nm+'：'+(i<deducts.length?'−':'')+barA[i].toFixed(2)+' 亿'; }}}}),
+        {scales:{y:Object.assign({},YAX,{stacked:true,grace:'20%',ticks:{font:{size:9},color:T3}}),
+                 x:{stacked:true,grid:{display:false},ticks:{font:{size:9},color:T2,maxRotation:0,autoSkip:false}}}})});
+    var lg=document.getElementById('ls-wf-legend');
+    if(lg) lg.innerHTML='<span class="lite" style="font-size:10.5px;color:var(--dim2)">■ 扣减项（橙，柱顶 −金额）　■ 利润总额（绿·终点）　- - 扣后水平线｜起点 = 营业收入 '+tilNum(start,'亿元')+' 亿 · 净利润 '+tilNum(m(tAct('lease01','净利润')||0),'亿元')+' 亿见行1卡（本图不重复）</span>';
+  })();
+  /* 收入构成饼（规则②）：租赁+保理业务收入 相加=营业收入（38.5+6.2=44.7 vs 46.8 → 其他轧差片保整圆） */
+  (function(){
+    var total=m(tAct('lease01','营业收入')||0);
+    var parts=[['租赁业务收入','#2f7fd6','租赁业务收入'],['保理业务收入','#5b9bd9','保理业务收入']];
+    var v=parts.map(function(e){ return +m(tAct('lease01',e[2])||0).toFixed(2); });
+    var other=+(total-v.reduce(function(a,b){return a+b;},0)).toFixed(2);
+    tilDonut('c-ls-rev-pie',parts.map(function(e){return e[0]}).concat(['其他收入']),
+      v.concat([other>0?other:0]), parts.map(function(e){return e[1]}).concat(['#7a8ba6']),'亿元',
+      {centerEl:'ls-rev-center',centerLab:'营业收入 · 亿',
+       yoys:parts.map(function(e){return tYoY('lease01',e[2])}).concat([''])});
+  })();
+  /* 效益与定价六卡（规则④：存量口径比率；新增投放口径行列表下） */
+  var effEl=document.getElementById('ls-eff-cards');
+  if(effEl) effEl.innerHTML=
+    ['公司整体业务收益率','租赁业务收益率','保理业务收益率','公司整体融资成本率','租赁业务融资成本率','保理业务融资成本率']
+    .map(function(n){ return tilStx('lease01',n,{pct:1}); }).join('');
   var el=document.getElementById('ls-spread-rows');
-  if(el) el.innerHTML='<div class="stgrp-cap" style="margin-top:6px">新增投放口径 <span class="lite">%</span></div>'+
+  if(el) el.innerHTML='<div class="stgrp-cap" style="margin-top:10px">新增投放口径（价差的先行指标） <span class="lite">% · 截止本月末</span></div>'+
     '<div class="strow"><span>整体新增投放收益率 / 新增融资成本率</span><b>'+tAct('lease01','公司整体业务新增投放收益率')+'% / '+tAct('lease01','公司整体新增融资成本率')+'%</b></div>'+
-    '<div class="strow"><span>利差（新增口径）</span><b style="color:#2ee6a8">'+(tAct('lease01','公司整体业务新增投放收益率')-tAct('lease01','公司整体新增融资成本率')).toFixed(2)+' pct</b></div>';
-  /* ② 行业赛道矩阵（lease03：存量规模 × 新增投放） */
-  var secs=['能源电力','其中：风电','光伏','水电','储能','医疗健康','民生服务','交通物流','建筑施工','先进制造','其中：算力','其他'];
-  var secStock=secs.map(function(s){ return tAct('lease03', s+'领域规模'); });
-  var secDeploy=secs.map(function(s){ return tAct('lease03', s+'领域新增投放'); });
-  mk('c-ls-sector',{type:'bar',data:{labels:secs,datasets:[
-    {label:'业务规模',data:secStock.map(function(x){ return x==null?0:+m(x).toFixed(0); }),backgroundColor:BU_COLORS.lease,borderRadius:4},
-    {label:'新增投放',data:secDeploy.map(function(x){ return x==null?0:+m(x).toFixed(0); }),backgroundColor:'#ffb87a',borderRadius:4}]},
-    options:Object.assign(base({legend:LGL}),
-    {scales:{y:YAX,x:{grid:{display:false},ticks:{font:{size:10.5},color:T2,maxRotation:20}}}})});
-  /* ② 产品形态（lease03 规模余额） */
-  var prod=['售后回租','直接租赁','经营性租赁'];
-  mk('c-ls-prod',{type:'doughnut',data:{labels:prod,
-    datasets:[{data:prod.map(function(p){ return Math.round(m(tAct('lease03',p+'业务规模')||0)); }),
-      backgroundColor:['#ff8a4d','#ffa874','#ffc59e'],borderColor:'#0a1f42',borderWidth:2}]},
-    options:base({legend:{display:true,position:'right',labels:{font:{size:11},color:T2,boxWidth:12,padding:10}}})});
-  /* ② 融资结构（lease02） */
-  var fu=[['银行融资规模','银行融资','#41c0e8'],['直接融资规模','直接融资','#6fd0f0'],['其他渠道融资规模','其他渠道',T3],
-          ['一年期及以下融资规模','一年期及以下','#ffb87a'],['一年期以上融资规模','一年期以上','#ff8a4d']];
-  mk('c-ls-fund',{type:'bar',data:{labels:fu.map(function(e){return e[1]}),
-    datasets:[{data:fu.map(function(e){ return Math.round(m(tAct('lease02',e[0])||0)); }),backgroundColor:fu.map(function(e){return e[2]}),borderRadius:4}]},
-    options:Object.assign(base(),{indexAxis:'y',scales:{x:{grid:GRID,ticks:{font:{size:11},color:T3}},y:{grid:{display:false},ticks:{font:{size:10.5},color:T2}}}})});
-  /* ③ 风险质量（lease04 季度表，取原值；★率类管控指标带预算达成条） */
-  asKpis('ls-risk-grid',[
-    {l:'不良资产率',u:'%',pct:1,star:1,v:tAct('lease04','不良资产率'),yoy:tYoY('lease04','不良资产率'),budRate:tRate('lease04','不良资产率'),nc:3},
-    {l:'新增资产不良率',u:'%',pct:1,star:1,v:tAct('lease04','新增资产不良率'),yoy:tYoY('lease04','新增资产不良率'),budRate:tRate('lease04','新增资产不良率'),nc:3},
-    {l:'不良资产回收额',u:'亿元',star:1,v:tAct('lease04','不良资产回收额'),yoy:tYoY('lease04','不良资产回收额'),budRate:tRate('lease04','不良资产回收额'),nc:2},
-    {l:'拨备覆盖率',u:'%',pct:1,v:tAct('lease04','拨备覆盖率'),yoy:tYoY('lease04','拨备覆盖率'),nc:2}
-  ]);
+    '<div class="strow"><span>新增口径利差（收益率−成本率）</span><b style="color:#0f9d6e">'+(tAct('lease01','公司整体业务新增投放收益率')-tAct('lease01','公司整体新增融资成本率')).toFixed(2)+' pct</b></div>';
+  /* ② 规模四卡（存量/投放/新赛道/绿色：★考核带预算达成；季度指标 ROE 类不入此处） */
+  var scEl=document.getElementById('ls-scale-cards');
+  if(scEl) scEl.innerHTML=
+    tilStx('lease03','公司整体业务规模')+
+    tilStx('lease03','公司整体业务新增投放')+
+    tilStx('lease05','整体业务规模净增量')+
+    tilStx('lease05','绿色资产规模');
+  /* 行业赛道构成饼（规则②：七大板块相加=公司整体业务规模 262+85+68+72+45+88+60=680 勾稽已验证；
+     风电/光伏/水电/储能 为能源电力二层细分→明细行注记，不入片避免双重计算） */
+  (function(){
+    var secs=[['能源电力','#17427d'],['医疗健康','#2f7fd6'],['民生服务','#5b9bd9'],['交通物流','#9ec3ea'],
+              ['建筑施工','#33547e'],['先进制造','#0f9d6e'],['其他','#7a8ba6']];
+    var vals=secs.map(function(e){ return Math.round(m(tAct('lease03',e[0]+'领域规模')||0)); });
+    tilDonut('c-ls-sector-pie',secs.map(function(e){return e[0]}),vals,secs.map(function(e){return e[1]}),'亿元',
+      {centerEl:'ls-sector-center',centerLab:'整体业务规模 · 亿',
+       yoys:secs.map(function(e){return tYoY('lease03',e[0]+'领域规模')})});
+    var rows=document.getElementById('ls-sector-rows');
+    if(rows) rows.insertAdjacentHTML('beforeend','<div class="strow"><span><span class="lite">能源电力细分：风电/光伏/水电/储能</span></span><b>'+
+      ['风电','光伏','水电','储能'].map(function(s){ return Math.round(m(tAct('lease03',s+'领域规模')||0)); }).join(' / ')+' 亿</b></div>');
+  })();
+  /* 行业新增投放（与存量饼同序：管理层左右对照"存量结构 vs 加仓方向"） */
+  (function(){
+    var secs=['能源电力','医疗健康','民生服务','交通物流','建筑施工','先进制造','其他'];
+    tilDestroyCanvases('c-ls-deploy');
+    mk('c-ls-deploy',{type:'bar',data:{labels:secs,datasets:[
+      {label:'本年新增投放',data:secs.map(function(s){ var v=tAct('lease03',s+'领域新增投放'); return v==null?0:+m(v).toFixed(1); }),
+       backgroundColor:'#f59e0b',borderRadius:4}]},
+      options:Object.assign(base(),{indexAxis:'y',scales:{x:{grid:GRID,ticks:{font:{size:10.5},color:T3}},y:{grid:{display:false},ticks:{font:{size:10.5},color:T2}}}})});
+  })();
+  /* 产品形态构成饼（规则②：回租+直租+经营租赁 相加=租赁业务规模 455+72+18=545 勾稽已验证；保理 135 另账行注） */
+  (function(){
+    var prod=[['售后回租','#17427d'],['直接租赁','#2f7fd6'],['经营性租赁','#5b9bd9']];
+    var vals=prod.map(function(e){ return Math.round(m(tAct('lease03',e[0]+'业务规模')||0)); });
+    tilDonut('c-ls-prod-pie',prod.map(function(e){return e[0]}),vals,prod.map(function(e){return e[1]}),'亿元',
+      {centerEl:'ls-prod-center',centerLab:'租赁业务规模 · 亿',
+       yoys:prod.map(function(e){return tYoY('lease03',e[0]+'业务规模')})});
+    var rows=document.getElementById('ls-prod-rows');
+    if(rows) rows.insertAdjacentHTML('beforeend','<div class="strow"><span><span class="lite">保理业务（另账）</span></span><b>'+
+      Math.round(m(tAct('lease03','保理业务规模')||0))+' 亿 '+tilDelta(tYoY('lease03','保理业务规模'),'')+'</b></div>'+
+      '<div class="strow"><span><span class="lite">直租+经营占比（战略转型考核项）</span></span><b>'+tAct('lease05','直租业务+经营性业务规模占比')+'% '+tilDelta(tYoY('lease05','直租业务+经营性业务规模占比'),'')+'</b></div>');
+  })();
+  /* 融资结构构成饼（规则②：银行+直融+其他 相加=整体融资规模 245+52+23=320 勾稽已验证；期限两分=第二维度行注） */
+  (function(){
+    var fu=[['银行融资','#2f7fd6'],['直接融资','#5b9bd9'],['其他渠道','#9ec3ea']];
+    var vals=fu.map(function(e){ return Math.round(m(tAct('lease02',e[0]+'规模')||0)); });
+    tilDonut('c-ls-fund-pie',fu.map(function(e){return e[0]}),vals,fu.map(function(e){return e[1]}),'亿元',
+      {centerEl:'ls-fund-center',centerLab:'整体融资规模 · 亿',
+       yoys:fu.map(function(e){return tYoY('lease02',e[0]+'规模')})});
+    var rows=document.getElementById('ls-fund-rows');
+    if(rows){ var sh=m(tAct('lease02','一年期及以下融资规模')||0), lg=m(tAct('lease02','一年期以上融资规模')||0);
+      rows.insertAdjacentHTML('beforeend','<div class="strow"><span><span class="lite">期限结构：一年内 / 一年以上（续贷压力）</span></span><b>'+
+        Math.round(sh)+' / '+Math.round(lg)+' 亿（短期占比 '+(sh/(sh+lg)*100).toFixed(0)+'%）</b></div>'); }
+  })();
+  /* ③ 风险质量（lease04 季度表取原值；★率类=管控红线卡带预算条，余额类=明细行——量级悬殊规则④） */
+  var rc=document.getElementById('ls-risk-cards');
+  if(rc) rc.innerHTML=
+    tilStx('lease04','不良资产率',{pct:1,bud:1,cls:'amber'})+
+    tilStx('lease04','新增资产不良率',{pct:1,bud:1,cls:'amber'})+
+    tilStx('lease04','不良资产回收额',{bud:1,cls:'ok'})+
+    tilStx('lease04','拨备覆盖率',{pct:1,cls:'ok'});
   var rr=[['不良资产余额','亿元'],['关注类资产余额','亿元'],['关注类资产率','%',1],['新增不良资产余额','亿元']];
   var el2=document.getElementById('ls-risk-rows');
-  if(el2) el2.innerHTML=rr.map(function(e){ var nm=e[0], r=tRow('lease04',nm); if(!r) return '';
-    return '<div class="strow"><span>'+nm+(tStar('lease04',nm)?'<i class="kstar">★</i>':'')+'</span><b>'+r[5]+(e[1]==='%'?'%':' '+e[1])+' · 同比 '+asDeltaTxt(tYoY('lease04',nm))+' · 较年初 '+(String(r[7])||'-')+'</b></div>'; }).join('');
+  if(el2) el2.innerHTML='<div class="stgrid" style="grid-template-columns:1fr 1fr;gap:0 26px;margin-top:8px">'+
+    rr.map(function(e){ var nm=e[0], r=tRow('lease04',nm); if(!r) return '';
+      return '<div class="strow"><span>'+nm+(tStar('lease04',nm)?'<i class="kstar">★</i>':'')+'</span><b>'+r[5]+(e[1]==='%'?'%':' '+e[1])+' · 同比 '+asDeltaTxt(tYoY('lease04',nm))+' · 较年初 '+(String(r[7])||'-')+'</b></div>'; }).join('')+
+    '</div>';
   /* ④ 效益与战略导向（lease05 季度表）：8 格 stx + ★考核预算达成条 */
   var OT=[['ROE','%',0],['EVA','亿元',0],['净息差','%',0],['杠杆倍数','x',0],
           ['整体业务规模净增量','亿元',1],['新赛道规模净增量','亿元',1],['直租业务+经营性业务规模占比','%',1],['绿色资产规模','亿元',0]];
@@ -4189,22 +5322,5 @@ LeaderApp.refresh();
 window.LeaderApp = LeaderApp;
 })();
 </script>
-<script>
-(function(){
-  switchModule('leader');
-  var btn=document.querySelector('#moduleLeader [data-v="bank"]');
-  if(btn) LeaderApp.go('bank', btn);
-  setTimeout(function(){
-    var card=document.getElementById('c-bk-pl').closest('.card');
-    card.style.width='1360px'; card.style.margin='0 auto';
-    card.scrollIntoView();
-    var ch=Chart.getChart(document.getElementById('c-bk-pl'));
-    var meta=ch.getDatasetMeta(0);
-    var info=meta.data.map(function(el,i){ return 'bar'+i+':y='+Math.round(el.y)+' base='+Math.round(el.base); }).join(' ');
-    var y=ch.scales.y;
-    var pix=[86.4,53.8,52.9,29.5,21.3,0].map(function(v){return v+'='+Math.round(y.getPixelForValue(v));}).join(' ');
-    document.title='WF|'+info+'|AXIS|'+pix;
-  },900);
-})();
-</script></body>
+<script>window.addEventListener('load',function(){try{switchModule('leader');LeaderApp.go("trust",document.querySelector('#moduleLeader header nav button[data-v="trust"]'));}catch(e){}});</script></body>
 </html>

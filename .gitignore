@@ -3,3 +3,5 @@ node_modules/
 .DS_Store
 *.bak
 *.bak_*
+
+_ch10/
