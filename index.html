@@ -1078,31 +1078,36 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #bk-asset-rows .strow b.cols3 .c-y,#moduleLeader #bk-debt-rows .strow b.cols3 .c-y{width:84px}
 #moduleLeader #bk-asset-rows .strow b.cols3 .c-y .lb,#moduleLeader #bk-debt-rows .strow b.cols3 .c-y .lb{width:24px}
 #moduleLeader #bk-asset-rows .strow b.cols3 .c-p,#moduleLeader #bk-debt-rows .strow b.cols3 .c-p{width:70px}
-/* 条线三卡（公司/零售/金市）：名称固定列 + 值/同比/第三变动列；金市国债行四列（值/较月初/同比/较年初） */
-#moduleLeader #bk-corp .strow,#moduleLeader #bk-retail .strow,#moduleLeader #bk-chan .strow{justify-content:flex-start;gap:8px}
+/* 条线三卡（公司/零售/金市）：名称 + 数值 + 【同比列】+【较年初/较上年/较月初列】
+   2026-11-03 按需求（第三轮）：右侧两块对比列改回【固定列宽】实现纵向对齐——
+   同一卡内所有行的「同比」同列起止、「较年初/较上年/较月初」同列起止；
+   标签列（.lb）固定宽+左对齐，涨跌值紧随其后，值列右缘因列宽固定天然成线；
+   整行 flex-wrap:nowrap 单行硬约束；右侧信息不再贴右缘（margin-left:auto 已撤，
+   行从左顺排、空白留行尾=整体左移）；列宽按 1366 行宽 390 预算：
+   name≤132 + val76 + c-y78 + c-q82 + gap6×3 = 376 ≤ 390（1500 屏行宽 420 更裕） */
+#moduleLeader #bk-corp .strow,#moduleLeader #bk-retail .strow,#moduleLeader #bk-chan .strow{justify-content:flex-start;gap:6px;flex-wrap:nowrap}
+/* 2026-11-03 第三轮：名称列【固定宽】（=该卡最长名+呼吸位）——弹性名称会随各行名宽
+   推移右侧列（无法纵向对齐），固定后 同比列/第三变动列跨行起止严格成线 */
 #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 0 140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* 2026-10-31 按需求：条线卡指标名称不折行——corp/retail 名称列 140px（容纳缩进全角前缀名），chan 92px */
-#moduleLeader #bk-chan .strow>span:first-child{flex:0 0 92px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v{width:92px;min-width:max-content}
-#moduleLeader #bk-chan .strow b.cols3 .c-v{min-width:max-content}
-#moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-y{width:82px;margin-left:8px}
-#moduleLeader #bk-corp .strow b.cols3 .c-y .lb,#moduleLeader #bk-retail .strow b.cols3 .c-y .lb{width:24px}
-#moduleLeader #bk-corp .strow b.cols3 .c-p,#moduleLeader #bk-retail .strow b.cols3 .c-p{width:84px;margin-left:8px}
-#moduleLeader #bk-corp .strow b.cols3 .c-p .lb,#moduleLeader #bk-retail .strow b.cols3 .c-p .lb{width:32px}
-/* 金市条线：国债行含 4 个变动列（值/较月初/同比/较年初）最挤——名称列与值列收窄、
-   涨跌小注字号降 9.5px，4 列不溢出卡片；台账 3 列行同列宽对齐 */
-#moduleLeader #bk-chan .strow{gap:6px}
-/* （旧 chan 名称列规则由 2026-10-31 nowrap 版接管） */
-#moduleLeader #bk-chan .strow b.cols3 .c-v{width:82px}
-#moduleLeader #bk-chan .strow b.cols3 .c-y{width:74px;margin-left:6px}
-#moduleLeader #bk-chan .strow b.cols3 .c-y .lb{width:22px}
-#moduleLeader #bk-chan .strow b.cols3 .c-p{width:76px;margin-left:6px}
-#moduleLeader #bk-chan .strow b.cols3 .c-p .lb{width:24px}
-#moduleLeader #bk-chan .strow b.cols3 .c-q{width:78px;margin-left:6px}
-#moduleLeader #bk-chan .strow b.cols3 .c-q .lb{width:30px}
-#moduleLeader #bk-chan .strow b.cols3 .c-y i.yoy,
-#moduleLeader #bk-chan .strow b.cols3 .c-q i.yoy,
-#moduleLeader #bk-chan .strow b.cols3 .c-p .pv{font-size:9.5px}
+#moduleLeader #bk-chan .strow>span:first-child{flex:0 0 82px;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#moduleLeader #bk-corp .strow b.cols3,#moduleLeader #bk-retail .strow b.cols3,#moduleLeader #bk-chan .strow b.cols3{flex:0 0 auto}
+#moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v{flex:none;width:92px;text-align:right;font-variant-numeric:tabular-nums}
+#moduleLeader #bk-chan .strow b.cols3 .c-v{flex:none;width:88px;text-align:right;font-variant-numeric:tabular-nums;font-size:10px}
+/* 两块对比列【固定宽 + 内部固定宽标签】→ 跨行纵向严格对齐（标签起止、值左缘、值右缘三对齐）；
+   列间 6px 呼吸位以 padding-left 计入固定宽（同比列 lb 20px=「同比」2字，第三列 lb 30px=3字标签）
+   预算（1500+ 行宽 420）：corp 138+84+80+88=390 / retail 118+89+80+88=375 /
+   金市台账 96+89+80+88=353 / 国债4列 85+66+88+80+88=407 ✓（值列 max-content 撑极值行仍≤420） */
+#moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-y,#moduleLeader #bk-chan .strow b.cols3 .c-y{flex:none;width:80px;padding-left:6px;margin-left:0;white-space:nowrap;display:inline-flex;align-items:center}
+#moduleLeader #bk-corp .strow b.cols3 .c-q,#moduleLeader #bk-retail .strow b.cols3 .c-q,#moduleLeader #bk-chan .strow b.cols3 .c-q{flex:none;width:88px;padding-left:6px;margin-left:0;white-space:nowrap;display:inline-flex;align-items:center}
+#moduleLeader #bk-chan .strow b.cols3 .c-y{width:76px}
+#moduleLeader #bk-chan .strow b.cols3 .c-q{width:80px}
+ #moduleLeader #bk-chan .strow b.cols3 .c-p{flex:none;width:82px;padding-left:4px;margin-left:0;white-space:nowrap;display:inline-flex;align-items:center}
+#moduleLeader #bk-corp .strow b.cols3 .c-y .lb,#moduleLeader #bk-retail .strow b.cols3 .c-y .lb,#moduleLeader #bk-chan .strow b.cols3 .c-y .lb{flex:none;width:20px;margin-right:2px;font-size:10px}
+#moduleLeader #bk-corp .strow b.cols3 .c-q .lb,#moduleLeader #bk-retail .strow b.cols3 .c-q .lb{flex:none;width:30px;margin-right:2px;font-size:10px}
+#moduleLeader #bk-chan .strow b.cols3 .c-q .lb{flex:none;width:28px;margin-right:2px;font-size:10px}
+#moduleLeader #bk-chan .strow b.cols3 .c-p .lb{flex:none;width:24px;margin-right:2px;font-size:10px}
+#moduleLeader #bk-corp .strow b.cols3 i.yoy,#moduleLeader #bk-retail .strow b.cols3 i.yoy,#moduleLeader #bk-chan .strow b.cols3 i.yoy,
+#moduleLeader #bk-corp .strow b.cols3 .pv,#moduleLeader #bk-retail .strow b.cols3 .pv,#moduleLeader #bk-chan .strow b.cols3 .pv{flex:none;width:auto;font-size:10.5px}
 /* 资产负债构成（2026-10-29 按需求）：「其中」行 + 右侧数值/同比/占三段固定宽列，上下行纵向对齐 */
 #moduleLeader .bs-qz{font-size:12px;color:#51678a;letter-spacing:2px;margin:2px 0 2px}
 /* 双环饼口径说明（条线营收构成）：饼图正下方居中浅灰小注 */
@@ -1123,11 +1128,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   #moduleLeader #bk-dep-rows .strow b.cols3 .c-v,#moduleLeader #bk-loan-rows .strow b.cols3 .c-v{width:70px;min-width:max-content}
   #moduleLeader #bk-line-rows .strow>span:first-child{flex:0 0 56px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-v{width:64px;min-width:max-content}
-  #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 0 130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  #moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v{width:78px}
-  #moduleLeader #bk-chan .strow>span:first-child{flex:0 0 84px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  #moduleLeader #bk-chan .strow b.cols3 .c-v{width:56px;min-width:max-content}
-  #moduleLeader #bk-chan .strow b.cols3 .c-y,#moduleLeader #bk-chan .strow b.cols3 .c-p,#moduleLeader #bk-chan .strow b.cols3 .c-q{width:66px}
+  /* 条线三卡列宽 2026-11-03 第三轮起由下方块统一管理（此处旧写死 78/56/66px 覆写已删——
+     与固定宽对齐列冲突且源序在后会破坏纵向对齐） */
 
   /* ① 换行兜底：行整体、cols3 内部均可折行（行高自适应） */
   #moduleLeader .strow{flex-wrap:wrap}
@@ -1146,6 +1148,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   /* 存/贷款结构（右栏窄卡）：单行明细横向有余量，禁换行避免纵向膨胀被固定卡高裁切；
      饼列收窄至 118px 给明细腾位，占比列可收缩(min-width:0)彻底防横向撑爆 */
   #moduleLeader .dep-loan-wrap.donutwrap{grid-template-columns:118px minmax(0,1fr)}
+  @media(max-width:1310px){#moduleLeader .dep-loan-wrap.donutwrap{grid-template-columns:112px minmax(0,1fr)}}
   #moduleLeader #bk-dep-rows .strow,#moduleLeader #bk-loan-rows .strow{flex-wrap:nowrap;padding:4px 2px}
   #moduleLeader #bk-dep-rows .strow b.cols3,#moduleLeader #bk-loan-rows .strow b.cols3{flex-wrap:nowrap;min-width:0}
   #moduleLeader #bk-dep-rows .strow>span:first-child,#moduleLeader #bk-loan-rows .strow>span:first-child{flex:0 0 48px}
@@ -1164,22 +1167,53 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-v{width:70px}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-y{width:84px}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-p{width:58px}
-  /* 条线三卡（公司/零售 3列、金市 4列最挤） */
-  #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 0 96px}
-  #moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v{width:80px}
-  #moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-y{width:80px}
-  #moduleLeader #bk-corp .strow b.cols3 .c-p,#moduleLeader #bk-retail .strow b.cols3 .c-p{width:80px}
-  /* 金市 4 列最挤（值/较月初/同比/较年初）：窄屏整体降半档字号+列宽精调，
-     名称60+值78+变动列3×(5+72)+标签微缩 ≤ 1366 行宽 396，贴边 6px 不溢出 */
-  #moduleLeader #bk-chan .strow{gap:5px}
-  #moduleLeader #bk-chan .strow>span:first-child{flex:0 0 60px}
-  #moduleLeader #bk-chan .strow b.cols3 .c-v{width:78px;font-size:11px}
-  #moduleLeader #bk-chan .strow b.cols3 .lb{font-size:10px}
-  #moduleLeader #bk-chan .strow b.cols3 .c-y,#moduleLeader #bk-chan .strow b.cols3 .c-p{width:72px;margin-left:5px}
-  #moduleLeader #bk-chan .strow b.cols3 .c-q{width:72px;margin-left:5px}
-  #moduleLeader #bk-chan .strow b.cols3 .c-y i.yoy,
-  #moduleLeader #bk-chan .strow b.cols3 .c-q i.yoy,
-  #moduleLeader #bk-chan .strow b.cols3 .c-p .pv{font-size:9px}
+  /* 条线三卡（2026-11-03 按需求·第三轮：对比列固定宽纵向对齐）：窄屏预算
+     3列行：name≤138 + 6 + val(80≥max76) + c-y 68 + c-q 72 = 376 ≤ 390 ✓
+     金市国债 4 列行：name85 + 6 + val 52 + c-p 68 + c-y 68 + c-q 68 = 347 ✓ */
+  /* 窄屏（1366 行宽 390）预算：lb 标签 9px、值 9.5px、列内距 4px——
+     同比列 68=4+18+2+44 / 第三列 78=4+27+2+45；名称固定弹性 cap：
+     corp 138+80+68+78=364 / retail 118+84+68+78=348 / 金市台账 96+84+68+78=326 /
+     国债 4 列 85+60+78+68+78=369 ✓（max-content 撑极值行仍≤390） */
+  #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 0 138px;font-size:12px}
+  #moduleLeader #bk-chan .strow{gap:2px}
+  #moduleLeader #bk-chan .strow>span:first-child{flex:0 0 76px;font-size:11px}
+  #moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v{width:90px}
+  #moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-y,#moduleLeader #bk-chan .strow b.cols3 .c-y{width:72px;padding-left:4px}
+  #moduleLeader #bk-corp .strow b.cols3 .c-q,#moduleLeader #bk-retail .strow b.cols3 .c-q,#moduleLeader #bk-chan .strow b.cols3 .c-q{width:78px;padding-left:4px}
+  #moduleLeader #bk-chan .strow b.cols3 .c-v{width:82px;font-size:9.5px}
+  #moduleLeader #bk-chan .strow b.cols3 .c-q{width:70px;padding-left:3px}
+  #moduleLeader #bk-chan .strow b.cols3 .c-y{width:68px;padding-left:3px}
+  #moduleLeader #bk-chan .strow b.cols3 .c-p{width:68px;padding-left:3px}
+  #moduleLeader #bk-chan .strow b.cols3 .c-q .lb{width:25px}
+  #moduleLeader #bk-chan .strow b.cols3 .c-p .lb{width:22px}
+  #moduleLeader #bk-corp .strow b.cols3 .c-y .lb,#moduleLeader #bk-retail .strow b.cols3 .c-y .lb,#moduleLeader #bk-chan .strow b.cols3 .c-y .lb{width:18px}
+  #moduleLeader #bk-corp .strow b.cols3 .c-q .lb,#moduleLeader #bk-retail .strow b.cols3 .c-q .lb,#moduleLeader #bk-chan .strow b.cols3 .c-q .lb,
+  #moduleLeader #bk-chan .strow b.cols3 .c-p .lb{width:27px}
+  #moduleLeader #bk-corp .strow b.cols3 .lb,#moduleLeader #bk-retail .strow b.cols3 .lb,#moduleLeader #bk-chan .strow b.cols3 .lb{font-size:9px;margin-right:2px}
+  #moduleLeader #bk-corp .strow b.cols3 i.yoy,#moduleLeader #bk-retail .strow b.cols3 i.yoy,#moduleLeader #bk-chan .strow b.cols3 i.yoy,
+  #moduleLeader #bk-corp .strow b.cols3 .pv,#moduleLeader #bk-retail .strow b.cols3 .pv,#moduleLeader #bk-chan .strow b.cols3 .pv{font-size:9.5px}
+  /* ≤1310 极窄屏：金市/公司/零售卡比 1366 再窄约 29px——数值列去 max-content 固定+超小字，
+     变动列等宽 66、名称列长则省略号兜底（绝不折行），合计入卡宽。1280 实测 5 卡出血清零 */
+  @media(max-width:1310px){
+    #moduleLeader #bk-corp .strow,#moduleLeader #bk-retail .strow,#moduleLeader #bk-chan .strow{gap:4px}
+    #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 0 120px;font-size:11.5px}
+    #moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v{width:74px;font-size:10.5px}
+    #moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-corp .strow b.cols3 .c-q,
+    #moduleLeader #bk-retail .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-q{width:66px;padding-left:3px}
+    #moduleLeader #bk-chan .strow>span:first-child{flex:0 0 70px;font-size:10.5px}
+    #moduleLeader #bk-chan .strow b.cols3 .c-v{width:60px;font-size:9px}
+    #moduleLeader #bk-chan .strow b.cols3 .c-y{width:66px;padding-left:3px}
+    #moduleLeader #bk-chan .strow b.cols3 .c-q{width:70px;padding-left:3px}
+    #moduleLeader #bk-chan .strow b.cols3 .c-p{width:70px;padding-left:3px}
+    #moduleLeader #bk-chan .strow b.cols3 .c-y .lb{width:17px}
+    #moduleLeader #bk-chan .strow b.cols3 .c-q .lb,#moduleLeader #bk-chan .strow b.cols3 .c-p .lb{width:21px}
+    #moduleLeader #bk-chan .strow b.cols3 .lb{font-size:9px}
+    #moduleLeader #bk-chan .strow b.cols3 i.yoy,#moduleLeader #bk-chan .strow b.cols3 .pv{font-size:9px}
+    #moduleLeader #bk-corp .strow b.cols3 .c-y .lb,#moduleLeader #bk-retail .strow b.cols3 .c-y .lb{width:17px}
+    #moduleLeader #bk-corp .strow b.cols3 .c-q .lb,#moduleLeader #bk-retail .strow b.cols3 .c-q .lb{width:24px}
+    /* 存/贷款结构卡 1280 出血 2px：值列微收 */
+    #moduleLeader #bk-dep-rows .strow b.cols3 .c-v,#moduleLeader #bk-loan-rows .strow b.cols3 .c-v{width:78px}
+  }
 }
 #moduleLeader .strow.bs-row b.bs-cols{display:flex;align-items:baseline;gap:0;white-space:nowrap;font-weight:800}
 #moduleLeader .strow.bs-row .c-v{flex:none;width:88px;text-align:right;font-style:normal;font-weight:800;color:#17427d;font-variant-numeric:tabular-nums}
@@ -1195,9 +1229,9 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #bk-rev-rows .strow>b,#moduleLeader #bk-wf-rows .strow>b,
 #moduleLeader #bk-asset-rows .strow>b,#moduleLeader #bk-debt-rows .strow>b,
 #moduleLeader #bk-dep-rows .strow>b,#moduleLeader #bk-loan-rows .strow>b,
-#moduleLeader #bk-line-rows .strow>b,
-#moduleLeader #bk-corp .strow>b,#moduleLeader #bk-retail .strow>b,
-#moduleLeader #bk-chan .strow>b{margin-left:auto}
+#moduleLeader #bk-line-rows .strow>b{margin-left:auto}
+/* 2026-11-03 按需求（条线三卡右侧信息左移、对比列纵向对齐）：三卡退出贴右推挤队列——
+   行内容按固定列宽从左顺排，剩余空白留在行尾（右侧信息整体左移、不再贴边） */
 /* 2026-10-31 按需求：贴边幅度微调——行【容器】外扩吃满卡片内距（.cbd 15px→容器右移9px、
    .bs-halves>div 16px→10px），行自然填满新宽——虚线分隔与数值组距卡片边框均 6px（目标 4~8px），
    负 margin 加在容器而非行上，行宽=容器宽不产生溢出；容器 min-width:0 防 flex/grid 挤爆 */
@@ -1215,11 +1249,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #bk-line-rows .strow,
 #moduleLeader #bk-corp .strow,#moduleLeader #bk-retail .strow,#moduleLeader #bk-chan .strow{padding-right:0}
 
-/* 2026-10-31 贴边配套：金市卡行内容实测基宽≈405px（金额千分位值 89px 为最宽），
-   固定列合计须 ≤ 容器行宽——值列基础 90px；窄屏媒体查询同步 86px；
-   变动标签允许收缩（min-width:0），极端窄宽先压缩标签两侧、文字完整保留 */
-#moduleLeader #bk-chan .strow b.cols3 .c-v{width:90px}
-#moduleLeader #bk-corp .strow b.cols3 .lb,#moduleLeader #bk-retail .strow b.cols3 .lb,#moduleLeader #bk-chan .strow b.cols3 .lb{flex:0 1 auto;min-width:0}#moduleLeader .strow.bs-row .c-y i.yoy{display:block;flex:1;min-width:0;text-align:left;font-size:11px}
+#moduleLeader .strow.bs-row .c-y i.yoy{display:block;flex:1;min-width:0;text-align:left;font-size:11px}
 #moduleLeader .strow.bs-row .c-p .pv{display:block;flex:1;min-width:0;text-align:left}
 #moduleLeader .bs-cols-head{display:flex;justify-content:flex-end;font-size:10.5px;color:#7a8ba6;
   padding:4px 0 2px;border-bottom:1px solid #d9e6f5;letter-spacing:1px}
@@ -1236,6 +1266,12 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .donut-total small{font-size:10.5px;color:var(--dim);margin-top:1px}
 #moduleLeader .donut-total.sm b{font-size:15px}
 #moduleLeader .donut-total.sm small{font-size:9.5px}
+/* 2026-11-02 按需求（附截图：存款结构「存款余额·亿元」压圆环）：小饼卡（存/贷款结构、条线营收构成）
+   canvas 仅 ~150px、圆环镂空直径约 90px——单位文字原样 ~88px 加字距正好压环，且双行时第二行
+   所处弦宽更窄。方案：sm 卡单位标签缩字号去字距、数值同步降 1px，文字整体收进镂空弦宽以内 */
+#moduleLeader .donut-total.sm{padding:0 18%}
+#moduleLeader .donut-total.sm b{font-size:14px;letter-spacing:0;max-width:100%}
+#moduleLeader .donut-total.sm small{font-size:8.5px;letter-spacing:0;max-width:100%;white-space:normal;text-align:center;line-height:1.25}
 /* 2026-10-27 固有资金运用构成：右侧五列明细（指标名称/值/同比/较年初/占比）表格式对齐 */
 #moduleLeader .fund-grid{display:flex;flex-direction:column;font-size:11.3px}
 #moduleLeader .fund-row{display:grid;grid-template-columns:1.9fr .76fr .72fr .72fr .5fr;gap:4px;align-items:center;padding:3.5px 2px;border-bottom:1px dashed #e8eef6}
@@ -1593,15 +1629,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-v{width:76px;font-size:11px}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-y{width:88px}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-p{width:60px}
-  #moduleLeader #bk-corp .strow,#moduleLeader #bk-retail .strow{gap:5px}
-  #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 0 142px}
-  #moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v{width:76px;font-size:11px}
-  #moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-y{width:66px}
-  #moduleLeader #bk-corp .strow b.cols3 .c-p,#moduleLeader #bk-retail .strow b.cols3 .c-p{width:72px}
-  /* 金市 4 列天然宽>行宽：名称列不折行不截断，数值组(b)内部允许折行兜底（不遮挡不截字） */
-  #moduleLeader #bk-chan .strow{gap:4px}
-  #moduleLeader #bk-chan .strow>span:first-child{flex:0 0 92px;white-space:nowrap;overflow:visible;text-overflow:clip}
-  #moduleLeader #bk-chan .strow b.cols3{flex-wrap:wrap;row-gap:1px}
+  /* 条线三卡（2026-11-03 第三轮）：本块不再覆写——固定宽对齐列一律由
+     首轮 ≤1440 媒体块统一管理（源序冲突曾致窄屏对齐破坏），此处仅撤旧覆写 */
 }
 </style>
 </head>
@@ -6001,10 +6030,12 @@ function bkGovBondRow(name,act,mom,yoy,ytd){
   /* 2026-10-30 按需求：右侧改「收入构成」cols3 固定列版式（与同卡台账行同列宽/同标签样式）；
      字段保持 值/较月初/同比/较年初 四列（较月初与较年初共用 .c-q 列） */
   return '<div class="strow" data-tip="最新日期：<b>'+bkPeriodEnd()+'</b>"><span>'+name+'</span>'+
+    /* 2026-11-03 第三轮：列序改 同比→较年初→较月初——同比/较年初 与台账 3 列行同列纵向对齐，
+       较月初（国债行专属）占末列 */
     '<b class="cols3"><i class="c-v">'+act+' %</i>'+
-    '<i class="c-q"><span class="lb">较月初</span>'+bkDelta(mom,'')+'</i>'+
     '<i class="c-y"><span class="lb">同比</span>'+bkDelta(yoy,'')+'</i>'+
-    '<i class="c-q"><span class="lb">较年初</span>'+bkDelta(ytd,'')+'</i></b></div>';
+    '<i class="c-q"><span class="lb">较年初</span>'+bkDelta(ytd,'')+'</i>'+
+    '<i class="c-p"><span class="lb">较月初</span>'+bkDelta(mom,'')+'</i></b></div>';
 }
 
 /* ---- 信托 / 保险 / 租赁（2026-10-13 重构）----
