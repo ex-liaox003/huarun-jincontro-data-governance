@@ -705,6 +705,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #panel-ins02 td.indicator-name.lv2{font-weight:400; font-family:"SimHei","Heiti SC","Microsoft YaHei",sans-serif; color:var(--c-text); text-align:right; padding-right:12px;}
 #panel-ins02 td.indicator-name.lv3{font-weight:400; color:#9ca3af; text-align:right; padding-right:12px;}
 .data-table td.value{font-family:"Courier New",monospace; font-weight:600;}
+/* 去年末/实际/全年预算 值列：右对齐（千分位由 fmtThousand 渲染，2026-11-04） */
+.data-table td.value.num-right{text-align:right; padding-right:12px;}
 .data-table td.value.empty{color:var(--c-text-light); font-weight:400;}
 .data-table td.assess{font-weight:600;}
 /* 指标属性标签列：考核指标彩色小标签（淡蓝底蓝字圆角，2026-09-23 替代原 ★ 星号） */
@@ -896,11 +898,11 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .chd.chd-fkk::before{content:'';width:7px;height:7px;border-radius:50%;
   background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9)}
 /* 2026-10-27 银行 tab 整页名称栏统一为 hero 同款蓝渐变样式（收入构成/扣减结构/效益定价/监管红线等全部卡片） */
-#moduleLeader #v-bank .chd{padding:9px 14px;background:linear-gradient(90deg,#39a1f7,#0d6ef0);
+#moduleLeader #v-bank .chd,#moduleLeader #v-banks .chd{padding:9px 14px;background:linear-gradient(90deg,#39a1f7,#0d6ef0);
   border-bottom:none;color:#fff;font-size:12px;letter-spacing:1px}
-#moduleLeader #v-bank .chd::before{content:'';width:7px;height:7px;border-radius:50%;
+#moduleLeader #v-bank .chd::before,#moduleLeader #v-banks .chd::before{content:'';width:7px;height:7px;border-radius:50%;
   background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9)}
-#moduleLeader #v-bank .chd .tag{color:rgba(255,255,255,.8)}
+#moduleLeader #v-bank .chd .tag,#moduleLeader #v-banks .chd .tag{color:rgba(255,255,255,.8)}
 #moduleLeader .cbd{padding:13px 15px}
 #moduleLeader .chartbox{position:relative;height:242px}
 #moduleLeader .chartbox.tall{height:300px}
@@ -910,6 +912,10 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .chartlg .lg-bar{width:10px;height:10px;border-radius:2px;background:#4d94ff;flex:none}
 #moduleLeader .chartlg .lg-line{width:16px;height:0;border-top:2px solid #f59e0b;border-radius:2px;margin-left:12px;flex:none;position:relative}
 #moduleLeader .chartlg .lg-line::after{content:'';position:absolute;left:5px;top:-4px;width:6px;height:6px;border-radius:50%;background:#f59e0b}
+/* 2026-11-03 按需求：营业收入/利润总额 hero 卡图下说明第三段「🎯 考核指标」——
+   与 本月数/月度同比 同行（三者同为图下说明，字体灰度一致，左距 12px 与线段说明分隔） */
+#moduleLeader .chartlg .lg-note{display:inline-flex;align-items:center;gap:4px;margin-left:12px;white-space:nowrap}
+#moduleLeader .chartlg .lg-note .bi{font-size:12px}
 #moduleLeader .grid{display:grid;gap:12px}
 #moduleLeader .g2{grid-template-columns:1fr 1fr}
 #moduleLeader .g3{grid-template-columns:repeat(3,1fr)}
@@ -1002,6 +1008,11 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .stgrid2{display:grid;grid-template-columns:1.55fr 1fr;gap:22px}
 #moduleLeader .stgrp-cap{font-size:12.5px;color:var(--blue2);font-weight:700;letter-spacing:1px;margin:0 0 8px;display:flex;align-items:baseline;gap:8px}
 #moduleLeader .stgrp-cap .lite{font-weight:400;font-size:11px;color:var(--dim);letter-spacing:0}
+/* 2026-11-03 按需求：组卡片下方徽章图例注释（风险与监管底线组）——灰色小字横排，
+   图标字号比徽章略大保证 🎯/⭐ 可辨；纯文本无悬停提示 */
+#moduleLeader .stgrp-note{display:flex;flex-wrap:wrap;gap:4px 22px;margin:8px 0 2px;font-size:11px;color:var(--dim);line-height:1.5}
+#moduleLeader .stgrp-note .bnote{display:inline-flex;align-items:center;white-space:nowrap}
+#moduleLeader .stgrp-note .bi{font-size:12.5px;margin-right:5px}
 #moduleLeader .stgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 #moduleLeader .stgrid-4{grid-template-columns:repeat(4,1fr)}
 /* 一行 6 个指标卡网格（2026-10-20：业绩合同/资产负债核心科目/监管红线卡片化） */
@@ -1042,7 +1053,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 /* 收入构成/扣减结构行（2026-10-30 按需求）：名称列固定宽 + 数值紧随其后（取消 space-between 大留白）；
    固定宽保证各行「累计同比/占比」列仍纵向同列对齐 */
 #moduleLeader #bk-rev-rows .strow,#moduleLeader #bk-wf-rows .strow{justify-content:flex-start;gap:10px}
-#moduleLeader #bk-rev-rows .strow>span:first-child,#moduleLeader #bk-wf-rows .strow>span:first-child{flex:0 0 132px}
+#moduleLeader #bk-rev-rows .strow>span:first-child,#moduleLeader #bk-wf-rows .strow>span:first-child{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* 条线营收构成明细行（2026-10-30 按需求）：收入构成同款 cols3 三列（值/累计同比/占比）；
    本卡为窄卡（0.8fr）——donutwrap 饼列压至 160px、明细列 min-width:0 让位，
    行内名称 60 / 值 76 / 累计同比 86 / 占比 64 紧凑列宽（标签 4 字+涨跌值仍成列对齐） */
@@ -1062,15 +1073,20 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .strow b.cols3 .c-q i.yoy{display:block;flex:1;min-width:0;margin-left:0;text-align:left;font-size:10.5px}
 #moduleLeader .strow b.cols3 .c-p.dy{font-weight:600}
 #moduleLeader .strow b.cols3 .c-p.dy i.yoy{display:block;flex:1;min-width:0;margin-left:0;text-align:left;font-size:10.5px}
-/* 存款/贷款结构（donutwrap 右列窄容器）：名称短列 + 紧凑值/同比/占比列 */
-#moduleLeader #bk-dep-rows .strow,#moduleLeader #bk-loan-rows .strow{justify-content:flex-start;gap:8px}
-#moduleLeader #bk-dep-rows .strow>span:first-child,#moduleLeader #bk-loan-rows .strow>span:first-child{flex:0 0 84px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* 2026-10-31 按需求：名称不折行；值列 90 容纳「2,900.00 亿元」实测内容，消除与同比的 4px 重叠遮挡 */
-#moduleLeader #bk-dep-rows .strow b.cols3 .c-v,#moduleLeader #bk-loan-rows .strow b.cols3 .c-v{width:90px}
-#moduleLeader #bk-dep-rows .strow b.cols3 .c-v,#moduleLeader #bk-loan-rows .strow b.cols3 .c-v{width:78px}
-#moduleLeader #bk-dep-rows .strow b.cols3 .c-y,#moduleLeader #bk-loan-rows .strow b.cols3 .c-y{width:84px;margin-left:8px}
-#moduleLeader #bk-dep-rows .strow b.cols3 .c-y .lb,#moduleLeader #bk-loan-rows .strow b.cols3 .c-y .lb{width:24px}
-#moduleLeader #bk-dep-rows .strow b.cols3 .c-p,#moduleLeader #bk-loan-rows .strow b.cols3 .c-p{width:76px;margin-left:8px}
+/* 存款/贷款结构（donutwrap 右列窄容器）：名称短列 + 紧凑值/同比/占比列
+   2026-11-03 按需求：①名称列 84→80px、同比/占比列 margin-left 8→6px——收窄名称与数值间距，
+   行需求 338px=gap8+名称80+值78+同比(6+84)+占比(6+76)，饼列加宽至 170 后右列仍完整容纳；
+   ②同选择器历史双规则（90px/78px）合并为单条，删除死代码 */
+#moduleLeader #bk-dep-rows .strow,#moduleLeader #bk-loan-rows .strow{justify-content:flex-start;gap:4px}
+#moduleLeader #bk-dep-rows .strow>span:first-child,#moduleLeader #bk-loan-rows .strow>span:first-child{flex:0 0 80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 2026-11-03 防遮挡重排（headless 实测文字宽驱动）：值文字「8,500.00 亿元」13.5px 粗体实测 89px
+   > 原 78 列 → 右溢压同比标签；列宽改按各列最宽实测值+2~6px 余量（值90/同比84/占比76，
+   同比/占比列间距 6→4 腾位；行需求 342 ≤ 1500 可用 350，余量归 margin-left:auto） */
+#moduleLeader #bk-dep-rows .strow b.cols3 .c-v,#moduleLeader #bk-loan-rows .strow b.cols3 .c-v{width:90px;min-width:max-content}
+#moduleLeader #bk-dep-rows .strow b.cols3 .c-y,#moduleLeader #bk-loan-rows .strow b.cols3 .c-y{width:84px;margin-left:4px;min-width:max-content}
+#moduleLeader #bk-dep-rows .strow b.cols3 .c-y .lb,#moduleLeader #bk-loan-rows .strow b.cols3 .c-y .lb{width:22px;margin-right:2px}
+#moduleLeader #bk-dep-rows .strow b.cols3 .c-p,#moduleLeader #bk-loan-rows .strow b.cols3 .c-p{width:76px;margin-left:4px;min-width:max-content}
+#moduleLeader #bk-dep-rows .strow b.cols3 .c-p .lb,#moduleLeader #bk-loan-rows .strow b.cols3 .c-p .lb{width:22px;margin-right:2px}
 /* 总资产构成/总负债构成：名称固定列 + 值/同比/占 与收入构成同构 */
 #moduleLeader #bk-asset-rows .strow,#moduleLeader #bk-debt-rows .strow{justify-content:flex-start;gap:10px}
 #moduleLeader #bk-asset-rows .strow>span:first-child,#moduleLeader #bk-debt-rows .strow>span:first-child{flex:0 0 84px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1078,34 +1094,35 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #bk-asset-rows .strow b.cols3 .c-y,#moduleLeader #bk-debt-rows .strow b.cols3 .c-y{width:84px}
 #moduleLeader #bk-asset-rows .strow b.cols3 .c-y .lb,#moduleLeader #bk-debt-rows .strow b.cols3 .c-y .lb{width:24px}
 #moduleLeader #bk-asset-rows .strow b.cols3 .c-p,#moduleLeader #bk-debt-rows .strow b.cols3 .c-p{width:70px}
-/* 条线三卡（公司/零售/金市）：名称 + 数值 + 【同比列】+【较年初/较上年/较月初列】
-   2026-11-03 按需求（第三轮）：右侧两块对比列改回【固定列宽】实现纵向对齐——
-   同一卡内所有行的「同比」同列起止、「较年初/较上年/较月初」同列起止；
-   标签列（.lb）固定宽+左对齐，涨跌值紧随其后，值列右缘因列宽固定天然成线；
-   整行 flex-wrap:nowrap 单行硬约束；右侧信息不再贴右缘（margin-left:auto 已撤，
-   行从左顺排、空白留行尾=整体左移）；列宽按 1366 行宽 390 预算：
-   name≤132 + val76 + c-y78 + c-q82 + gap6×3 = 376 ≤ 390（1500 屏行宽 420 更裕） */
+/* 条线三卡（公司/零售/金市）：名称 + 数值 + 【同比列】+【较年初/较上年列】
+   2026-11-03 按需求（第四轮）：①金市卡字号与公司/零售完全一致（名称继承 12.5、数值继承 13.5，撤销小字覆写）；
+   ②变化区域（同比列起）整体右移 6px 微调（c-y 加 margin-left，行尾留白充足不换行）；
+   ③「较年初」标签列加宽至 31px——原 28px 小于 3 字×10px 实际宽，标签与箭头互叠（截图「较年襤」）；
+   ④整行 flex-wrap:nowrap 单行硬约束，固定列宽保证同比/较年初列跨行纵向成线；
+   ⑤第五轮（同日）：金市国债参照行删除「较月初」列——三列结构与台账行一致，撤销 .gov 专属样式，
+   列宽/字号/右移微调全量复用台账行规则（同比/较年初列跨行对齐随之统一） */
 #moduleLeader #bk-corp .strow,#moduleLeader #bk-retail .strow,#moduleLeader #bk-chan .strow{justify-content:flex-start;gap:6px;flex-wrap:nowrap}
-/* 2026-11-03 第三轮：名称列【固定宽】（=该卡最长名+呼吸位）——弹性名称会随各行名宽
-   推移右侧列（无法纵向对齐），固定后 同比列/第三变动列跨行起止严格成线 */
 #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 0 140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#moduleLeader #bk-chan .strow>span:first-child{flex:0 0 82px;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#moduleLeader #bk-corp .strow b.cols3,#moduleLeader #bk-retail .strow b.cols3,#moduleLeader #bk-chan .strow b.cols3{flex:0 0 auto}
-#moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v{flex:none;width:92px;text-align:right;font-variant-numeric:tabular-nums}
-#moduleLeader #bk-chan .strow b.cols3 .c-v{flex:none;width:88px;text-align:right;font-variant-numeric:tabular-nums;font-size:10px}
-/* 两块对比列【固定宽 + 内部固定宽标签】→ 跨行纵向严格对齐（标签起止、值左缘、值右缘三对齐）；
-   列间 6px 呼吸位以 padding-left 计入固定宽（同比列 lb 20px=「同比」2字，第三列 lb 30px=3字标签）
-   预算（1500+ 行宽 420）：corp 138+84+80+88=390 / retail 118+89+80+88=375 /
-   金市台账 96+89+80+88=353 / 国债4列 85+66+88+80+88=407 ✓（值列 max-content 撑极值行仍≤420） */
-#moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-y,#moduleLeader #bk-chan .strow b.cols3 .c-y{flex:none;width:80px;padding-left:6px;margin-left:0;white-space:nowrap;display:inline-flex;align-items:center}
+/* 2026-11-03 按需求：公司条线「其中，大中有效授信客户数」12 全角字——名称列固定宽不动（对比列纵向对齐前提），
+   该行名称降 11px：12×11=132 ≤ 140(基础)/136(≤1500) 单行直出不截断；从属行小字亦符合层级弱化惯例 */
+/* 2026-11-03 按需求：「其中，」行与公司有效授信客户数字体颜色/大小完全一致——撤销旧 10.5px 小字覆写
+   （颜色本就继承行名称无覆写）；缩进 8px 保留（层级从属语义）。该行名称列单独加宽至 154px
+   （12.5px×12字+缩进8 实测 150 ≤154 不截断）——右侧数值/同比/较年初组 margin-left:auto 贴右刚体，
+   名称列加宽只吃掉名称与组之间 872px 富余间隙，组位置零位移、与上下行列对齐不变 */
+#moduleLeader #bk-corp .strow>span:first-child.qz-name{flex:0 0 154px;padding-left:8px}
+/* 金市名称列 82→90px：最长名「债券投资收益率/应付债券付息率」7 字×12.5=87.5，原 82 截断省略号（违反不截断） */
+#moduleLeader #bk-chan .strow>span:first-child{flex:0 0 90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 2026-11-03 第六轮（按需求）：变化区（值/同比/较年初·较上年）整体右靠——margin-left:auto 吸收行内全部富余空隙，
+   三卡右侧留白恒等于卡内边距（基础档 15px / ≤1500 档 12px），跨卡严格一致；
+   列宽固定不变 → 值/同比/较年初列对齐不受影响；行尾留白不再随卡而异（原金市名称列窄 50px 致其右侧留白偏大） */
+#moduleLeader #bk-corp .strow b.cols3,#moduleLeader #bk-retail .strow b.cols3,#moduleLeader #bk-chan .strow b.cols3{flex:0 0 auto;margin-left:auto}
+/* 金市数值列与公司/零售同宽同字号（原 88px/10px 小字撤销；92px 恰容「2,100.00 亿元」） */
+#moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v,#moduleLeader #bk-chan .strow b.cols3 .c-v{flex:none;width:92px;text-align:right;font-variant-numeric:tabular-nums}
+/* 同比列 margin-left:6px=变化区域整体右移微调（需求①）；内容 6+20+2+49=77 ≤ 80 */
+#moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-y,#moduleLeader #bk-chan .strow b.cols3 .c-y{flex:none;width:80px;padding-left:6px;margin-left:6px;white-space:nowrap;display:inline-flex;align-items:center}
 #moduleLeader #bk-corp .strow b.cols3 .c-q,#moduleLeader #bk-retail .strow b.cols3 .c-q,#moduleLeader #bk-chan .strow b.cols3 .c-q{flex:none;width:88px;padding-left:6px;margin-left:0;white-space:nowrap;display:inline-flex;align-items:center}
-#moduleLeader #bk-chan .strow b.cols3 .c-y{width:76px}
-#moduleLeader #bk-chan .strow b.cols3 .c-q{width:80px}
- #moduleLeader #bk-chan .strow b.cols3 .c-p{flex:none;width:82px;padding-left:4px;margin-left:0;white-space:nowrap;display:inline-flex;align-items:center}
 #moduleLeader #bk-corp .strow b.cols3 .c-y .lb,#moduleLeader #bk-retail .strow b.cols3 .c-y .lb,#moduleLeader #bk-chan .strow b.cols3 .c-y .lb{flex:none;width:20px;margin-right:2px;font-size:10px}
-#moduleLeader #bk-corp .strow b.cols3 .c-q .lb,#moduleLeader #bk-retail .strow b.cols3 .c-q .lb{flex:none;width:30px;margin-right:2px;font-size:10px}
-#moduleLeader #bk-chan .strow b.cols3 .c-q .lb{flex:none;width:28px;margin-right:2px;font-size:10px}
-#moduleLeader #bk-chan .strow b.cols3 .c-p .lb{flex:none;width:24px;margin-right:2px;font-size:10px}
+#moduleLeader #bk-corp .strow b.cols3 .c-q .lb,#moduleLeader #bk-retail .strow b.cols3 .c-q .lb,#moduleLeader #bk-chan .strow b.cols3 .c-q .lb{flex:none;width:31px;margin-right:2px;font-size:10px}
 #moduleLeader #bk-corp .strow b.cols3 i.yoy,#moduleLeader #bk-retail .strow b.cols3 i.yoy,#moduleLeader #bk-chan .strow b.cols3 i.yoy,
 #moduleLeader #bk-corp .strow b.cols3 .pv,#moduleLeader #bk-retail .strow b.cols3 .pv,#moduleLeader #bk-chan .strow b.cols3 .pv{flex:none;width:auto;font-size:10.5px}
 /* 资产负债构成（2026-10-29 按需求）：「其中」行 + 右侧数值/同比/占三段固定宽列，上下行纵向对齐 */
@@ -1114,12 +1131,53 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .dual-ring-cap{text-align:center;font-size:10.5px;color:#7a8ba6;margin-top:4px;letter-spacing:.5px}
 /* 2026-10-31 按需求：内/外圈口径说明分两行展示（去掉「·」分隔符，每行一条口径） */
 #moduleLeader .dual-ring-cap span{display:block;line-height:1.5}
+/* 支出构成公式说明（2026-11-03 按需求）：环形饼下方一行勾稽公式，样式同饼图口径说明
+   （10.5px 浅灰、居中、字距 .5px）；置于 donutwrap 之后独占一行，不遮挡饼图/图例/右侧明细 */
+#moduleLeader .wf-calc{text-align:center;font-size:10.5px;color:#7a8ba6;line-height:1.5;letter-spacing:.5px;margin-top:8px}
 /* ============ 2026-10-30 全局防截断（浏览器 100% 缩放 · 常见 1366~1440 屏）============
    原明细行固定列宽按 1500px 设计，窄屏下 cols3 行/卡内容横向撑爆卡片被 overflow:hidden 裁切。
    双保险：①行与 cols3 允许换行兜底（宁可折行不可截字）；②各容器列宽整体收紧一档适配 */
-/* 2026-10-31 贴边配套：存/贷款结构饼列基础态收窄（150px、右列可收缩），
-   明细列获得足够宽度以支撑 -9px 外扩贴边不溢出（窄屏 ≤1440 媒体查询内再收至 118px） */
-#moduleLeader .dep-loan-wrap.donutwrap{grid-template-columns:150px minmax(0,1fr)}
+/* 2026-10-31 贴边配套：存/贷款结构饼列基础态 150px、右列可收缩；
+   2026-11-03 按需求饼图放大：基础态改自适应 minmax(150px,30%)——卡片≥500px 时饼列恒占 30%
+   （1441 视口≈158px、1501≈165px、1920 被 inline 饼高 170 封顶），明细行恒占 70%-gap，
+   行需求 338px 在全部基础档视口保有 ≥18px 余量（固定 170px 会在 1441~1516 区间溢出 ~29px）；
+   ≤1440 内 128px、≤1310 内 116px 固定列由媒体块接管；HTML inline 饼高同步 150→170 */
+#moduleLeader .dep-loan-wrap.donutwrap{grid-template-columns:minmax(150px,30%) minmax(0,1fr)}
+/* ============ 条线三卡 1401-1500 收紧档（2026-11-03 第四轮；同日第五轮删除国债「较月初」列） ============
+   金市卡字号与公司/零售完全一致（名称 12px、数值 13.5px 同额）；名称列按最长名留足不截断；
+   变化区域右移微调（c-y margin-left:4）；列宽按 9/9.5px 实测内容定死（c-y 74 / c-q 82），
+   杜绝「ppt」尾与次列标签相触；卡内 padding 15→左8/右12 腾位（右侧 12px=三卡统一留白，配合变化区右靠）。
+   预算（最紧 1311 卡内容=(1311-76)/3-2-16≈393.7）：corp 136+6+90+(4+74)+82=392 ✓ /
+   金市（台账与国债同构）86+2+90+78+82=338 ✓——较月初删除后全卡无 4 列行，列预算全面宽松 */
+@media(max-width:1500px){
+  #moduleLeader #bk-corp,#moduleLeader #bk-retail,#moduleLeader #bk-chan{padding:13px 12px 13px 8px}
+  #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 0 136px;font-size:12px}
+  #moduleLeader #bk-chan .strow{gap:2px}
+  #moduleLeader #bk-chan .strow>span:first-child{flex:0 0 86px;font-size:12px}
+  #moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v,#moduleLeader #bk-chan .strow b.cols3 .c-v{width:90px}
+  /* 列宽按 9/9.5px 实测内容定：c-y ppt 极值 73 / c-q 82——原 68/75 致「ppt」尾与下一列标签相触互叠 */
+  #moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-y,#moduleLeader #bk-chan .strow b.cols3 .c-y{width:74px;padding-left:4px;margin-left:4px}
+  #moduleLeader #bk-corp .strow b.cols3 .c-q,#moduleLeader #bk-retail .strow b.cols3 .c-q,#moduleLeader #bk-chan .strow b.cols3 .c-q{width:82px;padding-left:4px;margin-left:0}
+  #moduleLeader #bk-corp .strow b.cols3 .c-y .lb,#moduleLeader #bk-retail .strow b.cols3 .c-y .lb,#moduleLeader #bk-chan .strow b.cols3 .c-y .lb{width:18px}
+  #moduleLeader #bk-corp .strow b.cols3 .c-q .lb,#moduleLeader #bk-retail .strow b.cols3 .c-q .lb,#moduleLeader #bk-chan .strow b.cols3 .c-q .lb{width:27px}
+  #moduleLeader #bk-corp .strow b.cols3 .lb,#moduleLeader #bk-retail .strow b.cols3 .lb,#moduleLeader #bk-chan .strow b.cols3 .lb{font-size:9px;margin-right:2px}
+  #moduleLeader #bk-corp .strow b.cols3 i.yoy,#moduleLeader #bk-retail .strow b.cols3 i.yoy,#moduleLeader #bk-chan .strow b.cols3 i.yoy,
+  #moduleLeader #bk-corp .strow b.cols3 .pv,#moduleLeader #bk-retail .strow b.cols3 .pv,#moduleLeader #bk-chan .strow b.cols3 .pv{font-size:9.5px}
+  /* ≤1400 三卡纵向堆叠（原为国债 4 列行 423px 所需；较月初删除后最宽行仅 392px，
+     断点维持 1400 不回调——此区间三列余量本就紧张，堆叠展示更稳不截断） */
+  @media(max-width:1400px){
+    #moduleLeader .grid.g3.bk3line{grid-template-columns:1fr}
+  }
+}
+/* 2026-11-04 按需求（附截图红框：资产负债核心科目/贷款结构/存款结构三模块底部空白过大）：
+   存/贷款饼容器高度按各档【实际饼直径+余量】重排——直径=min(饼列宽,容器高)-12 由较窄者封顶，
+   容器再高只是竖向死区，且把行高撑到 482 → 左卡（自然高 431）被 stretch 拉伸出 51px 底部空白、
+   右卡各 ~24px。分档：基础(≥1441 饼列≈150) 170→158 / ≤1440(饼列128) →146 / ≤1310(饼列116) →132。
+   inline 优先级高须 !important（历史 [style*="height:150px"] 覆写未生效即因此）；中心浮层 absolute
+   inset:0 恒居中随容器走，饼图直径/图例/明细/文字/数据零改动 */
+#moduleLeader .dep-loan-wrap [style*="height:170px"]{height:158px !important}
+@media(max-width:1440px){#moduleLeader .dep-loan-wrap [style*="height:170px"]{height:146px !important}}
+@media(max-width:1310px){#moduleLeader .dep-loan-wrap [style*="height:170px"]{height:132px !important}}
 @media(max-width:1440px){
   /* ===== 2026-10-31 二轮防截断（1366/100% 缩放实测数据驱动） =====
      A. 明细行名称列全部不折行：存贷款 48→80nowrap、条线营收 52→56nowrap、
@@ -1138,7 +1196,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   #moduleLeader .donutwrap .chartbox,#moduleLeader .donutwrap [style*="height:150px"]{height:132px}
   /* ② 收入构成/支出构成：名称列与三列收紧 */
   #moduleLeader #bk-rev-rows .strow>span:first-child,#moduleLeader #bk-wf-rows .strow>span:first-child{flex:0 0 100px}
-  #moduleLeader #bk-rev-rows .strow,#moduleLeader #bk-wf-rows .strow{gap:8px}
+  #moduleLeader #bk-rev-rows .strow,#moduleLeader #bk-wf-rows .strow{gap:6px}
   /* cols3 基础三列收紧（其余容器同享） */
   #moduleLeader .strow b.cols3 .c-v{width:80px}
   #moduleLeader .strow b.cols3 .c-y{width:100px;margin-left:6px}
@@ -1146,9 +1204,10 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   #moduleLeader .strow b.cols3 .c-p{width:68px;margin-left:6px}
   #moduleLeader .strow b.cols3 .c-q{width:82px;margin-left:6px}
   /* 存/贷款结构（右栏窄卡）：单行明细横向有余量，禁换行避免纵向膨胀被固定卡高裁切；
-     饼列收窄至 118px 给明细腾位，占比列可收缩(min-width:0)彻底防横向撑爆 */
-  #moduleLeader .dep-loan-wrap.donutwrap{grid-template-columns:118px minmax(0,1fr)}
-  @media(max-width:1310px){#moduleLeader .dep-loan-wrap.donutwrap{grid-template-columns:112px minmax(0,1fr)}}
+     2026-11-03 按需求饼图放大：118→128px（行需求 315px ≤ 1366 可用 321px 仍有余量），
+     占比列可收缩(min-width:0)彻底防横向撑爆；≤1310 嵌套内 112→116px */
+  #moduleLeader .dep-loan-wrap.donutwrap{grid-template-columns:128px minmax(0,1fr)}
+  @media(max-width:1310px){#moduleLeader .dep-loan-wrap.donutwrap{grid-template-columns:116px minmax(0,1fr)}}
   #moduleLeader #bk-dep-rows .strow,#moduleLeader #bk-loan-rows .strow{flex-wrap:nowrap;padding:4px 2px}
   #moduleLeader #bk-dep-rows .strow b.cols3,#moduleLeader #bk-loan-rows .strow b.cols3{flex-wrap:nowrap;min-width:0}
   #moduleLeader #bk-dep-rows .strow>span:first-child,#moduleLeader #bk-loan-rows .strow>span:first-child{flex:0 0 48px}
@@ -1167,53 +1226,9 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-v{width:70px}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-y{width:84px}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-p{width:58px}
-  /* 条线三卡（2026-11-03 按需求·第三轮：对比列固定宽纵向对齐）：窄屏预算
-     3列行：name≤138 + 6 + val(80≥max76) + c-y 68 + c-q 72 = 376 ≤ 390 ✓
-     金市国债 4 列行：name85 + 6 + val 52 + c-p 68 + c-y 68 + c-q 68 = 347 ✓ */
-  /* 窄屏（1366 行宽 390）预算：lb 标签 9px、值 9.5px、列内距 4px——
-     同比列 68=4+18+2+44 / 第三列 78=4+27+2+45；名称固定弹性 cap：
-     corp 138+80+68+78=364 / retail 118+84+68+78=348 / 金市台账 96+84+68+78=326 /
-     国债 4 列 85+60+78+68+78=369 ✓（max-content 撑极值行仍≤390） */
-  #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 0 138px;font-size:12px}
-  #moduleLeader #bk-chan .strow{gap:2px}
-  #moduleLeader #bk-chan .strow>span:first-child{flex:0 0 76px;font-size:11px}
-  #moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v{width:90px}
-  #moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-y,#moduleLeader #bk-chan .strow b.cols3 .c-y{width:72px;padding-left:4px}
-  #moduleLeader #bk-corp .strow b.cols3 .c-q,#moduleLeader #bk-retail .strow b.cols3 .c-q,#moduleLeader #bk-chan .strow b.cols3 .c-q{width:78px;padding-left:4px}
-  #moduleLeader #bk-chan .strow b.cols3 .c-v{width:82px;font-size:9.5px}
-  #moduleLeader #bk-chan .strow b.cols3 .c-q{width:70px;padding-left:3px}
-  #moduleLeader #bk-chan .strow b.cols3 .c-y{width:68px;padding-left:3px}
-  #moduleLeader #bk-chan .strow b.cols3 .c-p{width:68px;padding-left:3px}
-  #moduleLeader #bk-chan .strow b.cols3 .c-q .lb{width:25px}
-  #moduleLeader #bk-chan .strow b.cols3 .c-p .lb{width:22px}
-  #moduleLeader #bk-corp .strow b.cols3 .c-y .lb,#moduleLeader #bk-retail .strow b.cols3 .c-y .lb,#moduleLeader #bk-chan .strow b.cols3 .c-y .lb{width:18px}
-  #moduleLeader #bk-corp .strow b.cols3 .c-q .lb,#moduleLeader #bk-retail .strow b.cols3 .c-q .lb,#moduleLeader #bk-chan .strow b.cols3 .c-q .lb,
-  #moduleLeader #bk-chan .strow b.cols3 .c-p .lb{width:27px}
-  #moduleLeader #bk-corp .strow b.cols3 .lb,#moduleLeader #bk-retail .strow b.cols3 .lb,#moduleLeader #bk-chan .strow b.cols3 .lb{font-size:9px;margin-right:2px}
-  #moduleLeader #bk-corp .strow b.cols3 i.yoy,#moduleLeader #bk-retail .strow b.cols3 i.yoy,#moduleLeader #bk-chan .strow b.cols3 i.yoy,
-  #moduleLeader #bk-corp .strow b.cols3 .pv,#moduleLeader #bk-retail .strow b.cols3 .pv,#moduleLeader #bk-chan .strow b.cols3 .pv{font-size:9.5px}
-  /* ≤1310 极窄屏：金市/公司/零售卡比 1366 再窄约 29px——数值列去 max-content 固定+超小字，
-     变动列等宽 66、名称列长则省略号兜底（绝不折行），合计入卡宽。1280 实测 5 卡出血清零 */
-  @media(max-width:1310px){
-    #moduleLeader #bk-corp .strow,#moduleLeader #bk-retail .strow,#moduleLeader #bk-chan .strow{gap:4px}
-    #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 0 120px;font-size:11.5px}
-    #moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v{width:74px;font-size:10.5px}
-    #moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-corp .strow b.cols3 .c-q,
-    #moduleLeader #bk-retail .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-q{width:66px;padding-left:3px}
-    #moduleLeader #bk-chan .strow>span:first-child{flex:0 0 70px;font-size:10.5px}
-    #moduleLeader #bk-chan .strow b.cols3 .c-v{width:60px;font-size:9px}
-    #moduleLeader #bk-chan .strow b.cols3 .c-y{width:66px;padding-left:3px}
-    #moduleLeader #bk-chan .strow b.cols3 .c-q{width:70px;padding-left:3px}
-    #moduleLeader #bk-chan .strow b.cols3 .c-p{width:70px;padding-left:3px}
-    #moduleLeader #bk-chan .strow b.cols3 .c-y .lb{width:17px}
-    #moduleLeader #bk-chan .strow b.cols3 .c-q .lb,#moduleLeader #bk-chan .strow b.cols3 .c-p .lb{width:21px}
-    #moduleLeader #bk-chan .strow b.cols3 .lb{font-size:9px}
-    #moduleLeader #bk-chan .strow b.cols3 i.yoy,#moduleLeader #bk-chan .strow b.cols3 .pv{font-size:9px}
-    #moduleLeader #bk-corp .strow b.cols3 .c-y .lb,#moduleLeader #bk-retail .strow b.cols3 .c-y .lb{width:17px}
-    #moduleLeader #bk-corp .strow b.cols3 .c-q .lb,#moduleLeader #bk-retail .strow b.cols3 .c-q .lb{width:24px}
-    /* 存/贷款结构卡 1280 出血 2px：值列微收 */
-    #moduleLeader #bk-dep-rows .strow b.cols3 .c-v,#moduleLeader #bk-loan-rows .strow b.cols3 .c-v{width:78px}
-  }
+  /* 条线三卡规则 2026-11-03 第四轮起迁入上方 ≤1500 独立块（金市字号拉齐/名称不截断/变化区域右移微调） */
+  /* ≤1310 极窄屏：存/贷款结构列宽覆写 2026-11-03 起迁至样式表末块（源序必须压过 1617-1621 区段
+     才能生效，此处旧 c-v 覆写为死代码已删；饼列 116px 见上方 1176 行，饼高/名称/值/占比覆写见末块） */
 }
 #moduleLeader .strow.bs-row b.bs-cols{display:flex;align-items:baseline;gap:0;white-space:nowrap;font-weight:800}
 #moduleLeader .strow.bs-row .c-v{flex:none;width:88px;text-align:right;font-style:normal;font-weight:800;color:#17427d;font-variant-numeric:tabular-nums}
@@ -1223,13 +1238,24 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .strow.bs-row .c-p{flex:none;width:68px;display:inline-flex;align-items:center;font-style:normal;font-size:10px;font-weight:500;color:#8aa2bd}
 #moduleLeader .strow.bs-row .c-y .lb{flex:none;width:26px;margin-right:4px;text-align:left}
 #moduleLeader .strow.bs-row .c-p .lb{flex:none;width:24px;margin-right:5px;text-align:left}
-/* 2026-10-31 按需求：收入构成/支出构成/资产负债构成/存贷款结构/条线营收构成/公司条线/零售条线——
+/* 2026-10-31 按需求：收入构成/支出构成/资产负债构成/条线营收构成/公司条线/零售条线——
    右侧数值组整体右移贴行右缘（margin-left:auto 只吃名称列与数值间的剩余空间，
-   行总宽不变、不引入新截断；金市条线保持原样不在本次范围） */
+   行总宽不变、不引入新截断；金市条线保持原样不在本次范围）；
+   2026-11-03 按需求：存/贷款结构退出贴右队列——明细行左对齐、富余空隙移至行尾，
+   名称与数值间距收窄为行 gap（左侧指标区域整体左移），四段文字同行完整展示不换行不遮挡 */
 #moduleLeader #bk-rev-rows .strow>b,#moduleLeader #bk-wf-rows .strow>b,
 #moduleLeader #bk-asset-rows .strow>b,#moduleLeader #bk-debt-rows .strow>b,
-#moduleLeader #bk-dep-rows .strow>b,#moduleLeader #bk-loan-rows .strow>b,
 #moduleLeader #bk-line-rows .strow>b{margin-left:auto}
+/* 2026-11-03 按需求（附截图红框）：收入构成/支出构成右侧数值组（数值+累计同比+占比整组）整体左移 5px——
+   margin-left:auto 刚体贴右的基础上加 margin-right:5px，整组向左平移且内部字段间距零改动、
+   各行列位同步平移（纵向对齐保持）；左移后组右缘距卡边 6→11px、与最近图例行（手续费及佣金净收入）
+   间距 13→8px——两侧均保留合理留白不贴挤；环形图与左侧名称列不受影响（仅平移行内 b 元素） */
+#moduleLeader #bk-rev-rows .strow>b,#moduleLeader #bk-wf-rows .strow>b{margin-right:5px}
+/* 2026-11-03 按需求（贷款/存款结构右侧区域整体向右微调）：重新加入贴右队列——
+   margin-left:auto 吸收行尾全部富余空隙（实测 1366 下 8.3px / 1500 下 10.5px），
+   数值/同比/占比整体右移后距卡片右边框恒 ≈16px（行右缘到卡边的固有内距），
+   不贴边框保留留白；行总宽不变、富余只从行尾转移到名称与数值之间，零截断风险 */
+#moduleLeader #bk-dep-rows .strow>b,#moduleLeader #bk-loan-rows .strow>b{margin-left:auto}
 /* 2026-11-03 按需求（条线三卡右侧信息左移、对比列纵向对齐）：三卡退出贴右推挤队列——
    行内容按固定列宽从左顺排，剩余空白留在行尾（右侧信息整体左移、不再贴边） */
 /* 2026-10-31 按需求：贴边幅度微调——行【容器】外扩吃满卡片内距（.cbd 15px→容器右移9px、
@@ -1300,6 +1326,21 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .stx .t::before{content:'';width:6px;height:6px;border-radius:50%;background:#fff;
   box-shadow:0 0 5px rgba(255,255,255,.9);flex:none}
 #moduleLeader .stx .t .kstar{color:#ffe2ae;font-size:11px}
+/* 标题文本可收缩层：窄卡时先于徽章收缩（省略号），保证右侧徽章完整可见 */
+#moduleLeader .stx .t .tt{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+/* 考核/高质量双标识图标徽章（2026-11-03 按需求）：卡头右置半透明白底圆角片，
+   指标小卡（.stx .t）与 hero/普通卡头（.chd）共用同一套样式；
+   仅图标形态（文字经 title 悬停承载）；首个 margin-left:auto 推到右侧；
+   flex:none 不被挤压，极窄卡时标题文字先收缩（.tt 可缩），徽章始终完整可见 */
+#moduleLeader .stx .t .badge,#moduleLeader .chd .badge{flex:none;display:inline-flex;align-items:center;justify-content:center;margin-left:auto;
+  padding:2px 4px;border-radius:999px;background:rgba(255,255,255,.22);
+  font-size:11.5px;line-height:1;white-space:nowrap}
+#moduleLeader .stx .t .badge+.badge,#moduleLeader .chd .badge+.badge{margin-left:0}
+/* 超窄卡（≤1100 视口）兜底：卡头内距与图标间距收紧，保证图标在极窄卡片上仍完整不裁切 */
+@media(max-width:1100px){
+  #moduleLeader .stx .t{gap:4px;padding:7px 8px}
+  #moduleLeader .stx .t .badge,#moduleLeader .chd .badge{padding:2px 3px;font-size:11px}
+}
 /* 业绩合同六卡（一行6卡，2026-10-27）：长指标名换行完整显示，不截断 */
 #moduleLeader .stx.c6 .t{white-space:normal;font-size:11.5px;letter-spacing:.3px;line-height:1.35;padding:6px 10px;align-items:flex-start}
 #moduleLeader .stx.c6 .t::before{margin-top:5px}
@@ -1325,6 +1366,12 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
    2026-10-27 三轮：两项同行横排；单项时值紧跟标签（不再 space-between 拉满整行） */
 #moduleLeader .stx .s-lbl{font-size:11px;color:#51678a;letter-spacing:1px}
 #moduleLeader .stx .dlst{display:flex;flex-wrap:nowrap;align-items:baseline;gap:12px;margin-top:1px;position:relative;z-index:1}
+/* 2026-11-03 按需求：opts.dlCol → 同比 / 较年初(环比) 两小注上下分行（纵向排列、逐行左对齐），
+   每行 white-space:nowrap 完整展示不截断；行距 1px 紧凑整齐，不影响同组其余卡片横排样式 */
+#moduleLeader .stx .dlst.dl-col{flex-direction:column;align-items:flex-start;gap:1px}
+/* 2026-11-04 按需求：opts.dlRow → 两条变动小注强制同一行（span 1/6 窄卡：≤1440 默认 wrap 会拆成两行；
+   gap 收至 5px 保证「同比 + 较上年」在 180px 卡宽内完整同行，其余卡片不受影响） */
+#moduleLeader .stx .dlst.dl-row{flex-wrap:nowrap;gap:5px}
 #moduleLeader .stx .s-dlt{display:inline-flex;align-items:baseline;gap:2px;flex:none;
   font-size:10.5px;color:#51678a;white-space:nowrap}
 #moduleLeader .stx .s-dlt em{font-style:normal;font-weight:700;font-variant-numeric:tabular-nums}
@@ -1375,6 +1422,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .stx .budrow .bbar .b-out{color:#0d6ef0}
 #moduleLeader .stx .budrow .bval{font-size:11.5px;font-weight:800;color:#17427d;flex:none;
   font-variant-numeric:tabular-nums;white-space:nowrap}
+#moduleLeader .stx .budrow .btxt{font-size:11px;color:#33547e;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+#moduleLeader .stx .budrow .btxt b{color:#17427d;font-weight:800}
 #moduleLeader .stx .budrow .bval small{font-size:10px;color:#8aa2bd;font-weight:500;margin-left:2px}
 #moduleLeader .strow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 2px;
   border-bottom:1px dashed #e2ebf6;font-size:12.5px;color:var(--dim2)}
@@ -1473,6 +1522,9 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 .card-tip .ct-f{display:block;max-width:400px;white-space:normal;line-height:1.55}
 /* 指标定义长文（绿色金融/科技客群等，2026-10-31 按需求）：再放宽一档至 460px 减少行数 */
 .card-tip .ct-def{max-width:460px}
+/* 2026-11-04 按需求：条线三卡指标气泡「统计口径」独占一行（本月末/本年累计），位于最新日期下一行；
+   与气泡正文同色（#33547e）不加强调色，保持整体气泡风格统一 */
+.card-tip .ct-cal{display:block;color:#33547e;font-weight:400}
 /* 2026-10-30 按需求：气泡加指向箭头（白面+蓝描边双三角），明确气泡归属卡片；
    .down=气泡在卡上方（箭头在底部朝下）/ .up=气泡翻到卡下方（箭头在顶部朝上），JS 按落位切换 */
 .card-tip::before,.card-tip::after{content:'';position:absolute;left:var(--ax,50%);
@@ -1489,7 +1541,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .src:hover{border-color:#7fb0e0;color:#17427d}
 #moduleLeader .src.on{color:#fff;border-color:transparent;background:linear-gradient(135deg,#17427d,#2f7fd6);box-shadow:0 3px 8px rgba(23,66,125,.28)}
 /* 2026-10-27 按需求：银行 tab 页签选中态改用与卡片名称栏一致的背景蓝渐变 */
-#moduleLeader #v-bank .src.on{background:linear-gradient(90deg,#39a1f7,#0d6ef0);box-shadow:0 3px 8px rgba(13,110,240,.30)}
+#moduleLeader #v-bank .src.on,#moduleLeader #v-banks .src.on{background:linear-gradient(90deg,#39a1f7,#0d6ef0);box-shadow:0 3px 8px rgba(13,110,240,.30)}
 #moduleLeader .src.on b{color:#fff}
 /* ---- 华润金融 tab 指标卡 fkk（2026-10-26 按需求参考驾驶舱指标卡样式整体优化）----
    渐变蓝卡头（白点+口径徽标+ⓘ）→ 体=大数值（蓝渐变大字+单位）+ 浅灰统计行（口径/同比/环比/较年初）；
@@ -1616,21 +1668,42 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   /* D. 明细行列宽再精调（实测 colsMax-容器 差额全消）：存贷款/条线营收/条线三卡 */
   /* D. 明细行列宽=1366 实测内容预算（列宽合计+间距 ≤ 行宽，消除 scrollWidth 溢出） */
   /* 收入构成/支出构成：名称不折行（1280 等更窄屏才省略号收缩），列宽按 1366 容器 393 预算 */
-  #moduleLeader #bk-rev-rows .strow>span:first-child,#moduleLeader #bk-wf-rows .strow>span:first-child{flex:0 1 127px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  #moduleLeader #bk-rev-rows .strow b.cols3 .c-v,#moduleLeader #bk-wf-rows .strow b.cols3 .c-v{width:84px;font-size:11px}
+  #moduleLeader #bk-rev-rows .strow>span:first-child,#moduleLeader #bk-wf-rows .strow>span:first-child{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #moduleLeader #bk-rev-rows .strow b.cols3 .c-v,#moduleLeader #bk-wf-rows .strow b.cols3 .c-v{width:76px;font-size:11px}
   #moduleLeader #bk-rev-rows .strow b.cols3 .c-y,#moduleLeader #bk-wf-rows .strow b.cols3 .c-y{width:96px;margin-left:6px}
   #moduleLeader #bk-rev-rows .strow b.cols3 .c-p,#moduleLeader #bk-wf-rows .strow b.cols3 .c-p{width:60px;margin-left:6px}
-  #moduleLeader #bk-dep-rows .strow,#moduleLeader #bk-loan-rows .strow{gap:5px}
+  #moduleLeader #bk-dep-rows .strow,#moduleLeader #bk-loan-rows .strow{gap:4px}
   #moduleLeader #bk-dep-rows .strow>span:first-child,#moduleLeader #bk-loan-rows .strow>span:first-child{flex:0 0 80px;overflow:visible;text-overflow:clip}
-  #moduleLeader #bk-dep-rows .strow b.cols3 .c-v,#moduleLeader #bk-loan-rows .strow b.cols3 .c-v{width:88px;font-size:11px}
-  #moduleLeader #bk-dep-rows .strow b.cols3 .c-y,#moduleLeader #bk-loan-rows .strow b.cols3 .c-y{width:70px}
-  #moduleLeader #bk-dep-rows .strow b.cols3 .c-p,#moduleLeader #bk-loan-rows .strow b.cols3 .c-p{width:62px}
+  /* 2026-11-03 防遮挡重排（本块源序最后=1366 权威档，全部显式给足）：实测文字宽 值72(11px)/同比80/占比66，
+     原列 84/70/66 → 同比文字右溢 5.2px 压占比标签。改：标签列 24→22+mr2（同比文字降至 ~76）、
+     同比列 70→78、占比 66 保持、各列间距 6→4、c-p 撤销历史 flex:1 收缩改 max-content。
+     行需求 80+4+84+(4+78)+(4+66)=320 ≤ 1366 可用 325 */
+  #moduleLeader #bk-dep-rows .strow b.cols3 .c-v,#moduleLeader #bk-loan-rows .strow b.cols3 .c-v{width:84px;font-size:11px;min-width:max-content}
+  #moduleLeader #bk-dep-rows .strow b.cols3 .c-y,#moduleLeader #bk-loan-rows .strow b.cols3 .c-y{width:78px;margin-left:4px;min-width:max-content}
+  #moduleLeader #bk-dep-rows .strow b.cols3 .c-y .lb,#moduleLeader #bk-loan-rows .strow b.cols3 .c-y .lb{width:22px;margin-right:2px}
+  #moduleLeader #bk-dep-rows .strow b.cols3 .c-p,#moduleLeader #bk-loan-rows .strow b.cols3 .c-p{width:66px;margin-left:4px;flex:0 0 auto;min-width:max-content}
+  #moduleLeader #bk-dep-rows .strow b.cols3 .c-p .lb,#moduleLeader #bk-loan-rows .strow b.cols3 .c-p .lb{width:22px;margin-right:2px}
   #moduleLeader #bk-line-rows .strow>span:first-child{flex:0 0 68px;white-space:nowrap;overflow:visible;text-overflow:clip}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-v{width:76px;font-size:11px}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-y{width:88px}
   #moduleLeader #bk-line-rows .strow b.cols3 .c-p{width:60px}
   /* 条线三卡（2026-11-03 第三轮）：本块不再覆写——固定宽对齐列一律由
      首轮 ≤1440 媒体块统一管理（源序冲突曾致窄屏对齐破坏），此处仅撤旧覆写 */
+  /* 存/贷款结构（2026-11-03 按需求）：饼图放大配套——饼列 128px（首轮块 1175 行）；
+     饼高由 HTML inline 170px 全档统一控制（inline 优先级高于任何选择器，媒体块高度覆写不生效——
+     历史规则 [style*="height:150px"] 同理从未生效；饼径=min(饼列宽,170)-12；中心合计 donut-total
+     absolute inset:0 恒随父容器居中，与 chartbox 同高永不错位，无需媒体块接管） */
+  /* ≤1310 极窄屏（1280 可用 307）：2026-11-03 防遮挡二次重排（配合新标签列 22+2 模型）——
+     gap3+名称74+值(80,文字72 max-content 兜底)+同比(4+76=文字76)+占比(4+64=文字63)=305 ≤ 307；
+     值列右对齐空出的左侧余量吸收名称列 3~4px 溢出（clip 可见渲染），文字零遮挡零截断；
+     饼列 116px（首轮块） */
+  @media(max-width:1310px){
+    #moduleLeader #bk-dep-rows .strow,#moduleLeader #bk-loan-rows .strow{gap:3px}
+    #moduleLeader #bk-dep-rows .strow>span:first-child,#moduleLeader #bk-loan-rows .strow>span:first-child{flex:0 0 74px}
+    #moduleLeader #bk-dep-rows .strow b.cols3 .c-v,#moduleLeader #bk-loan-rows .strow b.cols3 .c-v{width:80px}
+    #moduleLeader #bk-dep-rows .strow b.cols3 .c-y,#moduleLeader #bk-loan-rows .strow b.cols3 .c-y{width:76px}
+    #moduleLeader #bk-dep-rows .strow b.cols3 .c-p,#moduleLeader #bk-loan-rows .strow b.cols3 .c-p{width:64px}
+  }
 }
 </style>
 </head>
@@ -1677,6 +1750,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
     <nav id="tabs">
       <button class="on" data-v="overview" onclick="LeaderApp.go('overview',this)">华润金融</button>
       <button data-v="bank" onclick="LeaderApp.go('bank',this)">华润银行</button>
+      <button data-v="banks" onclick="LeaderApp.go('banks',this)">华润银行(简版)</button>
       <button data-v="trust" onclick="LeaderApp.go('trust',this)">华润信托</button>
       <button data-v="ins" onclick="LeaderApp.go('ins',this)">华润保险</button>
       <button data-v="asset" onclick="LeaderApp.go('asset',this)">华润资产</button>
@@ -1841,18 +1915,23 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   <div class="secttl"><b class="ttl">核心盈利指标</b></div>
   <!-- 行1=营业收入/利润总额/净利润三 hero（左=预算完成环，中=本年累计/累计同比/全年预算 三行纵排，右=本月数/月度环比 上下结构；趋势=当月值柱+月度同比金线；2026-10-21 三轮：核心三指标同行，利润链闭环） -->
   <div class="grid g3 row">
-    <div class="card"><div class="chd chd-fkk">营业收入</div><div class="cbd">
+    <div class="card"><div class="chd chd-fkk">营业收入<span class="badge">🎯</span></div><div class="cbd">
       <div class="kpihero" id="bk-hero-recv"></div>
       <div class="chartbox" style="height:158px"><canvas id="c-bk-t-recv"></canvas></div>
-      <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比</div>
+      <!-- 2026-11-03 按需求：🎯考核指标 与 本月数/月度同比 同行显示（三者同为图下说明） -->
+      <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比<span class="lg-note"><span class="bi">🎯</span>考核指标</span></div>
     </div></div>
-    <div class="card"><div class="chd chd-fkk">利润总额</div><div class="cbd">
+    <div class="card"><div class="chd chd-fkk">利润总额<span class="badge">🎯</span></div><div class="cbd">
       <div class="kpihero" id="bk-hero-prof"></div>
       <div class="chartbox" style="height:158px"><canvas id="c-bk-t-prof"></canvas></div>
-      <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比</div>
+      <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比<span class="lg-note"><span class="bi">🎯</span>考核指标</span></div>
     </div></div>
     <div class="card"><div class="chd chd-fkk">净利润</div><div class="cbd">
-      <div class="kpihero" id="bk-hero-net"></div>
+      <!-- 2026-11-04 按需求：净利润卡图表与左两卡上下沿对齐等高——实测根因=该卡无预算完成环与预算数行
+           （kpihero 实测 62 vs 左两卡 86），图表整体偏上。解法：hero 区 min-height:86px
+           （有环卡实高 86 不受影响；净利润卡补至同高）——三卡图表顶边 y 同线、canvas 恒 158px 原尺寸，
+           内容/坐标轴/图例/配色/卡内文字数值零改动 -->
+      <div class="kpihero" id="bk-hero-net" style="min-height:86px"></div>
       <div class="chartbox" style="height:158px"><canvas id="c-bk-t-net"></canvas></div>
       <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比</div>
     </div></div>
@@ -1872,6 +1951,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
           <div class="donut-total" id="bk-wf-center"></div></div>
         <div id="bk-wf-rows"></div>
       </div>
+      <div class="wf-calc">其他支出(净收益)=其他业务成本+营业外支出-营业外收入</div>
     </div></div>
   </div>
   <div class="card row" style="margin-bottom:0"><div class="cbd">
@@ -1910,16 +1990,17 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
       </div>
     </div></div>
     <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
-      <!-- 2026-10-30 按需求：右栏上下调换=上贷款结构、下存款结构（贷款=资产端运用、存款=负债端来源，与左侧「先资产构成后负债构成」的阅读方向对齐） -->
+      <!-- 2026-10-30 按需求：右栏上下调换=上贷款结构、下存款结构（贷款=资产端运用、存款=负债端来源，与左侧「先资产构成后负债构成」的阅读方向对齐）；
+           2026-11-03 按需求：两卡饼图放大（饼列基础档自适应 minmax(150px,30%)、≤1440 内 128px、≤1310 内 116px；饼高全档统一 inline 170px） -->
       <div class="card" style="flex:0 0 auto;margin-bottom:0"><div class="chd">贷款结构</div><div class="cbd">
         <div class="donutwrap dep-loan-wrap">
-          <div style="position:relative;height:150px"><div class="chartbox" style="height:150px"><canvas id="c-bk-loan"></canvas></div><div class="donut-total" id="bk-loan-center"></div></div>
+          <div style="position:relative;height:170px"><div class="chartbox" style="height:170px"><canvas id="c-bk-loan"></canvas></div><div class="donut-total" id="bk-loan-center"></div></div>
           <div id="bk-loan-rows"></div>
         </div>
       </div></div>
       <div class="card" style="flex:1 1 auto;margin-bottom:0"><div class="chd">存款结构</div><div class="cbd">
         <div class="donutwrap dep-loan-wrap">
-          <div style="position:relative;height:150px"><div class="chartbox" style="height:150px"><canvas id="c-bk-dep-pie"></canvas></div><div class="donut-total" id="bk-dep-center"></div></div>
+          <div style="position:relative;height:170px"><div class="chartbox" style="height:170px"><canvas id="c-bk-dep-pie"></canvas></div><div class="donut-total" id="bk-dep-center"></div></div>
           <div id="bk-dep-rows"></div>
         </div>
       </div></div>
@@ -1942,7 +2023,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
         <div id="bk-line-rows"></div>
       </div>
     </div></div>
-    <div class="card"><div class="chd">条线 RAROC &amp; EVA <span class="tag">本年累计</span></div><div class="srcrow" id="bk-raroc-tabs"></div><div class="cbd">
+    <div class="card"><div class="chd">条线RAROC &amp; EVA <span class="tag">本年累计</span></div><div class="srcrow" id="bk-raroc-tabs"></div><div class="cbd">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 14px">
         <div>
           <div class="stgrp-cap" style="margin-top:0;font-size:11px">RAROC</div>
@@ -1957,12 +2038,18 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
       </div>
     </div></div>
   </div>
-  <div class="grid g3 row" style="margin-bottom:0">
-    <div class="card"><div class="chd">公司条线 <span class="tag">客户数：本月末/利率：本年累计</span></div><div class="cbd" id="bk-corp"></div></div>
-    <div class="card"><div class="chd">零售条线 <span class="tag">本月末</span></div><div class="cbd" id="bk-retail"></div></div>
-    <div class="card"><div class="chd">金市条线 <span class="tag">本月末</span></div><div class="cbd" id="bk-chan"></div></div>
+  <div class="grid g3 row bk3line" style="margin-bottom:0">
+    <div class="card"><div class="chd">公司条线</div><div class="cbd" id="bk-corp"></div></div>
+    <div class="card"><div class="chd">零售条线</div><div class="cbd" id="bk-retail"></div></div>
+    <div class="card"><div class="chd">金市条线</div><div class="cbd" id="bk-chan"></div></div>
   </div>
 </section>
+
+<!-- ============ 华润银行(简版)（2026-11-04 按需求新增）：内容与「华润银行」Tab 完全一致（同一套渲染与样式）。
+     实现=渲染内容在 #v-bank 与 #v-banks 之间切换挂载（bankMount）：全页银行渲染按固定 ID 取 DOM，
+     静态复制会产生重复 ID/图表实例冲突；切换挂载保证两份视图共用同一份可交互内容（日期联动/页签/悬停全部正常），
+     且不复制第二套 HTML。后续若简版要独立增删模块，可在 drawBank 按 curView==='banks' 分支处理。 ============ -->
+<section class="view" id="v-banks"></section>
 
 <!-- ============ 信托（2026-10-26 优化：新增「业绩合同指标」六卡区（收入构成之前）；按业务关联性分区聚合；① 本月数趋势 hero + 效益规模六卡 ② 业绩合同六卡（占比/收益率实时计算 · 合同目标达成条） ③ 收入构成饼（2026-10-27 改除国信口径六条线：证券受托/财富家办/公私募资管/固有/对公/行政服务）+ 盈利口径对照：含国信 / 剔除国信 ④ 规模与业务结构（2026-10-27 一行三模块：分条线业务规模 + 信托新三分类构成 + 固有资金运用构成五列明细；原固有资金与元大基金区删除，元大条线卡移除）；数据源 = 数据应用·固定报表管理·华润信托 trust01-05 实时取数；可视化触发规则详见《管理驾驶舱-华润信托-指标布局与可视化规范》） ============ -->
 <section class="view" id="v-trust">
@@ -2238,6 +2325,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 </div>
 
 <script src="sheets_data.js"></script>
+<script src="bank_calc_notes.js"></script>
 <script src="asset_sheets_data.js"></script>
 <script src="trust_sheets_data.js"></script>
 <script src="insurance_sheets_data.js"></script>
@@ -2836,7 +2924,9 @@ function renderPanel(key, s){
     // KPI cards：无数据期间数值显示 N/A（同比/较年初由 deltaSpan 置 N/A）；华润资产卡片与华润保险业务指标(ins02)、华润银行损益表简表(02)/收入结构(04)/成本结构(05)删除较年初行；
     // 华润租赁收入结构(lease01)改用单卡片级 k.noYtd（营业收入/利润总额不显示较年初，质效比率卡片保留），不走整表 hideYtd
     const hideYtd = key.indexOf('asset') === 0 || key === 'ins02' || key === 'trust01' || key === '02' || key === '05' || key === '04';
-    const cardsHtml = list => list.map(k=>kpiCardHtml(has ? k : {label:k.label, value:'N/A', unit:k.unit, trend:null, ytd:null, type:k.type, noYtd:k.noYtd, trendLabel:k.trendLabel}, {noYtd:hideYtd})).join('');
+    /* 2026-11-04 按需求：固定报表面板数字统一 2 位小数（千分位+2dp，fmtThousand 保留符号与 %/ppt 单位；非数值原样） */
+    const fmtKpi = k => ({...k, value:fmtThousand(k.value), trend:fmtThousand(k.trend), ytd:fmtThousand(k.ytd)});
+    const cardsHtml = list => list.map(k=>kpiCardHtml(has ? fmtKpi(k) : {label:k.label, value:'N/A', unit:k.unit, trend:null, ytd:null, type:k.type, noYtd:k.noYtd, trendLabel:k.trendLabel}, {noYtd:hideYtd})).join('');
     if(calKpis){
       s.calibers.forEach((c,ci)=>{
         html += `<div class="kpi-row caliber-pane${ci===0?' active':''}" data-pane="${ci}">${cardsHtml(c.kpi)}</div>`;
@@ -4005,6 +4095,8 @@ function getColTypes(headers){
     if(/指标类|指标项|指标口径/.test(l)) return 'group';
     if(/监管要求/.test(l)) return 'req';
     if(/^单位$/.test(l)) return 'unit';
+    /* 2026-11-04 按需求：去年末 / 实际 / 全年预算 三类值列 → 右对齐 + 千分位（列类型 num） */
+    if(/^(去年末|实际|全年预算)$/.test(l)) return 'num';
     return 'value';
   });
 }
@@ -4125,8 +4217,21 @@ function rerenderCatTable(key){
   wrap.innerHTML = renderTable(view, getColTypes(view.headers), has);
 }
 
-function renderTableRow(r, colTypes, lv, rowIdx, spanMap, has){
-  // 整行为空 → 子表分隔行（华润信托 03/04/05 表内含多个子表，Excel 以空行分隔）
+/* 2026-11-04 数值统一格式化：千分位 + 固定保留 2 位小数（固定报表数字口径）。
+   保留前导符号（+/-）与尾部单位（%、ppt 等）；非数值字符串（如 "-"、"≥100%"、空串）原样返回。
+   应用于：去年末/实际/全年预算 三列、同比/环比/较年初、预算达成率、KPI 卡数值。 */
+function fmtThousand(v){
+  if(v===null || v===undefined) return '';
+  const s=String(v).trim();
+  if(s==='') return s;
+  const m=s.match(/^([+-]?)([\d,，]+(?:\.\d+)?)(.*)$/);
+  if(!m) return s;
+  const num=parseFloat(m[2].replace(/[,，]/g,''));
+  if(!isFinite(num)) return s;
+  return m[1] + num.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) + m[3];
+}
+
+function renderTableRow(r, colTypes, lv, rowIdx, spanMap, has){  // 整行为空 → 子表分隔行（华润信托 03/04/05 表内含多个子表，Excel 以空行分隔）
   if(!r.length || r.every(v=>v===null||v==='')){
     return '<tr class="row-sep"><td colspan="'+colTypes.length+'"></td></tr>';
   }
@@ -4140,7 +4245,7 @@ function renderTableRow(r, colTypes, lv, rowIdx, spanMap, has){
     }
     const t = colTypes[i];
     // 无历史数据期间：数值类单元格置 null（渲染为 N/A）；名称/单位/考核/口径等结构列保留
-    const v = (has === false && (t === 'value' || t === 'delta' || t === 'progress')) ? null : val;
+    const v = (has === false && (t === 'value' || t === 'num' || t === 'delta' || t === 'progress')) ? null : val;
     if(t === 'name'){
       cells += `<td${rsAttr} class="indicator-name lv${lv||0}">${val||'<span class="dim-dash">--</span>'}</td>`;
     } else if(t === 'assess'){
@@ -4155,13 +4260,17 @@ function renderTableRow(r, colTypes, lv, rowIdx, spanMap, has){
       if(!tag) tag = val ? val : '<span class="dim-dash">--</span>';
       cells += `<td${rsAttr} class="assess">${tag}</td>`;
     } else if(t === 'delta'){
-      cells += renderDeltaCell(v);
+      cells += renderDeltaCell(fmtThousand(v));
     } else if(t === 'progress'){
-      cells += renderProgressCell(v);
+      cells += renderProgressCell(fmtThousand(v));
     } else if(t === 'group' || t === 'req'){
       cells += `<td${rsAttr}>${val||''}</td>`;
     } else if(t === 'unit'){
       cells += `<td${rsAttr} class="value">${val||''}</td>`;
+    } else if(t === 'num'){
+      /* 去年末/实际/全年预算：右对齐 + 千分位（占位符 --/N/A 维持原样） */
+      const disp = (v===null) ? '<span class="dim-na">N/A</span>' : ((v===''||v==='-') ? '<span class="dim-dash">--</span>' : fmtThousand(v));
+      cells += `<td${rsAttr} class="value num-right">${disp}</td>`;
     } else {
       const disp = (v===null) ? '<span class="dim-na">N/A</span>' : ((v===''||v==='-') ? '<span class="dim-dash">--</span>' : v);
       cells += `<td${rsAttr} class="value">${disp}</td>`;
@@ -4725,6 +4834,17 @@ var LGL={display:true,position:'top',align:'end',labels:{font:{size:11},color:T2
 
 /* ================= 视图渲染 ================= */
 var curView='overview';
+/* 2026-11-04 按需求：华润银行(简版) tab——银行页内容在 #v-bank / #v-banks 间切换挂载（同一份 DOM，
+   渲染/交互/样式与「华润银行」完全一致；避免静态复制造成重复 ID 与 Chart.js 实例冲突）。
+   挂载前销毁两个银行视图桶的图表实例（同一 canvas 换桶后不能再建第二个 Chart 实例） */
+function bankMount(to){
+  var bank=document.getElementById('v-bank'), simp=document.getElementById('v-banks');
+  if(!bank||!simp) return;
+  var from=(to==='banks')?bank:simp, dst=(to==='banks')?simp:bank;
+  if(!from.firstChild) return;
+  ['bank','banks'].forEach(function(k){ (charts[k]||[]).forEach(function(c){ try{ c&&c.destroy(); }catch(e){} }); charts[k]=[]; });
+  while(from.firstChild) dst.appendChild(from.firstChild);
+}
 var LeaderApp = {
   setDate:function(v){ selDate=v; renderNorth(); this.refresh(); },
   /* 资产 tab：分区口径切换（sheet=asset01/02/03，仅刷新对应分区，不重建整页图表） */
@@ -4739,13 +4859,15 @@ var LeaderApp = {
     if(el){ var p=el.parentNode; p.querySelectorAll('.src').forEach(function(b){b.classList.remove('on')}); el.classList.add('on'); }
     bkDestroyCanvases(/^c-bk-(raroc|eva)$/); bkRarocRender(); },
   go:function(id,el){ curView=id;
+    if(id!=='banks') bankMount('bank');   /* 非简版：内容始终归还「华润银行」页（保证银行 tab 随时可用） */
     document.querySelectorAll('#moduleLeader header nav button').forEach(function(b){b.classList.remove('on')}); el.classList.add('on');
     document.querySelectorAll('#moduleLeader .view').forEach(function(v){v.classList.remove('on')});
     document.getElementById('v-'+id).classList.add('on');
+    if(id==='banks') bankMount('banks');  /* 简版激活：把银行页内容挂载到简版容器（可视状态下测量并渲染） */
     this.refresh(); },
   refresh:function(){ var tp=document.querySelector('.ld-tip'); if(tp) tp.style.display='none';
     charts[curView] && charts[curView].forEach(function(c){ c && c.destroy() }); charts[curView]=[];
-    ({overview:drawOverview,bank:drawBank,trust:drawTrust,ins:drawIns,asset:drawAsset,lease:drawLease})[curView](); }
+    ({overview:drawOverview,bank:drawBank,banks:drawBank,trust:drawTrust,ins:drawIns,asset:drawAsset,lease:drawLease})[curView](); }
 };
 
 /* 华润金融 tab 指标卡生成器（fkk，2026-10-26 参考驾驶舱 gk 指标卡样式）：
@@ -5161,6 +5283,19 @@ function bkTag(sheet,name){ var v=bkTxt(sheet,name,'star'); return (v&&v!=='-')?
 /* 指标属性标签小标签已按需求隐藏（2026-10-15：驾驶舱不展示考核/高质量标签；
    bkTag 仍用于②业绩合同指标扫描来源报表打标行，标签函数保留为空实现便于后续恢复） */
 function bkTagHtml(sheet,name){ return ''; }
+/* 考核/高质量双标识徽章（2026-11-03 按需求）：个人非存AUM月日均 既是考核指标又是高质量指标，
+   卡头标题栏右侧渲染两枚图标小圆角片，一眼识别标签属性；
+   数据源=台账 star 列（★=考核｜高质量指标），含「考核/★」→ 🎯，含「高质量」→ ⭐；
+   仅 opts.badges 启用的卡渲染（其余卡不受影响）；2026-11-03 按需求：徽章 **取消悬停提示**
+   （删 title 属性——浏览器原生 Tooltip 由 title 触发；卡头只显示图标本身，
+   「考核/高质量」语义已由图标形态与图例承载）；卡片/图表其余 Tooltip 逻辑不受影响 */
+function bkBadges(sheet,name){
+  var t=bkTag(sheet,name); if(!t) return '';
+  var h='';
+  if(t.indexOf('★')>=0||t.indexOf('考核')>=0) h+='<span class="badge">🎯</span>';
+  if(t.indexOf('高质量')>=0) h+='<span class="badge">⭐</span>';
+  return h;
+}
 function bkUnitShort(u){ if(u==='亿元') return '亿元'; if(u==='户数') return '户'; return u||''; }
 /* 监管要求解析（"≥100%"/"≥-10%" → 100 / -10） */
 /* bkLim（监管阈值解析）2026-10-28 随监管红线监测模块删除（无调用方） */
@@ -5225,6 +5360,35 @@ function bkPeriodEnd(){
   var last=new Date(y,mo,0).getDate();
   return y+'-'+(mo<10?'0'+mo:mo)+'-'+(last<10?'0'+last:last);
 }
+/* 2026-11-04 按需求（数据驱动）：Excel「驾驶舱显示计算说明」查找——
+   键=台账指标名 或 卡片显示名 两级精确命中 BANK_CALC_NOTES（bank_calc_notes.js，
+   源《银行驾驶舱显示指标.xlsx》29 条）；命中且非空才返回（去首尾全角缩进），否则 ''（气泡不加行）。
+   旧「计算公式/指标定义」内联配置已全部删除，气泡第三行统一走本通道。 */
+function bkCalcNote(name,label){
+  var M=(typeof BANK_CALC_NOTES!=='undefined')?BANK_CALC_NOTES:null; if(!M) return '';
+  var v=M[name]||M[label]||'';
+  return String(v).replace(/^[　\s]+/,'').trim();
+}
+/* 较上年派生（2026-11-03 按需求，ROA/ROE/成本收入比三卡加「较上年」）：
+   台账 03「去年末」列=上年末值，差值=当期−上年末；比率类（%）为 ppt 口径、金额类换算百分比变动。
+   与「同比」同量纲但基准不同（同比=上年同期，较上年=上年末），补齐变动小注行 */
+function bkLtY(sheet,name,u){
+  var a=asNum(bkTxt(sheet,name,'act')), l=asNum(bkTxt(sheet,name,'ly'));
+  if(a==null||l==null) return '-';
+  var pct=String(u||'').indexOf('%')>=0;
+  var d=pct ? (a-l) : ((l? (a/l-1)*100 : 0));
+  return (d>=0?'+':'-')+Math.abs(d).toFixed(2)+(pct?'ppt':'%');
+}
+/* 环比派生（2026-11-03 按需求，零售财富与低成本存款四卡「较年初」改「环比」）：
+   06 台账无当月/环比列，按当期已过月数把「较年初」均摊为月度环比（演示口径，台账原值不变，
+   切换账期自动跟随；占比类保留 ppt 后缀，总额类保留 % 后缀） */
+function bkMomFromYtd(txt){
+  if(!txt||txt==='-') return '-';
+  var m=String(txt).match(/^([+-]?)(\d+(?:\.\d+)?)(.*)$/); if(!m) return '-';
+  var mo=+String(selDate).slice(5,7)||9;
+  var v=(m[1]==='-'?-1:1)*(+m[2])/Math.max(1,mo);
+  return (v>=0?'+':'-')+Math.abs(v).toFixed(2)+m[3];
+}
 /* stx 指标格：名称(+标签) / 值(自动按日期联动：亿元类×dateFactor，比率类原值) / 同比+较年初双小注 / 预算达成条 */
 function bkStx(sheet,name,opts){ opts=opts||{}; var u=bkTxt(sheet,name,'un')||'';
   var disp = opts.label || name; /* 2026-10-28 银行行3：支持显示名覆写（ROA/ROE），取数仍按台账原名 */
@@ -5232,18 +5396,18 @@ function bkStx(sheet,name,opts){ opts=opts||{}; var u=bkTxt(sheet,name,'un')||''
   var v = raw==null?null:(pct?raw:m(raw));
   /* 2026-10-30 按需求：opts.tipDate=1 → 卡片悬浮显示「最新日期：月末账期」（季度报送指标用，
      账期取全局数据日期下拉的当月末，随下拉联动）；
-     同日再按需求：opts.tipTitle/tipFormula → 三行弹框【指标名 / 最新日期 / 计算公式】（成本收入比），
-     tipTitle=1 用卡显示名作第一行；属性值内禁用双引号（公式串不含引号即安全） */
+     2026-11-04 按需求（数据驱动）：气泡第三行统一为「计算说明：{Excel 驾驶舱显示计算说明}」——
+     取数=bank_calc_notes.js（源《银行驾驶舱显示指标.xlsx》L列指标名称×BO列说明，29 条）；
+     匹配=台账名或卡显示名命中 Excel 键且说明非空；旧「计算公式/指标定义」行全部废弃删除；
+     匹配不到/说明为空的指标气泡保持原样（指标名+最新日期） */
+  var calcNote=bkCalcNote(name,opts.label);
   var tipAttr = '';
-  if(opts.tipTitle||opts.tipFormula||opts.tipDef||opts.tipDate){
+  if(opts.tipTitle||opts.tipDate||calcNote){
     /* 属性值内 HTML 用单引号 class（HTML5 合法），避免内层双引号截断 data-tip="..." 属性；
-       2026-10-31 按需求：凡含「最新日期」的气泡统一=第一行指标名（.ct-t 加粗+分割线）→ 最新日期 →（可选）计算公式
-       ——样式同「成本收入比」悬停；同日再按需求：opts.tipDef → 最新日期下加「指标定义」行（.ct-f 同款弱化，
-       长定义允许折行，.ct-def 放宽到 460px） */
+       2026-10-31 按需求：凡含「最新日期」的气泡统一=第一行指标名（.ct-t 加粗+分割线）→ 最新日期 →（可选）计算说明 */
     var tRows='<span class=\'ct-t\'>'+disp+'</span>';
     tRows+='最新日期：<b>'+bkPeriodEnd()+'</b>';
-    if(opts.tipFormula) tRows+='<br><span class=\'ct-f\'>计算公式：'+opts.tipFormula+'</span>';
-    if(opts.tipDef) tRows+='<br><span class=\'ct-f ct-def\'>指标定义：'+opts.tipDef+'</span>';
+    if(calcNote) tRows+='<br><span class=\'ct-f\'>计算说明：'+calcNote+'</span>';
     tipAttr=' data-tip="'+tRows+'"';
   }
   /* 口径标签（2026-10-27 按需求参考金融页卡片）：损益/收入/成本三表=流量类「本年累计」；其余表=时点类「本月末」；opts.kal 可覆写；
@@ -5252,7 +5416,10 @@ function bkStx(sheet,name,opts){ opts=opts||{}; var u=bkTxt(sheet,name,'un')||''
   var h='<div class="stx'+(opts.cls?' '+opts.cls:'')+'"'+tipAttr+'><span class="t" title="'+disp+'">'+
     /* 2026-10-28 按需求：opts.icon=SVG 内部路径串 → 名称前小样式图标（核心科目三总量卡） */
     (opts.icon?'<svg class="t-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+opts.icon+'</svg>':'')+
-    disp+bkTagHtml(sheet,name)+'</span>'+
+    /* 2026-11-03 按需求：标题文本包 .tt 可收缩层——徽章启用时窄卡下文字先省略号收缩，徽章始终完整不裁切 */
+    '<span class="tt">'+disp+'</span>'+bkTagHtml(sheet,name)+
+    /* 2026-11-03 按需求：opts.badges → 考核/高质量双标识徽章（卡头右侧，见 bkBadges） */
+    (opts.badges?bkBadges(sheet,name):'')+'</span>'+
     (kal?'<span class="s-lbl">'+kal+'</span>':'')+
     '<span class="v">'+bkNum(v,u)+'<small>'+(opts.u||bkUnitShort(u))+'</small>'+
     /* 同业对比（2026-10-28 按需求；2026-10-29 标签改「同行业」+ 胶囊样式；同日按需求删除悬停提示语）：opts.peer={v:行业值} */
@@ -5275,9 +5442,29 @@ function bkStx(sheet,name,opts){ opts=opts||{}; var u=bkTxt(sheet,name,'un')||''
       return '<span class="peer pkr dn"><i class="pk-lb">分母：'+(opts.den[2]||opts.den[1])+'</i>'+
         '<b>'+bkNum(m(dv),du)+'<small>'+bkUnitShort(du)+'</small></b></span>'; })()+
     '</span>'+
-    '<div class="dlst">'+bkDl(opts.ylbl||'同比',bkTxt(sheet,name,'yoy'))+(opts.noYtd?'':bkTxt(sheet,name,'ytd')!=='-'?bkDl(opts.ytlbl||'较年初',bkTxt(sheet,name,'ytd')):'')+'</div>';
+    /* 2026-11-03 按需求：opts.dlCol → 变动小注上下分行展示（.dlst 加 .dl-col 纵向排列），
+       同比 / 较年初(环比) 各占一行完整不截断；未指定的卡仍保持同行横排 */
+    '<div class="dlst'+(opts.dlCol?' dl-col':'')+(opts.dlRow?' dl-row':'')+'">'+bkDl(opts.ylbl||'同比',bkTxt(sheet,name,'yoy'))+
+      (opts.noYtd?'':(function(){
+        /* 2026-11-03 按需求：opts.momLbl → 第二变动小注改「环比」并用按账期均摊的派生值；
+           否则沿用台账「较年初/较上年」列（opts.ytlbl 覆写标签） */
+        var y2 = opts.momLbl ? bkMomFromYtd(bkTxt(sheet,name,'ytd')) : bkTxt(sheet,name,'ytd');
+        return (y2 && y2!=='-') ? bkDl(opts.momLbl||opts.ytlbl||'较年初',y2) : ''; })())+
+      /* 2026-11-03 按需求：opts.ltY → 追加「较上年」小注（基准=台账 03 去年末值） */
+      (opts.ltY?bkDl('较上年',bkLtY(sheet,name,u)):'')+'</div>';
   if(opts.bud){ var bd=bkBud(sheet,name), rt=bkRate(sheet,name);
     if(rt!=null){
+      /* 2026-11-04 按需求：反向指标预算达成改文字展示（opts.budTxt，不良资产率/个贷不良率两卡启用）——
+         删除进度条，差值 = 预算值 − 指标实际值（反向指标：差值为正=实际低于预算上限=优于预算）：
+         差值>0 →「优于预算 {差值}ppt」；差值<0 →「超出预算 {|差值|}ppt」；=0 →「与预算持平」；
+         保留预算基准值，整行形如「预算：1.50%，优于预算 0.18ppt」；其余卡进度条逻辑零扰动 */
+      if(opts.budTxt && opts.inv && bd!=null && v!=null){ var dif=+(bd-v).toFixed(2);
+        var ph = dif>0.005 ? '优于预算 <b>'+dif.toFixed(2)+(pct?'ppt':bkUnitShort(u))+'</b>'
+               : dif<-0.005 ? '超出预算 <b>'+Math.abs(dif).toFixed(2)+(pct?'ppt':bkUnitShort(u))+'</b>'
+               : '与预算<b>持平</b>';
+        h+='<div class="budrow"><span class="bl">预算：</span>'+
+          '<span class="btxt">'+(bd!=null?bkNum(bd,u)+'<small>'+(opts.u||bkUnitShort(u))+'</small>':'—')+'，'+ph+'</span></div>'; }
+      else {
       /* 反向指标（不良率类，值越低越好；opts.inv=1）：达成率反算 = 预算上限 ÷ 当期值，
          ≥100%=管住在线上（台账 rate 列为顺向口径 act/bud，反向卡不采用）；
          2026-10-29 按需求：展示与顺向卡完全统一——标签「预算」、进度条蓝色、无悬停提示语 */
@@ -5288,7 +5475,7 @@ function bkStx(sheet,name,opts){ opts=opts||{}; var u=bkTxt(sheet,name,'un')||''
         '<span class="bbar"><i style="width:'+wpct+'"></i>'+
           (inBar? '<b class="b-in" style="left:calc('+wpct+' - 5px)">'+rt.toFixed(2)+'%</b>'
                 : '<b class="b-out" style="left:calc('+wpct+' + 4px)">'+rt.toFixed(2)+'%</b>')+'</span>'+
-        '<span class="bval">'+(bd!=null?bkNum(bd,u)+'<small>'+(opts.u||bkUnitShort(u))+'</small>':'—')+'</span></div>'; } }
+        '<span class="bval">'+(bd!=null?bkNum(bd,u)+'<small>'+(opts.u||bkUnitShort(u))+'</small>':'—')+'</span></div>'; } } }
   return h+'</div>'; }
 /* 金融页式变动小注（2026-10-27）：标签在左、值右（红涨绿跌带箭头），stx 卡内两行 space-between 对齐 */
 function bkDl(label,txt){ if(!txt||txt==='-') return '<span class="s-dlt">'+label+'：<em class="flat">—</em></span>';
@@ -5309,10 +5496,13 @@ function bkStr(sheet,name,opts){ opts=opts||{}; var u=bkTxt(sheet,name,'un')||''
     (opts.ytd && opts.delta!==false && y2 && y2!=='-' ?'<i class="c-q"><span class="lb">'+(opts.ytlbl||'较年初')+'</span>'+bkDelta(y2,'')+'</i>':'')+
     '</b>';
   /* 2026-10-31 按需求：行气泡与卡片气泡同构=第一行指标名（.ct-t+分割线）→ 最新日期（样式参考成本收入比）；
-     同日按需求：弹框指标名称不加括号（去掉旧 '(名)' 包裹） */
+     同日按需求：弹框指标名称不加括号（去掉旧 '(名)' 包裹）；
+     2026-11-04 按需求：opts.tipCal='本月末'|'本年累计' → 最新日期下独占一行统计口径（.ct-cal） */
   var tipHtml='';
-  if(opts.tipDate) tipHtml=' data-tip="<span class=\'ct-t\'>'+(opts.label||name).replace(/^　+/,'')+'</span>最新日期：<b>'+bkPeriodEnd()+'</b>"';
-  return '<div class="strow"'+tipHtml+'><span>'+(opts.label||name)+bkTagHtml(sheet,name)+(opts.note||'')+'</span>'+cols+'</div>'; }/* 02-损益表 指标 → 月度形状（本月数拆分与 RAROC 趋势共用；1月重置） */
+  /* 2026-11-04 按需求（数据驱动）：条线明细行气泡同样支持第三行「计算说明」（Excel 匹配），未命中保持原样 */
+  if(opts.tipDate){ var _cn=bkCalcNote(name,opts.label);
+    tipHtml=' data-tip="<span class=\'ct-t\'>'+(opts.label||name).replace(/^　+/,'')+'</span>最新日期：<b>'+bkPeriodEnd()+'</b>'+(opts.tipCal?'<br><span class=\'ct-cal\'>计算口径：'+opts.tipCal+'</span>':'')+(_cn?(opts.tipCal?'':'<br>')+'<span class=\'ct-f\'>计算说明：'+_cn+'</span>':'')+'"'; }
+  return '<div class="strow"'+tipHtml+'><span'+(opts.nameCls?' class="'+opts.nameCls+'"':'')+'>'+(opts.label||name)+bkTagHtml(sheet,name)+(opts.note||'')+'</span>'+cols+'</div>'; }/* 02-损益表 指标 → 月度形状（本月数拆分与 RAROC 趋势共用；1月重置） */
 var BK_SHAPE=[.072,.148,.231,.312,.395,.478,.563,.648,.736,.824,.911,1];
 
 /* 按 canvas id 正则销毁当前视图内旧图表实例（局部重绘防 canvas 复用报错） */
@@ -5723,9 +5913,10 @@ function drawBank(){
   (function(){
     /* 四元组：[台账原名(取数键), 颜色, 显示名(缺省=原名), 明细行带符号=1]
        2026-10-30 按需求：「其他支出(净收益)」=台账「营业外收支」净额口径——有时净支出有时净收益，
-       明细行值按台账原符号显示（演示值 −2.00=净支出为负）；饼片/中心合计/占比仍取 |值|（环形图不支持负片） */
+       明细行值按台账原符号显示（演示值 −2.00=净支出为负）；饼片/中心合计/占比仍取 |值|（环形图不支持负片）
+       2026-11-04 按需求：显示名改「其他支出(负数：净收益)」提示该行可为负数 */
     var deducts=[['业务及管理费','#6cc0f0'],['税金及附加','#a0b4f0'],['信用减值损失','#eda14e'],
-                 ['营业外收支','#8fd8c8','其他支出(净收益)',1],['所得税','#9db4d0']];
+                 ['营业外收支','#8fd8c8','其他支出(负数：净收益)',1],['所得税','#9db4d0']];
     var vals=deducts.map(function(e){ return +m(Math.abs(bkAct('02',e[0])||0)).toFixed(1); });
     var rowVals=deducts.map(function(e,i){ return e[3]? +(m(bkAct('02',e[0])||0)).toFixed(1) : vals[i]; });
     /* 中心=明细行五项带符号合计（净额净收益时为负，相加=真实总支出）；饼片宽/占比按 |值| */
@@ -5765,16 +5956,16 @@ function drawBank(){
   var peerSet={'净息差':1};
   if(effEl) effEl.innerHTML=
     [['资产利润率','ROA(资产利润率)'],['资本利润率','ROE(资本利润率)'],['成本收入比','成本收入比']]
-      .map(function(e){ return bkStx('03',e[0],Object.assign({kal:'本年累计',label:e[1],ylbl:'累计同比',tipDate:1,   /* 2026-10-30 按需求：效益与定价全卡悬停最新日期 */
+      .map(function(e){ return bkStx('03',e[0],Object.assign({kal:'本年累计',label:e[1],ylbl:'累计同比',ltY:1,tipDate:1,   /* 2026-10-30 按需求：效益与定价全卡悬停最新日期；2026-11-03 按需求：三卡加「较上年」小注 */
         peer:Object.assign({peri:BK_INDUSTRY.peri},BK_INDUSTRY[e[0]])},
-        /* 2026-10-30 按需求：成本收入比悬停=三行弹框（指标名/最新日期/计算公式）；
-           2026-10-31 按需求：公式符号改 ÷（与净息差等新加公式统一） */
-        e[0]==='成本收入比'?{tipTitle:1,tipFormula:'成本收入比 = 业务及管理费 ÷ 营业收入 ×100%'}:{})); }).join('')+
+        /* 2026-11-04 按需求：旧内联 tipFormula 已删除——计算说明统一走 Excel 数据通道（bkCalcNote），
+           成本收入比 label 命中 Excel 键「成本收入比」自动带出 */
+        {})); }).join('')+
     ['净息差','生息资产收益率','付息负债付息率'].map(function(n){ return bkStx('07',n,
       Object.assign({kal:'本年累计',ytlbl:'较上年',tipDate:1,   /* 2026-10-29 按需求：口径标签改本年累计、较年初改较上年；10-30 悬停最新日期 */
        spark:sparkSet[n], peer:peerSet[n]?Object.assign({peri:BK_INDUSTRY.peri},BK_INDUSTRY[n]):null},
-       /* 2026-10-31 按需求：净息差悬停加第三行计算公式（指标名/最新日期/计算公式，同成本收入比） */
-       n==='净息差'?{tipFormula:'净息差 = 利息净收入 ÷ 生息资产年日均 ÷ 实际天数 × 360 × 100%'}:{})); }).join('')+
+       /* 2026-11-04 按需求：净息差旧内联 tipFormula 删除（计算说明走 Excel 数据通道自动带出） */
+       {})); }).join('')+
     /* 2026-10-30 按需求：行尾新增「不良贷款率」卡（09 台账），样式同付息负债付息率
        （口径标签+近6月 spark 面积图+较上年小注）；本行改一行七卡 */
     /* 2026-10-30 按需求：口径标签「本年累计」改「本月末」（不良贷款率=时点余额口径）、
@@ -5797,21 +5988,27 @@ function drawBank(){
       {cap:'零售财富与低成本存款',hint:'',cols:4,
         /* 2026-10-28 按需求：卡片显示名精简（去「其中：」前缀、去「余额」尾词）；取数仍按台账原名；
            2026-10-29 按需求排序：AUM 底盘 → 低成本存款年日均占比 → 低成本存款年日均 → 产融协同年日均；
-           本组四卡删除「本月末」口径标签（kal:''）；「低成本存款占比」更名「低成本存款年日均占比」 */
-        pick:[['06','其中：个人非存AUM月日均',{label:'个人非存AUM月日均',kal:''}],['06','低成本存款占比',{label:'低成本存款年日均占比',kal:'',den:['06','存款年日均（全行）','存款年日均']}],['06','其中：低成本存款年日均',{label:'低成本存款年日均',kal:''}],['06','产融协同低成本存款年日均余额',{label:'产融协同低成本存款年日均',kal:''}]]},
+           本组四卡删除「本月末」口径标签（kal:''）；「低成本存款占比」更名「低成本存款年日均占比」；
+           2026-11-03 按需求：本组四卡第二变动小注由「较年初」改「环比」展示（momLbl）；
+           2026-11-04 按需求：低成本存款年日均占比/低成本存款年日均/产融协同低成本存款年日均三卡「环比」改「较上年」
+           （ytlbl 覆写=台账 ytd 列；个人非存AUM月日均卡保持环比） */
+        pick:[['06','其中：个人非存AUM月日均',{label:'个人非存AUM月日均',kal:'',momLbl:'环比',dlCol:1,badges:1}],['06','低成本存款占比',{label:'低成本存款年日均占比',kal:'',ytlbl:'较上年',badges:1,den:['06','存款年日均（全行）','存款年日均']}],['06','其中：低成本存款年日均',{label:'低成本存款年日均',kal:'',ytlbl:'较上年',dlCol:1,badges:1}],['06','产融协同低成本存款年日均余额',{label:'产融协同低成本存款年日均',kal:'',ytlbl:'较上年',dlCol:1,badges:1}]]},
       {cap:'五篇大文章相关',hint:'',cols:2,
         /* 2026-10-29 按需求：显示名去「公司-」前缀（取数仍按台账原名）；本组两卡删除「本月末」口径标签 */
         /* 2026-10-30 按需求：科技企业客群净增余额加「本年累计」口径标签（净增=年内累计动作量）、删「较年初」小注 */
+        /* 2026-11-04 按需求：该卡增加「较上年」小注（撤 noYtd、ytlbl 覆写=台账 ytd 列 +15.0%） */
+        /* 2026-11-04 按需求：同比+较上年两条小注强制同行（dlRow，窄卡不拆行） */
         /* 2026-10-31 按需求：两卡悬停加「指标定义」行（定义长文，气泡内折行显示） */
-        pick:[['06','公司-科技企业客群净增余额',{label:'科技企业客群净增余额',kal:'本年累计',noYtd:1,tipDef:'科技企业客群余额为科技企业表内贷款余额。科技企业包含：“高新技术企业认定管理工作网”发布最新高新技术企业，或符合由国家工业和信息化部、广东省工业和信息化厅、深圳市工业和信息化局或深圳市中小企业主管部门认定的专精特新企业、小巨人企业、“全国科技型中小企业信息服务平台”发布的科技型中小企业以及行内科技金融领导小组办公室认定的科技企业'}],['06','绿色金融余额',{kal:'',tipDef:'统计口径（现行《绿色金融支持项目目录（2025年版）》银调发〔2025〕7号，2025-10-01实施）：绿色贷款指金融机构发放给企事业单位/其他组织/个人，资金用于环境改善、应对气候变化、资源节约高效利用的贷款，仅统计表内贷款，本外币均统计。认定原则：按贷款实际用途认定，不是看企业本身是不是绿色企业；必须对应《绿色金融支持项目目录（2025年版）》允许的绿色经济活动，可核验、可追溯。包含9大一级目录门类（2025版）：1.节能降碳产业 2.环境保护产业 3.资源循环利用产业 4.能源绿色低碳转型 5.生态保护修复和利用 6.基础设施绿色升级 7.绿色服务 8.先进交通装备贸易 9.绿色消费'}]]},
+        pick:[['06','公司-科技企业客群净增余额',{label:'科技企业客群净增余额',kal:'本年累计',ytlbl:'较上年',dlRow:1,badges:1}],['06','绿色金融余额',{kal:'',badges:1}]]},
       {rows:[
         {cap:'公司客群经营',hint:'',cols:4,
           /* 2026-10-29 按需求：客群行拆左（公司4）右（零售2）两组；新增有效客户数=年内累计获客，口径改「本年累计」 */
+          /* 2026-11-04 按需求：新增有效客户数第二小注「较年初」改「较上年」（ytlbl 覆写） */
           /* 2026-10-31 按需求：两卡悬停加「指标定义」行 */
-          pick:[['08','公司有效客户数'],['08','新增有效客户数',{kal:'本年累计'}],['08','基石客户',{tipDef:'与华润银行深度合作，授信地位“数一数二”，综合金融服务交叉覆盖，存款沉淀合理充分，能够持续为华润银行贡献综合收益的客户'}],['08','产融协同客户数',{tipDef:'核心企业上下游新开户数'}]]},
+          pick:[['08','公司有效客户数',{dlCol:1,badges:1}],['08','新增有效客户数',{kal:'本年累计',ytlbl:'较上年',badges:1}],['08','基石客户',{badges:1}],['08','产融协同客户数',{badges:1}]]},
         {cap:'零售客群经营',hint:'',cols:2,
           /* 2026-10-31 按需求：两卡悬停加「指标定义」行 */
-          pick:[['08','代发客户数',{tipDef:'考核当年代发工资客户数。代发工资是指批量代发或交易类型为“代发工资、奖金、补贴、津贴、报销、年终奖、养老金、公积金”等的批量转账。代发客户是指连续代发三个月（自2025年11月1日起）或当年累计四个月，平均每月代发金额需大于等于1000元的客户'}],['08','零售高净值客户数',{tipDef:'资产月日均200万元及以上的客户数'}]]}]},
+          pick:[['08','代发客户数',{badges:1}],['08','零售高净值客户数',{badges:1}]]}]},
       {cap:'风险与监管底线',hint:'',
         /* 2026-10-28 按需求：资产质量三卡改【总锚→新增生成→条线拆分】（小额生成率提到个贷前）；
            不良资产处置=年内累计处置动作量，口径标签覆写为「本年累计」、小注「同比」改「累计同比」；
@@ -5819,9 +6016,14 @@ function drawBank(){
            资本充足率/流动性覆盖率=季度报送监管指标，口径标签改「本季末」；
            2026-10-30 按需求：两卡加悬浮提示，鼠标移入显示该指标最新获取日期（月末账期） */
         /* 2026-10-31 按需求：六卡悬停气泡在最新日期下加「计算公式」行（三行版同成本收入比） */
-        pick:[['09','不良资产率',{inv:1,tipFormula:'不良资产率 = 不良信用风险资产余额 ÷ 资产总额 × 100%'}],['09','小额不良生成率',{inv:1,kal:'本年累计',ytlbl:'较上年',tipFormula:'小额不良生成率 = （期末不良额 − 期初不良额 + 核销（含差额核销） − 核销后回收） ÷ 期初贷款规模 × 100%'}],['09','个贷不良率',{inv:1,tipFormula:'个贷不良率 = 个贷条线不良贷款 ÷ 个贷条线总贷款 × 100%'}],
-              ['09','不良资产处置',{kal:'本年累计',ylbl:'累计同比',tipFormula:'不良资产处置 = 1104报表《G12贷款质量迁徙情况表》[15.不良资产处置总额][本期减少]，即期末不良资产的（min(发放额,年初余额) − 期末余额）'}],
-              ['03','资本充足率',{kal:'本季末',tipDate:1,tipFormula:'资本充足率 = 资本净额 ÷ 应用资本底线及校准后的风险加权资产合计 × 100%'}],['03','流动性覆盖率',{kal:'本季末',tipDate:1,tipFormula:'流动性覆盖率 = 合格优质流动性资产 ÷ 未来30天现金净流出量 × 100%'}]]}
+        /* 2026-11-04 按需求：不良资产处置第二小注「较年初」改「较上年」（ytlbl 覆写） */
+        /* 2026-11-04 按需求：不良资产率/个贷不良率=反向指标，预算达成删进度条改文字行
+           （「预算：1.50%，优于预算 0.18ppt」/「超出预算 0.05ppt」，opts.budTxt，见 bkStx） */
+        pick:[['09','不良资产率',{inv:1,badges:1,budTxt:1}],['09','小额不良生成率',{inv:1,kal:'本年累计',ytlbl:'较上年',badges:1}],['09','个贷不良率',{inv:1,badges:1,budTxt:1}],
+              ['09','不良资产处置',{kal:'本年累计',ylbl:'累计同比',ytlbl:'较上年',badges:1}],
+              ['03','资本充足率',{kal:'本季末',tipDate:1,badges:1}],['03','流动性覆盖率',{kal:'本季末',tipDate:1,badges:1}]],
+        /* 2026-11-03 按需求：组卡片下方加徽章图例注释（🎯/⭐ 含义说明——图标悬停提示已取消，语义由本注释承载） */
+        note:'<span class="bnote"><span class="bi">🎯</span> 考核：该指标属于绩效考核指标</span><span class="bnote"><span class="bi">⭐</span> 高质量：该指标为高质量发展重点指标</span>'}
     ];
     var used=0;
     /* 组卡渲染（pick 项第 3 元素=卡片选项覆写，如 kal 口径标签；去重键只取前两位；
@@ -5852,7 +6054,8 @@ function drawBank(){
       used+=cells.length;
       return '<div class="stgrp-cap" style="margin-top:14px">'+g.cap+
         (g.hint?' <span class="lite">'+g.hint+'</span>':'')+'</div>'+
-        '<div class="bkgrid6">'+cells.join('')+'</div>'; }).join('');
+        '<div class="bkgrid6">'+cells.join('')+'</div>'+
+        (g.note?'<div class="stgrp-note">'+g.note+'</div>':''); }).join('');
     cEl.innerHTML=html;
     var st=document.getElementById('bk-contract-n'); if(st) st.textContent=used;
   }
@@ -5929,17 +6132,20 @@ function drawBank(){
   /* 贷款结构 → 环形饼（2026-10-27 按需求由条形改饼：公司+个人贷款 相加=贷款余额，
      严格层级构成满足入饼条件；中心=贷款余额，明细行 值+同比+占比，与存款结构卡同风格；
      2026-10-30 按需求显示名精简：中心「贷款总额」改「贷款余额」，分项「公司-贷款余额/个人-贷款余额」
-     改「公司贷款/个人贷款」（取数仍按台账原名；饼片悬停名同步） */
-  var loanNames=['公司-贷款余额','个人-贷款余额'];
-  var loanDisp=['公司贷款','个人贷款'];
+     改「公司贷款/个人贷款」（取数仍按台账原名；饼片悬停名同步）；
+     2026-11-03 按需求：①中心「贷款余额」改「贷款」（单位亿元随标签保留）；
+     ②个人贷款下新增第三分项「其他贷款」（台账新增行 24a 其他-贷款余额 150.00 亿，同比+4.8%），
+     三分项相加=中心合计 7,000.00 亿勾稽闭环；第三片色取 BK_PIE[4] 与前两片区分 */
+  var loanNames=['公司-贷款余额','个人-贷款余额','其他-贷款余额'];
+  var loanDisp=['公司贷款','个人贷款','其他贷款'];
   var loanYoys=loanNames.map(function(n){ return bkTxt('06',n,'yoy'); });
   (function(){
     var vals=loanNames.map(function(n){ return +m(bkAct('06',n)||0).toFixed(0); });
     var full=vals.reduce(function(a,b){return a+b;},0);
-    var cols=[BK_PIE[0],BK_PIE[2]];
+    var cols=[BK_PIE[0],BK_PIE[2],BK_PIE[4]];
     bkDestroyCanvases(/^c-bk-loan$/);
     bkDonut('c-bk-loan',loanDisp,vals,cols,{yoy:loanYoys,kind:'time'});
-    bkDonutCenter('bk-loan-center',full,'贷款余额 · 亿元','sm');
+    bkDonutCenter('bk-loan-center',full,'贷款 · 亿元','sm');
     var el=document.getElementById('bk-loan-rows');
     if(el) el.innerHTML=loanNames.map(function(n,i){
       return bkCompRow(cols[i],loanDisp[i],vals[i],loanYoys[i],'占比 '+(vals[i]/full*100).toFixed(2)+'%',1); }).join('');
@@ -5995,47 +6201,51 @@ function drawBank(){
      公司卡：贷款对客收益率-对公 显示名改「贷款对客收益率-公司」（取数仍按台账原名）、
      收益率/付息率两行「较年初」改「较上年」（跨年比口径）、底部新增「公司贷款信用损失准备」（09 台账）；
      零售卡底部新增「零售贷款信用损失准备」（09 台账）；
-     息率卡：卡头去「07-利率结构」尾注，底部新增「1Y国债收益率」参照行（非台账科目=演示值内联：值/较月初/同比/较年初） */
+     息率卡：卡头去「07-利率结构」尾注，底部新增「1Y国债收益率」参照行（非台账科目=演示值内联：值/同比/较年初，2026-11-03 删除较月初） */
+  /* 2026-11-04 按需求：条线三卡指标气泡统一加「统计口径」行（最新日期下一行独占）——
+     余额/客户数类时点指标=本月末；收益率/付息率/拨备/日均/AUM=本年累计（tipCal 配置，清单见各行注释） */
   var corpEl=document.getElementById('bk-corp');
   if(corpEl) corpEl.innerHTML=
-    bkStr('08','公司有效授信客户数',{ytd:1,tipDate:1})+
-    bkStr('08','其中：大中有效授信客户数',{label:'　　大中有效授信客户数',ytd:1,tipDate:1})+  /* 全角空格缩进2字=从属层级 */
-    bkStr('08','基石客户',{label:'基石客户数',ytd:1,tipDate:1})+
-    bkStr('07','贷款对客收益率-对公',{label:'贷款对客收益率-公司',ytd:1,ytlbl:'较上年',tipDate:1})+
-    bkStr('07','存款对客付息率-公司',{ytd:1,ytlbl:'较上年',tipDate:1})+  /* 量价成对；跨年比口径「较上年」 */
-    bkStr('09','公司贷款信用损失准备',{ytd:1,tipDate:1}); /* 新增：公司条线拨备（亿元） */
+    bkStr('08','公司有效授信客户数',{ytd:1,tipDate:1,tipCal:'本月末'})+
+    bkStr('08','其中：大中有效授信客户数',{label:'其中，大中有效授信客户数',nameCls:'qz-name',ytd:1,tipDate:1,tipCal:'本月末'})+  /* 2026-11-03 按需求：全角空格缩进改「其中，」前缀；.qz-name 小字号保证 140/136px 名称列内单行不截断 */
+    bkStr('08','基石客户',{label:'基石客户数',ytd:1,tipDate:1,tipCal:'本月末'})+
+    bkStr('07','贷款对客收益率-对公',{label:'贷款对客收益率-公司',ytd:1,ytlbl:'较上年',tipDate:1,tipCal:'本年累计'})+
+    bkStr('07','存款对客付息率-公司',{ytd:1,ytlbl:'较上年',tipDate:1,tipCal:'本年累计'})+  /* 量价成对；跨年比口径「较上年」 */
+    bkStr('09','公司贷款信用损失准备',{ytd:1,ytlbl:'较上年',tipDate:1,tipCal:'本年累计'}); /* 新增：公司条线拨备（亿元）；2026-11-04 按需求 较年初→较上年 */
   var retEl=document.getElementById('bk-retail');
   if(retEl) retEl.innerHTML=
-    bkStr('08','零售客户数',{ytd:1,tipDate:1})+
-    bkStr('08','零售中高端客户数',{ytd:1,tipDate:1})+
-    bkStr('06','代发客户AUM月日均',{ytd:1,tipDate:1})+
-    bkStr('07','贷款对客收益率-个人',{ytd:1,tipDate:1})+  /* 个人贷款收益率（置于个人付息率上） */
-    bkStr('07','存款对客付息率-个人',{ytd:1,tipDate:1})+
-    bkStr('09','零售贷款信用损失准备',{ytd:1,tipDate:1}); /* 新增：零售条线拨备（亿元） */
+    bkStr('08','零售客户数',{ytd:1,tipDate:1,tipCal:'本月末'})+
+    bkStr('08','零售中高端客户数',{ytd:1,tipDate:1,tipCal:'本月末'})+
+    bkStr('06','代发客户AUM月日均',{ytd:1,tipDate:1,tipCal:'本年累计'})+
+    bkStr('07','贷款对客收益率-个人',{ytd:1,ytlbl:'较上年',tipDate:1,tipCal:'本年累计'})+  /* 个人贷款收益率（置于个人付息率上）；2026-11-04 按需求 较年初→较上年 */
+    bkStr('07','存款对客付息率-个人',{ytd:1,ytlbl:'较上年',tipDate:1,tipCal:'本年累计'})+
+    bkStr('09','零售贷款信用损失准备',{ytd:1,ytlbl:'较上年',tipDate:1,tipCal:'本年累计'}); /* 新增：零售条线拨备（亿元）；2026-11-04 按需求 较年初→较上年 */
   var chanEl=document.getElementById('bk-chan');
   if(chanEl) chanEl.innerHTML=
     /* 量价成对四行：资产端【债券投资 01 余额 → 债券投资收益率 07】· 负债端【应付债券 01 余额 → 应付债券付息率 07】 */
-    bkStr('01','债券投资',{ytd:1,tipDate:1})+
-    bkStr('07','债券投资收益率',{ytd:1,tipDate:1})+
-    bkStr('01','应付债券',{ytd:1,tipDate:1})+
-    bkStr('07','应付债券付息率',{ytd:1,tipDate:1})+
-    /* 新增参照行：1Y/10Y国债收益率（市场基准利率，非 07 台账科目——演示值内联，四小注=值/较月初/同比/较年初；
-       10Y>1Y 为正常期限结构利差） */
-    bkGovBondRow('1Y国债收益率','1.75','+0.03ppt','-0.15ppt','-0.10ppt')+
-    bkGovBondRow('10Y国债收益率','2.15','+0.04ppt','-0.22ppt','-0.18ppt');
+    bkStr('01','债券投资',{ytd:1,tipDate:1,tipCal:'本月末'})+
+    bkStr('07','债券投资收益率',{ytd:1,ytlbl:'较上年',tipDate:1,tipCal:'本年累计'})+
+    bkStr('01','应付债券',{ytd:1,tipDate:1,tipCal:'本月末'})+
+    bkStr('07','应付债券付息率',{ytd:1,ytlbl:'较上年',tipDate:1,tipCal:'本年累计'})+
+    /* 新增参照行：1Y/10Y国债收益率（市场基准利率，非 07 台账科目——演示值内联，小注=同比/较年初；
+       10Y>1Y 为正常期限结构利差；2026-11-03 按需求删除「较月初」，列结构与上方台账行一致） */
+    bkGovBondRow('1Y国债收益率','1.75','-0.15ppt','-0.10ppt','本年累计平均(简单平均)')+
+    bkGovBondRow('10Y国债收益率','2.15','-0.22ppt','-0.18ppt','本年累计平均(简单平均)');
 }
 /* 国债收益率参照行（2026-10-30 按需求，息率卡）：市场基准利率非台账科目，演示值内联；
-   小注=较月初/同比/较年初（ppt 变动），红涨绿跌与台账行同语言 */
-function bkGovBondRow(name,act,mom,yoy,ytd){
-  /* 2026-10-30 按需求：右侧改「收入构成」cols3 固定列版式（与同卡台账行同列宽/同标签样式）；
-     字段保持 值/较月初/同比/较年初 四列（较月初与较年初共用 .c-q 列） */
-  return '<div class="strow" data-tip="最新日期：<b>'+bkPeriodEnd()+'</b>"><span>'+name+'</span>'+
-    /* 2026-11-03 第三轮：列序改 同比→较年初→较月初——同比/较年初 与台账 3 列行同列纵向对齐，
-       较月初（国债行专属）占末列 */
+   小注=同比/较年初（ppt 变动），红涨绿跌与台账行同语言；
+   2026-11-03 按需求：删除「较月初」列——与台账行同为 值/同比/较年初 三列结构，
+   撤销 .gov 专属类与紧凑小注样式，列宽/字号/右移微调/对齐全量复用台账行规则 */
+function bkGovBondRow(name,act,yoy,ytd,tipCal){
+  /* 2026-11-04 按需求：气泡升级为三行版（指标名+分割线 → 最新日期 → 统计口径），与台账行同构；
+     tipCal=Excel 无说明的演示科目手动口径（1Y/10Y国债收益率=本年累计）；
+     同日再按需求：接入 Excel 计算说明通道（1Y/10Y=手工补充条目）；
+     同日再按需求：口径行与计算说明行（均 display:block）之间不再拼 <br>——消除两行间的空白行紧挨排布 */
+  var _gn=bkCalcNote(name);
+  return '<div class="strow" data-tip="<span class=\'ct-t\'>'+name+'</span>最新日期：<b>'+bkPeriodEnd()+'</b>'+(tipCal?'<br><span class=\'ct-cal\'>计算口径：'+tipCal+'</span>':'')+(_gn?(tipCal?'':'<br>')+'<span class=\'ct-f\'>计算说明：'+_gn+'</span>':'')+'"><span>'+name+'</span>'+
     '<b class="cols3"><i class="c-v">'+act+' %</i>'+
     '<i class="c-y"><span class="lb">同比</span>'+bkDelta(yoy,'')+'</i>'+
-    '<i class="c-q"><span class="lb">较年初</span>'+bkDelta(ytd,'')+'</i>'+
-    '<i class="c-p"><span class="lb">较月初</span>'+bkDelta(mom,'')+'</i></b></div>';
+    '<i class="c-q"><span class="lb">较年初</span>'+bkDelta(ytd,'')+'</i></b></div>';
 }
 
 /* ---- 信托 / 保险 / 租赁（2026-10-13 重构）----
