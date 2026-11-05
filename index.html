@@ -688,6 +688,9 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   white-space:nowrap;
 }
 .data-table tbody tr:nth-child(even){background:#f8f9fb;}
+/* 2026-11-05 按需求：固定报表管理 + 报表台账管理 全部列表取消隔行变色，统一白底展示
+   注意：驾驶舱面板也带 .sheet-panel 类（id 前缀 panel-cock-），用 :not 排除——集团总览等驾驶舱表格隔行效果保留 */
+.sheet-panel:not([id^="panel-cock-"]) .data-table tbody tr:nth-child(even){background:transparent;}
 .data-table tbody tr:hover{background:#fff8e6;}
 .data-table tbody tr.row-sep{background:transparent;}
 .data-table tbody tr.row-sep:hover{background:transparent;}
@@ -698,12 +701,49 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 /* 全模块统一（参照华润保险报表2）：二级指标黑体；三级指标颜色调浅；二/三级右对齐；一级保持原样式 */
 .data-table td.indicator-name.lv1{font-weight:400; font-family:"SimHei","Heiti SC","Microsoft YaHei",sans-serif; color:var(--c-text); text-align:right; padding-right:12px;}
 .data-table td.indicator-name.lv2{font-weight:400; color:#9ca3af; text-align:right; padding-right:12px;}
-/* 华润保险02-业务指标 四级层级（2026-09-15）：一级加粗靠左 / 二级半粗靠左 / 三级黑体靠右 / 四级浅灰靠右；
-   仅作用本表（#panel-ins02 作用域），其他模块三级层级样式不受影响 */
-#panel-ins02 td.indicator-name.lv0{font-weight:700;}
-#panel-ins02 td.indicator-name.lv1{font-weight:600; color:var(--c-primary); text-align:left; padding-left:12px; font-family:inherit;}
-#panel-ins02 td.indicator-name.lv2{font-weight:400; font-family:"SimHei","Heiti SC","Microsoft YaHei",sans-serif; color:var(--c-text); text-align:right; padding-right:12px;}
-#panel-ins02 td.indicator-name.lv3{font-weight:400; color:#9ca3af; text-align:right; padding-right:12px;}
+/* 「其中：」组内去冗行占位（2026-11-05 ins02）：3.25em=39px——Courier New 12px 下全角字符
+   回退渲染宽 13px（非 1em=12px），「其中：」三字实测 39px；使删除前缀后的文字与
+   组内首条「其中：」后的首字像素级左对齐；不影响行高/字号/其他列 */
+.data-table td.indicator-name .qz-gap{padding-left:3.25em;}
+/* 华润保险全部报表（固定 ins01-03 + 台账 led-ins01-03）指标名称列 4 级层级规范（2026-11-05 按需求三轮）：
+   四级统一 Courier New · 半粗 600 · 左对齐 · #1f2937，层级只用缩进区分（一级顶格12px/二级28px/三级44px/四级60px）；
+   覆盖全局 lv1/lv2 右对齐规则（id 选择器优先级更高），仅作用保险面板 */
+#panel-ins01 td.indicator-name, #panel-ins02 td.indicator-name, #panel-ins03 td.indicator-name,
+#panel-led-ins01 td.indicator-name, #panel-led-ins02 td.indicator-name, #panel-led-ins03 td.indicator-name{
+  font-family:"Courier New",monospace;
+  font-weight:600; color:#1f2937; text-align:left; padding-right:10px;
+}
+#panel-ins01 td.indicator-name.lv0, #panel-ins02 td.indicator-name.lv0, #panel-ins03 td.indicator-name.lv0,
+#panel-led-ins01 td.indicator-name.lv0, #panel-led-ins02 td.indicator-name.lv0, #panel-led-ins03 td.indicator-name.lv0{padding-left:12px;}
+#panel-ins01 td.indicator-name.lv1, #panel-ins02 td.indicator-name.lv1, #panel-ins03 td.indicator-name.lv1,
+#panel-led-ins01 td.indicator-name.lv1, #panel-led-ins02 td.indicator-name.lv1, #panel-led-ins03 td.indicator-name.lv1{padding-left:28px;}
+#panel-ins01 td.indicator-name.lv2, #panel-ins02 td.indicator-name.lv2, #panel-ins03 td.indicator-name.lv2,
+#panel-led-ins01 td.indicator-name.lv2, #panel-led-ins02 td.indicator-name.lv2, #panel-led-ins03 td.indicator-name.lv2{padding-left:44px;}
+#panel-ins01 td.indicator-name.lv3, #panel-ins02 td.indicator-name.lv3, #panel-ins03 td.indicator-name.lv3,
+#panel-led-ins01 td.indicator-name.lv3, #panel-led-ins02 td.indicator-name.lv3, #panel-led-ins03 td.indicator-name.lv3{padding-left:60px;}
+/* 2026-11-05 按需求：华润保险 02-业务指标（固定 + 台账）—— 一级指标（lv0）整行浅灰底，
+   与二级及以下白底形成分组视觉锚点；id 选择器仅作用 ins02 两面板，其他报表/模块不受影响 */
+#panel-ins02 .data-table tbody tr.row-lv0,
+#panel-led-ins02 .data-table tbody tr.row-lv0{background:#f3f4f6;}
+/* 一级行指标名称加粗（覆盖保险面板 600 半粗基线） */
+#panel-ins02 .data-table tbody tr.row-lv0 td.indicator-name,
+#panel-led-ins02 .data-table tbody tr.row-lv0 td.indicator-name{font-weight:700;}
+/* 2026-11-05 按需求：业务指标 二级/三级/四级指标名称不加粗（常规 400，覆盖面板 600 基线；仅 ins02 两面板） */
+#panel-ins02 .data-table tbody tr.row-lv1 td.indicator-name,
+#panel-ins02 .data-table tbody tr.row-lv2 td.indicator-name,
+#panel-ins02 .data-table tbody tr.row-lv3 td.indicator-name,
+#panel-led-ins02 .data-table tbody tr.row-lv1 td.indicator-name,
+#panel-led-ins02 .data-table tbody tr.row-lv2 td.indicator-name,
+#panel-led-ins02 .data-table tbody tr.row-lv3 td.indicator-name{font-weight:400;}
+/* 合并单元格列（rowspan>1，如指标分类）不加背景：跨行合并单元格的底色由整段决定，
+   刷白与下方白底子行衔接，不随 lv0 行变灰 */
+#panel-ins02 .data-table tbody tr.row-lv0 td[rowspan],
+#panel-led-ins02 .data-table tbody tr.row-lv0 td[rowspan]{background:#fff;}
+/* 一级行悬停保持浅灰（避免淡金高亮覆盖分组底色）；合并列悬停同白底逻辑改为极浅灰 */
+#panel-ins02 .data-table tbody tr.row-lv0:hover,
+#panel-led-ins02 .data-table tbody tr.row-lv0:hover{background:#eceef1;}
+#panel-ins02 .data-table tbody tr.row-lv0:hover td[rowspan],
+#panel-led-ins02 .data-table tbody tr.row-lv0:hover td[rowspan]{background:#f8f9fb;}
 .data-table td.value{font-family:"Courier New",monospace; font-weight:600;}
 /* 去年末/实际/全年预算 值列：右对齐（千分位由 fmtThousand 渲染，2026-11-04） */
 .data-table td.value.num-right{text-align:right; padding-right:12px;}
@@ -1542,6 +1582,42 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .src.on{color:#fff;border-color:transparent;background:linear-gradient(135deg,#17427d,#2f7fd6);box-shadow:0 3px 8px rgba(23,66,125,.28)}
 /* 2026-10-27 按需求：银行 tab 页签选中态改用与卡片名称栏一致的背景蓝渐变 */
 #moduleLeader #v-bank .src.on,#moduleLeader #v-banks .src.on{background:linear-gradient(90deg,#39a1f7,#0d6ef0);box-shadow:0 3px 8px rgba(13,110,240,.30)}
+/* 2026-11-04 按需求：华润银行(简版) 删除以下模块（仅简版生效；内容切换挂载后由 #v-banks 作用域命中，
+   原「华润银行」tab 不受影响）：收入构成/支出构成（整行）、总资产构成/总负债构成（核心科目卡内双侧构成）、
+   公司条线/零售条线/金市条线（底部三卡整行）。其余模块位置与内部布局零改动 */
+#moduleLeader #v-banks .bk-compose-row,
+#moduleLeader #v-banks .bs-halves,
+#moduleLeader #v-banks .bk3line{display:none}
+/* 2026-11-04 按需求：资产负债结构行基础版式（原内联样式改类，两 tab 默认一致）
+   2026-11-04 按需求（简版）：核心项目/贷款结构/存款结构三模块同一水平行并排——
+   .bk-bs-col 在简版改 display:contents 让两卡成为网格直接子项；
+   核心项目卡内三张总量卡由横排改上下竖排（其余样式不变） */
+#moduleLeader .bk-bs-row{grid-template-columns:1.55fr 1fr}
+#moduleLeader .bk-bs-col{display:flex;flex-direction:column;gap:12px;min-width:0}
+/* 2026-11-04 按需求（简版·第二轮）：核心项目/贷款结构/存款结构三模块完全等宽（1:1:1）；
+   存/贷款卡内部由「饼左·明细右」改为「饼图在上、明细行在下」——单列网格，
+   饼图独占整卡宽度居中，明细行全宽顺排（贴右对齐沿用 margin-left:auto），
+   并解除窄列时期的名称 48px 截断与紧凑列宽，恢复宽卡舒适列宽 */
+#moduleLeader #v-banks .bk-bs-row{grid-template-columns:repeat(3,minmax(0,1fr))}
+#moduleLeader #v-banks .bk-bs-col{display:contents}
+#moduleLeader #v-banks #bk-bs-cards{grid-template-columns:1fr}
+#moduleLeader #v-banks .dep-loan-wrap.donutwrap{grid-template-columns:minmax(0,1fr);gap:6px;align-items:stretch}
+#moduleLeader #v-banks .dep-loan-wrap [style*="height:170px"]{height:180px !important}
+#moduleLeader #v-banks #bk-dep-rows .strow>span:first-child,
+#moduleLeader #v-banks #bk-loan-rows .strow>span:first-child{flex:0 0 auto;max-width:104px}
+#moduleLeader #v-banks #bk-dep-rows .strow b.cols3 .c-v,
+#moduleLeader #v-banks #bk-loan-rows .strow b.cols3 .c-v{width:90px}
+#moduleLeader #v-banks #bk-dep-rows .strow b.cols3 .c-y,
+#moduleLeader #v-banks #bk-loan-rows .strow b.cols3 .c-y{width:84px;margin-left:4px}
+#moduleLeader #v-banks #bk-dep-rows .strow b.cols3 .c-p,
+#moduleLeader #v-banks #bk-loan-rows .strow b.cols3 .c-p{width:76px;margin-left:4px}
+@media(max-width:1150px){
+  #moduleLeader #v-banks .bk-bs-row{grid-template-columns:1fr 1fr}
+  #moduleLeader #v-banks .bk-bs-row>.card:first-child{grid-column:1 / -1}
+}
+@media(max-width:900px){
+  #moduleLeader #v-banks .bk-bs-row{grid-template-columns:1fr}
+}
 #moduleLeader .src.on b{color:#fff}
 /* ---- 华润金融 tab 指标卡 fkk（2026-10-26 按需求参考驾驶舱指标卡样式整体优化）----
    渐变蓝卡头（白点+口径徽标+ⓘ）→ 体=大数值（蓝渐变大字+单位）+ 浅灰统计行（口径/同比/环比/较年初）；
@@ -1937,7 +2013,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
     </div></div>
   </div>
   <!-- 行2：收入构成饼图（左）｜支出构成环形饼（右，2026-10-28 按需求摊平桥→环形饼，版式对齐左侧；2026-10-30 更名支出构成、删净利润片）；行3：效益与定价六卡 -->
-  <div class="grid g2 row">
+  <div class="grid g2 row bk-compose-row">
     <div class="card" style="margin-bottom:0"><div class="chd">收入构成 <span class="tag">本年累计</span></div><div class="cbd">
       <div class="donutwrap" style="grid-template-columns:206px minmax(0,1fr)">
         <div style="position:relative;height:200px;margin-left:16px"><div class="chartbox" style="height:200px"><canvas id="c-bk-rev-pie"></canvas></div>
@@ -1973,8 +2049,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
        同日按需求删除「贷款五级分类」「监管红线监测」两模块（③区收敛为核心科目+存贷款结构三块）
        2026-10-30 按需求：右栏上下调换=上贷款结构、下存款结构（与左侧先资产后负债的阅读方向对齐） -->
   <div class="secttl"><b class="ttl">资产负债结构</b></div>
-  <div class="grid row" style="grid-template-columns:1.55fr 1fr;align-items:stretch">
-    <div class="card" style="margin-bottom:0"><div class="chd">资产负债核心科目</div><div class="cbd">
+  <div class="grid row bk-bs-row" style="align-items:stretch">
+    <div class="card" style="margin-bottom:0"><div class="chd">资产负债核心项目</div><div class="cbd">
       <div class="bkgrid3" id="bk-bs-cards"></div>
       <div class="grid g2 bs-halves" style="margin-top:14px;align-items:stretch">
         <div>
@@ -1989,7 +2065,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
         </div>
       </div>
     </div></div>
-    <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+    <div class="bk-bs-col">
       <!-- 2026-10-30 按需求：右栏上下调换=上贷款结构、下存款结构（贷款=资产端运用、存款=负债端来源，与左侧「先资产构成后负债构成」的阅读方向对齐）；
            2026-11-03 按需求：两卡饼图放大（饼列基础档自适应 minmax(150px,30%)、≤1440 内 128px、≤1310 内 116px；饼高全档统一 inline 170px） -->
       <div class="card" style="flex:0 0 auto;margin-bottom:0"><div class="chd">贷款结构</div><div class="cbd">
@@ -2864,6 +2940,93 @@ function renderContent(){
 
 /* 渲染单个报表面板；has=false（所选期间无历史数据）时保留 KPI 卡片、表头与指标行结构，
    仅数值类内容（KPI 值、同比/较年初、数值/增减/进度单元格）显示为「-」 */
+/* 2026-11-05 按需求：华润银行 09-风险情况 —— 「信用减值损失 / 公司贷款信用损失准备 /
+   零售贷款信用损失准备 / 不良资产处置」四行的「较年初」列显示为 --。
+   仅固定报表面板的表格视图做显示遮蔽（值改 '-' → 渲染为灰色 -- 占位符）；
+   SHEETS 原始数据保持与 Excel 模板一致，管理驾驶舱 bkGet/bkStr 取数不受影响。 */
+const SHEET_CELL_MASKS = {
+  '09': { col: '较年初', rows: ['信用减值损失','公司贷款信用损失准备','零售贷款信用损失准备','不良资产处置'] },
+  /* 2026-11-05 按需求：08-客群结构「新增有效客户数」较年初显示 --（驾驶舱按原名取数不受影响） */
+  '08': { col: '较年初', rows: ['新增有效客户数'] }
+};
+/* 2026-11-05 按需求：华润银行 03-关键监测指标 —— 资产利润率→ROA(资产利润率)、资本利润率→ROE(资本利润率)。
+   精确匹配指标名（「风险资产利润率」不受影响）；固定报表管理与报表台账管理两个展示位统一生效；
+   SHEETS 原始数据不动，管理驾驶舱（bkStx 按原名取数+自带 label 覆写）与预算填报扫描不受影响。 */
+const SHEET_NAME_RENAMES = {
+  '03': { '资产利润率': 'ROA(资产利润率)', '资本利润率': 'ROE(资本利润率)' }
+};
+/* 2026-11-05 按需求：华润保险 02-业务指标「其中：」组内去冗——
+   同一父项下同级连续指标为一组：组内第一条名称带「其中：」则保留；其余同级行的「其中：」删除，
+   以 3 个全角空格（宽度=其中：三字符）占位，使后续文字与首条「其中：」后首字严格左对齐；
+   首条不带前缀的组不处理。仅改展示层视图（固定报表 + 台账共用），数据源/SHEETS 原始行名不动。 */
+const SHEET_QZ_DEDUP = { 'ins02': true };
+function applyQzDedup(view, key){
+  if(!SHEET_QZ_DEDUP[key] || !view.rows) return view;
+  const ni = sheetLeafLabels(view).findIndex(l=>/指标名称/.test(l));
+  if(ni < 0) return view;
+  const lv = view.levels || [];
+  const QZ = /^其中[：:]\s*/;
+  const firstAt = {};   /* lv -> 本组（同一父项区间）内该层级首行行号 */
+  const keepFirst = {}; /* lv -> 本组首行是否带「其中：」前缀（决定本组是否去冗） */
+  let prevLv = -1;
+  const rows = view.rows.map((r,i)=>{
+    if(!r.length || r.every(v=>v===null||v==='')) return r; // 子表分隔空行
+    const L = lv[i]; if(L==null) return r;
+    if(L <= prevLv){ for(let k=L+1;k<12;k++) delete firstAt[k]; } // 本层级以下分组结束
+    prevLv = L;
+    const nm = String(r[ni]==null?'':r[ni]);
+    if(firstAt[L] === undefined){          /* 本组首行：保留原样 */
+      firstAt[L] = i; keepFirst[L] = QZ.test(nm);
+      return r;
+    }
+    if(keepFirst[L] && QZ.test(nm)){       /* 组内其余同级行：去「其中：」+ span 占位对齐（3em=「其中：」三字宽；
+                                              全角空格方案会被 white-space:nowrap 折叠，弃用） */
+      return r.map((v,j)=> j===ni ? '<span class="qz-gap">' + escHtml(nm.replace(QZ,'')) + '</span>' : v);
+    }
+    return r;
+  });
+  return Object.assign({}, view, {rows});
+}
+/* 展开两级表头为叶子列标签（口径同 getColTypes；台账单级表头同样适用） */
+function sheetLeafLabels(view){
+  const row1 = view.headers[0], row2 = view.headers[1] || [];
+  const labels = []; let j = 0;
+  row1.forEach(h=>{ const c=h.c||1, r=h.r||1;
+    for(let k=0;k<c;k++){ if(r>1){ labels.push(h.l); } else { labels.push(row2[j]?row2[j].l:h.l); j++; } } });
+  return labels;
+}
+function renameSheetNames(view, key){
+  const map = SHEET_NAME_RENAMES[key];
+  if(!map || !view.rows) return view;
+  const ni = sheetLeafLabels(view).findIndex(l=>/指标名称/.test(l));
+  if(ni < 0) return view;
+  return Object.assign({}, view, {
+    rows: view.rows.map(r=>{
+      const nm = String(r[ni]==null?'':r[ni]).trim();
+      return map[nm] ? r.map((v,i)=> i===ni ? map[nm] : v) : r;
+    })
+  });
+}
+function applySheetCellMask(view, key){
+  const mk = SHEET_CELL_MASKS[key];
+  if(!mk || !view.rows) return view;
+  /* 叶列标签与名称列定位（口径同 getColTypes） */
+  const labels = sheetLeafLabels(view);
+  const ci = labels.indexOf(mk.col);
+  const ni = labels.findIndex(l=>/指标名称/.test(l));
+  if(ci < 0 || ni < 0) return view;
+  return Object.assign({}, view, {
+    rows: view.rows.map(r=>{
+      const nm = String(r[ni]==null?'':r[ni]).replace(/^其中[：:]\s*/,'').trim();
+      return mk.rows.indexOf(nm) >= 0 ? r.map((v,i)=> i===ci ? '-' : v) : r;
+    })
+  });
+}
+/* 展示层视图加工统一入口：指标重命名 + 单元格遮罩 + 「其中：」组内去冗（固定报表/台账/分类筛选重渲染共用，保证各路径一致） */
+function applySheetViewRenders(view, key){
+  return applyQzDedup(applySheetCellMask(renameSheetNames(view, key), key), key);
+}
+
 function renderPanel(key, s){
   const content = document.getElementById('content');
   let panel = document.getElementById('panel-'+key);
@@ -2953,12 +3116,13 @@ function renderPanel(key, s){
     s.calibers.forEach((c,ci)=>{
       html += `<div class="table-wrap caliber-pane${ci===0?' active':''}" data-pane="${ci}">`;
       const hide = (s.hideCols || []).concat(c.hideCols || []);
-      const view = hide.length ? hideColsView(s, hide, c) : {headers:s.headers, rows:c.rows, levels:c.levels, spans:c.spans};
+      const view = applySheetViewRenders(hide.length ? hideColsView(s, hide, c) : {headers:s.headers, rows:c.rows, levels:c.levels, spans:c.spans}, key);
       html += renderTable(view, getColTypes(view.headers), has);
       html += `</div>`;
     });
   } else {
-    const baseView = s.hideCols ? hideColsView(s, s.hideCols) : s;
+    /* 单元格显示遮罩（09 四行较年初→--）+ 指标重命名（03 ROA/ROE）：在 hideCols 视图之上叠加 */
+    const baseView = applySheetViewRenders(s.hideCols ? hideColsView(s, s.hideCols) : s, key);
     // 指标分类筛选条（s.catFilter）：表格上方按分类过滤明细行；状态存 catFilterState，期间查询重渲染后保持
     if(s.catFilter){
       const cur = catFilterState[key] || s.catFilter.options[0];
@@ -3164,7 +3328,8 @@ function renderLedgerPanel(key, s){
   const y = ledgerYearSel[lk] || ledgerDefaultYear(s);
   const calIdx = (s.calibers && s.calibers.length) ? (ledgerCalSel[lk] || 0) : 0;
   const yOpts = ledgerYears().map(yy=>`<option value="${yy}"${yy===y?' selected':''}>${yy}年</option>`).join('');
-  const view = buildLedgerView(s, y, calIdx);
+  /* 台账展示层加工与固定报表一致（指标重命名 03 ROA/ROE、「其中：」组内去冗；09 遮罩仅固定报表口径，台账不遮蔽较年初） */
+  const view = applyQzDedup(renameSheetNames(buildLedgerView(s, y, calIdx), key), key);
 
   let html = `
     <div class="panel-header">
@@ -4212,7 +4377,8 @@ function rerenderCatTable(key){
   const wrap = panel.querySelector('.table-card .table-wrap');
   if(!wrap) return;
   const has = sheetHasData(key, s);
-  const baseView = s.hideCols ? hideColsView(s, s.hideCols) : s;
+  /* 分类筛选重渲染与 renderPanel 同一加工链（重命名/遮罩/「其中：」去冗不丢失） */
+  const baseView = applySheetViewRenders(s.hideCols ? hideColsView(s, s.hideCols) : s, key);
   const view = filterCatView(baseView, catFilterState[key], s.catFilter.col);
   wrap.innerHTML = renderTable(view, getColTypes(view.headers), has);
 }
@@ -4266,7 +4432,9 @@ function renderTableRow(r, colTypes, lv, rowIdx, spanMap, has){  // 整行为空
     } else if(t === 'group' || t === 'req'){
       cells += `<td${rsAttr}>${val||''}</td>`;
     } else if(t === 'unit'){
-      cells += `<td${rsAttr} class="value">${val||''}</td>`;
+      /* 2026-11-04 按需求：单位「户数」显示为「户」（固定报表管理 + 报表台账管理共用本渲染器，统一生效） */
+      const uv = (String(val).trim()==='户数') ? '户' : (val||'');
+      cells += `<td${rsAttr} class="value">${uv}</td>`;
     } else if(t === 'num'){
       /* 去年末/实际/全年预算：右对齐 + 千分位（占位符 --/N/A 维持原样） */
       const disp = (v===null) ? '<span class="dim-na">N/A</span>' : ((v===''||v==='-') ? '<span class="dim-dash">--</span>' : fmtThousand(v));
@@ -4276,7 +4444,8 @@ function renderTableRow(r, colTypes, lv, rowIdx, spanMap, has){  // 整行为空
       cells += `<td${rsAttr} class="value">${disp}</td>`;
     }
   });
-  return `<tr>${cells}</tr>`;
+  /* 行级层级类（2026-11-05 ins02 一级指标整行灰底）：lv 打在 tr 上供行级样式使用 */
+  return `<tr class="row-lv${lv||0}">${cells}</tr>`;
 }
 
 /* 指标卡片同比/较年初：正数红▲、负数绿▼、零/空灰色 */
