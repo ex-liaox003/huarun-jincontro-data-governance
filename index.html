@@ -701,17 +701,35 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 /* 全模块统一（参照华润保险报表2）：二级指标黑体；三级指标颜色调浅；二/三级右对齐；一级保持原样式 */
 .data-table td.indicator-name.lv1{font-weight:400; font-family:"SimHei","Heiti SC","Microsoft YaHei",sans-serif; color:var(--c-text); text-align:right; padding-right:12px;}
 .data-table td.indicator-name.lv2{font-weight:400; color:#9ca3af; text-align:right; padding-right:12px;}
+/* 2026-11-05 按需求：两模块全部页面 指标名称层级显示 = 华润保险业务指标同款逻辑——
+   层级只用缩进区分（lv0 顶格12px / lv1 28px / lv2 44px / lv3 60px）+ 左对齐 + 黑色微软雅黑；
+   一级指标（lv0）名称 700 加粗 + 整行浅灰底 #f3f4f6 分组锚点（悬停加深一档）；
+   合并单元格列（rowspan>1）强制白底，避免跨行合并格灰白割裂；
+   排除驾驶舱（panel-cock-*，其集团总览表维持原藏蓝名称样式）与预算填报面板；
+   上方旧 lv1/lv2 右对齐全局规则不再命中两模块（本组 id 级特异性更高），仅存于驾驶舱场景 */
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) td.indicator-name{
+  font-family:"Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif;
+  color:#000; text-align:left; font-weight:400; padding-right:10px;
+}
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) td.indicator-name.lv0{padding-left:12px; font-weight:700;}
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) td.indicator-name.lv1{padding-left:28px;}
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) td.indicator-name.lv2{padding-left:44px;}
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) td.indicator-name.lv3{padding-left:60px;}
+.sheet-panel:not([id^="panel-cock-"]) .data-table tbody tr.row-lv0{background:#f3f4f6;}
+.sheet-panel:not([id^="panel-cock-"]) .data-table tbody tr.row-lv0:hover{background:#eceef1;}
+.sheet-panel:not([id^="panel-cock-"]) .data-table tbody tr.row-lv0 td[rowspan]{background:#fff;}
+.sheet-panel:not([id^="panel-cock-"]) .data-table tbody tr.row-lv0:hover td[rowspan]{background:#f8f9fb;}
 /* 「其中：」组内去冗行占位（2026-11-05 ins02）：3.25em=39px——Courier New 12px 下全角字符
    回退渲染宽 13px（非 1em=12px），「其中：」三字实测 39px；使删除前缀后的文字与
    组内首条「其中：」后的首字像素级左对齐；不影响行高/字号/其他列 */
 .data-table td.indicator-name .qz-gap{padding-left:3.25em;}
-/* 华润保险全部报表（固定 ins01-03 + 台账 led-ins01-03）指标名称列 4 级层级规范（2026-11-05 按需求三轮）：
-   四级统一 Courier New · 半粗 600 · 左对齐 · #1f2937，层级只用缩进区分（一级顶格12px/二级28px/三级44px/四级60px）；
-   覆盖全局 lv1/lv2 右对齐规则（id 选择器优先级更高），仅作用保险面板 */
+/* 华润保险全部报表（固定 ins01-03 + 台账 led-ins01-03）指标名称列 4 级层级规范：
+   层级只用缩进区分（一级顶格12px/二级28px/三级44px/四级60px）+ 左对齐 + #1f2937；
+   字体/字重已并入全局「.sheet-panel 列表数据 微软雅黑·12px·600」统一规则（2026-11-05），
+   ins02 一级 700/下级 400 行级覆写另见下方规则；覆盖全局 lv1/lv2 右对齐规则，仅作用保险面板 */
 #panel-ins01 td.indicator-name, #panel-ins02 td.indicator-name, #panel-ins03 td.indicator-name,
 #panel-led-ins01 td.indicator-name, #panel-led-ins02 td.indicator-name, #panel-led-ins03 td.indicator-name{
-  font-family:"Courier New",monospace;
-  font-weight:600; color:#1f2937; text-align:left; padding-right:10px;
+  color:#1f2937; text-align:left; padding-right:10px;
 }
 #panel-ins01 td.indicator-name.lv0, #panel-ins02 td.indicator-name.lv0, #panel-ins03 td.indicator-name.lv0,
 #panel-led-ins01 td.indicator-name.lv0, #panel-led-ins02 td.indicator-name.lv0, #panel-led-ins03 td.indicator-name.lv0{padding-left:12px;}
@@ -725,16 +743,20 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
    与二级及以下白底形成分组视觉锚点；id 选择器仅作用 ins02 两面板，其他报表/模块不受影响 */
 #panel-ins02 .data-table tbody tr.row-lv0,
 #panel-led-ins02 .data-table tbody tr.row-lv0{background:#f3f4f6;}
-/* 一级行指标名称加粗（覆盖保险面板 600 半粗基线） */
+/* 一级行指标名称加粗——2026-11-05 恢复：业务指标（固定+台账）一级指标名称 700 加粗
+   （全局统一 Courier New/600 之上的行级覆写；二/三/四级跟随全局 600 不再单独设置） */
 #panel-ins02 .data-table tbody tr.row-lv0 td.indicator-name,
 #panel-led-ins02 .data-table tbody tr.row-lv0 td.indicator-name{font-weight:700;}
-/* 2026-11-05 按需求：业务指标 二级/三级/四级指标名称不加粗（常规 400，覆盖面板 600 基线；仅 ins02 两面板） */
+/* 2026-11-05 修复「一级加粗看不出效果」：中文经 Courier New 回退到宋体后为合成加粗——
+   字重 ≥600 一律渲染为同一种伪粗体，700 与 600 视觉无差异。故二/三/四级名称回落 400 常规，
+   与一级 700 拉开真实对比（呼应此前「二/三/四级无需加粗」需求；仅名称列，数值等其他列保持全局 600） */
 #panel-ins02 .data-table tbody tr.row-lv1 td.indicator-name,
 #panel-ins02 .data-table tbody tr.row-lv2 td.indicator-name,
 #panel-ins02 .data-table tbody tr.row-lv3 td.indicator-name,
 #panel-led-ins02 .data-table tbody tr.row-lv1 td.indicator-name,
 #panel-led-ins02 .data-table tbody tr.row-lv2 td.indicator-name,
 #panel-led-ins02 .data-table tbody tr.row-lv3 td.indicator-name{font-weight:400;}
+/* lv0 行灰底/白底、合并列白底等背景规则保留 */
 /* 合并单元格列（rowspan>1，如指标分类）不加背景：跨行合并单元格的底色由整段决定，
    刷白与下方白底子行衔接，不随 lv0 行变灰 */
 #panel-ins02 .data-table tbody tr.row-lv0 td[rowspan],
@@ -745,6 +767,36 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #panel-ins02 .data-table tbody tr.row-lv0:hover td[rowspan],
 #panel-led-ins02 .data-table tbody tr.row-lv0:hover td[rowspan]{background:#f8f9fb;}
 .data-table td.value{font-family:"Courier New",monospace; font-weight:600;}
+/* 2026-11-05 按需求：华润银行 01-资产负债简表（固定报表 panel-01）—— 表头下全部数据单元格字体统一为
+   全局正文栈（微软雅黑优先，与 03-关键监测指标「监管要求」列字体一致；此前黑体版按本轮需求替换）
+   只改字体：数值 2 位小数千分位、右对齐、涨跌色、字重等均不变；id 选择器仅作用本面板 */
+/* 2026-11-05 按需求（方案1）：固定报表管理 + 报表台账管理 全部页面列表数据 → 微软雅黑 · 12px · 400 常规
+   （原 600 半粗在真雅黑下整表观感过重，按方案1 数据改常规字重、仅表头 th 保持 600 粗，长表格更易读）。
+   排除：驾驶舱面板（panel-cock-*）、预算值填报面板（bud-fill 独立填报表格）。
+   例外保留：ins02 业务指标 一级名称 700 加粗（行级覆写，显式需求）；--/N/A 占位符 span 级样式不受影响 */
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) .data-table td{
+  font-family:"Microsoft YaHei","PingFang SC","Helvetica Neue",Arial,sans-serif; font-size:12px; font-weight:400;
+  color:#000;
+}
+/* 2026-11-05 按需求：两模块列表数据字体颜色统一黑色 —— 占位符 --/N/A（原灰 #6f7b88）同步黑字；
+   涨跌红绿（td.yoy.up/.down 的 td 级色）已被上方 color:#000 覆盖（▲▼箭头形状保留表意）；
+   考核/高质量标签为彩色胶囊（badge 设计，非数据文本）、进度条填充色（图形）维持原样 */
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) .data-table .dim-dash,
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) .data-table .dim-na{color:#000;}
+/* 2026-11-05 按需求：涨跌列恢复金融惯例配色——正增长红▲、负增长绿▼、零值灰无箭头
+   （覆盖上方黑色统一规则的 td.yoy 类单元格；▲▼箭头 span 继承同色；其余数据列维持黑色。
+   特异性含 id+5类 高于黑色基础规则，驾驶舱/预算填报面板不作用） */
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) .data-table td.yoy.up{color:var(--c-danger);}
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) .data-table td.yoy.down{color:var(--c-success);}
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) .data-table td.yoy.neutral{color:var(--c-text-light);}
+/* 2026-11-05 按需求：预算达成率列的百分比值（.progress-text span，原全局 11px/600）与数值列一致
+   → 微软雅黑 · 12px · 400（字体继承自 td）；仅两模块的报表数据表格，驾驶舱/预算填报面板的达成率样式不动 */
+.sheet-panel:not([id^="panel-cock-"]):not(#panel-bud-fill) .data-table .progress-text{
+  font-size:12px; font-weight:400;
+}
+/* 2026-11-05 按需求：华润银行 03-关键监测指标（固定报表 panel-03）—— 微软雅黑 600
+   （与全局统一规则同值，保留作历史需求注记；单面板规则已被全局 .sheet-panel 规则取代删除） */
+/* 2026-11-05：panel-02 单面板 Courier 规则删除——已被全局「微软雅黑·12px·600」统一规则覆盖 */
 /* 去年末/实际/全年预算 值列：右对齐（千分位由 fmtThousand 渲染，2026-11-04） */
 .data-table td.value.num-right{text-align:right; padding-right:12px;}
 .data-table td.value.empty{color:var(--c-text-light); font-weight:400;}
