@@ -719,10 +719,15 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 .sheet-panel:not([id^="panel-cock-"]) .data-table tbody tr.row-lv0:hover{background:#eceef1;}
 .sheet-panel:not([id^="panel-cock-"]) .data-table tbody tr.row-lv0 td[rowspan]{background:#fff;}
 .sheet-panel:not([id^="panel-cock-"]) .data-table tbody tr.row-lv0:hover td[rowspan]{background:#f8f9fb;}
-/* 「其中：」组内去冗行占位（2026-11-05 ins02）：3.25em=39px——Courier New 12px 下全角字符
-   回退渲染宽 13px（非 1em=12px），「其中：」三字实测 39px；使删除前缀后的文字与
-   组内首条「其中：」后的首字像素级左对齐；不影响行高/字号/其他列 */
-.data-table td.indicator-name .qz-gap{padding-left:3.25em;}
+/* 2026-11-05 按需求：页面指标仅一级时不显示行背景（无下级对照，灰底无层级意义）——
+   含全 lv0 页面（银行 03/09、保险 01/03、租赁 04/05、资产全部等）与台账/无数据期间视图；
+   名称 700 加粗保留（字体层级规范不依赖背景） */
+.sheet-panel:not([id^="panel-cock-"]) .data-table.all-lv0 tbody tr.row-lv0{background:transparent;}
+.sheet-panel:not([id^="panel-cock-"]) .data-table.all-lv0 tbody tr.row-lv0:hover{background:#fff8e6;}
+/* 「其中：」组内去冗行占位（2026-11-05）：3em=36px——名称列现为微软雅黑 12px，
+   「其中：」三个全角字符宽 = 3×12px（ Courier 回退宋体时代的 3.25em/39px 已失效，随字体同步）；
+   使删除前缀后的文字与组内首条「其中：」后的首字像素级左对齐；不影响行高/字号/其他列 */
+.data-table td.indicator-name .qz-gap{padding-left:3em;}
 /* 华润保险全部报表（固定 ins01-03 + 台账 led-ins01-03）指标名称列 4 级层级规范：
    层级只用缩进区分（一级顶格12px/二级28px/三级44px/四级60px）+ 左对齐 + #1f2937；
    字体/字重已并入全局「.sheet-panel 列表数据 微软雅黑·12px·600」统一规则（2026-11-05），
@@ -3011,9 +3016,12 @@ const SHEET_NAME_RENAMES = {
    同一父项下同级连续指标为一组：组内第一条名称带「其中：」则保留；其余同级行的「其中：」删除，
    以 3 个全角空格（宽度=其中：三字符）占位，使后续文字与首条「其中：」后首字严格左对齐；
    首条不带前缀的组不处理。仅改展示层视图（固定报表 + 台账共用），数据源/SHEETS 原始行名不动。 */
-const SHEET_QZ_DEDUP = { 'ins02': true };
+/* 2026-11-05 按需求推广至两模块全部页面（原仅 ins02）：「其中：」组内去冗——
+   同一父项下连续同级指标为一组：组内第一条带「其中：」→ 保留；其余同级行删前缀并以占位对齐；
+   组首不带前缀的组不处理。依赖 levels 分组（无 levels 的表全 lv0、无同级组，自然跳过）；
+   仅展示层（固定报表 + 台账 + 分类筛选三路径共用），SHEETS 原始行名不动 */
 function applyQzDedup(view, key){
-  if(!SHEET_QZ_DEDUP[key] || !view.rows) return view;
+  if(!view.rows) return view;
   const ni = sheetLeafLabels(view).findIndex(l=>/指标名称/.test(l));
   if(ni < 0) return view;
   const lv = view.levels || [];
@@ -4358,7 +4366,10 @@ function hideColsView(s, hideCols, src){
 }
 
 function renderTable(s, colTypes, has){
-  let html = '<table class="data-table"><thead>';
+  /* 2026-11-05 按需求：页面指标仅一级（无 lv1+ 行）→ 表格加 all-lv0 标记，
+     配合 CSS 取消一级行灰底（无下级对照，灰底无层级意义） */
+  const allLv0 = !s.levels || s.levels.every(v=>!v);
+  let html = '<table class="data-table' + (allLv0 ? ' all-lv0' : '') + '"><thead>';
   s.headers.forEach((lvl, i)=>{
     html += '<tr' + (i>0?' class="sub-head"':'') + '>';
     lvl.forEach(h=>{
