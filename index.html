@@ -1213,11 +1213,17 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 /* 2026-11-10 按需求：条线三卡名称最前方「量/价/险」标签（白字小号，量浅蓝/价浅橙/险浅红）；
    名称列 flex:0 0 定宽吸收标签占位（右侧 cols3 组 margin-left:auto 刚体贴右，位置零位移） */
 /* 2026-11-10 按需求：量/价/险标签=正圆形（文字在圆内，三色规则沿用）；
-   名称列 flex:0 0 定宽（basis 固定，内容再宽也不伸展）+ 右侧 cols3 组定宽 margin-left:auto 贴右——
-   数值/同比/较年初起始横坐标与标签存在与否无关，跨行跨卡严格对齐 */
-#moduleLeader .bk-tag{display:inline-block;vertical-align:-3px;margin-right:4px;width:14px;height:14px;padding:0;
+   名称 span 改嵌套 flex（display:inline-flex; align-items:center）——圆形标签与名称文字
+   同行水平排布、垂直居中对齐（不再依赖 vertical-align 魔法数）；flex:0 0 basis 定宽不变，
+   右侧 cols3 组定宽 margin-left:auto 贴右刚体——数值/同比/较年初起始横坐标与标签存在与否无关，
+   跨行跨卡严格对齐 */
+#moduleLeader .bk-tag{display:inline-flex;align-items:center;justify-content:center;
+  margin-right:4px;width:14px;height:14px;padding:0;
   border-radius:50%;text-align:center;
-  font-size:9px;line-height:14px;color:#fff;font-weight:400;flex:none;letter-spacing:0}
+  font-size:9px;line-height:1;color:#fff;font-weight:400;flex:none;letter-spacing:0}
+#moduleLeader #bk-corp .strow>span:first-child,
+#moduleLeader #bk-retail .strow>span:first-child,
+#moduleLeader #bk-chan .strow>span:first-child{display:inline-flex;align-items:center}
 #moduleLeader .bk-tag-q{background:#7aa9e0}   /* 量·业务规模=浅蓝 */
 #moduleLeader .bk-tag-p{background:#efab62}   /* 价·利率价格=浅橙 */
 #moduleLeader .bk-tag-r{background:#e79599}   /* 险·风险准备=浅红 */
@@ -6458,7 +6464,7 @@ function bkGovBondRow(name,act,yoy,ytd,tipCal){
      同日再按需求：接入 Excel 计算说明通道（1Y/10Y=手工补充条目）；
      同日再按需求：口径行与计算说明行（均 display:block）之间不再拼 <br>——消除两行间的空白行紧挨排布 */
   var _gn=bkCalcNote(name);
-  return '<div class="strow" data-tip="<span class=\'ct-t\'>'+name+'</span>最新日期：<b>'+bkPeriodEnd()+'</b>'+(tipCal?'<br><span class=\'ct-cal\'>计算口径：'+tipCal+'</span>':'')+(_gn?(tipCal?'':'<br>')+'<span class=\'ct-f\'>计算说明：'+_gn+'</span>':'')+'"><span>'+name+bkLpTag(name)+'</span>'+
+  return '<div class="strow" data-tip="<span class=\'ct-t\'>'+name+'</span>最新日期：<b>'+bkPeriodEnd()+'</b>'+(tipCal?'<br><span class=\'ct-cal\'>计算口径：'+tipCal+'</span>':'')+(_gn?(tipCal?'':'<br>')+'<span class=\'ct-f\'>计算说明：'+_gn+'</span>':'')+'"><span>'+bkLpTag(name)+name+'</span>'+
     '<b class="cols3"><i class="c-v">'+act+' %</i>'+
     '<i class="c-y"><span class="lb">同比</span>'+bkDelta(yoy,'')+'</i>'+
     '<i class="c-q"><span class="lb">较年初</span>'+bkDelta(ytd,'')+'</i></b></div>';
