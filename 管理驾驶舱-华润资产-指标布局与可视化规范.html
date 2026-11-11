@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理驾驶舱 · 华润资产 — 指标布局与可视化规范（配套说明文档）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--navy:#17427d;--navy2:#1a3a6b;--gold:#c8962e;--ink:#1f2937;--dim:#5b6572;--line:#dfe6ef;--bg:#f2f5f9;--ok:#0f9d6e;--warn:#e8823c;--bad:#ef4444;}
+body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.75;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 60px;}
+header{background:linear-gradient(135deg,#0f2847 0%,#1a3a6b 55%,#2a5298 100%);color:#fff;padding:34px 0 26px;}
+header .wrap{padding-bottom:0;}
+header h1{font-size:23px;letter-spacing:1px;}
+header .sub{font-size:12.5px;opacity:.75;margin-top:6px;letter-spacing:.5px;}
+.meta{display:flex;gap:26px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;}
+.meta span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:4px 12px;}
+.meta b{color:#e8c063;font-weight:600;}
+h2{font-size:17.5px;color:var(--navy);margin:38px 0 4px;padding-left:12px;border-left:4px solid var(--gold);}
+h2 small{font-size:12px;color:var(--dim);font-weight:400;margin-left:10px;}
+h3{font-size:14.5px;color:var(--navy);margin:20px 0 8px;}
+p.note{color:var(--dim);font-size:12.5px;margin:2px 0 10px;padding-left:16px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:12px 0;box-shadow:0 1px 3px rgba(23,66,125,.06);}
+table{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:12.8px;background:#fff;}
+th{background:var(--navy2);color:#fff;font-weight:600;padding:8px 10px;text-align:left;border:1px solid #2a5298;font-size:12.5px;white-space:nowrap;}
+td{border:1px solid var(--line);padding:7px 10px;vertical-align:top;}
+tbody tr:nth-child(even){background:#f7fafd;}
+td.mono,.mono{font-family:Consolas,Menlo,monospace;font-size:12px;color:var(--navy);}
+.tag{display:inline-block;font-size:11px;border-radius:4px;padding:1px 8px;margin:1px 3px 1px 0;white-space:nowrap;font-weight:600;}
+.t-pie{background:#e3f0ff;color:#155ca8;} .t-bar{background:#e8f6ef;color:#0d7a55;}
+.t-card{background:#eee9f9;color:#5b3fa8;}
+.t-line{background:#fdf6dc;color:#8a6d00;} .t-hero{background:#dff2ec;color:#0b6b4b;}
+.t-cal{background:#fde3e3;color:#b02a2a;} .t-row{background:#e9eef6;color:#3d5678;}
+.rule{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;}
+.rule .r{flex:1 1 240px;background:#f7fafd;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:12px 14px;}
+.rule .r b{display:block;color:var(--navy);margin-bottom:4px;font-size:13px;}
+.rule .r p{font-size:12.3px;color:var(--dim);}
+.kv{font-size:12.5px;color:var(--dim);}
+.chk{color:var(--ok);font-weight:700;}
+.srcbox{font-size:12px;color:var(--dim);margin-top:2px;}
+footer{margin-top:44px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:#8a94a0;}
+b.hl{color:var(--navy);}
+.toc{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.toc a{text-decoration:none;font-size:12.5px;color:var(--navy);background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 14px;}
+.toc a:hover{border-color:var(--gold);color:var(--gold);}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>管理驾驶舱 · 华润资产 —— 指标布局与可视化规范</h1>
+    <div class="sub">Management Cockpit · CR Assets Tab — Indicator Layout &amp; Visualization Specification（配套交付物）</div>
+    <div class="meta">
+      <span>版本 <b>V1.0</b></span>
+      <span>日期 <b>2026-11-06</b></span>
+      <span>载体 <b>index.html · 管理驾驶舱 → 华润资产 tab</b></span>
+      <span>数据源 <b>数据应用 → 固定报表管理 → 华润资产 asset01–04 全部页面（实时取数）</b></span>
+      <span>框架 <b>五大业务分区 · 蓝白金融卡视觉体系（2026-11-06 整页对齐华润银行驾驶舱）</b></span>
+    </div>
+    <div class="toc">
+      <a href="#s0">〇 可视化触发规则总纲</a><a href="#s1">① 收入与利润</a><a href="#s2">② 规模与投放</a><a href="#s3">③ 合同退出</a><a href="#s4">④ 风险质量</a><a href="#s5">⑤ 产融协同</a><a href="#s6">附A 勾稽关系</a><a href="#s7">附B 去重与口径</a>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+
+<h2 id="s0">〇、可视化触发规则总纲</h2>
+<p class="note">每种图形都不是随意选择的：先判定指标间的<b class="hl">业务关系</b>，再由关系触发图形；华润资产与华润银行共用同一套图形语言（2026-11-06 对齐），并针对「同一指标多口径并存」的资产报表特点增设规则⑤。管理层扫一眼图形即知"该看什么关系"。</p>
+<div class="card">
+<div class="rule">
+  <div class="r"><b>规则① 趋势 → 本月数柱 + 月度同比金线（双轴）</b><p>触发条件：流量类核心指标（营业收入/利润总额）。<b>不使用本年累计趋势</b>——累计曲线永远向上，掩盖动能拐点；左轴柱=各月<b>本月数</b>（水位），右轴金线=月度同比%（增速）。趋势窗口与银行页同款 <b>【上年1月—当年所选月】22 根柱</b>（跨年纵览，标签「2025/01…2026/09」全量倾斜显示；当年段按 BK_SHAPE 月度形状由累计年化拆分，月度同比金线锚定所选月与累计同比收敛）。柱色=<b>亮蓝 #4d94ff</b>（与饼图主片、预算进度条同族）；月份轴下方固定<b>迷你图例「■本月数 ─●─月度同比」</b>，符号取色与柱线一致，免悬停即可读图。悬停一次三行：本月数 / 去年同月 / 月度同比。KPI 区另保留累计值+预算完成环给规模感。</p></div>
+  <div class="r"><b>规则② 层级构成 → 环形饼图（含整圆前提）</b><p>触发条件：分项相加=母项（四大业务线自有出资=存量；单体口径业务线收入=营收）。饼片 ≤6，中心标母项总量，右侧配明细行（色点+名称 / 值 亿元 / 同比 / 占比）。配色与银行页统一：#4d94ff 亮蓝 → #6cc0f0 浅蓝 → #35c06b 绿 → #eda14e 橙。<b>整圆前提的两种轧差处理（2026-11-06）</b>：明细合计 &lt; 母项 → 补「其他/未拆分收入」浅蓝片使饼闭合；明细合计 &gt; 母项（资产单体口径业务线存在跨条线交叉双计）→ <b>不加负片</b>（环形图不支持负值），改在明细区追加「<b>条线互抵轧差</b>」灰注行，使明细行算术=中心总量——宁显式披露口径缺陷，不做伪闭合。</p></div>
+  <div class="r"><b>规则③ 加减链条 → 瀑布（本页暂无触发项）</b><p>触发条件：指标间存在严格闭合的"收入−成本−费用−减值=利润"加减链。资产 01 表损益科目（营业成本/业务及管理费用/人工成本/利息支出/拨备两行）之间存在<b>层级交叠</b>（人工成本⊂管理费用、利息支出处置口径不明），演示数据下 收入−成本−费用 ≠ 拨备前利润，<b>不满足入瀑布前提，本页不设瀑布图</b>；损益推导信息由 hero 累计值 + 效益四卡承载。若未来供数补齐互斥成本分项，可按银行页「支出构成」同款环形饼升格。</p></div>
+  <div class="r"><b>规则④ 对比 → 条形；量级悬殊/单位不同 → 卡片</b><p>无构成关系的科目对比用条形（新增 vs 退出=一进一退分组条形；风险资产分布；全口径对比；协同规模三指标）；单位或量级不同无法同图共存的（亿元 vs 个 vs %）用银行同款 stx 卡片并排，不做伪对比。风险类保留语义色：<b>红=不良、橙金=关注</b>（风险信号色不参与主蓝统一）。stx 卡五段结构与银行页规则⑤完全一致：<b>蓝渐变名称栏（★考核）→ 口径行（本年累计/本月末/本季末三态）→ 蓝色渐变大数值 → 同比+较年初同行小注（红涨绿跌）→ 考核项预算三段式进度条</b>（左「预算」→ 中主蓝进度条内白字达成% → 右预算值）。</p></div>
+  <div class="r"><b>规则⑤ 多口径指标 → 口径页签 + 全口径对比并存（资产特有）</b><p>资产四张报表的指标带「合并/本部/单体」层级口径（财务考核=横琴+渝康、本部=横琴+香港、横琴/渝康单体、香港口径）。口径间是<b>包含关系而非构成关系</b>——相加≠母项（单体间有内部抵销），因此口径永远不做饼、只做两件事：<b>①分区口径页签</b>切换单口径视图（页签选中色与卡头蓝渐变同色 <span class="mono">linear-gradient(90deg,#39a1f7,#0d6ef0)</span>，2026-11-06 对齐银行）；<b>②全口径对比条形图</b>同时展示全部口径并金色高亮当前所选——页签读"这一个口径内部结构"，对比图读"口径间相对分量"，两视图互补。卡片随口径展示该口径实有指标，缺失显示 —（不造数）。</p></div>
+</div>
+</div>
+
+<h2 id="s1">① 收入与利润 <small>—— 赚多少｜源：asset01-收入结构（损益表视角）· ★年度考核项带预算</small></h2>
+<div class="card">
+<h3>行1 · 营业收入 / 利润总额（双 hero 卡，版式=银行三 hero 同款）</h3>
+<table>
+<thead><tr><th style="width:13%">指标</th><th style="width:12%">数据源</th><th style="width:12%">展示形式</th><th style="width:28%">摆放位置与样式依据</th><th>面向管理层的决策价值</th></tr></thead>
+<tbody>
+<tr><td class="mono">营业收入 ★</td><td>asset01 截止本月末-实际 / 同比 / 较年初 / 全年预算 / 达成率</td><td><span class="tag t-hero">预算完成环＋三段数值区</span>＋<span class="tag t-line">本月数柱+月度同比金线</span></td><td>全页第一屏第一行=经营结果的利润链双终点（收入→利润）同排。卡头蓝渐变+<b>🎯 考核徽章</b>（与银行 hero 同款）；卡内布局三段对应"预算节奏 / 累计规模 / 当期动能"：<b>左=全年预算完成环</b>（演示值 41.96%=进度压力直读）→ <b>中=本年累计（蓝大字）+ 累计同比、预算数（行内排）</b> → <b>右=本月数 + 月度同比</b>。趋势图=规则① 22 月双轴+图例；<b>本月数与图内末柱严格同源</b>（源表「当月值」列演示数据=累计，不直取，以年化拆分序列为准）。图下第三段说明「🎯 考核指标」与银行一致。</td><td>收入是规模底盘；预算环直接对标业绩合同缺口（41.96% 对时间进度 75%=触发"下半年要冲多少"的节奏决策）；金额柱给"水位"、同比线给"增速"——柱升线落=增长失速，比看累计提前 2–3 个月感知拐点。</td></tr>
+<tr><td class="mono">利润总额 ★</td><td>asset01 同上</td><td><span class="tag t-hero">三段数值区＋预算环</span>＋<span class="tag t-line">双轴趋势</span></td><td>与营业收入同行=「收入如何变利润」的一图总览；卡内结构、趋势图口径与左卡完全一致（利润卡预算环 40.00%）。<b>利润总额（拨备前）</b>不在 hero 重复——它是利润的"未扣风险成本"版本，收进本区行3「效益与成本管控」四卡，避免同屏两个"利润总额"混淆。</td><td>收入与利润达成率对比（41.96% vs 40.00%）=利润率是否同步兑现；两卡趋势线分叉（收入升利润落）=成本/拨备侵蚀的最早信号。</td></tr>
+</tbody>
+</table>
+<h3>行2 · 收入构成（饼）｜营业收入 · 全口径对比（条）</h3>
+<table>
+<thead><tr><th style="width:16%">指标</th><th style="width:12%">数据源</th><th style="width:12%">展示形式</th><th style="width:27%">摆放位置与样式依据</th><th>决策价值</th></tr></thead>
+<tbody>
+<tr><td class="mono">其中：××业务收入（按口径实有 1–6 项）</td><td>asset01「其中：」行</td><td><span class="tag t-pie">环形饼+明细行</span>｜<span class="tag t-bar">无明细口径回退条形</span></td><td>规则②：单体口径展示业务线收入拆分（产融/特殊资产/特殊机遇投资/不良资产经营/问题企业纾困…）。<b>整圆前提的轧差分支</b>：横琴单体明细合计 31.0 &gt; 营收 26.8（跨条线交叉双计）→ 不加负片，明细区补「条线互抵轧差 −4.2 亿元」灰注行使算术闭合（见规则②）；财务考核口径仅产融 6.8 一条明细 → 自动补「其他/未拆分收入 31.8」浅蓝片闭合整圆。中心=营业收入（与左 hero 互证）。<b>财务考核/香港口径无业务线明细</b> → 本卡自动回退「各口径营收对比」条形，杜绝用交叠口径硬拼饼。卡头口径标注「亿元 · 本年累计」。</td><td>产融板块是华润资产的集团特色收入（6.8 亿、同比 +15.2% 全明细最快），饼片+首行明细双 highlight；"其他/未拆分"片过大（82%）本身即管理信号——供数颗粒度待细化，与⑤区产融协同卡（同为 6.8）互为口径对照。</td></tr>
+<tr><td class="mono">营业收入 · 全口径对比</td><td>asset01 全部 4 口径</td><td><span class="tag t-bar">分组条形（金色=当前口径）</span></td><td>规则⑤第二视图：四口径营收（38.6 / 26.8 / 11.8 / 3.9）同图并排，当前所选口径金色、其余浅蓝。与左饼"单口径内部结构"互补。</td><td>一眼读出口径包含关系：横琴 26.8 + 渝康 11.8 = 考核口径 38.6（附A）；香港口径 3.9 独立在外——管理层先确认"现在看的是哪个盘子"，再看盘内结构，避免跨口径误读合计。</td></tr>
+</tbody>
+</table>
+<h3>行3 · 效益与成本管控（四卡一行，银行 stx 同款）</h3>
+<table>
+<thead><tr><th style="width:22%">指标</th><th style="width:10%">数据源</th><th style="width:12%">展示形式</th><th style="width:27%">摆放位置与样式依据</th><th>决策价值</th></tr></thead>
+<tbody>
+<tr><td class="mono">成本收入比-拨备前 ★ / 利润总额（拨备前）/ 营业成本 / 业务及管理费用</td><td>asset01</td><td><span class="tag t-card">stx 卡×4</span></td><td>规则④：比率（%）与金额（亿元）不同尺度不共图，聚成一行四卡=「结果 → 缓冲 → 两端损耗」的成本管控动线：<b>①成本收入比 ★</b>（33.16%，唯一带预算进度条 96.10% 的考核比率）打头=效率总评；<b>②利润总额（拨备前）</b>=拨备前的利润缓冲垫；<b>③营业成本、④业务及管理费用</b>两大支出项收尾（量级悬殊不合并）。预算条蓝渐变与卡头同色（对齐银行规则⑤）。金额/比率全部两位小数、单位「亿元/%」。</td><td>成本收入比 33.16% 对预算上限 34.50%（达成 96.10%）=还差 1.34ppt 空间，压费用决策的量化边界；拨备前 15.2 → 利润 9.6 的差额（拨备侵蚀）由两卡同屏对照即得；成本/费用同比（+5.6%/+4.8%）若持续高于营收同比（+6.8%）即剪刀差预警。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="s2">② 业务规模与投放退出 <small>—— 靠什么｜源：asset02-业务结构（资产负债表视角）· 自有出资"蓄水池"</small></h2>
+<div class="card">
+<table>
+<thead><tr><th style="width:17%">区块</th><th style="width:22%">指标（源）</th><th style="width:13%">展示形式</th><th style="width:26%">摆放位置与样式依据</th><th>决策价值</th></tr></thead>
+<tbody>
+<tr><td><b>规模四卡</b></td><td class="mono">生息资产规模 · 自有出资规模 · 新增自有出资规模 · 退出自有出资规模（02）</td><td><span class="tag t-card">stx 卡×4</span></td><td>「存量底盘 → 底盘里自有资金 → 蓄水池进/出」的阅读链：<b>①生息资产</b>（520 亿，合并口径）总规模打头；<b>②自有出资</b>（260 亿，单口径才有）=真金白银投入；<b>③新增/④退出</b>=年内一进一出流量（口径标签「本年累计」——投放退出是年内动作量非时点存量）。各口径实有指标直出，缺项显示 —（本部口径只有生息资产一卡有值）。四卡带同比+较年初双小注。</td><td>生息资产同比 +9.5% 且自有出资 +10.5% 更快=扩张仍靠自有资本驱动、杠杆未抬升；新增 68 vs 退出 42=净投放 +26（蓄水池净进水），结合③合同退出节奏判断"投放-回收"循环是否健康。</td></tr>
+<tr><td><b>四大业务线自有出资构成</b></td><td class="mono">其中：特殊资产管理/特殊机遇投资/不良资产经营/问题企业纾困 业务自有出资规模（02 单体口径）</td><td><span class="tag t-pie">环形饼+明细行</span></td><td>规则②：<b>四线相加=自有出资存量</b>（横琴 85+62+72+41=260、渝康 38+27+33+20=118，双口径勾稽闭合见附A）→ 严格层级构成入饼，中心=存量总量；<b>无明细口径（合并/本部）自动回退横琴单体参考并在卡头注明</b>（宁注来源不做假数）。明细行下补「其中本年新增」灰注行=存量−退出+新增的蓄水池动态第二维度（行注表达，不另起图避免 8 片过载）。</td><td>四片=资金在四大赛道的沉淀结构：特殊资产管理 33% 最大=传统主业压舱石；问题企业纾困 16% 最小但新增占比高（11/68=16% 的新增投放投向纾困）=战略倾斜的先行信号——存量结构慢变量 + 新增流向快变量同卡对读。</td></tr>
+<tr><td><b>新增 vs 退出投放规模</b></td><td class="mono">新增/退出自有出资规模 × 横琴/渝康单体（02）</td><td><span class="tag t-bar">分组条形（蓝=新增 橙=退出）</span></td><td>规则④：同一指标一进一退=对比关系非构成关系（相加无母项）→ 分组条形，不做饼。柱色与全页统一：新增=主蓝 #4d94ff，退出=辅橙 #f59e0b（<b>橙为辅</b>原则的少数派用量：一进一退的语义区分优先于全蓝一致）。卡头「亿元 · 本年累计」。</td><td>横琴 68/42、渝康 25/18——两单体退出率（退出÷新增 62%/72%）直接可读：回收速度是否跟上投放速度，决定蓄水池会不会只进不出沉淀成风险。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="s3">③ 服务集团退出进度（业绩合同） <small>—— 承诺兑现｜源：asset02 本部+渝康合并口径 · 业绩合同类打标项</small></h2>
+<div class="card">
+<table>
+<thead><tr><th style="width:22%">指标</th><th style="width:10%">数据源</th><th style="width:14%">展示形式</th><th style="width:26%">摆放位置与样式依据</th><th>决策价值</th></tr></thead>
+<tbody>
+<tr><td class="mono">存续项目 · 累计新增退出项目 · 累计退出完成项目 · 业绩合同项目 ★ · 达成里程碑项目 ★（个）</td><td>asset02 合并口径</td><td><span class="tag t-card">stx 卡×5</span></td><td>计数类指标（个）量级与金额完全不可同图（规则④），独立分区五卡一行按「<b>盘面 → 增量 → 兑现 → 合同承诺 → 兑现节点</b>」排序：①存续 128（总盘子）→ ②累计新增 36 → ③累计退出完成 29（②③一进一出对读=净增 7）→ ④<b>业绩合同项目 22 ★</b>（卡内预算条 75.90%）→ ⑤<b>达成里程碑 8 ★</b>（预算条 72.70%）。★ 两项对集团承诺，预算进度条收进卡内（不再用旧版卡外独立达成率条），与全页预算语言统一。计数类显示整数（个）。</td><td>这是华润资产对集团"服务集团主责主业退出"的政治任务进度表：合同 22 项完成 75.9%、里程碑 8 项 72.7%——两项 ★ 的达成率对时间进度（75%）即知是否踩线；存续 128 大盘与合同 22 的比值提示"合同内优先、合同外排队"的资源分配是否失衡。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="s4">④ 风险质量 <small>—— 稳不稳｜源：asset03-风险指标 · ★不良资产处置为考核项</small></h2>
+<div class="card">
+<table>
+<thead><tr><th style="width:17%">区块</th><th style="width:20%">指标（源）</th><th style="width:13%">展示形式</th><th style="width:26%">摆放位置与样式依据</th><th>决策价值</th></tr></thead>
+<tbody>
+<tr><td><b>风险四卡</b></td><td class="mono">不良资产总额 · 不良资产率 · 不良资产处置 ★ · 关注类资产总额（03）</td><td><span class="tag t-card">stx 卡×4</span></td><td>按「<b>总量 → 率 → 化解 → 前瞻</b>」的风险阅读链：①不良总额（28.5 亿）规模锚 → ②不良率（1.85%）质量密度（金额与率同卡行不同指标，量级悬殊故分卡）→ ③<b>不良资产处置（12.6 亿 ★，预算条 84.00%）</b>=化解流出端 → ④关注类总额（35.8 亿）=下迁前瞻压力（关注类&gt;不良 1.26 倍=迁徙池仍厚）。①②④带较年初小注；处置 ★ 卡内预算条对齐银行红线卡样式。</td><td>处置 12.6 亿对预算 15 亿=84%（时间进度 75% 之上，化解在追赶）；不良率 +0.12ppt 而处置完成率 84%——流入流出对读即"剪刀差"判断：若不良率升而处置降，立即加大家族企业/包类资产的处置排期。</td></tr>
+<tr><td><b>风险资产分布</b></td><td class="mono">不良/关注类资产总额 · 当前口径（03）</td><td><span class="tag t-bar">双柱条形（红/橙语义色）</span></td><td>规则④+语义色保留：不良=红 #d64550、关注=橙 #f59e0b 是<b>全页仅有的风险信号色</b>（不参与主蓝统一——蓝色承担"骨架"，风险色承担"警报"，混同即失效）。柱顶数值直标（两柱密度低可放）。随口径页签切换。</td><td>两柱高度差=迁徙缓冲带厚度；口径切换时对照单体风险在合并盘中的占比（渝康不良 7.2 / 合并 28.5=25%）。</td></tr>
+<tr><td><b>不良 / 关注类 · 全口径对比</b></td><td class="mono">全部 3 口径（03）</td><td><span class="tag t-bar">分组条形×2 序列</span></td><td>规则⑤：口径包含关系→条形并排（横琴 21.3+渝康 7.2=考核口径 28.5，附A 跨口径可验）。双序列同图=一次看全"每个口径的不良与关注对"。</td><td>渝康不良率 2.15% 显著高于横琴 1.72%=风险集中于哪个主体直接可读，处置资源投放主体随之明确。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="s5">⑤ 产融协同 <small>—— 服务集团后劲｜源：asset04-产融业务 · 本部+渝康合并 · 季度报送</small></h2>
+<div class="card">
+<table>
+<thead><tr><th style="width:22%">指标</th><th style="width:10%">数据源</th><th style="width:14%">展示形式</th><th style="width:26%">摆放位置与样式依据</th><th>决策价值</th></tr></thead>
+<tbody>
+<tr><td class="mono">协同·项目规模 · 投放规模 · 营业收入（亿元）＋ 项目个数 · 客户数量（个）</td><td>asset04（季度表）</td><td><span class="tag t-card">stx 卡×5</span></td><td>全页收尾分区=「后劲」叙事。五卡口径统一「本季末」（季度报送表，卡头注「季度报送 · 本季末」与月度分区区分——口径诚实性）；三金额+两计数单位不同不共图（规则④），五卡一行「<b>规模 → 投放 → 收入 → 项目数 → 客户数</b>」从资金端到集团关系端递进。asset04 无预算列 → 全卡无预算条（有则显示，无则不造）。</td><td>协同收入 6.8 亿占集团口径营收 17.6%，且同比 +15.2% 为全页最快指标；客户数 +21.4% 快于项目数 +16.7% 快于规模 +18.5%——"客户面扩张先于收入兑现"=协同业务仍在投入获客期，明后年收入弹性蓄势。</td></tr>
+<tr><td class="mono">产融协同规模指标（三金额）</td><td>asset04</td><td><span class="tag t-bar">条形（蓝系三阶）</span></td><td>三项同为亿元同尺度（规则④允许共图）：规模 86.5 / 投放 23.6 / 收入 6.8 一条链（投放÷规模 27%=周转率代理、收入÷投放 29%=变现率代理）。与上方卡不重复——卡给精确读数，图给"量级台阶"（86.5 → 23.6 → 6.8 的漏斗形态）。</td><td>漏斗台阶直观回答"投下去的钱转出多少收入"；台阶比例逐季变化=协同资金效率的趋势抓手。</td></tr>
+</tbody>
+</table>
+<p class="kv">分区次序的业务逻辑：五分区=<b>赚多少（①损益结果）→ 靠什么（②资产结构与投放）→ 承诺（③集团合同兑现）→ 稳不稳（④风险底线）→ 后劲（⑤集团协同生态）</b>——管理层从上到下的经典汇报动线：先问结果，再问结构，再问承诺，再问风险，最后问未来。</p>
+</div>
+
+<h2 id="s6">附A · 跨口径/跨表勾稽校验（可视化可信性基础）</h2>
+<div class="card">
+<table>
+<thead><tr><th>关系</th><th>勾稽式（演示基准 2026-09 值，随数据日期系数联动）</th><th>校验结果</th></tr></thead>
+<tbody>
+<tr><td>营收口径包含</td><td class="mono">横琴单体 26.80 + 渝康单体 11.80 = 财务考核口径 38.60（内部无抵销）</td><td class="chk">✔ 全口径对比图两柱之和=金柱</td></tr>
+<tr><td>生息资产口径包含</td><td class="mono">本部（横琴+香港）380.00 + 渝康 140.00 = 合并口径 520.00</td><td class="chk">✔ 跨口径闭合</td></tr>
+<tr><td>横琴自有出资四线</td><td class="mono">85 + 62 + 72 + 41 = 260.00（=饼中心）；新增 22+16+19+11 = 68.00；退出 14+10+12+6 = 42.00</td><td class="chk">✔ 四线合圆（规则②入饼前提）</td></tr>
+<tr><td>渝康自有出资四线</td><td class="mono">38 + 27 + 33 + 20 = 118.00；新增 8+6+7+4 = 25.00；退出 6+4.5+5+2.5 = 18.00</td><td class="chk">✔ 四线合圆</td></tr>
+<tr><td>风险口径包含</td><td class="mono">不良：横琴 21.30 + 渝康 7.20 = 考核口径 28.50；关注：26.50 + 9.30 = 35.80</td><td class="chk">✔ 全口径对比图可复核</td></tr>
+<tr><td>产融协同跨表联动</td><td class="mono">协同收入 6.80（04 表）= 01 表「其中：产融业务收入」考核口径 6.80 = 横琴 4.20 + 渝康 2.60</td><td class="chk">✔ 04↔01 双表三口径一致（①区饼片与⑤区收入卡互为验证）</td></tr>
+<tr><td>收入构成饼·整圆轧差</td><td class="mono">考核口径：产融 6.80 + 其他/未拆分 31.80 = 38.60（浅蓝补片）；横琴单体：六线明细 31.00 &gt; 营收 26.80 → 互抵轧差 −4.20 灰注行（不加负片）</td><td class="chk">✔ 两种缺陷显式披露，明细行算术恒=中心</td></tr>
+</tbody>
+</table>
+<p class="note"><b>回退警示</b>：②区自有出资饼依赖"四线相加=存量"的严格构成关系；若未来供数口径改为含联合投资/跟投等交叠标签（相加≠存量），该饼须退回条形（规则②）。①区收入构成饼在明细交叠（如横琴 −4.2）时<b>片宽仍按明细值归一化</b>（占比以片和为分母），中心仍=营收——占比与中心不自洽的风险已由轧差灰注行显式披露，如供数消除双计则自动恢复严格自洽。</p>
+</div>
+
+<h2 id="s7">附B · 指标去重、数据源覆盖与口径规范</h2>
+<div class="card">
+<p><b>去重规则（上层优先 ①&gt;②&gt;③④⑤）：</b>营业收入/利润总额只在①区 hero 出现一次（②④⑤区不重复其值）；「利润总额（拨备前）」是不同科目（拨备前口径）保留①区行3；产融业务收入在①区=收入构成片、⑤区=协同主体全貌（6.8 同源双视角，附A 已列联动式，属有意的口径互证而非重复）；新增/退出自有出资在②区=总量卡+对比条（总量视角与两主体对比视角动作不同），四线明细分录仅在饼下灰注行出现。</p>
+<p><b>4 张固定报表全覆盖映射：</b>asset01-收入结构→①双 hero+收入构成饼/回退条+全口径对比+效益四卡；asset02-业务结构→②规模四卡+四线饼+新增vs退出条、③合同五卡（合并口径业绩合同类）；asset03-风险指标→④风险四卡+分布条+全口径对比；asset04-产融业务→⑤协同五卡+规模条。<span class="srcbox">取数全部经 ASSET_COL 列映射直读固定报表行（nm/un/star/mom/act/yoy/ytd/bud/rate 九列位），无任何本地缓存数值；顶部「数据日期」切换时金额类×日期系数联动、比率类保持原值；「币种·人民币(CNY)」下拉为全局占位（演示数据即人民币计价）。</span></p>
+<p><b>单位与数字规范（2026-11-06 对齐银行）：</b>金额单位一律「<b>亿元</b>」（不写裸"亿"）；计数类「个」显示整数（项目不存在小数个）、金额/比率统一两位小数；卡头口径标注三态：<b>本年累计（损益/流量）/ 本月末（存量/时点）/ 本季末（asset04 季度报送）</b>。</p>
+</div>
+
+<footer>管理驾驶舱 · 华润资产 tab 指标布局与可视化规范 ｜ V1.0 · 2026-11-06 ｜ 与 index.html 同步维护：页面图形增删时请回写本文档〇章规则与附A勾稽表。<br>本版（V1.0，2026-11-06）主要变更——①<b>整页视觉与华润银行驾驶舱对齐</b>：全部卡片名称栏统一蓝渐变+白点（#v-asset 并入银行页同名 CSS 组）、口径页签选中态同卡头蓝、指标卡全部换用银行同款 stx 体系（蓝头→口径行→蓝渐变大数值→同比+较年初同行红涨绿跌→考核项预算三段式进度条：左「预算」/中主蓝条内白字达成%/右预算值），淘汰旧 bukpi 彩色边条卡与卡外独立达成率条；②四大→<b>五大业务分区</b>确立：收入与利润（赚多少）→业务规模与投放退出（靠什么）→服务集团退出进度·业绩合同（承诺兑现）→风险质量（稳不稳）→产融协同（后劲），大标题去注释小字（与银行页标题精简同步），分区次序含义在⑤章末尾注明；③hero 双卡（营业收入/利润总额）升级银行三段式：左预算完成环+中「本年累计/累计同比/预算数」行内排+右「本月数+月度同比」同行灰标签；<b>趋势图由近12月滚动升级为银行同款 22 月跨年窗口</b>（上年1月—当年所选月，标签全量「2025/01…」倾斜显示，月度同比金线锚定所选月与卡内值同源）+月份下迷你图例「■本月数 ─●─月度同比」+🎯考核指标注；本月数与趋势末柱同源（不直取源表与累计同值的「当月值」脏列）；④收入构成饼新增<b>整圆轧差双分支</b>（正差补浅蓝片 / 负差补「条线互抵轧差」灰注行——横琴单体六线双计 −4.2 显式披露，不做伪闭合不加负片）；⑤②区新增四线自有出资构成饼（横琴/渝康双口径 260、118 勾稽闭合，无明细口径回退横琴参考并注明）、⑥风险/规模/协同 KPI 全部改 stx 卡（风险保留语义色：红=不良、橙=关注）、⑦金额单位全页统一「亿元」、计数类整数化、⑧产融协同五卡+漏斗条收为末区（季度报送口径「本季末」独立标注），并输出本配套文档（摆放依据/可视化设计思路/决策价值三要素逐指标说明）。</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理驾驶舱 · 华润保险 — 指标布局与可视化规范（配套说明文档）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--navy:#17427d;--navy2:#1a3a6b;--gold:#c8962e;--ink:#1f2937;--dim:#5b6572;--line:#dfe6ef;--bg:#f2f5f9;--ok:#0f9d6e;--warn:#e8823c;--bad:#ef4444;}
+body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.75;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 60px;}
+header{background:linear-gradient(135deg,#0f2847 0%,#1a3a6b 55%,#2a5298 100%);color:#fff;padding:34px 0 26px;}
+header .wrap{padding-bottom:0;}
+header h1{font-size:23px;letter-spacing:1px;}
+header .sub{font-size:12.5px;opacity:.75;margin-top:6px;letter-spacing:.5px;}
+.meta{display:flex;gap:26px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;}
+.meta span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:4px 12px;}
+.meta b{color:#e8c063;font-weight:600;}
+h2{font-size:17.5px;color:var(--navy);margin:38px 0 4px;padding-left:12px;border-left:4px solid var(--gold);}
+h2 small{font-size:12px;color:var(--dim);font-weight:400;margin-left:10px;}
+h3{font-size:14.5px;color:var(--navy);margin:20px 0 8px;}
+p.note{color:var(--dim);font-size:12.5px;margin:2px 0 10px;padding-left:16px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:12px 0;box-shadow:0 1px 3px rgba(23,66,125,.06);}
+table{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:12.8px;background:#fff;}
+th{background:var(--navy2);color:#fff;font-weight:600;padding:8px 10px;text-align:left;border:1px solid #2a5298;font-size:12.5px;white-space:nowrap;}
+td{border:1px solid var(--line);padding:7px 10px;vertical-align:top;}
+tbody tr:nth-child(even){background:#f7fafd;}
+td.mono,.mono{font-family:Consolas,Menlo,monospace;font-size:12px;color:var(--navy);}
+.tag{display:inline-block;font-size:11px;border-radius:4px;padding:1px 8px;margin:1px 3px 1px 0;white-space:nowrap;font-weight:600;}
+.t-pie{background:#e3f0ff;color:#155ca8;} .t-bar{background:#e8f6ef;color:#0d7a55;}
+.t-card{background:#eee9f9;color:#5b3fa8;}
+.t-line{background:#fdf6dc;color:#8a6d00;} .t-hero{background:#dff2ec;color:#0b6b4b;}
+.t-row{background:#e9eef6;color:#3d5678;}
+.rule{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;}
+.rule .r{flex:1 1 240px;background:#f7fafd;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:12px 14px;}
+.rule .r b{display:block;color:var(--navy);margin-bottom:4px;font-size:13px;}
+.rule .r p{font-size:12.3px;color:var(--dim);}
+.kv{font-size:12.5px;color:var(--dim);}
+.chk{color:var(--ok);font-weight:700;}
+.srcbox{font-size:12px;color:var(--dim);margin-top:2px;}
+footer{margin-top:44px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:#8a94a0;}
+b.hl{color:var(--navy);}
+.toc{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.toc a{text-decoration:none;font-size:12.5px;color:var(--navy);background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 14px;}
+.toc a:hover{border-color:var(--gold);color:var(--gold);}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>管理驾驶舱 · 华润保险 —— 指标布局与可视化规范</h1>
+    <div class="sub">Management Cockpit · CR Insurance Tab — Indicator Layout &amp; Visualization Specification（配套交付物）</div>
+    <div class="meta">
+      <span>版本 <b>V1.0</b></span>
+      <span>日期 <b>2026-11-06</b></span>
+      <span>载体 <b>index.html · 管理驾驶舱 → 华润保险 tab</b></span>
+      <span>数据源 <b>数据应用 → 固定报表管理 → 华润保险 ins01–03 全部页面（实时取数）</b></span>
+      <span>框架 <b>四段业务分区 · 蓝白金融卡视觉体系（2026-11-06 整页对齐华润银行驾驶舱）</b></span>
+    </div>
+    <div class="toc">
+      <a href="#s0">〇 可视化触发规则总纲</a><a href="#s1">① 核心经营指标</a><a href="#s2">② 保费与佣金双主线</a><a href="#s3">③ 产融板块纵深</a><a href="#s4">④ 关键管理指标</a><a href="#s5">附A 勾稽关系</a><a href="#s6">附B 去重与覆盖</a>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+
+<h2 id="s0">〇、可视化触发规则总纲</h2>
+<p class="note">与华润银行/华润资产驾驶舱共用同一套图形语言（2026-11-06 对齐定稿）：先判定指标间<b class="hl">业务关系</b>，再由关系触发图形；保险业务特有「<b>保费 ↔ 佣金同源双线</b>」结构，另立双主线复合卡范式。</p>
+<div class="card">
+<div class="rule">
+  <div class="r"><b>规则① 趋势 → 本月数柱 + 月度同比金线（双轴）</b><p>触发条件：流量类核心指标（营业收入/利润总额/净利润/保费规模/佣金收入）。<b>不使用本年累计趋势</b>——累计曲线恒向上掩盖动能拐点；左轴柱=各月<b>本月数</b>（保险源表「当月值」列直读、末月校准），右轴金线=月度同比%。趋势窗口=<b>【上年1月—当年所选月】22 根柱</b>（2026-11-06 由近12月滚动升级，与银行页同构：BK_SHAPE 月度形状年化拆分、标签「2025/01…」全量倾斜、金线锚定所选月）。柱色=亮蓝 #4d94ff，月份轴下固定迷你图例「■本月数 ─●─月度同比」+「🎯 考核指标」注（ins01 三项全★）。悬停三行：本月数 / 去年同月 / 月度同比。<b>单位=万元</b>（保险报表口径，与资产/银行亿元区分）。</p></div>
+  <div class="r"><b>规则② 层级构成 → 环形饼图（勾稽前提）</b><p>触发条件：分项相加=母项。<b>保险页全部饼均严格勾稽闭合、零轧差片</b>：保费四大板块（机构+产融+香港+市场化）=保费规模合计、佣金同口径四板块=佣金合计（46,800+48,600+15,200+20,000→见附A 八式全验）。饼片 ≤6，中心=母项总量（与上方 hero KPI 互证），右侧明细行（色点+板块 / 值 万元 / 同比 / 占比）。配色与银行统一：#4d94ff → #6cc0f0 → #35c06b → #eda14e。管理层看饼=看板块结构，看行=看谁在拉动；<b>两饼同序同色 = 同板块保费片与佣金片角度/宽度可对读 → 板块佣金率（佣/保）免计算直观可得</b>（产融 15.5% &gt; 机构 16.1%？不——机构 425,600 保/68,500 佣=16.1%、产融 312,800/48,600=15.5%、香港 98,500/15,200=15.4%——饼对读直接暴露"集团渠道费率最高"的议价事实）。</p></div>
+  <div class="r"><b>规则③ 二层下钻 → 树形行式明细（非图）</b><p>触发条件：某饼片需要展开第二层（产融板块 31.7% 是全盘战略重心）。保险 02 表的产融层级达 <b>三级</b>（产融→燃气→华润/市场燃气；创新场景→社区/职域/其他融融），饼图只承载一层（二层入饼即双重计算）。故产融板块用<b>缩进树形行式明细</b>（├│└ 结构字符 + 「其中：」层级）表达父子关系，父行=饼片值互证（燃气+商户+银保+创新=312,800 附A）；★考核叶子（华润燃气 88.30%）行尾直标达成率——树负责"口径路径"，卡负责"考核结果"。</p></div>
+  <div class="r"><b>规则④ 量级悬殊/单位不同 → stx 卡片</b><p>比率（%）、金额（万元）、户数（万户）不共图，统一银行同款 stx 卡六段式：<b>蓝渐变名称栏（🎯考核/⭐高质量徽章右贴，与银行 bkBadges 同图标语言）→ 口径行「本年累计」→ 蓝渐变大数值 → 同比+环比同行（红涨绿跌带箭头）→ 考核项预算三段式进度条</b>（左「预算」/中主蓝条内白字达成%/右预算值；源表无预算列则整行不渲染，不造数）。保险计量周期=当月动作量，环比是保险销售节奏的固有指标（开门红/月末冲量），故 stx 卡变动小注=「同比+环比」组合（银行对公余额类用同比+较年初，同一卡片体系按业务节奏选小注类型）。</p></div>
+  <div class="r"><b>规则⑤ 复合卡范式（保险特有）</b><p>保费与佣金是保险经纪/代理业务的<b>双主线</b>（先收保费、按费率转佣金，两者同源同板块），管理层对每条主线的完整追问链=「总量多少 → 动能如何 → 结构在哪」。故本 tab 设「复合卡」：单卡内纵向完成 <b>KPI 三段式（预算环/累计/本月数）→ 22 月趋势（规则①）→ 构成饼+明细行（规则②）</b> 三个阅读动作，免去跨模块视线往返。两卡左右并排（g2）保持双主线对照关系。</p></div>
+</div>
+</div>
+
+<h2 id="s1">① 核心经营指标 <small>—— 赚多少｜源：ins01-财务指标（五项全★考核）</small></h2>
+<div class="card">
+<h3>行1 · 营业收入 / 利润总额 / 净利润（三 hero 卡同行，银行三 hero 同款）</h3>
+<table>
+<thead><tr><th style="width:13%">指标</th><th style="width:12%">数据源</th><th style="width:13%">展示形式</th><th style="width:28%">摆放位置与样式依据</th><th>面向管理层的决策价值</th></tr></thead>
+<tbody>
+<tr><td class="mono">营业收入 ★<br>利润总额 ★<br>净利润 ★</td><td>ins01 当月值 / 截止本月末-实际 / 环比 / 同比 / 全年预算 / 达成率</td><td><span class="tag t-hero">预算完成环＋三段数值区</span>＋<span class="tag t-line">22月双轴趋势</span></td><td>全页第一屏=利润链三终点同行（收入→利润总额→净利润，保险 ins01 三项全★故三卡同规格带环）。卡头蓝渐变+🎯 徽章；卡内三段=<b>左 预算完成环</b>（收入 89.63%/利润 85.52%/净利 85.53%，利润预算比 28,650/33,500=85.5%）→ <b>中 本年累计（蓝大字）+ 累计同比/预算数（行内排）</b> → <b>右 本月数（源表当月值列直读 14,041.67 万元）+ 月度同比</b>。趋势=规则① 22 月双轴+图例+「🎯 考核指标」注。三卡等宽 g3 网格，与银行/资产 hero 完全同构。</td><td>三卡达成率台阶直接可读：<b>收入 89.6% &gt; 利润 85.5%——利润兑现慢于收入=费用/成本增速快于收入</b>，管理层第一层追问即锁定利润率；本月数 14,041.67 万元 ×12 ≈ 年化 16.8 亿 ≈ 预算 18.8 亿的 89.6% 自洽；三趋势金线对比找背离（收入线升利润线平=费率恶化早期信号）。</td></tr>
+</tbody>
+</table>
+<h3>行2 · 效益与资本回报（stx 双卡，2026-11-06 补入驾驶舱）</h3>
+<table>
+<thead><tr><th style="width:16%">指标</th><th style="width:10%">数据源</th><th style="width:12%">展示形式</th><th style="width:28%">摆放位置与样式依据</th><th>决策价值</th></tr></thead>
+<tbody>
+<tr><td class="mono">ROE ★（12.50%）<br>EVA ★（15,260 万元）</td><td>ins01</td><td><span class="tag t-card">stx 卡×2</span></td><td><b>改版前的覆盖缺口修复</b>：ins01 五项全★考核，原驾驶舱只展示三项流量（ROE/EVA 仅存在于报表页）。比率与价值量无法入月度趋势（规则④），hero 行下方以两卡补齐——ROE=资本回报效率（预算 13.50%、达成 92.60% 全盘最高），EVA=扣除资本成本后的经济利润（达成 82.00% 全盘最低）。两卡与 hero 三卡构成「<b>规模三终点 + 质量两标尺</b>」=ins01 全覆盖。</td><td>ROE 达成 92.6% 但 EVA 仅 82.0%——<b>账面回报达标而经济利润欠账 = 业务规模消耗资本过快</b>，是"要不要控制保费规模增速"的资本约束视角；EVA 同比 +11.2% 快于净利润 +9.5%，趋势向好但缺口待收。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="s2">② 保费与佣金双主线 <small>—— 靠什么｜源：ins02-业务指标（四板块总量层）</small></h2>
+<div class="card">
+<table>
+<thead><tr><th style="width:15%">模块</th><th style="width:16%">指标（源）</th><th style="width:14%">展示形式</th><th style="width:27%">摆放位置与样式依据</th><th>决策价值</th></tr></thead>
+<tbody>
+<tr><td><b>保费规模复合卡</b></td><td class="mono">保费规模 + 其中：机构/产融/香港/市场化业务保费规模（ins02）</td><td><span class="tag t-hero">KPI 三段</span>＋<span class="tag t-line">22月趋势</span>＋<span class="tag t-pie">四板块环形饼+明细行</span></td><td>规则⑤复合卡：卡内纵向「总量→动能→结构」一次读完。<b>保费是保险经纪业务的本源量</b>（佣金=保费×费率的母数），故居双主线左位。KPI 区无预算环（ins02 保费规模行无预算列——预算由④区板块级承载，不造母项假预算）；饼四片=四大板块（425,600+312,800+98,500+149,600=986,500 附A 严格闭合，零轧差），中心=保费规模合计与 KPI 互证；明细行四行=色点+板块 / 值 万元 / 同比 / 占比。卡头 tag「万元 · 本年累计」。</td><td>结构三判断：①机构 43.1% 基本盘但同比 +10.2% 最慢=自然增长引擎减速；②<b>产融 31.7% 且 +15.6% 次快=集团战略赛道放量</b>（下钻见③区）；③市场化 15.2% 但 +16.8% 全场最快=外拓造血增速标杆。总量 +12.6% 的成色=四板块增速加权，饼宽变化即结构迁移。</td></tr>
+<tr><td><b>佣金收入复合卡</b></td><td class="mono">佣金收入 + 其中：机构/产融/香港/市场化业务佣金收入（ins02）</td><td><span class="tag t-hero">KPI 三段</span>＋<span class="tag t-line">22月趋势</span>＋<span class="tag t-pie">四板块环形饼+明细行</span></td><td>与保费卡<b>完全同构、同板块顺序、同板块配色</b>——版式对齐本身即分析工具：两张饼同一板块色片角度/宽度可跨卡对读，<b>「板块佣金率=佣金片÷保费片」的相对比例无需读数即目测可得</b>（规则②）；明细行与保费行逐行同序。佣金=保险业务的收入实质（对①区营业收入的贡献主体），右位呼应"先本源量、后收入化"的阅读链。</td><td>佣金 +11.5% 慢于保费 +12.6%=<b>综合费率被摊薄</b>（结构中高费率机构板块占比下降所致），管理层据此追问新签费率谈判；香港板块佣金 +8.2% 最慢且为★考核+高质量双标项（达成 86.9%）=高价值渠道增长承压，与④区融融/市场收入卡互证。</td></tr>
+</tbody>
+</table>
+<p class="kv">双主线并列的设计依据：保险（经纪/代理）商业模式单一等式「佣金=Σ(板块保费×板块费率)」，把同一等式的两端做成同构双卡并排，等于把等式摊开在管理层面前——左卡管"量从哪来"，右卡管"钱对不对"，任何一端异动在两卡间自动互为解释。</p>
+</div>
+
+<h2 id="s3">③ 产融板块纵深明细 <small>—— 集团特色｜源：ins02（产融层级二、三级拆分）</small></h2>
+<div class="card">
+<table>
+<thead><tr><th style="width:22%">指标</th><th style="width:10%">数据源</th><th style="width:14%">展示形式</th><th style="width:27%">摆放位置与样式依据</th><th>决策价值</th></tr></thead>
+<tbody>
+<tr><td class="mono">产融板块小计 312,800<br>├ 燃气 125,600（华润燃气★ 86,500 / 市场燃气 39,100）<br>├ 商户保险 48,200 · 银保 45,300<br>└ 创新场景 61,100（社区 32,600/职域 22,800/其他融融 11,800/其他场景 26,500*）<br>＋同板块对照：产融佣金 48,600 · 华润燃气佣金 13,600 · 燃气佣金率 15.76%</td><td>ins02</td><td><span class="tag t-row">双列树形明细行</span></td><td>规则③：产融板块（②区右二饼片 31.7%）=华润保险的立身特色（依托集团燃气/商场/银行渠道），管理层必然追问"产融的钱具体从哪个场景来"——二级 31,100 字节的层级用图必失真（三层嵌套超出任何标准图形语义），故用 <b>├│└ 缩进树形行</b>；左列保费口径、右列同板块对照（佣金刚性配比：燃气佣/保=15.76% 直算行）。★华润燃气行尾直标达成 88.30%（源表唯一板块级预算行）。*注：源表「其他产融创新场景」26,500 与三项明细分母口径交叠，明细层不强求加总闭合（附A 注明）。卡头「万元 · 本年累计」。</td><td>华润燃气 86,500 占产融 27.7% 且 ★ 达成 88.3%&lt; 保费大盘达成——<b>集团核心渠道的渗透仍有硬指标缺口</b>；市场燃气 +21.5% 远快于华润燃气 +16.8%=借集团品牌外拓已起量（从"靠集团"到"帮集团赚"的台阶）；商户保险佣金收入带「高质量指标」标签=费率结构优化的样板场景。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="s4">④ 关键管理指标 <small>—— 战略导向｜源：ins03-关键管理指标（七项打标项，2026-11-06 按属性分两组）</small></h2>
+<div class="card">
+<table>
+<thead><tr><th style="width:19%">分组</th><th style="width:24%">指标（源）</th><th style="width:13%">展示形式</th><th style="width:22%">摆放位置与样式依据</th><th>决策价值</th></tr></thead>
+<tbody>
+<tr><td><b>业绩合同考核指标</b><br><span class="kv">第1行·4卡（🎯）</span></td><td class="mono">华润燃气存量用户保费占比（68.20%·预算75%·达成90.9%）· 集团其他产融渠道客户保费规模（426,800万元·88.9%）· 融融业务总中收（95,200万元·88.1%）· 市场业务净收入（48,650万元·86.9%）</td><td><span class="tag t-card">stx 卡×4</span></td><td>ins03 带🎯考核标签四项成组——<b>这一组就是华润保险对集团的业绩合同原文</b>，整页收束于此（先经营结果①→业务引擎②③→最后对表承诺）。组内排序=「存量渗透率（质）→ 增量规模（量）→ 中收兑现（钱）→ 市场化造血（外拓）」：占比是费率谈判的成果指标打头，三项规模收入跟随。全部带预算进度条（业绩合同口径）。<b>2026-11-06 覆盖缺口修复</b>：原驾驶舱六卡混排且漏展示「集团产融创新场景孵化保费规模」。</td><td>四项达成率 86.9%–90.9% 全部低于时间进度≈75% 之上不足 15pp——<b>合同指标整体"达标在望但无一提前锁定"</b>，Q4 均需压茬推进；占比 68.2% vs 目标 75% 的 6.8pp 缺口=华润燃气渠道渗透的最后攻坚量；市场业务净收入 +15.2% 最快=外拓造血在兑现，可部分对冲融融中收 +9.8% 的平庸。</td></tr>
+<tr><td><b>高质量发展指标</b><br><span class="kv">第2行·3卡（⭐）</span></td><td class="mono">华润场景产融保费规模（312,800万元·86.9%）· 集团产融创新场景孵化保费规模（26,000万元·源表无预算）· 华润燃气存量用户每年新增客户数（12.60万户·70.0%）</td><td><span class="tag t-card">stx 卡×3</span></td><td>⭐高质量三项独立成组（与🎯考核语义分开——考核=对赌承诺，高质量=结构导向，混排会让"孵化项无预算"被误读为漏配）。组内=「场景盘子（存量）→ 创新孵化（增量苗子）→ 客户底盘（未来分母）」。孵化项源表无预算列 → 卡内自动不渲染预算行（数据诚实）；客户数「万户」保留两位小数（12.60 万户，区别于"户"类整数规则）。组下挂图例行「🎯 考核：…｜⭐ 高质量：…」与银行页业绩指标区同款徽标图例。</td><td>客户数达成 70.0% 是<b>全页唯一大幅落后项</b>——存量用户新增客户是保费池的未来水源，其落后将在 2–3 个报告期内传导为规模缺口，优先于本季规模指标关注；创新孵化 26,000 万元（同比 +13.5%）=社区/职域等新场景的苗子量，占产融 8.3%，是③区树末端"未来饼片"的种子指标。</td></tr>
+</tbody>
+</table>
+<p class="kv">分区次序的业务逻辑：四段=<b>赚多少（①财务结果与资本回报）→ 靠什么（②保费佣金双引擎）→ 特色在哪（③产融纵深）→ 承诺兑现（④关键管理指标）</b>——结果开场、引擎承接、特色点睛、承诺收口，与资产 tab（结果→结构→承诺→风险→后劲）同源的汇报动线设计。</p>
+</div>
+
+<h2 id="s5">附A · 构成闭合与勾稽校验（饼图可信性基础）</h2>
+<div class="card">
+<table>
+<thead><tr><th>图形/关系</th><th>勾稽式（演示基准 2026-09 值，万元，随数据日期系数联动）</th><th>校验结果</th></tr></thead>
+<tbody>
+<tr><td>保费四板块饼</td><td class="mono">机构 425,600 + 产融 312,800 + 香港 98,500 + 市场化 149,600 = 986,500 = 保费规模合计</td><td class="chk">✔ 四项闭环（零轧差）</td></tr>
+<tr><td>佣金四板块饼</td><td class="mono">机构 68,500 + 产融 48,600 + 香港 15,200 + 市场化 20,000 = 152,300 = 佣金收入合计</td><td class="chk">✔ 四项闭环（零轧差）</td></tr>
+<tr><td>机构板块二层</td><td class="mono">财险 286,500 + 团险 139,100 = 机构保费 425,600；佣金 45,600 + 22,900 = 68,500</td><td class="chk">✔ ②区明细行可复核（树形行下钻层）</td></tr>
+<tr><td>产融板块二层</td><td class="mono">燃气 125,600 + 商户 48,200 + 银保 45,300 + 创新场景 61,100 = 312,800</td><td class="chk">✔ ③区树父行=②区饼片</td></tr>
+<tr><td>燃气三层</td><td class="mono">华润燃气 86,500 + 市场燃气 39,100 = 125,600；佣金 13,600 + 6,200 = 19,800</td><td class="chk">✔ ③区树叶=父行</td></tr>
+<tr><td>市场化三层</td><td class="mono">机构渠道 68,500 + 产融渠道 52,300 + 香港渠道 28,800 = 149,600</td><td class="chk">✔（跨渠道归集口径，驾驶舱未下钻展示、台账可查）</td></tr>
+<tr><td>收入↔业务跨表</td><td class="mono">②区佣金合计 152,300 ÷ ①区营业收入 168,500 = 90.4%（佣金收入=保险业务收入主体，余为非佣收入）</td><td class="chk">✔ 量级合理（非严格等式，双表口径差留台账）</td></tr>
+<tr><td>④区↔②区联动</td><td class="mono">华润场景产融保费规模（03 表 312,800）= 产融业务保费规模（02 表 312,800）</td><td class="chk">✔ 跨表同值互证（同一口径两个考核视角）</td></tr>
+<tr><td>③区创新场景</td><td class="mono">三项细分 社区 32,600 + 职域 22,800 + 其他融融 11,800 = 67,200 ≠ 场景小计 61,100（源表演示值「其他产融创新场景」26,500 与三项交叠）</td><td class="chk">⚠ 树叶层不强求加总闭合——树仅作口径路径展示，父行与饼片恒闭合</td></tr>
+</tbody>
+</table>
+<p class="note"><b>整圆纪律</b>：②区两饼是驾驶舱唯二"相加必须=中心"的图形，且均已八式验算零轧差（区别于资产页需补轧差片/灰注行）。若未来供数调整使四板块之和≠合计，须按资产页先例处理：正差补浅蓝「其他」片、负差补灰注行，禁止用交叠口径硬拼饼。<b>回退警示</b>：创新场景叶子层存在源表口径交叠（上表⚠），若升格入图只能到二层（四板块）为止。</p>
+</div>
+
+<h2 id="s6">附B · 指标去重与数据源覆盖</h2>
+<div class="card">
+<p><b>去重规则（上层优先 ①&gt;②&gt;③&gt;④）：</b>保费规模/佣金收入合计只在②区复合卡出现一次（③区对照列是其同数复用=板块归因上下文，属"结构引用"而非"指标重复"）；产融保费在②区=饼片（31.7% 结构角色）、③区=树根（纵深角色）、④区⭐=合同标的（考核角色）——同一数值三重业务身份，为有意的口径互证；华润燃气在③区=★叶子行、④区=占比分子，同理。</p>
+<p><b>3 张固定报表全覆盖映射：</b>ins01-财务指标→①区三 hero（营业收入/利润总额/净利润）+ 效益两卡（ROE/EVA，2026-11-06 补齐）<b>五项 100% 覆盖</b>；ins02-业务指标→②区双主线复合卡（保费/佣金+四板块饼×2）+ ③区产融树（燃气/华润燃气/市场燃气/商户/银保/创新场景及佣金对照）<b>一级二层全展示、三级细分入台账</b>；ins03-关键管理指标→④区七卡（4🎯+3⭐）<b>七项 100% 覆盖（改版前五卡、漏孵化项）</b>。<span class="srcbox">取数全部经 TIL_COL 列映射直读固定报表行（ins01/03：nm/un/star/mval/act/yoy/mom/bud/rate；ins02 含分项列 nm=3），无本地缓存数值；顶部「数据日期」切换时金额类×日期系数联动、比率类原值；趋势本月数=源表「当月值」列末月校准直读。</span></p>
+<p><b>单位与数字规范（2026-11-06 对齐银行）：</b>金额单位一律「<b>万元</b>」（明细行旧版"万"尾已全部规范化，不写裸"万"）；比率「%」两位小数、万户保留两位（12.60）；金额两位小数+千分位；卡头口径标注统一「万元 · 本年累计」（ins 三表全部为年累计流量口径，无本月末态）。</p>
+</div>
+
+<footer>管理驾驶舱 · 华润保险 tab 指标布局与可视化规范 ｜ V1.0 · 2026-11-06 ｜ 与 index.html 同步维护：页面图形增删时请回写本文档〇章规则与附A勾稽表。<br>本版（V1.0，2026-11-06）主要变更——①<b>整页视觉与华润银行驾驶舱对齐</b>：全部卡片名称栏统一蓝渐变+白点（#v-ins 并入银行/资产页同名 CSS 组）、hero 卡头加 🎯 考核徽章、趋势图下加「■本月数 ─●─月度同比 🎯考核指标」三段图例；②关键管理指标卡升级为 <b>insStx 银行六段式</b>（蓝头+🎯/⭐右贴徽章 → 口径行 → 大数值 → 同比+环比同行 → 预算三段式进度条），淘汰裸 stx 内联拼接；③<b>趋势序列由近12月滚动升级为银行同款 22 月跨年窗口</b>（上年1月—当年所选月，BK_SHAPE 年化拆分、当年段当月值末月校准、月份全量标签倾斜；tilHero 月度同比与金线 selIx 同源），同批升级使信托/租赁页一并受益（回归验证 0 错误）；④<b>两处覆盖缺口修复</b>：ins01 ROE★/EVA★ 补入①区「效益与资本回报」双卡、ins03「集团产融创新场景孵化保费规模」⭐补入④区；⑤④区按指标属性重组：六卡混排改「<b>业绩合同考核指标</b>（4🎯）/ <b>高质量发展指标</b>(3⭐) 」双组+徽标图例（对齐银行业绩指标区打标分组逻辑）；⑥②区两饼<b>明细行渲染修复</b>（原 rowsEl 未传导致右侧板块明细行自始未显示，现补齐四行=值万元/同比/占比）；⑦大标题去注释小字、卡头口径注精简「万元 · 本年累计」、明细区与饼中心单位全页「万→万元」统一（万户类保留小数）；⑧双主线复合卡范式文档化（规则⑤）、产融三层树形明细规则化（规则③），并输出本配套文档（摆放依据/可视化设计思路/决策价值三要素逐指标说明）。</footer>
+</div>
+</body>
+</html>
