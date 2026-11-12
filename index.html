@@ -1505,6 +1505,13 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 /* 2026-11-03 按需求：opts.dlCol → 同比 / 较年初(环比) 两小注上下分行（纵向排列、逐行左对齐），
    每行 white-space:nowrap 完整展示不截断；行距 1px 紧凑整齐，不影响同组其余卡片横排样式 */
 #moduleLeader .stx .dlst.dl-col{flex-direction:column;align-items:flex-start;gap:1px}
+/* 2026-11-12 按需求（二版）：银行「效益与定价」模块对比项每行独占一行（纵向排布，不再挤同行）：
+   容器 dlst 改 column + stretch（每行撑满卡内容宽）；行内标签文字左对齐、em 数值 margin-left:auto 推右；
+   行级 padding-right:8px 让数值与卡片右缘留内边距。颜色/字体/字号/卡其余内容不动；
+   作用域 #bk-eff-cards，银行页其他模块与他 tab 零影响 */
+#moduleLeader #bk-eff-cards .stx .dlst{flex-direction:column;align-items:stretch;gap:1px}
+#moduleLeader #bk-eff-cards .stx .dlst .s-dlt{flex:none;width:100%;min-width:0;padding-right:8px;box-sizing:border-box}
+#moduleLeader #bk-eff-cards .stx .s-dlt em{margin-left:auto}
 /* 2026-11-04 按需求：opts.dlRow → 两条变动小注强制同一行（span 1/6 窄卡：≤1440 默认 wrap 会拆成两行；
    gap 收至 5px 保证「同比 + 较上年」在 180px 卡宽内完整同行，其余卡片不受影响） */
 #moduleLeader .stx .dlst.dl-row{flex-wrap:nowrap;gap:5px}
@@ -5145,7 +5152,7 @@ var NORTH = [
   {l:'ROA (资产利润率)',  u:'%',    v:0.62, dl:[['累计同比','+0.50',true],['较上年','+0.30',true]], kal:'本年累计'},
   /* 2026-11-12 按需求：本年累计口径补「较上年」行（较上年为原型演示值，接台账后可替换） */
   {l:'股东应占净利润',   u:'亿元', v:26.8, dl:[['累计同比','+8.20'],['较上年','+6.40']], kal:'本年累计'},
-  {l:'净资产（所有者权益）', u:'亿元', v:882, raw:true, dl:[['同比','+6.1'],['较年初','+3.2']], kal:'本月末'},
+  {l:'净资产', u:'亿元', v:882, raw:true, dl:[['同比','+6.1'],['较年初','+3.2']], kal:'本月末'},   /* 2026-11-12 按需求：净资产（所有者权益）→ 净资产 */
   {l:'总资产',           u:'亿元', v:6820, raw:true, dl:[['同比','+5.2'],['较年初','+3.8']], kal:'本月末'},
   {l:'资产负债率',       u:'%',    v:87.1, dec:1, dl:[['同比','-0.5',true],['较年初','-0.3',true]], kal:'本月末'}
 ];
