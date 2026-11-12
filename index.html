@@ -1234,7 +1234,14 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
    （颜色本就继承行名称无覆写）；缩进 8px 保留（层级从属语义）。该行名称列单独加宽至 154px
    （12.5px×12字+缩进8 实测 150 ≤154 不截断）——右侧数值/同比/较年初组 margin-left:auto 贴右刚体，
    名称列加宽只吃掉名称与组之间 872px 富余间隙，组位置零位移、与上下行列对齐不变 */
-#moduleLeader #bk-corp .strow>span:first-child.qz-name{flex:0 0 188px;padding-left:8px}
+/* 2026-11-10 按需求（附实测：窗口 1400~1536 档卡内容 <460px 时该行组被挤出右移 5~15px）：
+   名称列由 flex:0 0 改 0 1 188 + min-width:0——行内空间不足时名称列收缩（吃掉自身富余/必要时省略号），
+   右侧 cols3 组恢复 margin-left:auto 贴右刚体：同比/较年初起始横坐标恒=卡右缘−组宽，全行同竖线，
+   不随名称长短与窗口宽度漂移（1600 实测六行 yL/qL 分毫不差） */
+/* 2026-11-10 按需求：该行名称列单独加宽至 184px（量标14+4缩距+12字×12.5=150+缩进8=176 ink 直出不截断）；
+   flex 0 1 = 可收缩——行内空间不足时名称列先吃自身富余，右侧数值组 margin-left:auto 贴右刚体零位移，
+   同比/较年初起始横坐标=卡右缘−组宽，六行恒同竖线（不随名称长短/窗口宽度漂移） */
+#moduleLeader #bk-corp .strow>span:first-child.qz-name{flex:0 1 184px;min-width:0;padding-left:8px}
 /* 金市名称列 82→90px：最长名「债券投资收益率/应付债券付息率」7 字×12.5=87.5，原 82 截断省略号（违反不截断） */
 #moduleLeader #bk-chan .strow>span:first-child{flex:0 0 112px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* 2026-11-03 第六轮（按需求）：变化区（值/同比/较年初·较上年）整体右靠——margin-left:auto 吸收行内全部富余空隙，
@@ -1268,19 +1275,21 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
    行需求 338px 在全部基础档视口保有 ≥18px 余量（固定 170px 会在 1441~1516 区间溢出 ~29px）；
    ≤1440 内 128px、≤1310 内 116px 固定列由媒体块接管；HTML inline 饼高同步 150→170 */
 #moduleLeader .dep-loan-wrap.donutwrap{grid-template-columns:minmax(150px,30%) minmax(0,1fr)}
-/* ============ 条线三卡 1401-1500 收紧档（2026-11-03 第四轮；同日第五轮删除国债「较月初」列） ============
-   金市卡字号与公司/零售完全一致（名称 12px、数值 13.5px 同额）；名称列按最长名留足不截断；
-   变化区域右移微调（c-y margin-left:4）；列宽按 9/9.5px 实测内容定死（c-y 74 / c-q 82），
-   杜绝「ppt」尾与次列标签相触；卡内 padding 15→左8/右12 腾位（右侧 12px=三卡统一留白，配合变化区右靠）。
-   预算（最紧 1311 卡内容=(1311-76)/3-2-16≈393.7）：corp 136+6+90+(4+74)+82=392 ✓ /
-   金市（台账与国债同构）86+2+90+78+82=338 ✓——较月初删除后全卡无 4 列行，列预算全面宽松 */
-@media(max-width:1500px){
+/* ============ 条线三卡收紧档（2026-11-03 第四轮；同日第五轮删除国债「较月初」列；
+   2026-11-10 按需求扩至 ≤1600：「其中，大中」行三列满配（名称184+间隙6+组250=440）在
+   1501~1600 档三列卡内 457~487 恰好放下且组贴右零位移——六行同比/较年初同竖线且不截断。
+   本块嵌套堆叠断点 ≤1450：1401~1450 档三列 <440 不足，改纵向堆叠（卡内容=窗宽-52 全行宽松）。
+   注意：嵌套 media 需双条件同时满足——堆叠写在本块内时外层上限必须 ≥ 内层，否则 1501~1600 落空 */
+@media(max-width:1600px){
   #moduleLeader #bk-corp,#moduleLeader #bk-retail,#moduleLeader #bk-chan{padding:13px 12px 13px 8px}
-  #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 0 144px;font-size:12px}
+  /* 2026-11-11 按需求：名称列 0 0 定宽改 0 1 可收缩 + min-width:0——三栏恒并排后窄窗口
+     （<1350）行内空间不足时名称列先吃自身富余（必要时省略号），数值组不再被挤出卡缘被裁；
+     宽窗口富余充足不触发收缩、1440+ 观感与原来逐像素一致 */
+  #moduleLeader #bk-corp .strow>span:first-child,#moduleLeader #bk-retail .strow>span:first-child{flex:0 1 144px;min-width:0;font-size:12px}
   #moduleLeader #bk-chan .strow{gap:2px}
-  #moduleLeader #bk-chan .strow>span:first-child{flex:0 0 108px;font-size:12px}
+  #moduleLeader #bk-chan .strow>span:first-child{flex:0 1 108px;min-width:0;font-size:12px}
   #moduleLeader #bk-corp .strow b.cols3 .c-v,#moduleLeader #bk-retail .strow b.cols3 .c-v,#moduleLeader #bk-chan .strow b.cols3 .c-v{width:90px}
-  /* 列宽按 9/9.5px 实测内容定：c-y ppt 极值 73 / c-q 82——原 68/75 致「ppt」尾与下一列标签相触互叠 */
+  /* 列宽按 9/9.5px 实测内容定：c-y ppt 极值 73 / c-q 82——原 68/75 致「ppt」尾与下一列标签相触互叠（勿再收窄） */
   #moduleLeader #bk-corp .strow b.cols3 .c-y,#moduleLeader #bk-retail .strow b.cols3 .c-y,#moduleLeader #bk-chan .strow b.cols3 .c-y{width:74px;padding-left:4px;margin-left:4px}
   #moduleLeader #bk-corp .strow b.cols3 .c-q,#moduleLeader #bk-retail .strow b.cols3 .c-q,#moduleLeader #bk-chan .strow b.cols3 .c-q{width:82px;padding-left:4px;margin-left:0}
   #moduleLeader #bk-corp .strow b.cols3 .c-y .lb,#moduleLeader #bk-retail .strow b.cols3 .c-y .lb,#moduleLeader #bk-chan .strow b.cols3 .c-y .lb{width:18px}
@@ -1288,11 +1297,10 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   #moduleLeader #bk-corp .strow b.cols3 .lb,#moduleLeader #bk-retail .strow b.cols3 .lb,#moduleLeader #bk-chan .strow b.cols3 .lb{font-size:9px;margin-right:2px}
   #moduleLeader #bk-corp .strow b.cols3 i.yoy,#moduleLeader #bk-retail .strow b.cols3 i.yoy,#moduleLeader #bk-chan .strow b.cols3 i.yoy,
   #moduleLeader #bk-corp .strow b.cols3 .pv,#moduleLeader #bk-retail .strow b.cols3 .pv,#moduleLeader #bk-chan .strow b.cols3 .pv{font-size:9.5px}
-  /* ≤1400 三卡纵向堆叠（原为国债 4 列行 423px 所需；较月初删除后最宽行仅 392px，
-     断点维持 1400 不回调——此区间三列余量本就紧张，堆叠展示更稳不截断） */
-  @media(max-width:1400px){
-    #moduleLeader .grid.g3.bk3line{grid-template-columns:1fr}
-  }
+  /* 2026-11-11 按需求：删除 ≤1449 纵向堆叠档——公司/零售/金市三卡在任何视口
+     均保持同一模块内左、中、右三栏横向并排（等分 1fr:1fr:1fr，与宽屏原比例一致），
+     不自动换行、不上下堆叠；窄档防截断由名称列 flex:0 1 + min-width:0 收缩省略兜底 */
+  #moduleLeader .grid.g3.bk3line{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 /* 2026-11-04 按需求（附截图红框：资产负债核心科目/贷款结构/存款结构三模块底部空白过大）：
    存/贷款饼容器高度按各档【实际饼直径+余量】重排——直径=min(饼列宽,容器高)-12 由较窄者封顶，
@@ -1552,21 +1560,25 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 /* 业绩指标双表名称栏（2026-11-10 按需求：删除蓝渐变背景与白点，仅显示标题文字） */
 #moduleLeader #v-bank .chd.chd-perf,#moduleLeader #v-banks .chd.chd-perf{background:none;padding:8px 12px 2px;color:#0d6ef0;font-weight:700;letter-spacing:0}  /* 2026-11-10 按需求：标题文字用名称栏背景同族主蓝 #0d6ef0；简版（#v-banks 挂载态）同步 */
 #moduleLeader #v-bank .chd.chd-perf::before,#moduleLeader #v-banks .chd.chd-perf::before{content:none}
+/* 2026-11-10 按需求：总览「业务单元利润表」卡头净化——无背景条、无白点、无底部分隔线，仅标题文字 */
+#moduleLeader #v-overview .chd.chd-plain{background:none;border-bottom:none;color:#0d6ef0;font-weight:700;padding:9px 14px 0;letter-spacing:0}
+#moduleLeader #v-overview .chd.chd-plain::before{content:none}
 /* 业绩指标双表（2026-11-10 按需求：高质量指标/考核指标，五列=名称/单位/实际值/目标值/完成度；完成度=进度条+百分比）
    同日按需求紧凑化：仅表头加粗（单元格全部常规字重）、进度条调细、行距/卡体收矮 */
 #moduleLeader .bk-perf-tbl{width:100%;border-collapse:collapse;font-size:12px;color:var(--txt)}
 #moduleLeader .bk-perf-tbl th{background:linear-gradient(90deg,#eaf4ff,#dcebfb);color:#17427d;font-weight:700;
   padding:4px 8px;border:1px solid #d3e2f5;text-align:center;white-space:nowrap;font-size:11.5px}
 #moduleLeader .bk-perf-tbl th:first-child{text-align:left;padding-left:12px}
+#moduleLeader .bk-perf-tbl th:nth-child(3),#moduleLeader .bk-perf-tbl th:nth-child(4){width:11%;text-align:right}  /* 2026-11-12 实际值/目标值表头随列右对齐 */
 #moduleLeader .bk-perf-tbl td{padding:2px 8px;border:1px solid #e3edf9;text-align:center;white-space:nowrap;
   font-weight:400}
 #moduleLeader .bk-perf-tbl td.pt-nm{text-align:left;padding-left:12px;color:#1d2b45}
 #moduleLeader .bk-perf-tbl td.pt-u{color:#51678a}
-#moduleLeader .bk-perf-tbl td.pt-v{color:#17427d;font-variant-numeric:tabular-nums}
+#moduleLeader .bk-perf-tbl td.pt-v{color:#17427d;font-variant-numeric:tabular-nums;width:11%;text-align:right}  /* 2026-11-12 按需求：实际值/目标值列加宽+数值右对齐 */
 #moduleLeader .bk-perf-tbl td.pt-tar{color:#42557a}
 #moduleLeader .bk-perf-tbl tbody tr:nth-child(even){background:#f6faff}
 #moduleLeader .bk-perf-tbl tbody tr:hover{background:#eef6ff}
-#moduleLeader .bk-perf-tbl td.pt-bar{width:36%}
+#moduleLeader .bk-perf-tbl td.pt-bar{width:26%}  /* 2026-11-12 按需求：完成度列收窄（36%→26%），让宽给实际值/目标值列 */
 #moduleLeader .bk-perf-tbl .pb{display:flex;align-items:center;gap:8px}
 #moduleLeader .bk-perf-tbl .pb-t{position:relative;flex:1;min-width:0;height:7px;border-radius:4px;
   background:#e9f1fb;box-shadow:inset 0 1px 2px rgba(23,66,125,.08);overflow:hidden}
@@ -1738,6 +1750,13 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #v-banks .dep-loan-wrap [style*="height:170px"]{height:150px !important}
 #moduleLeader #v-banks #bk-dep-rows .strow,
 #moduleLeader #v-banks #bk-loan-rows .strow{padding:3px 2px}
+/* 2026-11-11 按需求（仅简版）：资产负债核心项目三卡趋势图加长+左移——
+   宽版 spark（bkSparkHtml wide：viewBox 210×34 等比生成，preserveAspectRatio=none 允许微调拉伸）
+   占位 210px（原 ≤1440 压至 66 显得过短），h 26px；右边距 14px 与卡右缘留缝（整体左移、不再贴边），
+   保留基础规则 margin-left:auto——三竖卡趋势图右缘纵向对齐；窄屏 flex-shrink 兜底防溢出。
+   数据/月份悬停点/配色/线宽零改动；作用域 #v-banks——华润银行 tab 走原 104 窄版零变化 */
+#moduleLeader #v-banks #bk-bs-cards .spark.spark-w{flex:0 1 auto;min-width:0;width:210px;margin-right:14px}
+#moduleLeader #v-banks #bk-bs-cards .spark.spark-w svg{width:100%;height:26px}
 @media(max-width:1150px){
   #moduleLeader #v-banks .bk-bs-row{grid-template-columns:1fr 1fr}
   #moduleLeader #v-banks .bk-bs-row>.card:first-child{grid-column:1 / -1}
@@ -1800,7 +1819,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .fkk-st .s-val small{font-size:11px;color:#8aa2bd;font-weight:500}
 #moduleLeader .fkk-st .s-dlt{font-size:11.5px;color:#51678a;white-space:nowrap}
 /* 同比+较年初 双小注强制一行（净资产/总资产/资产负债率三卡）：不换行，窄卡下字号收至 11px、间距 8px 保证容纳 */
-#moduleLeader .fkk-st .s-dlrow{display:flex;align-items:baseline;gap:8px;flex-wrap:nowrap}
+#moduleLeader .fkk-st .s-dlrow{display:flex;flex-direction:column;align-items:flex-start;gap:1px;flex-wrap:nowrap} /* 2026-11-12 按需求：两项对比字段上下分行 */
 #moduleLeader .fkk-st .s-dlrow .s-dlt{font-size:11px}
 #moduleLeader .fkk-st .s-dlrow em{margin-left:1px}
 #moduleLeader .fkk-st .s-dlt em{font-style:normal;font-weight:700;font-variant-numeric:tabular-nums}
@@ -1819,6 +1838,10 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .ko-bu{color:var(--gold);font-weight:700;font-size:13px;letter-spacing:1px;white-space:nowrap;
   border-right:1px solid #e6edf6}
 #moduleLeader .ko-nm{max-width:320px}
+/* 2026-11-10 按需求：年度考核表华润资产段口径小标签（指标名称后拼接，四口径×四指标 16 行展开） */
+#moduleLeader .ko-kal{display:inline-block;margin-left:6px;padding:0 6px;border-radius:3px;font-size:10px;
+  line-height:15px;color:#33547e;background:#eef4fc;border:1px solid #d8e6f7;white-space:nowrap;font-weight:400;
+  vertical-align:1px;letter-spacing:0}
 #moduleLeader .ko-un{color:var(--dim);white-space:nowrap}
 #moduleLeader .ko-v,#moduleLeader .ko-b{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
 #moduleLeader .ko-v{color:#17427d;font-weight:800}
@@ -1828,11 +1851,38 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .ko-table thead th:not(:last-child),#moduleLeader .ko-table td:not(:last-child){border-right:1px solid #e6edf6}
 /* 业务单元利润表（2026-10-28）：分组表头居中、指标组间加粗分隔、合计行浅蓝底 */
 #moduleLeader .bu-pl-table thead tr:first-child th[colspan]{text-align:center;letter-spacing:2px}
+/* 2026-11-10 按需求：①边框全表统一 1px 细线（原指标组间 2px 粗线改细，颜色保留）
+   ②数据数值取消加粗（实际值/预算/同比/占比 全部常规字重 400）；表头文字/配色/对齐/列宽/行高/标题区域不动；
+   作用域仅 .bu-pl-table——同页「年度考核指标」表字重边框原样 */
 #moduleLeader .bu-pl-table thead th:nth-child(1),#moduleLeader .bu-pl-table td:nth-child(1){border-right:1px solid #c8d9ee}
 #moduleLeader .bu-pl-table thead th:nth-child(2),#moduleLeader .bu-pl-table td:nth-child(2),
-#moduleLeader .bu-pl-table thead th:nth-child(5),#moduleLeader .bu-pl-table td:nth-child(5){border-left:2px solid #c8d9ee}
+#moduleLeader .bu-pl-table thead th:nth-child(5),#moduleLeader .bu-pl-table td:nth-child(5){border-left:1px solid #c8d9ee}
 #moduleLeader .bu-pl-table thead tr:nth-child(2) th{font-size:11.5px;font-weight:600;color:#33547e}
-#moduleLeader .bu-pl-table .bu-pl-sum td{background:#f0f6fd;font-weight:700;border-top:2px solid #c8d9ee;border-bottom:none}
+#moduleLeader .bu-pl-table .bu-pl-sum td{background:#f0f6fd;border-top:1px solid #c8d9ee;border-bottom:none}
+#moduleLeader .bu-pl-table .ko-v,#moduleLeader .bu-pl-table .ko-b,#moduleLeader .bu-pl-table .ko-y{font-weight:400}
+/* 2026-11-12 按需求：年度考核指标表数值取消加粗（实际值/预算/同比/达成率% 全部常规字重 400，对齐业务单元利润表处理）；
+   表头、业务单元列、指标名称列、配色、对齐、进度条、行高不动；
+   作用域 .ko-table:not(.bu-pl-table)——排除利润表（其去粗规则见上），两表数值字重统一为 400 */
+#moduleLeader .ko-table:not(.bu-pl-table) .ko-v,#moduleLeader .ko-table:not(.bu-pl-table) .ko-b,
+#moduleLeader .ko-table:not(.bu-pl-table) .ko-y,#moduleLeader .ko-table:not(.bu-pl-table) .progress-text{font-weight:400}
+/* 2026-11-12 按需求①：年度考核指标表补外侧边框——原规则仅 :not(:last-child) 单元格右边框，
+   导致第一列左缘/最后一列右缘无竖线；表格级左右边框 1px 与内部格线同色（border-collapse 下与首末列边缘重合）；
+   ②：数值三列加宽（截止本月末数/同比/全年预算，th 定宽在 auto 布局下作最小宽提示，右对齐数值不再贴挤） */
+#moduleLeader .ko-table:not(.bu-pl-table){border-left:1px solid #c8d9ee;border-right:1px solid #c8d9ee}
+/* 2026-11-12 三轮：①名称列收窄 473→330（历经 360 两轮），数值三列逐档加宽至 224/192/176；
+   ②预算达成率列定宽 309 锁定（=上轮实测宽，保持总宽不变），差额由 业务单元/单位 两窄列自动吸收；
+   ③达成率列内部：进度条左贴、百分比数字右贴（space-between），只改本表（利润表与固定报表页进度单元格不受影响）；
+   ④进度条颜色统一主蓝（覆盖 .mid 橙/.low 红差异档，达成高低仅由填充长度表达；数据与档位类名保留不动） */
+#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(2){width:330px}
+#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(4){width:224px}
+#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(5){width:192px}
+#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(6){width:176px}
+#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(7){width:309px}
+#moduleLeader .ko-table:not(.bu-pl-table) .progress-bar-wrap{justify-content:space-between}
+#moduleLeader .ko-table:not(.bu-pl-table) .progress-text{text-align:right}
+#moduleLeader .ko-table:not(.bu-pl-table) .progress-fill,
+#moduleLeader .ko-table:not(.bu-pl-table) .progress-fill.mid,
+#moduleLeader .ko-table:not(.bu-pl-table) .progress-fill.low{background:linear-gradient(90deg,#39a1f7,#0d6ef0)}
 /* 预算达成率：结构/配色对齐 数据应用-固定报表 renderProgressCell（浅色商务版） */
 #moduleLeader .progress-bar-wrap{display:flex;align-items:center;gap:6px;justify-content:flex-end}
 #moduleLeader .progress-bar{flex:none;width:80px;height:6px;background:#e8eef7;border-radius:3px;overflow:hidden}
@@ -1997,7 +2047,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
        三框架：核心指标 → 风险指标 → 年度考核指标（考核表不变）；原「其他财务指标」模块按需求删除，
        总资产/净资产/资产负债率并入核心卡行（资本约束机构阅读逻辑：回报效率→盈利结果→资本底盘→资产体量→杠杆风险）
        规则：趋势=本月数（Excel 报送值口径）｜层级构成=饼图｜时点比率=卡片｜对比=条形；详见《管理驾驶舱-华润金融-指标布局与可视化规范》 -->
-  <div class="secttl"><b class="ttl">核心指标</b> <span class="lite">—— 六卡=回报效率（ROE/ROA）→ 盈利结果（股东应占净利润）→ 资本底盘（净资产）→ 资产体量（总资产）→ 杠杆风险（资产负债率）｜利润链三 hero=近12个月本月数柱+月度同比线（对齐华润银行页样式）</span></div>
+  <div class="secttl"><b class="ttl">核心指标</b></div>
   <div id="north" style="padding:0 0 14px"></div>
   <!-- 利润链三 hero（华润银行同款：左=本年累计/累计同比 ｜ 右=本月数/月度同比 ｜ 下=本月数柱+月度同比金线，悬停三行） -->
   <div class="grid g3 row">
@@ -2019,8 +2069,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   </div>
   <!-- 业务单元利润表（2026-10-28 按需求新增）：五家业务单元（银行/信托/保险/资产/租赁）×利润链三指标
        （营业收入/利润总额/净利润）× 本年累计/累计同比/占比；各单元数值从各家固定报表实时取数（单位统一亿元）；
-       收入=信托含国信全口径；净利润=各行报表净利润行；华润资产固定报表无净利润科目，显示「—」（净利润占比分母不含该家）。 -->
-  <div class="card row"><div class="chd">业务单元利润表 <span class="tag">亿元 · 本年累计｜源 02-损益表(银行) · trust01(信托·含国信) · ins01(保险) · asset01(资产·财务考核口径) · lease01(租赁)｜占比=占五家合计</span></div><div class="cbd ko-wrap">
+       收入=信托含国信全口径；净利润=各行报表净利润行；华润资产固定报表无净利润科目、华润保险 2026-11-12 按需求删除净利润指标，均显示「—」（净利润占比分母不含该两家）。 -->
+  <div class="card row"><div class="chd chd-plain">业务单元利润表</div><div class="cbd ko-wrap">
     <table class="ko-table bu-pl-table">
       <thead>
         <tr>
@@ -2041,44 +2091,70 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   <!-- 业务单元核心指标（2026-11-10 按需求：删除原「风险指标」模块四图，原位新增本模块）——
        五家业务单元各 4 张特色指标卡，取数与各业务单元 tab 同源（银行 bkAct/信托·保险·租赁 tAct/资产 asAct）；
        每单元选「规模底盘 → 特色业务 → 效益/质量」三视角的重点指标，卡面标注取数口径 -->
-  <div class="secttl"><b class="ttl">业务单元核心指标</b> <span class="lite">—— 五家业务单元 × 4 项重点特色指标｜取数与各单元 tab 同源实时联动｜单位=亿元（保险源表万元已折算）</span></div>
+  <div class="secttl"><b class="ttl">业务单元核心指标</b></div>
   <div id="ov-bu-core"></div>
     <div class="secttl"><b class="ttl">年度考核指标</b></div>
   <div class="card row"><div class="cbd ko-wrap"><table class="ko-table">
     <thead><tr><th>业务单元</th><th>指标名称</th><th>单位</th><th class="num">截止本月末数</th><th class="num">同比</th><th class="num">全年预算</th><th class="num">预算达成率</th></tr></thead>
     <tbody>
-      <tr><td class="ko-bu" rowspan="14">华润银行</td><td class="ko-nm" title="其中：个人非存AUM月日均">其中：个人非存AUM月日均</td><td class="ko-un">亿元</td><td class="ko-v">1,120</td><td class="ko-y up">▲ 11.2 %</td><td class="ko-b">1,250</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:89.6%"></div></div><span class="progress-text">89.6%</span></div></td></tr>
-      <tr><td class="ko-nm" title="公司-科技企业客群净增余额">公司-科技企业客群净增余额</td><td class="ko-un">亿元</td><td class="ko-v">38.6</td><td class="ko-y up">▲ 9.8 %</td><td class="ko-b">45</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:85.8%"></div></div><span class="progress-text">85.8%</span></div></td></tr>
-      <tr><td class="ko-nm" title="基石客户">基石客户</td><td class="ko-un">户</td><td class="ko-v">186</td><td class="ko-y up">▲ 12.4 %</td><td class="ko-b">210</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:88.6%"></div></div><span class="progress-text">88.6%</span></div></td></tr>
-      <tr><td class="ko-nm" title="代发客户数">代发客户数</td><td class="ko-un">户</td><td class="ko-v">96.2万</td><td class="ko-y up">▲ 8.6 %</td><td class="ko-b">110万</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:87.5%"></div></div><span class="progress-text">87.5%</span></div></td></tr>
-      <tr><td class="ko-nm" title="营业收入">营业收入</td><td class="ko-un">亿元</td><td class="ko-v">86.4</td><td class="ko-y up">▲ 8.2 %</td><td class="ko-b">98</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:88.2%"></div></div><span class="progress-text">88.2%</span></div></td></tr>
-      <tr><td class="ko-nm" title="利润总额">利润总额</td><td class="ko-un">亿元</td><td class="ko-v">33.2</td><td class="ko-y up">▲ 7.1 %</td><td class="ko-b">39</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:85.1%"></div></div><span class="progress-text">85.1%</span></div></td></tr>
-      <tr><td class="ko-nm" title="其中：全行手续费及佣金净收入">其中：全行手续费及佣金净收入</td><td class="ko-un">亿元</td><td class="ko-v">12.6</td><td class="ko-y up">▲ 5.4 %</td><td class="ko-b">15</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:84%"></div></div><span class="progress-text">84.0%</span></div></td></tr>
-      <tr><td class="ko-nm" title="流动性覆盖率">流动性覆盖率</td><td class="ko-un">%</td><td class="ko-v">142</td><td class="ko-y up">▲ 3.20 pct</td><td class="ko-b">120</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:100%"></div></div><span class="progress-text">118.3%</span></div></td></tr>
-      <tr><td class="ko-nm" title="资本充足率">资本充足率</td><td class="ko-un">%</td><td class="ko-v">13.1</td><td class="ko-y up">▲ 0.40 pct</td><td class="ko-b">12.5</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:100%"></div></div><span class="progress-text">104.8%</span></div></td></tr>
-      <tr><td class="ko-nm" title="其中：低成本存款年日均">其中：低成本存款年日均</td><td class="ko-un">亿元</td><td class="ko-v">2,080</td><td class="ko-y up">▲ 6.8 %</td><td class="ko-b">2,300</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:90.4%"></div></div><span class="progress-text">90.4%</span></div></td></tr>
-      <tr><td class="ko-nm" title="个贷不良率">个贷不良率</td><td class="ko-un">%</td><td class="ko-v">0.86</td><td class="ko-y down">▼ 0.08 pct</td><td class="ko-b">0.95</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:90.5%"></div></div><span class="progress-text">90.5%</span></div></td></tr>
-      <tr><td class="ko-nm" title="不良资产处置">不良资产处置</td><td class="ko-un">亿元</td><td class="ko-v">18.2</td><td class="ko-y up">▲ 12.3 %</td><td class="ko-b">23</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:79.1%"></div></div><span class="progress-text">79.1%</span></div></td></tr>
-      <tr><td class="ko-nm" title="不良资产率">不良资产率</td><td class="ko-un">%</td><td class="ko-v">1.32</td><td class="ko-y down">▼ 0.05 pct</td><td class="ko-b">1.5</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:88%"></div></div><span class="progress-text">88.0%</span></div></td></tr>
-      <tr><td class="ko-nm" title="新增有效客户数">新增有效客户数</td><td class="ko-un">户数</td><td class="ko-v">28.4万</td><td class="ko-y up">▲ 9.1 %</td><td class="ko-b">34万</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:83.5%"></div></div><span class="progress-text">83.5%</span></div></td></tr>
-      <tr><td class="ko-bu" rowspan="12">华润保险</td><td class="ko-nm" title="营业收入">营业收入</td><td class="ko-un">万元</td><td class="ko-v">112,000</td><td class="ko-y up">▲ 10.5 %</td><td class="ko-b">128,000</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:87.5%"></div></div><span class="progress-text">87.5%</span></div></td></tr>
+      <tr><td class="ko-bu" rowspan="15">华润银行</td><td class="ko-nm" title="营业收入">营业收入</td><td class="ko-un">亿元</td><td class="ko-v">328.50</td><td class="ko-y up">▲ 8.5 %</td><td class="ko-b">365.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:90.0%"></div></div><span class="progress-text">90.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="利润总额">利润总额</td><td class="ko-un">亿元</td><td class="ko-v">118.00</td><td class="ko-y up">▲ 9.2 %</td><td class="ko-b">130.40</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:90.5%"></div></div><span class="progress-text">90.5%</span></div></td></tr>
+      <tr><td class="ko-nm" title="个贷不良率">个贷不良率</td><td class="ko-un">%</td><td class="ko-v">1.08</td><td class="ko-y up">▲ 0.28 ppt</td><td class="ko-b">1.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:100%"></div></div><span class="progress-text">108.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="不良资产率（预估）">不良资产率（预估）</td><td class="ko-un">%</td><td class="ko-v">1.42</td><td class="ko-y down">▼ 0.05 ppt</td><td class="ko-b">1.50</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:94.7%"></div></div><span class="progress-text">94.7%</span></div></td></tr>
+      <tr><td class="ko-nm" title="不良资产处置">不良资产处置</td><td class="ko-un">亿元</td><td class="ko-v">45.80</td><td class="ko-y up">▲ 15.2 %</td><td class="ko-b">52.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:88.1%"></div></div><span class="progress-text">88.1%</span></div></td></tr>
+      <tr><td class="ko-nm" title="新增对公有效客户数">新增对公有效客户数</td><td class="ko-un">户</td><td class="ko-v">1,050</td><td class="ko-y up">▲ 22.1 %</td><td class="ko-b">1,200</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:87.5%"></div></div><span class="progress-text">87.5%</span></div></td></tr>
+      <tr><td class="ko-nm" title="科技企业客群余额净增">科技企业客群余额净增</td><td class="ko-un">亿元</td><td class="ko-v">380.00</td><td class="ko-y up">▲ 22.0 %</td><td class="ko-b">400.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:95.0%"></div></div><span class="progress-text">95.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="基石客户净增">基石客户净增</td><td class="ko-un">户</td><td class="ko-v">320</td><td class="ko-y up">▲ 12.5 %</td><td class="ko-b">350</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:91.4%"></div></div><span class="progress-text">91.4%</span></div></td></tr>
+      <tr><td class="ko-nm" title="非存AUM月日均净增">非存AUM月日均净增</td><td class="ko-un">亿元</td><td class="ko-v">6,800.00</td><td class="ko-y up">▲ 13.5 %</td><td class="ko-b">7,640.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:89.0%"></div></div><span class="progress-text">89.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="代发客户数净增">代发客户数净增</td><td class="ko-un">户</td><td class="ko-v">45,800</td><td class="ko-y up">▲ 10.2 %</td><td class="ko-b">50,000</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:91.6%"></div></div><span class="progress-text">91.6%</span></div></td></tr>
+      <tr><td class="ko-nm" title="代发客户AUM月日均净增">代发客户AUM月日均净增</td><td class="ko-un">亿元</td><td class="ko-v">2,800.00</td><td class="ko-y up">▲ 15.2 %</td><td class="ko-b">—</td><td class="ko-r"><span class="progress-text">—</span></td></tr>
+      <tr><td class="ko-nm" title="低成本存款余额净增">低成本存款余额净增</td><td class="ko-un">亿元</td><td class="ko-v">3,200.00</td><td class="ko-y up">▲ 15.8 %</td><td class="ko-b">3,636.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:88.0%"></div></div><span class="progress-text">88.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="手续费及佣金净收入">手续费及佣金净收入</td><td class="ko-un">亿元</td><td class="ko-v">28.60</td><td class="ko-y up">▲ 12.1 %</td><td class="ko-b">31.40</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:91.1%"></div></div><span class="progress-text">91.1%</span></div></td></tr>
+      <tr><td class="ko-nm" title="流动性覆盖率">流动性覆盖率</td><td class="ko-un">%</td><td class="ko-v">128.50</td><td class="ko-y up">▲ 3.2 ppt</td><td class="ko-b">130.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:98.8%"></div></div><span class="progress-text">98.8%</span></div></td></tr>
+      <tr><td class="ko-nm" title="资本充足率">资本充足率</td><td class="ko-un">%</td><td class="ko-v">13.85</td><td class="ko-y up">▲ 0.3 ppt</td><td class="ko-b">14.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:98.9%"></div></div><span class="progress-text">98.9%</span></div></td></tr>
+      <!-- 华润保险段（2026-11-12 按需求更新指标清单为 10 项：删除「华润场景产融保费规模」「华润燃气存量用户每年新增客户数」两行；
+           「其中：华润燃气业务保费规模」去掉"其中："前缀更名「华润燃气业务保费规模」（对应 ins02-业务指标 ★考核行）；顺序调整为 效益四行 → 保费双主线两行 → 占比与渠道四行；数值沿用原行不变 -->
+      <tr><td class="ko-bu" rowspan="10">华润保险</td><td class="ko-nm" title="营业收入">营业收入</td><td class="ko-un">万元</td><td class="ko-v">112,000</td><td class="ko-y up">▲ 10.5 %</td><td class="ko-b">128,000</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:87.5%"></div></div><span class="progress-text">87.5%</span></div></td></tr>
       <tr><td class="ko-nm" title="利润总额">利润总额</td><td class="ko-un">万元</td><td class="ko-v">24,000</td><td class="ko-y up">▲ 9.0 %</td><td class="ko-b">29,000</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:82.8%"></div></div><span class="progress-text">82.8%</span></div></td></tr>
       <tr><td class="ko-nm" title="ROE">ROE</td><td class="ko-un">%</td><td class="ko-v">9.4</td><td class="ko-y up">▲ 0.30 pct</td><td class="ko-b">10.5</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:89.5%"></div></div><span class="progress-text">89.5%</span></div></td></tr>
       <tr><td class="ko-nm" title="EVA">EVA</td><td class="ko-un">万元</td><td class="ko-v">3,000</td><td class="ko-y up">▲ 6.2 %</td><td class="ko-b">3,800</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:78.9%"></div></div><span class="progress-text">78.9%</span></div></td></tr>
+      <tr><td class="ko-nm" title="华润燃气业务保费规模">华润燃气业务保费规模</td><td class="ko-un">万元</td><td class="ko-v">64,000</td><td class="ko-y up">▲ 11.6 %</td><td class="ko-b">72,000</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:88.9%"></div></div><span class="progress-text">88.9%</span></div></td></tr>
+      <tr><td class="ko-nm" title="香港业务佣金收入">香港业务佣金收入</td><td class="ko-un">万元</td><td class="ko-v">5,000</td><td class="ko-y up">▲ 9.8 %</td><td class="ko-b">6,500</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:76.9%"></div></div><span class="progress-text">76.9%</span></div></td></tr>
       <tr><td class="ko-nm" title="华润燃气存量用户保费占比">华润燃气存量用户保费占比</td><td class="ko-un">%</td><td class="ko-v">41.6</td><td class="ko-y up">▲ 2.10 pct</td><td class="ko-b">40</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:100%"></div></div><span class="progress-text">104.0%</span></div></td></tr>
       <tr><td class="ko-nm" title="集团其他产融渠道客户保费规模">集团其他产融渠道客户保费规模</td><td class="ko-un">万元</td><td class="ko-v">96,000</td><td class="ko-y up">▲ 13.5 %</td><td class="ko-b">110,000</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:87.3%"></div></div><span class="progress-text">87.3%</span></div></td></tr>
       <tr><td class="ko-nm" title="融融业务总中收">融融业务总中收</td><td class="ko-un">万元</td><td class="ko-v">21,500</td><td class="ko-y up">▲ 8.9 %</td><td class="ko-b">26,000</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:82.7%"></div></div><span class="progress-text">82.7%</span></div></td></tr>
       <tr><td class="ko-nm" title="市场业务净收入">市场业务净收入</td><td class="ko-un">万元</td><td class="ko-v">31,000</td><td class="ko-y up">▲ 7.4 %</td><td class="ko-b">40,000</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:77.5%"></div></div><span class="progress-text">77.5%</span></div></td></tr>
-      <tr><td class="ko-nm" title="华润场景产融保费规模">华润场景产融保费规模</td><td class="ko-un">万元</td><td class="ko-v">162,000</td><td class="ko-y up">▲ 15.4 %</td><td class="ko-b">180,000</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:90%"></div></div><span class="progress-text">90.0%</span></div></td></tr>
-      <tr><td class="ko-nm" title="华润燃气存量用户每年新增客户数">华润燃气存量用户每年新增客户数</td><td class="ko-un">万户</td><td class="ko-v">12.8</td><td class="ko-y up">▲ 12.8 %</td><td class="ko-b">15</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:85.3%"></div></div><span class="progress-text">85.3%</span></div></td></tr>
-      <tr><td class="ko-nm" title="其中：华润燃气业务保费规模">其中：华润燃气业务保费规模</td><td class="ko-un">万元</td><td class="ko-v">64,000</td><td class="ko-y up">▲ 11.6 %</td><td class="ko-b">72,000</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:88.9%"></div></div><span class="progress-text">88.9%</span></div></td></tr>
-      <tr><td class="ko-nm" title="香港业务佣金收入">香港业务佣金收入</td><td class="ko-un">万元</td><td class="ko-v">5,000</td><td class="ko-y up">▲ 9.8 %</td><td class="ko-b">6,500</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:76.9%"></div></div><span class="progress-text">76.9%</span></div></td></tr>
-      <tr><td class="ko-bu" rowspan="6">华润资产</td><td class="ko-nm" title="营业收入">营业收入</td><td class="ko-un">亿元</td><td class="ko-v">18.6</td><td class="ko-y up">▲ 9.2 %</td><td class="ko-b">21.5</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:86.5%"></div></div><span class="progress-text">86.5%</span></div></td></tr>
-      <tr><td class="ko-nm" title="利润总额">利润总额</td><td class="ko-un">亿元</td><td class="ko-v">7.9</td><td class="ko-y up">▲ 5.2 %</td><td class="ko-b">9.2</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:85.9%"></div></div><span class="progress-text">85.9%</span></div></td></tr>
-      <tr><td class="ko-nm" title="人工成本">人工成本</td><td class="ko-un">亿元</td><td class="ko-v">1.9</td><td class="ko-y up">▲ 4.1 %</td><td class="ko-b">2.2</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:86.4%"></div></div><span class="progress-text">86.4%</span></div></td></tr>
-      <tr><td class="ko-nm" title="成本收入比-拨备前">成本收入比-拨备前</td><td class="ko-un">%</td><td class="ko-v">43.2</td><td class="ko-y down">▼ 1.20 pct</td><td class="ko-b">45</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:96%"></div></div><span class="progress-text">96.0%</span></div></td></tr>
+      <tr><td class="ko-bu" rowspan="16">华润资产</td><td class="ko-nm" title="营业收入 · 财务考核口径（横琴+渝康）">营业收入<span class="ko-kal">财务考核口径（横琴+渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">38.60</td><td class="ko-y up">▲ 6.8 %</td><td class="ko-b">92.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:42.0%"></div></div><span class="progress-text">42.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="营业收入 · 资产单体口径（横琴）">营业收入<span class="ko-kal">资产单体口径（横琴）</span></td><td class="ko-un">亿元</td><td class="ko-v">26.80</td><td class="ko-y up">▲ 7.2 %</td><td class="ko-b">64.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:41.9%"></div></div><span class="progress-text">41.9%</span></div></td></tr>
+      <tr><td class="ko-nm" title="营业收入 · 渝康单体口径（渝康）">营业收入<span class="ko-kal">渝康单体口径（渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">11.80</td><td class="ko-y up">▲ 6.5 %</td><td class="ko-b">28.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:42.1%"></div></div><span class="progress-text">42.1%</span></div></td></tr>
+      <tr><td class="ko-nm" title="利润总额 · 财务考核口径（横琴+渝康）">利润总额<span class="ko-kal">财务考核口径（横琴+渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">9.60</td><td class="ko-y up">▲ 8.2 %</td><td class="ko-b">24.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:40.0%"></div></div><span class="progress-text">40.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="利润总额 · 资产单体口径（横琴）">利润总额<span class="ko-kal">资产单体口径（横琴）</span></td><td class="ko-un">亿元</td><td class="ko-v">6.80</td><td class="ko-y up">▲ 8.5 %</td><td class="ko-b">17.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:40.0%"></div></div><span class="progress-text">40.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="利润总额 · 渝康单体口径（渝康）">利润总额<span class="ko-kal">渝康单体口径（渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">2.80</td><td class="ko-y up">▲ 7.5 %</td><td class="ko-b">7.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:40.0%"></div></div><span class="progress-text">40.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="人工成本 · 财务考核口径（横琴+渝康）">人工成本<span class="ko-kal">财务考核口径（横琴+渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">5.20</td><td class="ko-y up">▲ 5.2 %</td><td class="ko-b">—</td><td class="ko-r"><span class="progress-text">—</span></td></tr>
+      <tr><td class="ko-nm" title="人工成本 · 资产单体口径（横琴）">人工成本<span class="ko-kal">资产单体口径（横琴）</span></td><td class="ko-un">亿元</td><td class="ko-v">3.60</td><td class="ko-y up">▲ 5.0 %</td><td class="ko-b">—</td><td class="ko-r"><span class="progress-text">—</span></td></tr>
+      <tr><td class="ko-nm" title="人工成本 · 渝康单体口径（渝康）">人工成本<span class="ko-kal">渝康单体口径（渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">1.60</td><td class="ko-y up">▲ 5.5 %</td><td class="ko-b">—</td><td class="ko-r"><span class="progress-text">—</span></td></tr>
+      <tr><td class="ko-nm" title="人工成本 · 资产香港(含深圳)口径">人工成本<span class="ko-kal">资产香港(含深圳)口径</span></td><td class="ko-un">亿元</td><td class="ko-v">0.40</td><td class="ko-y up">▲ 4.8 %</td><td class="ko-b">—</td><td class="ko-r"><span class="progress-text">—</span></td></tr>
+      <tr><td class="ko-nm" title="成本收入比-拨备前 · 财务考核口径（横琴+渝康）">成本收入比-拨备前<span class="ko-kal">财务考核口径（横琴+渝康）</span></td><td class="ko-un">%</td><td class="ko-v">33.16</td><td class="ko-y up">▲ 1.8 ppt</td><td class="ko-b">34.50</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:96.1%"></div></div><span class="progress-text">96.1%</span></div></td></tr>
+      <tr><td class="ko-nm" title="成本收入比-拨备前 · 资产单体口径（横琴）">成本收入比-拨备前<span class="ko-kal">资产单体口径（横琴）</span></td><td class="ko-un">%</td><td class="ko-v">33.21</td><td class="ko-y up">▲ 1.5 ppt</td><td class="ko-b">34.60</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:96.0%"></div></div><span class="progress-text">96.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="成本收入比-拨备前 · 渝康单体口径（渝康）">成本收入比-拨备前<span class="ko-kal">渝康单体口径（渝康）</span></td><td class="ko-un">%</td><td class="ko-v">33.05</td><td class="ko-y up">▲ 1.6 ppt</td><td class="ko-b">34.20</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:96.6%"></div></div><span class="progress-text">96.6%</span></div></td></tr>
+      <tr><td class="ko-nm" title="成本收入比-拨备前 · 资产香港(含深圳)口径">成本收入比-拨备前<span class="ko-kal">资产香港(含深圳)口径</span></td><td class="ko-un">%</td><td class="ko-v">33.33</td><td class="ko-y up">▲ 1.5 ppt</td><td class="ko-b">34.90</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:95.5%"></div></div><span class="progress-text">95.5%</span></div></td></tr>
       <tr><td class="ko-nm" title="业绩合同下服务集团退出项目数量">业绩合同下服务集团退出项目数量</td><td class="ko-un">个数</td><td class="ko-v">23</td><td class="ko-y up">▲ 15.0 %</td><td class="ko-b">30</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:76.7%"></div></div><span class="progress-text">76.7%</span></div></td></tr>
       <tr><td class="ko-nm" title="业绩合同下达成里程碑项目数量">业绩合同下达成里程碑项目数量</td><td class="ko-un">个数</td><td class="ko-v">23</td><td class="ko-y up">▲ 4.5 %</td><td class="ko-b">30</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:76.7%"></div></div><span class="progress-text">76.7%</span></div></td></tr>
+      <!-- 华润租赁段（2026-11-11 按需求新增，原名"华润融资租赁"、2026-11-12 按需求更名为"华润租赁"）：11 项指标全部取【数据应用·固定报表管理·华润租赁】台账实时值——
+           营业收入/利润总额=lease01-收入结构（截至本月末·累计同比）；不良资产率/关注类资产率/新增资产不良率/不良资产回收额=lease04-风险指标（截止本季末，季度口径）；
+           ROE/EVA/整体业务规模净增量/新赛道规模净增量/直租业务+经营性业务规模占比=lease05-其他指标（截止本季末，季度口径）。
+           源表 11 项均为★考核指标且均有全年预算；达成率条色沿用本表档位：≥100 满槽绿 · 95~100 绿 · 85~95 橙(mid) · <85 红(low) -->
+      <tr><td class="ko-bu" rowspan="11">华润租赁</td><td class="ko-nm" title="营业收入">营业收入</td><td class="ko-un">亿元</td><td class="ko-v">46.80</td><td class="ko-y up">▲ 7.2 %</td><td class="ko-b">52.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:90.0%"></div></div><span class="progress-text">90.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="利润总额">利润总额</td><td class="ko-un">亿元</td><td class="ko-v">10.15</td><td class="ko-y up">▲ 9.5 %</td><td class="ko-b">11.30</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:89.8%"></div></div><span class="progress-text">89.8%</span></div></td></tr>
+      <tr><td class="ko-nm" title="不良资产率">不良资产率</td><td class="ko-un">%</td><td class="ko-v">1.28</td><td class="ko-y down">▼ 0.15 ppt</td><td class="ko-b">1.35</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:94.8%"></div></div><span class="progress-text">94.8%</span></div></td></tr>
+      <tr><td class="ko-nm" title="关注类资产率">关注类资产率</td><td class="ko-un">%</td><td class="ko-v">2.25</td><td class="ko-y down">▼ 0.12 ppt</td><td class="ko-b">2.40</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:93.8%"></div></div><span class="progress-text">93.8%</span></div></td></tr>
+      <tr><td class="ko-nm" title="新增资产不良率">新增资产不良率</td><td class="ko-un">%</td><td class="ko-v">0.85</td><td class="ko-y down">▼ 0.08 ppt</td><td class="ko-b">0.90</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:94.4%"></div></div><span class="progress-text">94.4%</span></div></td></tr>
+      <tr><td class="ko-nm" title="不良资产回收额">不良资产回收额</td><td class="ko-un">亿元</td><td class="ko-v">3.60</td><td class="ko-y up">▲ 12.5 %</td><td class="ko-b">3.20</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:100%"></div></div><span class="progress-text">112.5%</span></div></td></tr>
+      <tr><td class="ko-nm" title="ROE">ROE</td><td class="ko-un">%</td><td class="ko-v">12.50</td><td class="ko-y up">▲ 0.8 ppt</td><td class="ko-b">13.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:96.2%"></div></div><span class="progress-text">96.2%</span></div></td></tr>
+      <tr><td class="ko-nm" title="EVA">EVA</td><td class="ko-un">亿元</td><td class="ko-v">5.80</td><td class="ko-y up">▲ 10.5 %</td><td class="ko-b">6.50</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:89.2%"></div></div><span class="progress-text">89.2%</span></div></td></tr>
+      <tr><td class="ko-nm" title="整体业务规模净增量">整体业务规模净增量</td><td class="ko-un">亿元</td><td class="ko-v">58.50</td><td class="ko-y up">▲ 12.2 %</td><td class="ko-b">65.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:90.0%"></div></div><span class="progress-text">90.0%</span></div></td></tr>
+      <tr><td class="ko-nm" title="新赛道规模净增量">新赛道规模净增量</td><td class="ko-un">亿元</td><td class="ko-v">12.00</td><td class="ko-y up">▲ 18.5 %</td><td class="ko-b">14.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:85.7%"></div></div><span class="progress-text">85.7%</span></div></td></tr>
+      <tr><td class="ko-nm" title="直租业务+经营性业务规模占比">直租业务+经营性业务规模占比</td><td class="ko-un">%</td><td class="ko-v">16.50</td><td class="ko-y up">▲ 1.8 ppt</td><td class="ko-b">18.80</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:87.8%"></div></div><span class="progress-text">87.8%</span></div></td></tr>
     </tbody>
   </table></div></div>
 </section>
@@ -2298,9 +2374,9 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 
 <!-- ============ 保险（2026-11-06 按需求：整页视觉与华润银行驾驶舱对齐——全部卡头蓝渐变+白点、KPI 统一银行同款 stx 卡（蓝头+🎯/⭐徽标/口径行/大数值/同比+环比同行/预算三段式进度条）、hero 三段式+22个月趋势图（柱=本月数 金线=月度同比+图例+🎯考核注）、大标题去注释小字、金额单位「万元」；四段业务逻辑：核心经营(赚多少)→保费佣金双主线(靠什么)→产融纵深(集团特色)→关键管理指标(战略导向)；ins01 ROE/EVA 两项★考核补入驾驶舱；数据源 = 数据应用·固定报表管理·华润保险 ins01-03 实时取数；规则详见《管理驾驶舱-华润保险-指标布局与可视化规范》） ============ -->
 <section class="view" id="v-ins">
-  <!-- ① 核心经营指标：ins01 五项全★考核；收入/利润=流量→hero+本月数趋势（规则①），ROE/EVA=比率/价值量→银行 stx 卡行（规则④，2026-11-06 补入驾驶舱） -->
+  <!-- ① 核心经营指标：ins01 四项全★考核（2026-11-12 按需求删除净利润，hero 区 g3→g2）；收入/利润=流量→hero+本月数趋势（规则①），ROE/EVA=比率/价值量→银行 stx 卡行（规则④，2026-11-06 补入驾驶舱） -->
   <div class="secttl"><b class="ttl">核心经营指标</b></div>
-  <div class="grid g3 row">
+  <div class="grid g2 row">
     <div class="card"><div class="chd chd-fkk">营业收入<span class="badge">🎯</span></div><div class="cbd">
       <div class="kpihero" id="in-hero-rev"></div>
       <div class="chartbox" style="height:158px"><canvas id="c-in-t-rev"></canvas></div>
@@ -2311,11 +2387,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
       <div class="chartbox" style="height:158px"><canvas id="c-in-t-prof"></canvas></div>
       <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比<span class="lg-note"><span class="bi">🎯</span>考核指标</span></div>
     </div></div>
-    <div class="card"><div class="chd chd-fkk">净利润<span class="badge">🎯</span></div><div class="cbd">
-      <div class="kpihero" id="in-hero-net"></div>
-      <div class="chartbox" style="height:158px"><canvas id="c-in-t-net"></canvas></div>
-      <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比<span class="lg-note"><span class="bi">🎯</span>考核指标</span></div>
-    </div></div>
+    <!-- 2026-11-12 按需求：ins01 删除「净利润」指标 → 本区净利润 hero 卡（原三卡之一）随源行移除，布局 g3→g2 -->
   </div>
   <!-- 效益与资本回报：ROE/EVA 为 ins01 剩余两项★考核（比率与价值量不入趋势图，规则④），银行 stx 卡同款带预算进度条 -->
   <div class="card row"><div class="cbd">
@@ -5049,9 +5121,12 @@ function dateFactor(){ var y=+selDate.slice(0,4), mo=+selDate.slice(5,7);
    ROE/ROA/股东应占净利润=本年累计口径（变动行：同比/累计同比），净资产/总资产/资产负债率=本月末时点；
    dl[]=多变动行 [[标签,值,pct?]…]；单变动行沿用 yoy+yoyLbl；来源=金控风险部&华润金融_深国投指标数据梳理表「经营指标」行 */
 var NORTH = [
-  {l:'ROE',              u:'%',    v:9.8,  yoy:-0.4, pct:true, yoyLbl:'同比',     kal:'本年累计'},
-  {l:'ROA',              u:'%',    v:0.62, yoy:0.5,  pct:true, yoyLbl:'同比',     kal:'本年累计'},
-  {l:'股东应占净利润',   u:'亿元', v:26.8, yoy:8.2,  yoyLbl:'累计同比', kal:'本年累计'},
+  /* 2026-11-12 按需求：改名 ROE(资本利润率)/ROA(资产利润率)（对齐银行 tab 03 表重命名规则）；
+     变动行由单行「同比」改为 dl 双行「累计同比+较上年」——与本模块净资产/总资产/资产负债率卡同构同排版 */
+  {l:'ROE (资本利润率)',  u:'%',    v:9.8,  dl:[['累计同比','-0.40',true],['较上年','-0.20',true]], kal:'本年累计'},
+  {l:'ROA (资产利润率)',  u:'%',    v:0.62, dl:[['累计同比','+0.50',true],['较上年','+0.30',true]], kal:'本年累计'},
+  /* 2026-11-12 按需求：本年累计口径补「较上年」行（较上年为原型演示值，接台账后可替换） */
+  {l:'股东应占净利润',   u:'亿元', v:26.8, dl:[['累计同比','+8.20'],['较上年','+6.40']], kal:'本年累计'},
   {l:'净资产（所有者权益）', u:'亿元', v:882, raw:true, dl:[['同比','+6.1'],['较年初','+3.2']], kal:'本月末'},
   {l:'总资产',           u:'亿元', v:6820, raw:true, dl:[['同比','+5.2'],['较年初','+3.8']], kal:'本月末'},
   {l:'资产负债率',       u:'%',    v:87.1, dec:1, dl:[['同比','-0.5',true],['较年初','-0.3',true]], kal:'本月末'}
@@ -5156,7 +5231,7 @@ var TIP_UNIT={ 'c-bk-loan':'亿元','c-bk-dep':'亿元','c-bk-line':'亿元',
   'c-ts-scale':'亿元','c-ts-rev':'亿元','c-ts-fund':'亿元','c-ts-gx':'亿元','c-ts-new3':'亿元',
   'c-ts-t-rev':'亿元','c-ts-t-prof':'亿元','c-ts-t-net':'亿元',
   'c-in-prem':'万元','c-in-comm':'万元','c-in-mix':'万元',
-  'c-in-t-rev':'万元','c-in-t-prof':'万元','c-in-t-net':'万元','c-in-t-prem':'万元','c-in-t-comm':'万元',
+  'c-in-t-rev':'万元','c-in-t-prof':'万元','c-in-t-prem':'万元','c-in-t-comm':'万元',
   'c-as-wf':'亿元','c-as-biz':'亿元','c-as-pl':'亿元','c-as-cmp':'亿元','c-as-risk':'亿元','c-as-cal':'亿元',
   'c-as-t-rev':'亿元','c-as-t-prof':'亿元',
   'c-ls-pl':'亿元','c-ls-sector':'亿元','c-ls-prod':'亿元','c-ls-spread':'%','c-ls-fund':'亿元',
@@ -5407,7 +5482,7 @@ function drawOverview(){
     var BU_PL=[
       {bu:'华润银行', items:[bkRowGet(bankRow('营业收入')),bkRowGet(bankRow('利润总额')),bkRowGet(bankRow('净利润'))]},
       {bu:'华润信托', items:[tR('trust01','总收入（含国信）'),tR('trust01','利润总额（含国信）'),tR('trust01','净利润（含国信）')]},
-      {bu:'华润保险', items:[tR('ins01','营业收入'),tR('ins01','利润总额'),tR('ins01','净利润')].map(function(e){ if(e) e.v=e.v/10000; return e; })}, /* 万元→亿元 */
+      {bu:'华润保险', items:[tR('ins01','营业收入'),tR('ins01','利润总额'),null].map(function(e){ if(e) e.v=e.v/10000; return e; })}, /* 万元→亿元；2026-11-12 按需求 ins01 删除净利润指标 → 净利润列显"—"（同华润资产先例） */
       {bu:'华润资产', items:[aR('营业收入'),aR('利润总额'),null]}, /* 资产报表无净利润科目 */
       {bu:'华润租赁', items:[tR('lease01','营业收入'),tR('lease01','利润总额'),tR('lease01','净利润')]}
     ];
@@ -5436,27 +5511,36 @@ function drawOverview(){
   /* ===== 业务单元核心指标（2026-11-10 按需求：删除「风险指标」模块四图，原位新增）=====
      五家业务单元 × 4 项重点特色指标，卡面=华润银行 stx 同款（蓝头→口径→大数值→同比/较年初红涨绿跌）。
      选指标逻辑（每单元「规模底盘 → 特色业务 → 效益/质量」三视角，全部与各业务单元 tab 同源取数）：
-       华润银行＝总资产(体量底盘)·净息差(银行定价能力核心，行业看行先看息差)·绿色金融余额(五篇大文章特色规模)·不良贷款率(银行命门=资产质量红线)
-       华润信托＝信托管理规模(受托资产底盘)·证券受托业务规模(信托差异化牌照业务)·ROE除国信(剔除参股券商后的本业回报)·净资产(资本底盘)
+       华润银行＝ROE资本利润率(回报效率)·总资产(体量底盘)·净息差(银行定价能力核心，行业看行先看息差)·不良贷款率(银行命门=资产质量红线)（2026-11-12 按需求替换：绿色金融余额→ROE）
+       华润信托＝信托管理规模(受托资产底盘)·信托业务收入(本业造血)·净利润含国信(最终盈利结果)·出险项目规模及管理规模占比(风险质量红线)（2026-11-12 按需求替换）
        华润保险＝保费规模(险业务母指标)·产融业务保费规模(集团产融协同特色=华润场景优势)·佣金收入(第二收入主线)·ROE(★考核资本回报)
        华润资产＝生息资产规模(合并=不良/关注同源的资产底盘)·自有出资规模(横琴单体=真金白银投放能力)·产融协同项目规模(服务集团后劲)·不良资产率(AMC 质量红线)
        华润租赁＝公司整体业务规模(租赁资产底盘)·公司整体业务新增投放(当期动能)·绿色资产规模(能源绿色特色赛道)·不良资产率(质量红线) */
   (function(){
     var el=document.getElementById('ov-bu-core'); if(!el) return;
-    /* 通用卡（各 tab builder 口径/单位各异，此处统一版式、取数分派到各家函数保证与单元 tab 一致） */
+    /* 通用卡（各 tab builder 口径/单位各异，此处统一版式、取数分派到各家函数保证与单元 tab 一致）
+       2026-11-12 按需求统一对比字段规则：口径含「本年累计」→ 累计同比+较上年；口径「本月末」（及本季末等时点）→ 同比+较年初；
+       两项上下分行（.dl-col 既有线上排样式复用）；源表无第二对比值时显示「—」占位（不造数） */
     function card(o){
       var pct=o.pct||/%/.test(o.u||'');
       var v=pct?o.v:(o.noscale?o.v:m(o.v));
       var us=o.us!=null?o.us:bkUnitShort(o.u||'');   /* 单位与平台统一规范（亿元/户/%）一致 */
+      var cum=!!o.kal && o.kal.indexOf('本年累计')>=0;
+      var yLbl=cum?'累计同比':'同比';
+      var cLbl=o.ytlbl||(cum?'较上年':'较年初');
+      var cVal=(o.ytd&&o.ytd!=='-')?o.ytd:'-';
       return '<div class="stx"><span class="t" title="'+o.nm+'">'+o.nm+'</span>'+
         (o.kal?'<span class="s-lbl">'+o.kal+'</span>':'')+
         '<span class="v">'+tilNum(v,o.u)+'<small>'+us+'</small></span>'+
-        '<div class="dlst dl-row">'+bkDl('同比',o.yoy)+(o.ytd&&o.ytd!=='-'?bkDl(o.ytlbl||'较年初',o.ytd):'')+'</div></div>';
+        '<div class="dlst dl-col">'+bkDl(yLbl,o.yoy)+bkDl(cLbl,cVal)+'</div></div>';
     }
     function bC(sheet,nm,o){ o=o||{}; return card(Object.assign({nm:o.label||nm,u:bkTxt(sheet,nm,'un')||'亿元',
       v:bkAct(sheet,nm),yoy:bkTxt(sheet,nm,'yoy'),ytd:bkTxt(sheet,nm,'ytd')},o)); }
     function tC(sheet,nm,o){ o=o||{}; return card(Object.assign({nm:o.label||nm,u:tUn(sheet,nm),
       v:tAct(sheet,nm),yoy:tYoY(sheet,nm),ytd:tYtd(sheet,nm)},o)); }
+    /* 租赁卡：较年初列走 tYtdL（lease 表列位与 trust 不同，见 LEASE_YTD_COL；2026-11-12 按需求补真实较年初） */
+    function lC(sheet,nm,o){ o=o||{}; return card(Object.assign({nm:o.label||nm,u:tUn(sheet,nm),
+      v:tAct(sheet,nm),yoy:tYoY(sheet,nm),ytd:tYtdL(sheet,nm)},o)); }
     /* 保险 ins02 金额=万元 → 统一折算亿元（与上方业务单元利润表同口径） */
     function iC(sheet,nm,o){ o=o||{}; var v=tAct(sheet,nm);
       return card(Object.assign({nm:o.label||nm,u:'亿元',v:v==null?null:v/10000,
@@ -5464,36 +5548,61 @@ function drawOverview(){
     function aC(sheet,ci,nm,o){ o=o||{}; var c=ASSET_COL[sheet],r=asRow(sheet,ci,nm);
       return card(Object.assign({nm:o.label||nm,u:r?String(r[c.un]||'亿元'):'亿元',
         v:r?asNum(r[c.act]):null,yoy:r?String(r[c.yoy]||'-'):'-',ytd:r?String(r[c.ytd]||'-'):'-'},o)); }
+    /* 2026-11-12 资产「横琴+渝康」派生口径卡（asset02）：台账无合并行，金额=横琴单体(cal2)+渝康单体(cal3)直加；
+       同比/较年初=两口径按金额加权平均；较年初任一口径缺('-'，如投放/退出流量行)则显示'-'占位不造数 */
+    function aCD(nm,o){ o=o||{};
+      var r2=asRow('asset02',2,nm), r3=asRow('asset02',3,nm), c=ASSET_COL.asset02;
+      var v2=r2?asNum(r2[c.act]):null, v3=r3?asNum(r3[c.act]):null, v=(v2==null?0:v2)+(v3==null?0:v3);
+      function wavg(ci){ var s2=r2?String(r2[ci]||''):'', s3=r3?String(r3[ci]||''):'';
+        var n2=parseFloat(s2), n3=parseFloat(s3);
+        if(v2==null||v3==null||isNaN(n2)||isNaN(n3)||(v2+v3)===0) return '-';
+        return (((n2*v2+n3*v3)/(v2+v3)).toFixed(2)).replace(/\.?0+$/,'')+(s2.indexOf('ppt')>=0?'ppt':'%'); }
+      return card(Object.assign({nm:o.label||nm,u:'亿元',v:v,yoy:wavg(c.yoy),ytd:wavg(c.ytd)},o)); }
     var BUS=[
-      {bu:'华润银行',col:BU_COLORS.bank,why:'规模底盘 → 定价能力 → 五篇大文章 → 质量红线',cards:[
+      {bu:'华润银行',col:BU_COLORS.bank,why:'回报效率 → 体量底盘 → 定价能力 → 质量红线',cards:[
+        /* 2026-11-12 按需求：替换为 ROE(资本利润率)/总资产/净息差/不良贷款率（绿色金融余额移出）。
+           资本利润率=03 表台账原名（SHEET_NAME_RENAMES 显示名覆写为 ROE(资本利润率)，驾驶舱按原名取数） */
+        bC('03','资本利润率',{label:'ROE（资本利润率）',kal:'本年累计'}),
         bC('01','总资产',{kal:'本月末'}),
-        bC('07','净息差',{kal:'本年累计',ytlbl:'较年初'}),
-        bC('06','绿色金融余额',{kal:'本月末'}),
+        bC('07','净息差',{kal:'本年累计'}),
         bC('09','不良贷款率',{kal:'本月末'})]},
-      {bu:'华润信托',col:BU_COLORS.trust,why:'受托规模 → 特色牌照业务 → 本业回报 → 资本底盘',cards:[
+      {bu:'华润信托',col:BU_COLORS.trust,why:'受托底盘 → 本业收入 → 盈利结果 → 出险质量',cards:[
+        /* 2026-11-12 按需求：替换为 信托管理规模/信托业务收入/净利润（含国信）/出险项目规模及管理规模占比
+           （证券受托/ROE除国信/净资产移出）。④出险占比=出险项目规模÷信托管理规模（派生值，分子分母同源同尺度） */
         tC('trust01','信托管理规模',{kal:'本月末'}),
-        tC('trust04','证券受托业务规模',{kal:'本月末'}),
-        tC('trust01','ROE（除国信）',{kal:'本年累计'}),
-        tC('trust01','净资产',{kal:'本月末'})]},
-      {bu:'华润保险',col:BU_COLORS.ins,why:'保费基本盘 → 集团产融协同 → 佣金第二曲线 → 考核回报',cards:[
+        tC('trust01','信托业务收入',{kal:'本年累计'}),
+        tC('trust01','净利润（含国信）',{kal:'本年累计'}),
+        tC('trust05','出险项目',{label:'出险项目规模及管理规模占比',kal:'本月末',
+          us:'亿元 · 占管理规模 '+(tAct('trust05','出险项目')/tAct('trust01','信托管理规模')*100).toFixed(2)+'%'})]},
+      {bu:'华润保险',col:BU_COLORS.ins,why:'保费基本盘 → 佣金第二曲线 → 利润结果 → 市场化净收入',cards:[
+        /* 2026-11-12 按需求：替换为 保费规模/佣金收入/利润总额/市场化业务净收入（产融保费、ROE 移出）。
+           ④台账原名为「市场业务净收入」（ins03★考核），卡面按需求显示名覆写；万元→亿元折算与同组一致 */
         iC('ins02','保费规模',{kal:'本年累计'}),
-        iC('ins02','产融业务保费规模',{kal:'本年累计'}),
         iC('ins02','佣金收入',{kal:'本年累计'}),
-        tC('ins01','ROE',{kal:'本年累计'})]},
-      {bu:'华润资产',col:BU_COLORS.asset,why:'生息底盘 → 自有出资投放 → 服务集团 → 质量红线',cards:[
-        aC('asset02',0,'生息资产规模',{kal:'本月末 · 合并',noscale:1}),
-        aC('asset02',2,'自有出资规模',{kal:'本月末 · 横琴单体',noscale:1}),
-        aC('asset04',0,'产融协同项目规模',{kal:'本季末',noscale:1}),
-        aC('asset03',0,'不良资产率',{kal:'本月末 · 考核口径',noscale:1})]},
-      {bu:'华润租赁',col:BU_COLORS.lease,why:'资产底盘 → 投放动能 → 绿色特色 → 质量红线',cards:[
-        tC('lease03','公司整体业务规模',{kal:'本月末'}),
-        tC('lease03','公司整体业务新增投放',{kal:'本年累计'}),
-        tC('lease05','绿色资产规模',{kal:'本月末'}),
-        tC('lease04','不良资产率',{kal:'本月末'})]}
+        iC('ins01','利润总额',{kal:'本年累计'}),
+        iC('ins03','市场业务净收入',{label:'市场化业务净收入',kal:'本年累计'})]},
+      {bu:'华润资产',col:BU_COLORS.asset,why:'出资存量 → 退出动能 → 盈利结果 → 质量红线',cards:[
+        /* 2026-11-12 按需求：替换为 自有出资余额/退出自有出资规模/利润总额/不良资产率（生息资产规模、产融协同项目规模移出）。
+           四卡口径行统一标注（横琴+渝康）：
+           ①② 台账无「横琴+渝康」合并行，由 资产单体（横琴）+ 渝康单体 两口径派生求和（aCD：金额直加，
+              同比/较年初按金额加权平均；退出行较年初源表'-'→占位，不造数）。显示名覆写：台账原名「自有出资规模」→「自有出资余额」；
+           ③④ 直接取台账「财务考核口径（横琴+渝康）」cal0 原行 */
+        aCD('自有出资规模',{label:'自有出资余额',kal:'本月末 ·（横琴+渝康）'}),
+        aCD('退出自有出资规模',{kal:'本月末 ·（横琴+渝康）'}),
+        aC('asset01',0,'利润总额',{kal:'本月末 ·（横琴+渝康）',noscale:1}),
+        aC('asset03',0,'不良资产率',{kal:'本月末 ·（横琴+渝康）',noscale:1})]},
+      {bu:'华润租赁',col:BU_COLORS.lease,why:'资产底盘 → 定价能力 → 盈利结果 → 质量红线',cards:[
+        /* 2026-11-12 按需求：替换为 公司整体业务规模/净息差/利润总额/不良资产率（新增投放、绿色资产规模移出）。
+           四卡较年初统一走 lC→tYtdL 真实取数：净息差+0.03ppt、不良资产率-0.08ppt（lease04/05 col7 补列位）；
+           利润总额为损益流量指标、源表较年初'-'→占位（不造数，同租赁 tab 卡口径） */
+        lC('lease03','公司整体业务规模',{kal:'本月末'}),
+        lC('lease05','净息差',{kal:'本季末'}),
+        lC('lease01','利润总额',{kal:'本年累计'}),
+        lC('lease04','不良资产率',{kal:'本季末'})]}
     ];
     el.innerHTML=BUS.map(function(b){
-      return '<div class="stgrp-cap" style="margin-top:12px"><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+b.col+';margin-right:6px"></i>'+
-        b.bu+' <span class="lite">'+b.why+'</span></div>'+
+      /* 2026-11-12 按需求：组名行删除前置圆点与后置小字备注，仅保留纯业务单元名称 */
+      return '<div class="stgrp-cap" style="margin-top:12px">'+b.bu+'</div>'+
         '<div class="bkgrid4">'+b.cards.join('')+'</div>'; }).join('');
   })();
 }
@@ -5560,7 +5669,8 @@ function bkDelta(txt,suffix){ if(!txt||txt==='-') return '<i class="yoy flat">�
 /* stx 迷你趋势 sparkline（2026-10-28 按需求，定价两卡）：按月由【较年初变动】回推确定性走势——
    起点=现值−较年初，逐月线性爬升+小幅波动（名称哈希定相位，刷新稳定），末点=当期实际值；
    纯内联 SVG 折线+末点高亮，逐点透明热区挂原生 title（月份 + 值），不入 Chart.js 实例体系、零重绘负担 */
-function bkSparkHtml(name, act, ytdNum, unit, color){
+/* wide=1：等比加宽版（2026-11-11 按需求，仅华润银行(简版)核心项目三卡）——viewBox 同比例放大不变形 */
+function bkSparkHtml(name, act, ytdNum, unit, color, wide){
   if(act==null||ytdNum==null) return '';
   var last=+String(selDate).slice(5,7)||9;
   var seed=0; String(name).split('').forEach(function(c){ seed+=c.charCodeAt(0); });
@@ -5579,7 +5689,7 @@ function bkSparkHtml(name, act, ytdNum, unit, color){
   }
   var cut=Math.max(0,pts.length-6);
   pts=pts.slice(cut); labs=labs.slice(cut);
-  var W=104,H=34,P=3;
+  var W=wide?210:104,H=34,P=3;
   var mn=Math.min.apply(null,pts), mx=Math.max.apply(null,pts), rg=(mx-mn)||1;
   var xy=pts.map(function(p,i){ return [P+(W-2*P)*i/(pts.length-1), H-P-(H-2*P)*(p-mn)/rg]; });
   var d=xy.map(function(c,i){ return (i?'L':'M')+c[0].toFixed(1)+' '+c[1].toFixed(1); }).join(' ');
@@ -5589,7 +5699,7 @@ function bkSparkHtml(name, act, ytdNum, unit, color){
   var lastPt=xy[xy.length-1];
   /* 2026-10-28 按需求改面积图：深蓝实线（主蓝 #0d6ef0，与页面趋势柱同色系）+ 浅蓝渐变填充（.28→.04 渐隐） */
   var gid='spg-'+(seed%1000)+'-'+Math.round(act*100);
-  return '<span class="spark" title="'+name+' 近'+pts.length+'月走势（悬停点看各月值）"><svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+
+  return '<span class="spark'+(wide?' spark-w':'')+'" title="'+name+' 近'+pts.length+'月走势（悬停点看各月值）"><svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'"'+(wide?' preserveAspectRatio="none"':'')+'>'+
     '<defs><linearGradient id="'+gid+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d6ef0" stop-opacity=".28"/><stop offset="1" stop-color="#0d6ef0" stop-opacity=".04"/></linearGradient></defs>'+
     '<path d="'+area+'" fill="url(#'+gid+')" stroke="none"/>'+
     '<path d="'+d+'" fill="none" stroke="#0d6ef0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'+
@@ -5673,7 +5783,7 @@ function bkStx(sheet,name,opts){ opts=opts||{}; var u=bkTxt(sheet,name,'un')||''
        （较年初串带 ppt 后缀，asNum 返回 null，此处直接 parseFloat 取数） */
     (opts.spark?bkSparkHtml(name,v,(function(){ var x=parseFloat(bkTxt(sheet,name,'ytd')); if(isNaN(x)) return null;
       /* 2026-10-30 按需求：金额类「较年初」台账是百分比→换算绝对变动额（spark 起点=现值−变动额）；比率类=ppt 原值 */
-      return pct ? x : (v - v/(1+x/100)); })(),u,opts.sparkCol||'#6cc0f0'):'')+
+      return pct ? x : (v - v/(1+x/100)); })(),u,opts.sparkCol||'#6cc0f0',opts.sparkW):'')+
     /* 分母注（2026-10-28 按需求，低成本存款占比卡）：opts.den=[源表,科目名,显示名?] 时右侧显示
        分母科目与当期值（直读台账实际值），比率卡的分母口径一眼可读；
        2026-10-30 按需求：样式改「同行业」同款（白底细蓝圆角框、标签在上值在下），
@@ -6299,7 +6409,8 @@ function drawBank(){
       +'<path d="M8.6 7.4l3.4 3.8 3.4-3.8M12 11.2V17M9.6 13.2h4.8M9.6 15.4h4.8" stroke="#fff" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
   }
   var BS_ICONS={'总资产':bsTile('bsig0'),'总负债':bsTile('bsig1'),'所有者权益':bsTile('bsig2')};
-  if(bsEl) bsEl.innerHTML=['总资产','总负债','所有者权益'].map(function(n){ return bkStx('01',n,{cls:'plain',kal:'',icon:BS_ICONS[n],spark:1}); }).join('');
+  /* 2026-11-11 按需求（仅简版）：核心项目三卡趋势图加宽（sparkW=1→viewBox 210 等比重生成）——银行 tab 走原 104 窄版零变化 */
+  if(bsEl) bsEl.innerHTML=['总资产','总负债','所有者权益'].map(function(n){ return bkStx('01',n,{cls:'plain',kal:'',icon:BS_ICONS[n],spark:1,sparkW:curView==='banks'?1:0}); }).join('');
   /* 构成分项行（无饼版式）：色点+名称 / 值 / 同比 / 占比
      2026-10-30 按需求：右侧统一对齐「收入构成」b.cols3 固定列版式（值列右对齐、同比标签+涨跌、占比列纵向成列）；
      仅样式统一，字段不变 */
@@ -6492,6 +6603,12 @@ function tRow(sheet,name){ var c=TIL_COL[sheet],rows=(tilObj(sheet)[sheet]||{}).
 function tAct(sheet,name){ var c=TIL_COL[sheet],r=tRow(sheet,name); return r? asNum(r[c.act]) : null; }
 function tYoY(sheet,name){ var c=TIL_COL[sheet],r=tRow(sheet,name); return r? String(r[c.yoy]||'-') : '-'; }
 function tYtd(sheet,name){ var c=TIL_COL[sheet]; if(c.ytd==null) return '-'; var r=tRow(sheet,name); return r? String(r[c.ytd]||'-') : '-'; }
+/* 租赁表较年初列位与 trust 表不同，单列映射（2026-11-12 按需求：总览华润租赁分组卡补真实「较年初」）：
+   lease01 较年初=截止本月末组第3列（col10；原注释误记 col6=当月同比，本轮校正）；lease03 col11；
+   lease04/05 三列组（实际/同比/较年初）较年初在 col7（2026-11-12 核对表头「截止本季末→较年初」补入） */
+var LEASE_YTD_COL={lease01:10,lease03:11,lease04:7,lease05:7};
+function tYtdL(sheet,name){ var ci=LEASE_YTD_COL[sheet]; if(ci==null) return '-';
+  var r=tRow(sheet,name); return r? String(r[ci]||'-') : '-'; }
 function tMoM(sheet,name){ var c=TIL_COL[sheet]; if(c.mom==null) return '-'; var r=tRow(sheet,name); return r? String(r[c.mom]||'-') : '-'; }
 function tBud(sheet,name){ var c=TIL_COL[sheet]; if(c.bud==null) return null; var r=tRow(sheet,name); return r? asNum(r[c.bud]) : null; }
 function tRate(sheet,name){ var c=TIL_COL[sheet]; if(c.rate==null) return null; var r=tRow(sheet,name); return r? asNum(r[c.rate]) : null; }
@@ -6791,7 +6908,7 @@ function drawIns(){
      ROE/EVA 为比率/价值量，不入趋势图，仍保留于 ins01 报表页与考核区（规则④） */
   tilHero('in-hero-rev','ins01','营业收入'); tilMonthChart('c-in-t-rev','ins01','营业收入','#4d94ff','万元');
   tilHero('in-hero-prof','ins01','利润总额'); tilMonthChart('c-in-t-prof','ins01','利润总额','#4d94ff','万元');
-  tilHero('in-hero-net','ins01','净利润'); tilMonthChart('c-in-t-net','ins01','净利润','#4d94ff','万元');
+  /* 2026-11-12 按需求：ins01 删除「净利润」指标，hero/趋势图取数随源行移除 */
   /* ①-bis 效益与资本回报（2026-11-06 按需求补入驾驶舱：ins01 ROE/EVA 为★考核但原页面未展示——
      ROE=比率（%）看资本回报效率、EVA=价值量（万元）看经济利润，量级/单位不同不入趋势（规则④），银行 stx 卡带预算条 */
   var fc=document.getElementById('ins-fin-cards');
