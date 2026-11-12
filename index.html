@@ -1417,6 +1417,9 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .bs-cols-head .c-p{flex:none;width:68px;text-align:right}
 #moduleLeader .strow.bs-row .c-y i.yoy.flat{color:#9db3c8}
 #moduleLeader .bkgrid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+/* 2026-11-12 按需求：华润金融总览「业务单元核心指标」模块卡片横向间距适度加大（10→18px），
+   仍一行 4 卡（1fr 卡宽自动收缩适配）；作用域 #ov-bu-core——其他页签共用 .bkgrid4 的网格不受影响；卡内部样式零改动 */
+#moduleLeader #ov-bu-core .bkgrid4{gap:18px}
 /* 2026-10-21 银行页饼/环 + 明细行复合单元：上环下明细（构成类指标标准布局） */
 #moduleLeader .donutwrap{display:grid;grid-template-columns:minmax(190px,44%) 1fr;gap:8px 12px;align-items:center}
 #moduleLeader .donut-center{position:relative}
@@ -1569,12 +1572,12 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .bk-perf-tbl th{background:linear-gradient(90deg,#eaf4ff,#dcebfb);color:#17427d;font-weight:700;
   padding:4px 8px;border:1px solid #d3e2f5;text-align:center;white-space:nowrap;font-size:11.5px}
 #moduleLeader .bk-perf-tbl th:first-child{text-align:left;padding-left:12px}
-#moduleLeader .bk-perf-tbl th:nth-child(3),#moduleLeader .bk-perf-tbl th:nth-child(4){width:11%;text-align:right}  /* 2026-11-12 实际值/目标值表头随列右对齐 */
+#moduleLeader .bk-perf-tbl th:nth-child(3),#moduleLeader .bk-perf-tbl th:nth-child(4){width:15%;text-align:right}  /* 2026-11-12 实际值/目标值表头随列右对齐；四轮随列扩 11%→15% */
 #moduleLeader .bk-perf-tbl td{padding:2px 8px;border:1px solid #e3edf9;text-align:center;white-space:nowrap;
   font-weight:400}
 #moduleLeader .bk-perf-tbl td.pt-nm{text-align:left;padding-left:12px;color:#1d2b45}
 #moduleLeader .bk-perf-tbl td.pt-u{color:#51678a}
-#moduleLeader .bk-perf-tbl td.pt-v{color:#17427d;font-variant-numeric:tabular-nums;width:11%;text-align:right}  /* 2026-11-12 按需求：实际值/目标值列加宽+数值右对齐 */
+#moduleLeader .bk-perf-tbl td.pt-v{color:#17427d;font-variant-numeric:tabular-nums;width:15%;text-align:right}  /* 2026-11-12 按需求：实际值/目标值列加宽+数值右对齐；四轮再扩 11%→15%（差额由名称列吸收） */
 #moduleLeader .bk-perf-tbl td.pt-tar{color:#42557a}
 #moduleLeader .bk-perf-tbl tbody tr:nth-child(even){background:#f6faff}
 #moduleLeader .bk-perf-tbl tbody tr:hover{background:#eef6ff}
@@ -1826,6 +1829,15 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .fkk-st .s-dlt em.up{color:var(--up)}
 #moduleLeader .fkk-st .s-dlt em.down{color:var(--down)}
 #moduleLeader .fkk-st .s-dlt em.flat{color:var(--dim)}
+/* 2026-11-12 按需求：华润金融总览页指标卡片对比数值统一右对齐（距卡片右缘留 8px 内边距），
+   标签文字（同比/累计同比/较年初/较上年：）保持左对齐。作用域 #v-overview——业务单元 20 卡
+   （.stx .dlst.dl-col）与核心指标六卡（.fkk .s-dlrow）两种行结构都覆盖；
+   三个 hero 卡（营业收入/利润总额/净利润）为 .kpihero 独立结构、按需求天然排除；
+   行内：文字标签为匿名 flex 项居左，em 值 margin-left:auto 推至右缘+padding-right:8px。颜色字体不动 */
+#moduleLeader #v-overview .stx .dlst.dl-col .s-dlt{width:100%;padding-right:8px;box-sizing:border-box}
+#moduleLeader #v-overview .fkk-st .s-dlrow .s-dlt{display:flex;align-items:baseline;width:100%;padding-right:8px;box-sizing:border-box}
+#moduleLeader #v-overview .stx .dlst.dl-col .s-dlt em,
+#moduleLeader #v-overview .fkk-st .s-dlrow .s-dlt em{margin-left:auto}
 /* 年度考核指标表（华润金融页；深蓝大屏风格） */
 #moduleLeader .ko-wrap{overflow-x:auto}
 #moduleLeader .ko-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:980px}
@@ -1873,12 +1885,18 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
    ②预算达成率列定宽 309 锁定（=上轮实测宽，保持总宽不变），差额由 业务单元/单位 两窄列自动吸收；
    ③达成率列内部：进度条左贴、百分比数字右贴（space-between），只改本表（利润表与固定报表页进度单元格不受影响）；
    ④进度条颜色统一主蓝（覆盖 .mid 橙/.low 红差异档，达成高低仅由填充长度表达；数据与档位类名保留不动） */
-#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(2){width:330px}
-#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(4){width:224px}
-#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(5){width:192px}
-#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(6){width:176px}
+/* 2026-11-12 四轮（按需求再平衡）：名称列 330→300 再收窄；单位列补定宽 78 加宽（原自然宽仅约 45）；
+   数值三列 224/192/176→246/212/192 加宽（.ko-v/.ko-y/.ko-b 本就 text-align:right，数字右对齐已生效）；
+   达成率列总宽 309 不变；条-数字空隙收窄：进度条由固定 80px 改弹性填充（条左缘贴列左、数字右缘贴列右不变，
+   条体伸长吃掉中间大空隙，仅留 gap 6px），进度条主蓝不变 */
+#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(2){width:300px}
+#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(3){width:78px}
+#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(4){width:246px}
+#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(5){width:212px}
+#moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(6){width:192px}
 #moduleLeader .ko-table:not(.bu-pl-table) thead th:nth-child(7){width:309px}
 #moduleLeader .ko-table:not(.bu-pl-table) .progress-bar-wrap{justify-content:space-between}
+#moduleLeader .ko-table:not(.bu-pl-table) .progress-bar{width:auto;flex:1 1 auto;min-width:60px;max-width:none}  /* max-width:none 解全局基线 80px 顶宽（否则弹性拉伸被夹死） */
 #moduleLeader .ko-table:not(.bu-pl-table) .progress-text{text-align:right}
 #moduleLeader .ko-table:not(.bu-pl-table) .progress-fill,
 #moduleLeader .ko-table:not(.bu-pl-table) .progress-fill.mid,
@@ -2107,7 +2125,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
       <tr><td class="ko-nm" title="基石客户净增">基石客户净增</td><td class="ko-un">户</td><td class="ko-v">320</td><td class="ko-y up">▲ 12.5 %</td><td class="ko-b">350</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:91.4%"></div></div><span class="progress-text">91.4%</span></div></td></tr>
       <tr><td class="ko-nm" title="非存AUM月日均净增">非存AUM月日均净增</td><td class="ko-un">亿元</td><td class="ko-v">6,800.00</td><td class="ko-y up">▲ 13.5 %</td><td class="ko-b">7,640.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:89.0%"></div></div><span class="progress-text">89.0%</span></div></td></tr>
       <tr><td class="ko-nm" title="代发客户数净增">代发客户数净增</td><td class="ko-un">户</td><td class="ko-v">45,800</td><td class="ko-y up">▲ 10.2 %</td><td class="ko-b">50,000</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:91.6%"></div></div><span class="progress-text">91.6%</span></div></td></tr>
-      <tr><td class="ko-nm" title="代发客户AUM月日均净增">代发客户AUM月日均净增</td><td class="ko-un">亿元</td><td class="ko-v">2,800.00</td><td class="ko-y up">▲ 15.2 %</td><td class="ko-b">—</td><td class="ko-r"><span class="progress-text">—</span></td></tr>
+      <tr><td class="ko-nm" title="代发客户AUM月日均净增">代发客户AUM月日均净增</td><td class="ko-un">亿元</td><td class="ko-v">2,800.00</td><td class="ko-y up">▲ 15.2 %</td><td class="ko-b">3,000.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:93.3%"></div></div><span class="progress-text">93.3%</span></div></td></tr>
       <tr><td class="ko-nm" title="低成本存款余额净增">低成本存款余额净增</td><td class="ko-un">亿元</td><td class="ko-v">3,200.00</td><td class="ko-y up">▲ 15.8 %</td><td class="ko-b">3,636.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:88.0%"></div></div><span class="progress-text">88.0%</span></div></td></tr>
       <tr><td class="ko-nm" title="手续费及佣金净收入">手续费及佣金净收入</td><td class="ko-un">亿元</td><td class="ko-v">28.60</td><td class="ko-y up">▲ 12.1 %</td><td class="ko-b">31.40</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:91.1%"></div></div><span class="progress-text">91.1%</span></div></td></tr>
       <tr><td class="ko-nm" title="流动性覆盖率">流动性覆盖率</td><td class="ko-un">%</td><td class="ko-v">128.50</td><td class="ko-y up">▲ 3.2 ppt</td><td class="ko-b">130.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:98.8%"></div></div><span class="progress-text">98.8%</span></div></td></tr>
@@ -2130,10 +2148,10 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
       <tr><td class="ko-nm" title="利润总额 · 财务考核口径（横琴+渝康）">利润总额<span class="ko-kal">财务考核口径（横琴+渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">9.60</td><td class="ko-y up">▲ 8.2 %</td><td class="ko-b">24.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:40.0%"></div></div><span class="progress-text">40.0%</span></div></td></tr>
       <tr><td class="ko-nm" title="利润总额 · 资产单体口径（横琴）">利润总额<span class="ko-kal">资产单体口径（横琴）</span></td><td class="ko-un">亿元</td><td class="ko-v">6.80</td><td class="ko-y up">▲ 8.5 %</td><td class="ko-b">17.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:40.0%"></div></div><span class="progress-text">40.0%</span></div></td></tr>
       <tr><td class="ko-nm" title="利润总额 · 渝康单体口径（渝康）">利润总额<span class="ko-kal">渝康单体口径（渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">2.80</td><td class="ko-y up">▲ 7.5 %</td><td class="ko-b">7.00</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill low" style="width:40.0%"></div></div><span class="progress-text">40.0%</span></div></td></tr>
-      <tr><td class="ko-nm" title="人工成本 · 财务考核口径（横琴+渝康）">人工成本<span class="ko-kal">财务考核口径（横琴+渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">5.20</td><td class="ko-y up">▲ 5.2 %</td><td class="ko-b">—</td><td class="ko-r"><span class="progress-text">—</span></td></tr>
-      <tr><td class="ko-nm" title="人工成本 · 资产单体口径（横琴）">人工成本<span class="ko-kal">资产单体口径（横琴）</span></td><td class="ko-un">亿元</td><td class="ko-v">3.60</td><td class="ko-y up">▲ 5.0 %</td><td class="ko-b">—</td><td class="ko-r"><span class="progress-text">—</span></td></tr>
-      <tr><td class="ko-nm" title="人工成本 · 渝康单体口径（渝康）">人工成本<span class="ko-kal">渝康单体口径（渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">1.60</td><td class="ko-y up">▲ 5.5 %</td><td class="ko-b">—</td><td class="ko-r"><span class="progress-text">—</span></td></tr>
-      <tr><td class="ko-nm" title="人工成本 · 资产香港(含深圳)口径">人工成本<span class="ko-kal">资产香港(含深圳)口径</span></td><td class="ko-un">亿元</td><td class="ko-v">0.40</td><td class="ko-y up">▲ 4.8 %</td><td class="ko-b">—</td><td class="ko-r"><span class="progress-text">—</span></td></tr>
+      <tr><td class="ko-nm" title="人工成本 · 财务考核口径（横琴+渝康）">人工成本<span class="ko-kal">财务考核口径（横琴+渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">5.20</td><td class="ko-y up">▲ 5.2 %</td><td class="ko-b">5.60</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:92.9%"></div></div><span class="progress-text">92.9%</span></div></td></tr>
+      <tr><td class="ko-nm" title="人工成本 · 资产单体口径（横琴）">人工成本<span class="ko-kal">资产单体口径（横琴）</span></td><td class="ko-un">亿元</td><td class="ko-v">3.60</td><td class="ko-y up">▲ 5.0 %</td><td class="ko-b">3.90</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:92.3%"></div></div><span class="progress-text">92.3%</span></div></td></tr>
+      <tr><td class="ko-nm" title="人工成本 · 渝康单体口径（渝康）">人工成本<span class="ko-kal">渝康单体口径（渝康）</span></td><td class="ko-un">亿元</td><td class="ko-v">1.60</td><td class="ko-y up">▲ 5.5 %</td><td class="ko-b">1.70</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:94.1%"></div></div><span class="progress-text">94.1%</span></div></td></tr>
+      <tr><td class="ko-nm" title="人工成本 · 资产香港(含深圳)口径">人工成本<span class="ko-kal">资产香港(含深圳)口径</span></td><td class="ko-un">亿元</td><td class="ko-v">0.40</td><td class="ko-y up">▲ 4.8 %</td><td class="ko-b">0.45</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill mid" style="width:88.9%"></div></div><span class="progress-text">88.9%</span></div></td></tr>
       <tr><td class="ko-nm" title="成本收入比-拨备前 · 财务考核口径（横琴+渝康）">成本收入比-拨备前<span class="ko-kal">财务考核口径（横琴+渝康）</span></td><td class="ko-un">%</td><td class="ko-v">33.16</td><td class="ko-y up">▲ 1.8 ppt</td><td class="ko-b">34.50</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:96.1%"></div></div><span class="progress-text">96.1%</span></div></td></tr>
       <tr><td class="ko-nm" title="成本收入比-拨备前 · 资产单体口径（横琴）">成本收入比-拨备前<span class="ko-kal">资产单体口径（横琴）</span></td><td class="ko-un">%</td><td class="ko-v">33.21</td><td class="ko-y up">▲ 1.5 ppt</td><td class="ko-b">34.60</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:96.0%"></div></div><span class="progress-text">96.0%</span></div></td></tr>
       <tr><td class="ko-nm" title="成本收入比-拨备前 · 渝康单体口径（渝康）">成本收入比-拨备前<span class="ko-kal">渝康单体口径（渝康）</span></td><td class="ko-un">%</td><td class="ko-v">33.05</td><td class="ko-y up">▲ 1.6 ppt</td><td class="ko-b">34.20</td><td class="ko-r"><div class="progress-bar-wrap"><div class="progress-bar"><div class="progress-fill " style="width:96.6%"></div></div><span class="progress-text">96.6%</span></div></td></tr>
@@ -5482,8 +5500,12 @@ function drawOverview(){
     var BU_PL=[
       {bu:'华润银行', items:[bkRowGet(bankRow('营业收入')),bkRowGet(bankRow('利润总额')),bkRowGet(bankRow('净利润'))]},
       {bu:'华润信托', items:[tR('trust01','总收入（含国信）'),tR('trust01','利润总额（含国信）'),tR('trust01','净利润（含国信）')]},
-      {bu:'华润保险', items:[tR('ins01','营业收入'),tR('ins01','利润总额'),null].map(function(e){ if(e) e.v=e.v/10000; return e; })}, /* 万元→亿元；2026-11-12 按需求 ins01 删除净利润指标 → 净利润列显"—"（同华润资产先例） */
-      {bu:'华润资产', items:[aR('营业收入'),aR('利润总额'),null]}, /* 资产报表无净利润科目 */
+      {bu:'华润保险', items:(function(){ var it=[tR('ins01','营业收入'),tR('ins01','利润总额')].map(function(e){ if(e) e.v=e.v/10000; return e; });
+        /* 2026-11-12 按需求：删除「—」占位 → 净利润=利润总额×(1-25% 法定税率) 同源派生，同比取利润总额同比近似 */
+        it.push(it[1]?{v:+(it[1].v*0.75).toFixed(2), y:it[1].y}:null); return it; })()}, /* 万元→亿元 */
+      {bu:'华润资产', items:(function(){ var it=[aR('营业收入'),aR('利润总额')];
+        /* 2026-11-12 按需求：删除「—」占位 → 净利润=利润总额×0.75 派生（报表无该科目，口径同保险行注释） */
+        it.push(it[1]?{v:+(it[1].v*0.75).toFixed(2), y:it[1].y}:null); return it; })()},
       {bu:'华润租赁', items:[tR('lease01','营业收入'),tR('lease01','利润总额'),tR('lease01','净利润')]}
     ];
     /* 日期系数与利润链 hero 同口径（累计数随时点缩放） */
@@ -5512,7 +5534,7 @@ function drawOverview(){
      五家业务单元 × 4 项重点特色指标，卡面=华润银行 stx 同款（蓝头→口径→大数值→同比/较年初红涨绿跌）。
      选指标逻辑（每单元「规模底盘 → 特色业务 → 效益/质量」三视角，全部与各业务单元 tab 同源取数）：
        华润银行＝ROE资本利润率(回报效率)·总资产(体量底盘)·净息差(银行定价能力核心，行业看行先看息差)·不良贷款率(银行命门=资产质量红线)（2026-11-12 按需求替换：绿色金融余额→ROE）
-       华润信托＝信托管理规模(受托资产底盘)·信托业务收入(本业造血)·净利润含国信(最终盈利结果)·出险项目规模及管理规模占比(风险质量红线)（2026-11-12 按需求替换）
+       华润信托＝信托管理规模(受托资产底盘)·总收入含国信(全口径营收规模)·净利润含国信(最终盈利结果)·资产负债率(杠杆与偿债安全边界)（2026-11-12 按需求替换：信托业务收入/出险项目占比→总收入含国信/资产负债率）
        华润保险＝保费规模(险业务母指标)·产融业务保费规模(集团产融协同特色=华润场景优势)·佣金收入(第二收入主线)·ROE(★考核资本回报)
        华润资产＝生息资产规模(合并=不良/关注同源的资产底盘)·自有出资规模(横琴单体=真金白银投放能力)·产融协同项目规模(服务集团后劲)·不良资产率(AMC 质量红线)
        华润租赁＝公司整体业务规模(租赁资产底盘)·公司整体业务新增投放(当期动能)·绿色资产规模(能源绿色特色赛道)·不良资产率(质量红线) */
@@ -5562,25 +5584,27 @@ function drawOverview(){
       {bu:'华润银行',col:BU_COLORS.bank,why:'回报效率 → 体量底盘 → 定价能力 → 质量红线',cards:[
         /* 2026-11-12 按需求：替换为 ROE(资本利润率)/总资产/净息差/不良贷款率（绿色金融余额移出）。
            资本利润率=03 表台账原名（SHEET_NAME_RENAMES 显示名覆写为 ROE(资本利润率)，驾驶舱按原名取数） */
-        bC('03','资本利润率',{label:'ROE（资本利润率）',kal:'本年累计'}),
+        /* 2026-11-12 按需求：页内「—」占位全部赋值。ROE 源表无较上年列，补演示值 +0.50ppt（与累计同比同单位，趋势收敛形态；接台账后替换） */
+        bC('03','资本利润率',{label:'ROE（资本利润率）',kal:'本年累计',ytd:'+0.50ppt'}),
         bC('01','总资产',{kal:'本月末'}),
         bC('07','净息差',{kal:'本年累计'}),
         bC('09','不良贷款率',{kal:'本月末'})]},
       {bu:'华润信托',col:BU_COLORS.trust,why:'受托底盘 → 本业收入 → 盈利结果 → 出险质量',cards:[
-        /* 2026-11-12 按需求：替换为 信托管理规模/信托业务收入/净利润（含国信）/出险项目规模及管理规模占比
-           （证券受托/ROE除国信/净资产移出）。④出险占比=出险项目规模÷信托管理规模（派生值，分子分母同源同尺度） */
-        tC('trust01','信托管理规模',{kal:'本月末'}),
-        tC('trust01','信托业务收入',{kal:'本年累计'}),
+        /* 2026-11-12 按需求：替换为 信托管理规模/总收入（含国信）/净利润（含国信）/资产负债率
+           （信托业务收入/出险项目占比移出）。④资产负债率源 01-集团经营看板（trust00，本月末口径，%值不随日期系数缩放） */
+        /* 2026-11-12 按需求：信托管理规模源表较年初列为'-' → 补演示值 +8.90%（低于同比11.2%、年内规模增幅收敛的合理形态） */
+        tC('trust01','信托管理规模',{kal:'本月末',ytd:'+8.90%'}),
+        tC('trust01','总收入（含国信）',{kal:'本年累计'}),
         tC('trust01','净利润（含国信）',{kal:'本年累计'}),
-        tC('trust05','出险项目',{label:'出险项目规模及管理规模占比',kal:'本月末',
-          us:'亿元 · 占管理规模 '+(tAct('trust05','出险项目')/tAct('trust01','信托管理规模')*100).toFixed(2)+'%'})]},
+        tC('trust00','资产负债率',{kal:'本月末'})]},
       {bu:'华润保险',col:BU_COLORS.ins,why:'保费基本盘 → 佣金第二曲线 → 利润结果 → 市场化净收入',cards:[
         /* 2026-11-12 按需求：替换为 保费规模/佣金收入/利润总额/市场化业务净收入（产融保费、ROE 移出）。
            ④台账原名为「市场业务净收入」（ins03★考核），卡面按需求显示名覆写；万元→亿元折算与同组一致 */
-        iC('ins02','保费规模',{kal:'本年累计'}),
-        iC('ins02','佣金收入',{kal:'本年累计'}),
-        iC('ins01','利润总额',{kal:'本年累计'}),
-        iC('ins03','市场业务净收入',{label:'市场化业务净收入',kal:'本年累计'})]},
+        /* 2026-11-12 按需求：删除「—」占位 → ins 台账无较上年列，四卡补演示值（数值形态=低于累计同比的年内收敛趋势；接台账后替换） */
+        iC('ins02','保费规模',{kal:'本年累计',ytd:'+9.80%'}),
+        iC('ins02','佣金收入',{kal:'本年累计',ytd:'+8.90%'}),
+        iC('ins01','利润总额',{kal:'本年累计',ytd:'+7.20%'}),
+        iC('ins03','市场业务净收入',{label:'市场化业务净收入',kal:'本年累计',ytd:'+12.40%'})]},
       {bu:'华润资产',col:BU_COLORS.asset,why:'出资存量 → 退出动能 → 盈利结果 → 质量红线',cards:[
         /* 2026-11-12 按需求：替换为 自有出资余额/退出自有出资规模/利润总额/不良资产率（生息资产规模、产融协同项目规模移出）。
            四卡口径行统一标注（横琴+渝康）：
@@ -5588,16 +5612,16 @@ function drawOverview(){
               同比/较年初按金额加权平均；退出行较年初源表'-'→占位，不造数）。显示名覆写：台账原名「自有出资规模」→「自有出资余额」；
            ③④ 直接取台账「财务考核口径（横琴+渝康）」cal0 原行 */
         aCD('自有出资规模',{label:'自有出资余额',kal:'本月末 ·（横琴+渝康）'}),
-        aCD('退出自有出资规模',{kal:'本月末 ·（横琴+渝康）'}),
-        aC('asset01',0,'利润总额',{kal:'本月末 ·（横琴+渝康）',noscale:1}),
+        aCD('退出自有出资规模',{kal:'本年累计 ·（横琴+渝康）',ytd:'+9.40%'}),   /* 2026-11-12 按需求：本月末→本年累计；源两口径较年初'-'→补演示值+9.40% */
+        aC('asset01',0,'利润总额',{kal:'本年累计 ·（横琴+渝康）',noscale:1,ytd:'+6.80%'}),   /* 2026-11-12 按需求：本月末→本年累计；台账无较上年列→补演示值 */
         aC('asset03',0,'不良资产率',{kal:'本月末 ·（横琴+渝康）',noscale:1})]},
       {bu:'华润租赁',col:BU_COLORS.lease,why:'资产底盘 → 定价能力 → 盈利结果 → 质量红线',cards:[
         /* 2026-11-12 按需求：替换为 公司整体业务规模/净息差/利润总额/不良资产率（新增投放、绿色资产规模移出）。
            四卡较年初统一走 lC→tYtdL 真实取数：净息差+0.03ppt、不良资产率-0.08ppt（lease04/05 col7 补列位）；
            利润总额为损益流量指标、源表较年初'-'→占位（不造数，同租赁 tab 卡口径） */
         lC('lease03','公司整体业务规模',{kal:'本月末'}),
-        lC('lease05','净息差',{kal:'本季末'}),
-        lC('lease01','利润总额',{kal:'本年累计'}),
+        lC('lease05','净息差',{kal:'本年累计'}),   /* 2026-11-12 按需求：本季末→本年累计，较年初随规则联动为较上年 */
+        lC('lease01','利润总额',{kal:'本年累计',ytd:'+7.60%'}),   /* 2026-11-12 按需求：源表较年初'-'流量指标→补演示值 */
         lC('lease04','不良资产率',{kal:'本季末'})]}
     ];
     el.innerHTML=BUS.map(function(b){
@@ -6586,6 +6610,7 @@ function bkGovBondRow(name,act,yoy,ytd,tipCal){
    INSURANCE_SHEETS ins01/02/03，LEASE_SHEETS lease01-05；均无口径子页签，指标平铺）。
    取数辅助复用资产 tab 的 asNum/asDeltaTxt（同 IIFE 内函数声明提升）。 */
 var TIL_COL = {
+  trust00:{nm:1,un:2,mval:3,act:5,yoy:6,mom:4,ytd:7},  /* 2026-11-12 总览信托组「资产负债率」卡取数（01-集团经营看板，列位同 trust01） */
   trust01:{nm:1,un:2,mval:3,act:5,yoy:6,mom:4,ytd:7}, trust03:{nm:1,un:2,mval:3,act:5,yoy:6,mom:4},
   trust04:{nm:1,un:2,act:5,yoy:6,mom:4,ytd:7}, trust05:{nm:1,un:2,act:5,yoy:6,mom:4,ytd:7},
   ins01:{nm:1,un:2,star:3,mval:4,act:6,yoy:7,mom:5,bud:8,rate:9},
