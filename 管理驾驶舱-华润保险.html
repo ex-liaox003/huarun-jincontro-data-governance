@@ -1024,15 +1024,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
    与 本月数/月度同比 同行（三者同为图下说明，字体灰度一致，左距 12px 与线段说明分隔） */
 #moduleLeader .chartlg .lg-note{display:inline-flex;align-items:center;gap:4px;margin-left:12px;white-space:nowrap}
 #moduleLeader .chartlg .lg-note .bi{font-size:12px}
-/* 2026-11-16 按需求：关键管理指标左右双图增设独立标题栏——视觉与上方 4 指标卡标题栏
-   （.stx .t）完全同款：蓝渐变 #39a1f7→#0d6ef0 + 6px 白色圆点 + 12px/700 白字 1px 字距；
-   单位注记以细体小字随标题后（承接原 stgrp-cap 的万元/万户标注，信息不丢失） */
-#moduleLeader .km-chart-t{display:flex;align-items:center;gap:7px;padding:7px 12px;margin:0 0 6px;
-  background:linear-gradient(90deg,#39a1f7,#0d6ef0);color:#fff;border-radius:6px;
-  font-size:12px;font-weight:700;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#moduleLeader .km-chart-t::before{content:'';width:6px;height:6px;border-radius:50%;background:#fff;
-  box-shadow:0 0 5px rgba(255,255,255,.9);flex:none}
-#moduleLeader .km-chart-t .u{font-weight:400;font-size:10.5px;letter-spacing:0;opacity:.85}
+/* 2026-11-17 按需求：关键管理指标左右双图名称栏改顶格卡头 .chd（与「营业收入」模块名称栏同款，
+   蓝渐变满铺至卡边缘由 #v-ins .chd 全局规则命中），独立标题栏 .km-chart-t 已废除 */
 /* 2026-11-16 按需求：关键管理指标左图三折线图例（线型色样与 datasets 配置一一对应） */
 #moduleLeader .chartlg.lg-lines .ll{display:inline-block;width:18px;height:0;margin-left:14px;flex:none}
 #moduleLeader .chartlg.lg-lines .ll:first-child{margin-left:0}
@@ -2126,15 +2119,15 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
     <div class="bkgrid4" id="ins-kpi-grid" style="margin-top:0"></div>
   </div></div>
   <!-- 2026-11-16 按需求：左右双图由同卡内并列改为两张独立卡片（各带边框/圆角/内衬），
-       卡间 12px 间距与全页模块间距体系一致；蓝色标题栏、图表、图例、配色零改动 -->
+       卡间 12px 间距与全页模块间距体系一致。
+       2026-11-17 按需求：两图名称栏改顶格卡头（.chd 直挂 card、满铺至卡边缘，与「营业收入」等模块
+       名称栏同款蓝渐变+白点，#v-ins 全局 chd 规则命中），单位注记入 .tag 右贴；图表、图例、配色零改动 -->
   <div class="grid g2" style="margin-bottom:0">
-    <div class="card"><div class="cbd">
-      <div class="km-chart-t">产融保费规模趋势 · 近12个月<span class="u">单位：万元</span></div>
+    <div class="card"><div class="chd">产融保费规模趋势 · 近12个月 <span class="tag">单位：万元</span></div><div class="cbd">
       <div class="chartbox" style="height:196px"><canvas id="c-in-trend-prem"></canvas></div>
       <div class="chartlg lg-lines"><span class="ll l1"></span>华润场景<span class="ll l2"></span>其他产融渠道<span class="ll l3"></span>创新场景孵化</div>
     </div></div>
-    <div class="card"><div class="cbd">
-      <div class="km-chart-t">华润燃气存量用户每年新增客户 · 近12个月<span class="u">单位：万户</span></div>
+    <div class="card"><div class="chd">华润燃气存量用户每年新增客户 · 近12个月 <span class="tag">单位：万户</span></div><div class="cbd">
       <div class="chartbox" style="height:196px"><canvas id="c-in-trend-cust"></canvas></div>
       <div class="chartlg"><span class="lg-bar" style="background:#0d6ef0"></span>当月新增<span class="lg-line"></span>月度同比</div>
     </div></div>
