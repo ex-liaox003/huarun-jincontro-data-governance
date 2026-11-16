@@ -1024,6 +1024,12 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
    与 本月数/月度同比 同行（三者同为图下说明，字体灰度一致，左距 12px 与线段说明分隔） */
 #moduleLeader .chartlg .lg-note{display:inline-flex;align-items:center;gap:4px;margin-left:12px;white-space:nowrap}
 #moduleLeader .chartlg .lg-note .bi{font-size:12px}
+/* 2026-11-16 按需求：关键管理指标左图三折线图例（线型色样与 datasets 配置一一对应） */
+#moduleLeader .chartlg.lg-lines .ll{display:inline-block;width:18px;height:0;margin-left:14px;flex:none}
+#moduleLeader .chartlg.lg-lines .ll:first-child{margin-left:0}
+#moduleLeader .chartlg.lg-lines .ll.l1{border-top:2.5px solid #0d6ef0}
+#moduleLeader .chartlg.lg-lines .ll.l2{border-top:2.5px dashed #98a9c3}
+#moduleLeader .chartlg.lg-lines .ll.l3{border-top:2.5px solid #f59e0b}
 #moduleLeader .grid{display:grid;gap:12px}
 #moduleLeader .g2{grid-template-columns:1fr 1fr}
 #moduleLeader .g3{grid-template-columns:repeat(3,1fr)}
@@ -1568,8 +1574,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .stx .budrow .btxt{font-size:11px;color:#33547e;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
 #moduleLeader .stx .budrow .btxt b{color:#17427d;font-weight:800}
 /* 业绩指标双表名称栏（2026-11-10 按需求：删除蓝渐变背景与白点，仅显示标题文字） */
-#moduleLeader #v-bank .chd.chd-perf,#moduleLeader #v-banks .chd.chd-perf{background:none;padding:8px 12px 2px;color:#0d6ef0;font-weight:700;letter-spacing:0}  /* 2026-11-10 按需求：标题文字用名称栏背景同族主蓝 #0d6ef0；简版（#v-banks 挂载态）同步 */
-#moduleLeader #v-bank .chd.chd-perf::before,#moduleLeader #v-banks .chd.chd-perf::before{content:none}
+#moduleLeader #v-bank .chd.chd-perf,#moduleLeader #v-banks .chd.chd-perf,#moduleLeader #v-ins .chd.chd-perf{background:none;padding:8px 12px 2px;color:#0d6ef0;font-weight:700;letter-spacing:0}  /* 2026-11-10 按需求：标题文字用名称栏背景同族主蓝 #0d6ef0；简版（#v-banks 挂载态）同步；2026-11-16 保险页业绩指标双表复用（#v-ins） */
+#moduleLeader #v-bank .chd.chd-perf::before,#moduleLeader #v-banks .chd.chd-perf::before,#moduleLeader #v-ins .chd.chd-perf::before{content:none}
 /* 2026-11-10 按需求：总览「业务单元利润表」卡头净化——无背景条、无白点、无底部分隔线，仅标题文字 */
 #moduleLeader #v-overview .chd.chd-plain{background:none;border-bottom:none;color:#0d6ef0;font-weight:700;padding:9px 14px 0;letter-spacing:0}
 #moduleLeader #v-overview .chd.chd-plain::before{content:none}
@@ -2072,25 +2078,25 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
     <div class="bkgrid4" id="ins-fin-cards" style="grid-template-columns:repeat(2,1fr)"></div>
   </div></div>
 
+  <!-- 业绩指标（2026-11-16 按需求新增：参照华润银行 tab 业绩指标双表——左=高质量指标、右=考核指标；
+       五列=指标名称/单位/实际值/目标值/完成度（进度条+百分比），样式复用 .bk-perf-tbl；
+       取数=ins01/ins02/ins03 台账指标属性标签列（★=考核、高质量=高质量，双标两表并列），完成度直读报表「预算达成率」列，源表无预算列显示「未设预算」 -->
+  <div class="secttl"><b class="ttl">业绩指标</b></div>
+  <div class="grid g2 row" id="ins-contract" style="align-items:stretch;margin-bottom:0"></div>
+
   <!-- ② 保费与佣金双主线：保费四板块相加=保费规模合计、佣金四板块相加=佣金合计（均勾稽闭合）→ 规则②构成饼；
-       每张复合卡=KPI大字 + 本月数趋势 + 构成饼 + 明细行，管理层单卡读完"总量→动能→结构" -->
+       2026-11-12 按需求：卡内删除 KPI 大字/本月数趋势/图例三块，仅保留构成饼 + 业务分项明细行 -->
   <div class="secttl"><b class="ttl">保费与佣金双主线</b></div>
   <div class="grid g2 row">
     <div class="card"><div class="chd">保费规模 <span class="tag">万元 · 本年累计</span></div><div class="cbd">
-      <div class="kpihero" id="in-hero-prem"></div>
-      <div class="chartbox" style="height:96px"><canvas id="c-in-t-prem"></canvas></div>
-      <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比</div>
-      <div class="donutwrap" style="margin-top:6px">
+      <div class="donutwrap">
         <div style="position:relative;height:172px"><div class="chartbox" style="height:172px"><canvas id="c-in-prem-pie"></canvas></div>
           <div class="donut-total sm" id="in-prem-center"></div></div>
         <div id="in-prem-rows"></div>
       </div>
     </div></div>
     <div class="card"><div class="chd">佣金收入 <span class="tag">万元 · 本年累计</span></div><div class="cbd">
-      <div class="kpihero" id="in-hero-comm"></div>
-      <div class="chartbox" style="height:96px"><canvas id="c-in-t-comm"></canvas></div>
-      <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比</div>
-      <div class="donutwrap" style="margin-top:6px">
+      <div class="donutwrap">
         <div style="position:relative;height:172px"><div class="chartbox" style="height:172px"><canvas id="c-in-comm-pie"></canvas></div>
           <div class="donut-total sm" id="in-comm-center"></div></div>
         <div id="in-comm-rows"></div>
@@ -2098,20 +2104,29 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
     </div></div>
   </div>
   <!-- 产融纵深明细：燃气→商户→银保→创新场景（产融板块二层拆分，★考核项带预算达成） -->
-  <div class="card row" style="margin-bottom:0"><div class="chd">产融板块纵深明细 <span class="tag">万元 · 本年累计</span></div><div class="cbd">
+  <div class="card row" style="margin-bottom:0"><div class="chd">产融板块纵深明细 <span class="tag">万元 · 本年累计 · 左保费/右佣金同层级对读</span></div><div class="cbd">
     <div id="ins-detail"></div>
   </div></div>
 
-  <!-- ③ 关键管理指标：ins03 七项=业绩合同语言；2026-11-06 按打标分组（对齐银行业绩指标区打标展示逻辑）——
-       业绩合同考核四项（🎯，均带预算进度条）/ 高质量发展三项（⭐，孵化项源表无预算列则不显示预算行）；
-       补入原驾驶舱遗漏的「集团产融创新场景孵化保费规模」⭐项；卡=银行 stx 六段式（含 .tt 可收缩名层） -->
+  <!-- ③ 关键管理指标（2026-11-16 按需求第二次重规划：原模块全部指标区删除——达成率排行/考核卡/高质量卡/收入趋势图，
+       重建为两区域：第一区域=4 指标卡（融融总中收/市场净收入/华润场景产融保费/燃气存量保费占比，insStx 原样式）；
+       第二区域=左右双图——左·产融保费规模三线趋势（华润场景深蓝实线/其他产融渠道灰虚线/创新场景孵化橙线）、
+       右·燃气存量新增客户月度柱图（柱带数据标签）+月度同比线，均取近 12 个月（tilMonthSeries 同规则形拆至所选月） -->
   <div class="secttl"><b class="ttl">关键管理指标</b></div>
   <div class="card row"><div class="cbd">
-    <div class="stgrp-cap" style="margin-top:0">业绩合同考核指标</div>
-    <div class="bkgrid4" id="ins-kpi-grid"></div>
-    <div class="stgrp-cap" style="margin-top:14px">高质量发展指标</div>
-    <div class="bkgrid4" id="ins-hq-grid" style="grid-template-columns:repeat(3,1fr)"></div>
-    <div class="stgrp-note"><span class="bnote"><span class="bi">🎯</span>考核：该指标属于绩效考核指标</span><span class="bnote"><span class="bi">⭐</span>高质量：该指标为高质量发展重点指标</span></div>
+    <div class="bkgrid4" id="ins-kpi-grid" style="margin-top:0"></div>
+    <div class="grid g2" style="gap:0 18px;margin-top:12px">
+      <div>
+        <div class="stgrp-cap" style="margin-top:0">产融保费规模趋势 · 近12个月 <span class="lite" style="font-weight:400;font-size:10.5px">万元</span></div>
+        <div class="chartbox" style="height:196px"><canvas id="c-in-trend-prem"></canvas></div>
+        <div class="chartlg lg-lines"><span class="ll l1"></span>华润场景<span class="ll l2"></span>其他产融渠道<span class="ll l3"></span>创新场景孵化</div>
+      </div>
+      <div>
+        <div class="stgrp-cap" style="margin-top:0">华润燃气存量用户每年新增客户 · 近12个月 <span class="lite" style="font-weight:400;font-size:10.5px">万户</span></div>
+        <div class="chartbox" style="height:196px"><canvas id="c-in-trend-cust"></canvas></div>
+        <div class="chartlg"><span class="lg-bar" style="background:#0d6ef0"></span>当月新增<span class="lg-line"></span>月度同比</div>
+      </div>
+    </div>
   </div></div>
 </section>
 </main>
@@ -2269,7 +2284,8 @@ var TIP_UNIT={ 'c-bk-loan':'亿元','c-bk-dep':'亿元','c-bk-line':'亿元',
   'c-ts-scale':'亿元','c-ts-rev':'亿元','c-ts-fund':'亿元','c-ts-gx':'亿元','c-ts-new3':'亿元',
   'c-ts-t-rev':'亿元','c-ts-t-prof':'亿元','c-ts-t-net':'亿元',
   'c-in-prem':'万元','c-in-comm':'万元','c-in-mix':'万元',
-  'c-in-t-rev':'万元','c-in-t-prof':'万元','c-in-t-prem':'万元','c-in-t-comm':'万元',
+  'c-in-trend-cust':'万户',
+  'c-in-t-rev':'万元','c-in-t-prof':'万元',
   'c-as-wf':'亿元','c-as-biz':'亿元','c-as-pl':'亿元','c-as-cmp':'亿元','c-as-risk':'亿元','c-as-cal':'亿元',
   'c-as-t-rev':'亿元','c-as-t-prof':'亿元',
   'c-ls-pl':'亿元','c-ls-sector':'亿元','c-ls-prod':'亿元','c-ls-spread':'%','c-ls-fund':'亿元',
@@ -3931,8 +3947,9 @@ function insStx(sheet,name,opts){ opts=opts||{}; var c=TIL_COL[sheet];
   var u=opts.u||tUn(sheet,name), pct=/%/.test(u);
   var raw=tAct(sheet,name), v=raw==null?null:(pct?raw:m(raw));
   var tag=String(r[c.star]!=null?r[c.star]:'');
-  var badges=(tag.indexOf('★')>=0||tag.indexOf('考核')>=0?'<span class="badge">🎯</span>':'')
-            +(tag.indexOf('高质量')>=0?'<span class="badge">⭐</span>':'');
+  /* 2026-11-16 按需求：关键管理指标区删除🎯/⭐图标——opts.badge:0 关闭卡内徽章（①-bis 等其余调用不受影响） */
+  var badges=(opts.badge===0?'':(tag.indexOf('★')>=0||tag.indexOf('考核')>=0?'<span class="badge">🎯</span>':'')
+            +(tag.indexOf('高质量')>=0?'<span class="badge">⭐</span>':''));
   var kal=(opts.kal!=null)?opts.kal:'本年累计';
   /* bkNum 对「户」类取整（客户数无小数户）；「万户」为万位计量保留 2 位小数（12.60 万户），此处先行处理 */
   var vDisp=(u==='万户'&&v!=null)?v.toFixed(2):bkNum(v,u);
@@ -3958,52 +3975,122 @@ function drawIns(){
      ROE=比率（%）看资本回报效率、EVA=价值量（万元）看经济利润，量级/单位不同不入趋势（规则④），银行 stx 卡带预算条 */
   var fc=document.getElementById('ins-fin-cards');
   if(fc) fc.innerHTML=insStx('ins01','ROE')+insStx('ins01','EVA');
+  /* ===== 业绩指标双表（2026-11-16 按需求新增，参照华润银行 tab 同名模块）=====
+     左=高质量指标 / 右=考核指标；五列=指标名称/单位/实际值/目标值/完成度（进度条+百分比），复用 .bk-perf-tbl；
+     成员与归属完全读台账三表「指标属性标签」列（含★→考核表，含高质量→高质量表，双标项两表并列）；
+     完成度直读报表「预算达成率」列（不前端重算），源表无预算/达成率的行显示「未设预算」 */
+  function insPerfRow(sheet,name){
+    var r=tRow(sheet,name); if(!r) return null;
+    var u=tUn(sheet,name), pct=/[%]/.test(u);
+    var raw=tAct(sheet,name), act=raw==null?null:(pct?raw:m(raw));
+    var bud=tBud(sheet,name), rt=tRate(sheet,name);
+    return {n:name,u:u,act:act,bud:bud,rt:rt};
+  }
+  function insPerfTbl(title,items){
+    var body=items.map(function(it){ if(!it) return '';
+      var actDisp=it.act==null?'—':(/%/.test(it.u)?(+it.act).toFixed(2):(+it.act).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}));
+      var budDisp=it.bud==null?'—':(/%/.test(it.u)?(+it.bud).toFixed(2):(+it.bud).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}));
+      var done = it.rt==null ? '<td class="pt-txt"><span style="color:#8aa2bd">未设预算</span></td>'
+        : '<td class="pt-bar"><div class="pb"><div class="pb-t"><i class="pb-f" style="width:'+Math.min(100,it.rt).toFixed(1)+'%"></i></div><span class="pb-p">'+it.rt.toFixed(1)+'%</span></div></td>';
+      return '<tr><td class="pt-nm">'+it.n+'</td><td class="pt-u">'+it.u+'</td>'+
+        '<td class="pt-v">'+actDisp+'</td><td class="pt-v pt-tar">'+budDisp+'</td>'+done+'</tr>'; }).join('');
+    return '<div class="card" style="margin-bottom:0"><div class="chd chd-perf">'+title+'</div>'+
+      '<div class="cbd" style="padding:6px 12px 8px">'+
+      '<table class="bk-perf-tbl"><thead><tr><th>指标名称</th><th>单位</th><th>实际值</th><th>目标值</th><th>完成度</th></tr></thead>'+
+      '<tbody>'+body+'</tbody></table></div></div>';
+  }
+  /* 成员扫描：三表全部含标签行，按 star 列归表（保持报表原序） */
+  var insHQ=[], insKH=[];
+  ['ins01','ins02','ins03'].forEach(function(sheet){
+    var c=TIL_COL[sheet], rows=(INSURANCE_SHEETS[sheet]||{}).rows||[];
+    rows.forEach(function(r){ if(c.star==null) return;
+      var st=String(r[c.star]!=null?r[c.star]:''); var nm=r[c.nm];
+      if(st.indexOf('★')>=0) insKH.push(insPerfRow(sheet,nm));
+      if(st.indexOf('高质量')>=0) insHQ.push(insPerfRow(sheet,nm)); });
+  });
+  var insCEl=document.getElementById('ins-contract');
+  if(insCEl) insCEl.innerHTML=insPerfTbl('高质量指标',insHQ)+insPerfTbl('考核指标',insKH);
   /* ② 双主线复合卡：KPI 大字 + 本月数趋势（规则①）+ 构成饼（规则②）
      保费：机构+产融+香港+市场化 四板块相加=986,500=保费规模合计（勾稽已验证）
      佣金：同口径四板块相加=152,300=佣金合计 → 两张饼可横向对照"板块佣金率=佣金/保费" */
   var premSrc=[['机构业务保费规模','机构业务'],['产融业务保费规模','产融业务'],['香港业务保费规模','香港业务'],['市场化业务保费规模','市场化业务']];
   var commSrc=[['机构业务佣金收入','机构业务'],['产融业务佣金收入','产融业务'],['香港业务佣金收入','香港业务'],['市场化业务佣金收入','市场化业务']];
-  var premTotal=tAct('ins02','保费规模'), commTotal=tAct('ins02','佣金收入');
-  /* 保费复合卡：hero + 趋势 + 构成饼 */
-  tilHero('in-hero-prem','ins02','保费规模'); tilMonthChart('c-in-t-prem','ins02','保费规模','#4d94ff','万元');
+  /* 保费复合卡（2026-11-12 按需求：hero 与趋势图已删，仅构成饼 + 明细行；
+     2026-11-16 曾按业务指标页层级展开分组明细，同日按需求回退至本版本） */
   tilDonut('c-in-prem-pie',premSrc.map(function(e){return e[1]}),
     premSrc.map(function(e){ return Math.round(m(tAct('ins02',e[0])||0)); }),
     ['#4d94ff','#6cc0f0','#35c06b','#eda14e'],'万元',
     {centerEl:'in-prem-center',centerLab:'保费规模 · 万元',rowsEl:'in-prem-rows',yoys:premSrc.map(function(e){return tYoY('ins02',e[0])})});
   /* 佣金复合卡 */
-  tilHero('in-hero-comm','ins02','佣金收入'); tilMonthChart('c-in-t-comm','ins02','佣金收入','#4d94ff','万元');
   tilDonut('c-in-comm-pie',commSrc.map(function(e){return e[1]}),
     commSrc.map(function(e){ return Math.round(m(tAct('ins02',e[0])||0)); }),
     ['#4d94ff','#6cc0f0','#35c06b','#eda14e'],'万元',
     {centerEl:'in-comm-center',centerLab:'佣金收入 · 万元',rowsEl:'in-comm-rows',yoys:commSrc.map(function(e){return tYoY('ins02',e[0])})});
-  /* 产融板块纵深明细（二层拆分：燃气→华润/市场；商户；银保；创新场景→社区等；★考核项带预算达成） */
-  var D=[['产融业务保费规模','产融板块保费小计',0],['燃气业务保费规模','├ 燃气业务',0],
-         ['其中：华润燃气业务保费规模','│　其中：华润燃气（★考核）',1],['其中：市场燃气业务保费规模','│　其中：市场燃气',0],
-         ['商户保险保费规模','├ 商户保险',0],['银保保费规模','├ 银保',0],['产融创新场景保费规模','└ 创新场景（社区/职域/其他融融）',0]];
+  /* 产融板块纵深明细（2026-11-16 按需求对齐业务指标报表页 ins02 层级优化）：
+     左右两列与报表四行级结构完全同构镜像——小计→燃气（其中:华润🎯带预算达成/市场）→商户⭐→银保→创新场景（其中:社区/其他产融/职域/其他融融）；
+     佣金口径逐行加「费率=佣/保」小注（板块费率画像下沉到子项级）；🎯/⭐ 标签读报表标签列；
+     原底部「保费/佣金合计」两行与双主线饼中心重复，已删。
+     勾稽注（源表事实，与报表页一致展示不造数）：创新场景行(61,100/9,200)与其四「其中」子项之和(93,700/14,300)不同行级 */
+  var DD=[['产融业务保费规模','产融业务佣金收入','产融板块小计'],
+          ['燃气业务保费规模','燃气业务佣金收入','├ 燃气业务'],
+          ['其中：华润燃气业务保费规模','其中：华润燃气业务佣金收入','│　其中：华润燃气'],
+          ['其中：市场燃气业务保费规模','其中：市场燃气业务佣金收入','│　其中：市场燃气'],
+          ['商户保险保费规模','商户保险佣金收入','├ 商户保险'],
+          ['银保保费规模','银保佣金收入','├ 银保'],
+          ['产融创新场景保费规模','产融创新场景佣金收入','└ 创新场景'],
+          ['其中：社区保险保费规模','其中：社区保险佣金收入','│　其中：社区保险'],
+          ['其中：其他产融创新场景保费规模','其中：其他产融创新场景佣金收入','│　其中：其他产融创新'],
+          ['其中：职域保费规模','其中：职域佣金收入','│　其中：职域'],
+          ['其中：其他融融保费规模','其中：其他融融佣金收入','│　其中：其他融融']];
+  function insBadge(key){ var r=tRow('ins02',key); if(!r) return '';
+    var st=String(r[TIL_COL.ins02.star]!=null?r[TIL_COL.ins02.star]:'');
+    return (st.indexOf('★')>=0?'<span class="lite" style="font-size:10px">🎯考核</span>':'')
+         +(st.indexOf('高质量')>=0?'<span class="lite" style="font-size:10px">⭐高质量</span>':''); }
+  function detailRows(side){ /* side 0=保费口径 1=佣金口径（两列同源同序，逐行横向对读） */
+    return DD.map(function(e){ var key=e[side]; if(!tRow('ins02',key)) return '';
+      var v=m(tAct('ins02',key)||0), extra='';
+      if(side===0){ var rt=tRate('ins02',key); if(rt!=null) extra=' <span class="lite" style="font-size:10px">达成 '+rt.toFixed(2)+'%</span>'; }
+      else { var pv=tAct('ins02',e[0]); if(pv) extra=' <span class="lite" style="font-size:10px">费率 '+((tAct('ins02',key)/pv)*100).toFixed(2)+'%</span>'; }
+      return '<div class="strow"><span>'+e[2]+insBadge(key)+'</span><b>'+tilNum(v,'万元')+' 万元 '+tilDelta(tYoY('ins02',key),'')+extra+'</b></div>'; }).join(''); }
   var el=document.getElementById('ins-detail');
   if(el) el.innerHTML='<div class="stgrid" style="grid-template-columns:1fr 1fr;gap:0 26px"><div>'+
-    '<div class="stgrp-cap">保费口径（万元）</div>'+D.map(function(e){ var r=tRow('ins02',e[0]); if(!r) return '';
-      var rt=tRate('ins02',e[0]);
-      return '<div class="strow"><span>'+e[1]+'</span><b>'+tilNum(m(tAct('ins02',e[0])||0),'万元')+' 万元 '+tilDelta(tYoY('ins02',e[0]),'')+(rt!=null?' <span class="lite" style="font-size:10px">达成 '+rt.toFixed(2)+'%</span>':'')+'</b></div>'; }).join('')+
+    '<div class="stgrp-cap">保费口径（万元）</div>'+detailRows(0)+
     '</div><div>'+
-    '<div class="stgrp-cap">同板块对照（万元）</div>'+
-    '<div class="strow"><span>产融板块佣金小计</span><b>'+tilNum(m(tAct('ins02','产融业务佣金收入')||0),'万元')+' 万元 '+tilDelta(tYoY('ins02','产融业务佣金收入'),'')+'</b></div>'+
-    '<div class="strow"><span>其中：华润燃气佣金</span><b>'+tilNum(m(tAct('ins02','其中：华润燃气业务佣金收入')||0),'万元')+' 万元 '+tilDelta(tYoY('ins02','其中：华润燃气业务佣金收入'),'')+'</b></div>'+
-    '<div class="strow"><span>燃气板块佣金率（佣/保）</span><b>'+((tAct('ins02','燃气业务佣金收入')/tAct('ins02','燃气业务保费规模'))*100).toFixed(2)+'%</b></div>'+
-    '<div class="strow"><span>保费规模合计</span><b>'+tilNum(m(premTotal||0),'万元')+' 万元 '+tilDelta(tYoY('ins02','保费规模'),'')+'</b></div>'+
-    '<div class="strow"><span>佣金收入合计</span><b>'+tilNum(m(commTotal||0),'万元')+' 万元 '+tilDelta(tYoY('ins02','佣金收入'),'')+'</b></div>'+
+    '<div class="stgrp-cap">佣金口径（万元 · 费率=佣/保）</div>'+detailRows(1)+
     '</div></div>';
-  /* ③ 关键管理指标（ins03 七项=业绩合同语言，2026-11-06 按打标分组——对齐银行业绩指标区打标展示逻辑）：
-     左组「业绩合同考核指标」四项🎯（均带预算进度条）；右列组「高质量发展指标」三项⭐
-     （孵化项源表无预算列→insStx rt==null 自动不渲染预算行，不造数）；
-     卡片=insStx 银行六段式：蓝头(🎯/⭐右贴徽章)→口径行→大数值→同比+环比→预算三段式；
-     原页面遗漏项「集团产融创新场景孵化保费规模」已补入 */
-  var KM=[['华润燃气存量用户保费占比'],['集团其他产融渠道客户保费规模'],['融融业务总中收'],['市场业务净收入']];
-  var HQ=[['华润场景产融保费规模'],['集团产融创新场景孵化保费规模'],['华润燃气存量用户每年新增客户数']];
+  /* ③ 关键管理指标（2026-11-16 按需求第二次重规划：原模块全部指标区删除——达成率排行/分组卡/收入趋势；
+     第一区域=4 指标卡（insStx 原样式）；第二区域=左右双图（近 12 个月=tilMonthSeries 22 月版式取所选月回溯 12 格，
+     形拆与校准规则与①区趋势同源）：左=产融保费规模三折线（深蓝实/灰虚/橙线），右=燃气存量新增客户月度柱（柱端数据标签）+月度同比金线双轴 */
+  var KPI4=['融融业务总中收','市场业务净收入','华润场景产融保费规模','华润燃气存量用户保费占比'];
   var g=document.getElementById('ins-kpi-grid');
-  if(g) g.innerHTML=KM.map(function(e){ return insStx('ins03',e[0]); }).join('');
-  var hg=document.getElementById('ins-hq-grid');
-  if(hg) hg.innerHTML=HQ.map(function(e){ return insStx('ins03',e[0]); }).join('');
+  if(g) g.innerHTML=KPI4.map(function(n){ return insStx('ins03',n,{badge:0}); }).join('');
+  /* 近12月窗口：所选月（selIx）及往前 11 格 */
+  function insWin12(sheet,name){ var ms=tilMonthSeries(sheet,name);
+    var from=ms.selIx-11;
+    return {labels:ms.labels.slice(from,ms.selIx+1), mon:ms.mon.slice(from,ms.selIx+1), ms:ms}; }
+  /* 左·产融保费规模三折线 */
+  var LN=[['华润场景产融保费规模','#0d6ef0',{}],['集团其他产融渠道客户保费规模','#98a9c3',{borderDash:[6,4]}],['集团产融创新场景孵化保费规模','#f59e0b',{}]];
+  var winL=insWin12('ins03',LN[0][0]);
+  mk('c-in-trend-prem',{type:'line',
+    data:{labels:winL.labels,datasets:LN.map(function(l){ var w=insWin12('ins03',l[0]);
+      return Object.assign({label:l[0],data:w.mon,borderColor:l[1],backgroundColor:l[1],
+        borderWidth:2,tension:.32,pointRadius:2.4,pointBorderWidth:0,fill:false},l[2]); })},
+    options:Object.assign(base({tooltip:{callbacks:{label:function(it){ return ' '+it.dataset.label+'：'+tilNum(it.parsed.y,'万元')+' 万元'; }}}}),
+      {scales:{x:{grid:{display:false},ticks:{font:{size:9.5},color:T3,maxRotation:55,minRotation:55}},
+        y:Object.assign({},YAX,{ticks:{font:{size:10},color:T3,callback:function(v){return v.toLocaleString('zh-CN')}}})}})});
+  /* 右·燃气存量新增客户 月度柱（c-in-trend- 前缀不落入 barValLabel 跳过名单 → 柱端自动数据标签）+ 同比金线（右轴%） */
+  var winC=insWin12('ins03','华润燃气存量用户每年新增客户数');
+  var seedC=0; '华润燃气存量用户每年新增客户数'.split('').forEach(function(c){ seedC+=c.charCodeAt(0); });
+  /* 同比线=与①区趋势金线同一 22 月形（同种子/锚定所选月），切近12月窗口与柱对齐 */
+  var yoyC=bkMonthYoyArr(22,seedC,asNum(tYoY('ins03','华润燃气存量用户每年新增客户数')),winC.ms.selIx).slice(winC.ms.selIx-11,winC.ms.selIx+1);
+  mk('c-in-trend-cust',{type:'bar',
+    data:{labels:winC.labels,datasets:[
+      {label:'当月新增',data:winC.mon,backgroundColor:'#0d6ef0',borderRadius:4,barPercentage:.72,yAxisID:'y'},
+      {label:'同比',type:'line',data:yoyC,borderColor:'#f59e0b',backgroundColor:'#f59e0b',borderWidth:2,tension:.32,pointRadius:2.2,pointBorderWidth:0,yAxisID:'y1'}]},
+    options:Object.assign(base(),
+      {scales:{x:{grid:{display:false},ticks:{font:{size:9.5},color:T3,maxRotation:55,minRotation:55}},
+        y:Object.assign({},YAX,{ticks:{font:{size:10},color:T3}}),
+        y1:{position:'right',grid:{display:false},ticks:{font:{size:10},color:'#f59e0b',callback:function(v){return v+'%'}}}}})});
 }
 
 /* ---- 资产（2026-10-13 重构）----
