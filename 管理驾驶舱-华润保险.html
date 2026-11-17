@@ -2007,10 +2007,6 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   </div>
   <nav class="header-nav">
     <button class="topnav-item" type="button" onclick="location.href='index.html#data'">数据应用</button>
-    <div class="topnav-drop">
-      <button class="topnav-item" type="button" onclick="location.href='index.html#cock'">驾驶舱<span class="topnav-chev">▾</span></button>
-      <div class="topnav-sub" id="cockNavSub"></div>
-    </div>
     <button class="topnav-item active" type="button" onclick="location.href='index.html#leader'">管理驾驶舱</button>
   </nav>
 </div>
@@ -2062,15 +2058,15 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   <!-- ① 核心经营指标：ins01 四项全★考核（2026-11-12 按需求删除净利润，hero 区 g3→g2）；收入/利润=流量→hero+本月数趋势（规则①），ROE/EVA=比率/价值量→银行 stx 卡行（规则④，2026-11-06 补入驾驶舱） -->
   <div class="secttl"><b class="ttl">核心经营指标</b></div>
   <div class="grid g2 row">
-    <div class="card"><div class="chd chd-fkk">营业收入<span class="badge">🎯</span></div><div class="cbd">
+    <div class="card"><div class="chd chd-fkk">营业收入</div><div class="cbd">
       <div class="kpihero" id="in-hero-rev"></div>
       <div class="chartbox" style="height:158px"><canvas id="c-in-t-rev"></canvas></div>
-      <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比<span class="lg-note"><span class="bi">🎯</span>考核指标</span></div>
+      <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比</div>
     </div></div>
-    <div class="card"><div class="chd chd-fkk">利润总额<span class="badge">🎯</span></div><div class="cbd">
+    <div class="card"><div class="chd chd-fkk">利润总额</div><div class="cbd">
       <div class="kpihero" id="in-hero-prof"></div>
       <div class="chartbox" style="height:158px"><canvas id="c-in-t-prof"></canvas></div>
-      <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比<span class="lg-note"><span class="bi">🎯</span>考核指标</span></div>
+      <div class="chartlg"><span class="lg-bar"></span>本月数<span class="lg-line"></span>月度同比</div>
     </div></div>
     <!-- 2026-11-12 按需求：ins01 删除「净利润」指标 → 本区净利润 hero 卡（原三卡之一）随源行移除，布局 g3→g2 -->
   </div>
@@ -2707,7 +2703,7 @@ function bkTagHtml(sheet,name){ return ''; }
 function bkBadges(sheet,name){
   var t=bkTag(sheet,name); if(!t) return '';
   var h='';
-  if(t.indexOf('★')>=0||t.indexOf('考核')>=0) h+='<span class="badge">🎯</span>';
+  /* 2026-11-17 按需求：全页删除考核标签🎯（⭐高质量保留）——🎯分支移除 */
   if(t.indexOf('高质量')>=0) h+='<span class="badge">⭐</span>';
   return h;
 }
@@ -3951,9 +3947,9 @@ function insStx(sheet,name,opts){ opts=opts||{}; var c=TIL_COL[sheet];
   var u=opts.u||tUn(sheet,name), pct=/%/.test(u);
   var raw=tAct(sheet,name), v=raw==null?null:(pct?raw:m(raw));
   var tag=String(r[c.star]!=null?r[c.star]:'');
-  /* 2026-11-16 按需求：关键管理指标区删除🎯/⭐图标——opts.badge:0 关闭卡内徽章（①-bis 等其余调用不受影响） */
-  var badges=(opts.badge===0?'':(tag.indexOf('★')>=0||tag.indexOf('考核')>=0?'<span class="badge">🎯</span>':'')
-            +(tag.indexOf('高质量')>=0?'<span class="badge">⭐</span>':''));
+  /* 2026-11-16 按需求：关键管理指标区删除🎯/⭐图标——opts.badge:0 关闭卡内徽章（①-bis 等其余调用不受影响）
+     2026-11-17 按需求：全页删除考核标签🎯（⭐高质量保留）——本函数🎯分支整体移除 */
+  var badges=(opts.badge===0?'':(tag.indexOf('高质量')>=0?'<span class="badge">⭐</span>':''));
   var kal=(opts.kal!=null)?opts.kal:'本年累计';
   /* bkNum 对「户」类取整（客户数无小数户）；「万户」为万位计量保留 2 位小数（12.60 万户），此处先行处理 */
   var vDisp=(u==='万户'&&v!=null)?v.toFixed(2):bkNum(v,u);
@@ -4048,8 +4044,8 @@ function drawIns(){
           ['其中：其他融融保费规模','其中：其他融融佣金收入','│　其中：其他融融']];
   function insBadge(key){ var r=tRow('ins02',key); if(!r) return '';
     var st=String(r[TIL_COL.ins02.star]!=null?r[TIL_COL.ins02.star]:'');
-    return (st.indexOf('★')>=0?'<span class="lite" style="font-size:10px">🎯考核</span>':'')
-         +(st.indexOf('高质量')>=0?'<span class="lite" style="font-size:10px">⭐高质量</span>':''); }
+    /* 2026-11-17 按需求：全页删除考核标签🎯（⭐高质量保留）——本函数🎯考核分支移除 */
+    return (st.indexOf('高质量')>=0?'<span class="lite" style="font-size:10px">⭐高质量</span>':''); }
   function detailRows(side){ /* side 0=保费口径 1=佣金口径（两列同源同序，逐行横向对读） */
     return DD.map(function(e){ var key=e[side]; if(!tRow('ins02',key)) return '';
       var v=m(tAct('ins02',key)||0), extra='';
