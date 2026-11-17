@@ -1209,7 +1209,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #in-prem-rows .strow>span:first-child,#moduleLeader #in-comm-rows .strow>span:first-child{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #moduleLeader #in-prem-rows .strow>b,#moduleLeader #in-comm-rows .strow>b{margin-left:auto;margin-right:5px}
 /* 收入构成同款：数值组整体左移 5px 留白（margin-left:auto 贴右基础上右退 5px，各行列位同步平移、纵向对齐不变） */
-#moduleLeader #in-prem-rows,#moduleLeader #in-comm-rows{min-width:0}
+#moduleLeader #in-prem-rows,#moduleLeader #in-comm-rows{margin-right:-9px;min-width:0} /* 2026-11-18 按需求：行容器外扩吃满卡片内衬——与收入构成 #bk-rev-rows 同款（实测值组距卡边 15→6px、名称列 +9px 防遮挡） */
 /* 条线营收构成明细行（2026-10-30 按需求）：收入构成同款 cols3 三列（值/累计同比/占比）；
    本卡为窄卡（0.8fr）——donutwrap 饼列压至 160px、明细列 min-width:0 让位，
    行内名称 60 / 值 76 / 累计同比 86 / 占比 64 紧凑列宽（标签 4 字+涨跌值仍成列对齐） */
@@ -11449,14 +11449,24 @@ function tilDonut(cid,labels,vals,cols,unit,opts){ opts=opts||{};
     var rMid=(a0.innerRadius+a0.outerRadius)/2, w=a0.outerRadius-a0.innerRadius;
     ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,rMid,0,Math.PI*2);
     ctx.strokeStyle='rgba(122,150,190,.13)'; ctx.lineWidth=w; ctx.stroke(); ctx.restore(); }};
+    /* 2026-11-18 按需求：cols3 卡（保费规模/佣金收入）悬停弹框=华润银行「收入构成」bkDonut 同款三行制——
+       标题=指标名称 / 本年累计：值 万元 / 累计同比：▲x% / 占比：y%（行标签按需求文案「本年累计」不带「数」）；
+       走 pieTipExternal DOM 气泡（白底淡蓝细边+箭头+视口钳位，与全页弹框语言同源）；其余调用方保持原单行格式 */
+    var tip=opts.cols3
+      ? {enabled:false,external:pieTipExternal(),title:{display:true},callbacks:{
+          label:function(it){ return '本年累计：'+tilNum(vals[it.dataIndex],unit)+' '+unit; },
+          afterBody:function(items){ var i=items[0].dataIndex; var y=opts.yoys?String(opts.yoys[i]||''):'';
+            return [(!y||y==='-'||y==='—')?'累计同比：—':'累计同比：'+(y.charAt(0)==='-'?'▼':'▲')+' '+y.replace(/^[+-]/,''),
+                    '占比：'+(vals[i]/tot*100).toFixed(2)+'%']; }}}
+      : {callbacks:{label:function(it){
+          return ' '+it.label+'：'+tilNum(vals[it.dataIndex],unit)+' '+unit+'（'+(vals[it.dataIndex]/tot*100).toFixed(2)+'%）'; }},
+         title:{display:false}};
   mk(cid,{type:'doughnut',plugins:[trackPlugin],
     data:{labels:labels,datasets:[
       {label:'构成',data:vals,backgroundColor:cols,borderColor:'#ffffff',borderWidth:1.5,
        borderRadius:function(c2){ var v2=c2.dataset.data[c2.dataIndex]||0; return (v2/tot<0.02)?0:7; },
        borderSpacing:3,hoverOffset:7}]},
-    options:Object.assign(base({tooltip:{callbacks:{label:function(it){
-      return ' '+it.label+'：'+tilNum(vals[it.dataIndex],unit)+' '+unit+'（'+(vals[it.dataIndex]/tot*100).toFixed(2)+'%）'; }},
-      title:{display:false}}}),{cutout:'66%',layout:{padding:6}})});
+options:Object.assign(base({tooltip:tip}),{cutout:'66%',layout:{padding:6}})});
   if(opts.centerEl){ var ce=document.getElementById(opts.centerEl);
     if(ce) ce.innerHTML='<b>'+tilNum(tot,unit)+'</b><small>'+opts.centerLab+'</small>'; }
   if(opts.rowsEl){ var re=document.getElementById(opts.rowsEl);
