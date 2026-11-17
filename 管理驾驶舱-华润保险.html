@@ -1030,7 +1030,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .chartlg.lg-lines .ll{display:inline-block;width:18px;height:0;margin-left:14px;flex:none}
 #moduleLeader .chartlg.lg-lines .ll:first-child{margin-left:0}
 #moduleLeader .chartlg.lg-lines .ll.l1{border-top:2.5px solid #0d6ef0}
-#moduleLeader .chartlg.lg-lines .ll.l2{border-top:2.5px dashed #98a9c3}
+#moduleLeader .chartlg.lg-lines .ll.l2{border-top:2.5px dashed #0f9d6e}
 #moduleLeader .chartlg.lg-lines .ll.l3{border-top:2.5px solid #f59e0b}
 /* 2026-11-17 按需求：产融板块渠道明细表格模块（替换原双列树纵深明细版式）——
    两级表头（组表头中蓝/列头淡蓝）、保费/佣金两组以竖分隔线分栏、层级缩进、小计与合计行加左蓝条 */
@@ -2349,6 +2349,21 @@ var barValLabel={id:'barValLabel',afterDatasetsDraw:function(ch){
       }
     });
   });
+  ctx.restore();
+}};
+/* 折线图悬停垂直指示线（2026-11-17 按需求·保险产融保费规模趋势用）：
+   悬停时沿活动月份的 x 位置画竖向白色虚线，移出即隐；
+   画布为白色卡面，纯白虚线不可见——白线下衬一条淡蓝灰宽底轨，
+   浅色底上白线清晰可辨、深色底上底轨融于背景只剩白线，两种场景都成立 */
+var lineGuide={id:'lineGuide',afterDatasetsDraw:function(ch){
+  var tt=ch.tooltip; if(!tt) return;
+  var act=tt.getActiveElements?tt.getActiveElements():[];
+  if(!act.length) return;
+  var x=act[0].element.x,a=ch.chartArea,ctx=ch.ctx;
+  ctx.save(); ctx.beginPath(); ctx.moveTo(x,a.top); ctx.lineTo(x,a.bottom);
+  ctx.setLineDash([5,4]);
+  ctx.lineWidth=3.5; ctx.strokeStyle='rgba(91,124,169,.22)'; ctx.stroke();
+  ctx.lineWidth=1.4; ctx.strokeStyle='#ffffff'; ctx.stroke();
   ctx.restore();
 }};
 function mk(id,cfg){ var el=document.getElementById(id); if(!el||!HAS_CHART) return null;
@@ -4089,7 +4104,8 @@ function drawIns(){
   }
   /* ③ 关键管理指标（2026-11-16 按需求第二次重规划：原模块全部指标区删除——达成率排行/分组卡/收入趋势；
      第一区域=指标卡（insStx 原样式；2026-11-17 融融总中收调入①-bis 效益与价值后余 3 卡）；第二区域=左右双图（近 12 个月=tilMonthSeries 22 月版式取所选月回溯 12 格，
-     形拆与校准规则与①区趋势同源）：左=产融保费规模三折线（深蓝实/灰虚/橙线），右=燃气存量新增客户月度柱（柱端数据标签）+月度同比金线双轴 */
+     形拆与校准规则与①区趋势同源）：左=产融保费规模三折线（深蓝实/绿虚/橙线；2026-11-17 按需求：悬停 index 模式三线同展+垂直白虚线指示轴、
+     灰线改绿 #0f9d6e、创新场景孵化独立隐藏 y1 轴抬升走势可视性），右=燃气存量新增客户月度柱（柱端数据标签）+月度同比金线双轴 */
   /* 2026-11-17 按需求：融融业务总中收 调出至①-bis「效益与价值」（协同成效环节），本区自市场化能力（市场业务净收入）起 */
   var KPI3=['市场业务净收入','华润场景产融保费规模','华润燃气存量用户保费占比'];
   var g=document.getElementById('ins-kpi-grid');
@@ -4098,16 +4114,23 @@ function drawIns(){
   function insWin12(sheet,name){ var ms=tilMonthSeries(sheet,name);
     var from=ms.selIx-11;
     return {labels:ms.labels.slice(from,ms.selIx+1), mon:ms.mon.slice(from,ms.selIx+1), ms:ms}; }
-  /* 左·产融保费规模三折线 */
-  var LN=[['华润场景产融保费规模','#0d6ef0',{}],['集团其他产融渠道客户保费规模','#98a9c3',{borderDash:[6,4]}],['集团产融创新场景孵化保费规模','#f59e0b',{}]];
+  /* 左·产融保费规模三折线（2026-11-17 按需求：悬停合并展示三线 + 垂直白色虚线指示轴 lineGuide；
+     原灰线改绿 #0f9d6e——图例 .ll.l2 与 tooltip 取色 borderColor 同步；三条线均保留数据节点圆点；
+     创新场景孵化月体量约为另两条的 1/10，共用线性轴下贴底成直线、走势不可辨——给其独立隐藏右轴 y1
+     （max=3×其峰值：曲线仍处下部不与主刻度混读，但波动抬升可见）；可见 Y 轴、tooltip 数值、取数全部保持真实值 */
+  var LN=[['华润场景产融保费规模','#0d6ef0',{}],['集团其他产融渠道客户保费规模','#0f9d6e',{borderDash:[6,4]}],['集团产融创新场景孵化保费规模','#f59e0b',{yAxisID:'y1',borderWidth:2.5,pointRadius:3,pointHoverRadius:6}]];
   var winL=insWin12('ins03',LN[0][0]);
-  mk('c-in-trend-prem',{type:'line',
+  var orangePk=Math.max.apply(null,insWin12('ins03',LN[2][0]).mon.map(function(v){return v||0;}))||1;
+  mk('c-in-trend-prem',{type:'line',plugins:[lineGuide],
     data:{labels:winL.labels,datasets:LN.map(function(l){ var w=insWin12('ins03',l[0]);
       return Object.assign({label:l[0],data:w.mon,borderColor:l[1],backgroundColor:l[1],
-        borderWidth:2,tension:.32,pointRadius:2.4,pointBorderWidth:0,fill:false},l[2]); })},
+        borderWidth:2,tension:.32,pointRadius:2.4,pointBorderWidth:0,fill:false,
+        pointHoverRadius:5,pointHoverBorderColor:'#fff',pointHoverBorderWidth:2},l[2]); })},
     options:Object.assign(base({tooltip:{callbacks:{label:function(it){ return ' '+it.dataset.label+'：'+tilNum(it.parsed.y,'万元')+' 万元'; }}}}),
-      {scales:{x:{grid:{display:false},ticks:{font:{size:9.5},color:T3,maxRotation:55,minRotation:55}},
-        y:Object.assign({},YAX,{ticks:{font:{size:10},color:T3,callback:function(v){return v.toLocaleString('zh-CN')}}})}})});
+      {interaction:{mode:'index',intersect:false},
+       scales:{x:{grid:{display:false},ticks:{font:{size:9.5},color:T3,maxRotation:55,minRotation:55}},
+        y:Object.assign({},YAX,{ticks:{font:{size:10},color:T3,callback:function(v){return v.toLocaleString('zh-CN')}}}),
+        y1:{position:'right',display:false,min:0,max:+(orangePk*3).toFixed(0)}}})});
   /* 右·燃气存量新增客户 月度柱（c-in-trend- 前缀不落入 barValLabel 跳过名单 → 柱端自动数据标签）+ 同比金线（右轴%） */
   var winC=insWin12('ins03','华润燃气存量用户每年新增客户数');
   var seedC=0; '华润燃气存量用户每年新增客户数'.split('').forEach(function(c){ seedC+=c.charCodeAt(0); });
