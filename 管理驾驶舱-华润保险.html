@@ -1886,6 +1886,11 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 /* 同比+较年初 双小注强制一行（净资产/总资产/资产负债率三卡）：不换行，窄卡下字号收至 11px、间距 8px 保证容纳 */
 #moduleLeader .fkk-st .s-dlrow{display:flex;flex-direction:column;align-items:flex-start;gap:1px;flex-wrap:nowrap} /* 2026-11-12 按需求：两项对比字段上下分行 */
 #moduleLeader .fkk-st .s-dlrow .s-dlt{font-size:11px}
+/* 2026-11-18 按需求（附图样式）：效益与价值四卡对比行=标签靠左、涨跌值靠右缘（margin-left:auto 推送、
+   距右缘 8px 内衬=金融总览页右对齐惯例同款）；两行间隙（gap 2px）与卡片边框保留 */
+#moduleLeader #ins-fin-cards .fkk-st .s-dlrow{gap:3px}
+#moduleLeader #ins-fin-cards .fkk-st .s-dlrow .s-dlt{display:flex;align-items:baseline;width:100%;padding-right:8px;box-sizing:border-box}
+#moduleLeader #ins-fin-cards .fkk-st .s-dlrow .s-dlt em{margin-left:auto}
 #moduleLeader .fkk-st .s-dlrow em{margin-left:1px}
 #moduleLeader .fkk-st .s-dlt em{font-style:normal;font-weight:700;font-variant-numeric:tabular-nums}
 #moduleLeader .fkk-st .s-dlt em.up{color:var(--up)}
@@ -11649,16 +11654,25 @@ function drawIns(){
      取数：累计同比=台账「累计同比」列原值（%指标=ppt / 万元类=%）；
      较上年=台账无源列——沿用金融页参照卡同款做法（其页注释明示该行为演示值、接台账后可替换）：
      按名称哈希定相位取 0.62~0.85 系数×累计同比确定性推算（方向随累计同比、刷新稳定），台账补列后可直接替换。 */
-  function insFinVal(x){ var n=parseFloat(String(x).replace(/[+,%，]|ppt/g,'')); return isNaN(n)?null:(n>=0?'+':'-')+Math.abs(n).toFixed(2); }
-  function insYtdEst(sv,nm){ if(!sv) return null;
+  function insYtdEst(yRaw,nm){ var n=parseFloat(String(yRaw).replace(/[+,%，]|ppt/g,''));
+    if(isNaN(n)||!n) return null;
     var seed=0; for(var i=0;i<nm.length;i++) seed=(seed*31+nm.charCodeAt(i))%97;
-    return (sv.charAt(0)==='-'?'-':'+')+(Math.abs(parseFloat(sv))*(0.62+seed%24/100)).toFixed(2); }
+    var est=Math.abs(n)*(0.62+seed%24/100);
+    var suf=/ppt/.test(String(yRaw))?'ppt':'%';
+    return (n<0?'-':'+')+est.toFixed(2)+suf; }
   function insFinCard(sheet,name){
     var u=tUn(sheet,name), pctU=/%/.test(u);
     var raw=tAct(sheet,name), v=raw==null?null:(pctU?raw:m(raw));
-    var y=insFinVal(tYoY(sheet,name)), yt=insYtdEst(y,name);
-    return fkkCardStack(name,'本年累计',bkNum(v,u),u,
-      [['累计同比',y||'—',pctU],['较上年',yt||'—',pctU]]); }
+    var yRaw=tYoY(sheet,name), ytdRaw=insYtdEst(yRaw,name);
+    /* 2026-11-18 按需求（附图样式）：卡体行=口径标签/大数值/对比两行——「累计同比：/较上年：」标签靠左、
+       涨跌值（▲ 0.80ppt 红涨绿跌，bkDl 与全页涨跌小注同一格式源）靠卡片右缘（CSS margin-left:auto 推送），
+       两行间保留行距间隙、卡片边框不变；行结构仍走 fkk/s-dlrow 体系类名 */
+    return '<div class="fkk"><div class="fkk-h">'+name+'<span class="fkk-info">ⓘ</span></div>'+
+      '<div class="fkk-b"><div class="fkk-st">'+
+        '<span class="s-lbl">本年累计</span>'+
+        '<span class="s-val"><b>'+bkNum(v,u)+'</b><small>'+u+'</small></span>'+
+        '<span class="s-dlrow">'+bkDl('累计同比',yRaw)+bkDl('较上年',ytdRaw||'-')+'</span>'+
+      '</div></div></div>'; }
   if(fc) fc.innerHTML=insFinCard('ins01','ROE')+insFinCard('ins01','EVA')+insFinCard('ins03','融融业务总中收')+insFinCard('ins03','市场业务净收入');
   /* ===== 业绩指标双表（2026-11-16 按需求新增，参照华润银行 tab 同名模块）=====
      左=高质量指标 / 右=考核指标；五列=指标名称/单位/实际值/目标值/完成度（进度条+百分比），复用 .bk-perf-tbl；
