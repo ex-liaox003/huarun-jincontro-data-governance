@@ -1194,6 +1194,13 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
    固定宽保证各行「累计同比/占比」列仍纵向同列对齐 */
 #moduleLeader #bk-rev-rows .strow,#moduleLeader #bk-wf-rows .strow{justify-content:flex-start;gap:10px}
 #moduleLeader #bk-rev-rows .strow>span:first-child,#moduleLeader #bk-wf-rows .strow>span:first-child{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 2026-11-17 按需求：保险页「保费规模/佣金收入」双主线明细行=收入构成 cols3 同款版式——
+   左顺排 gap:10、名称列省略号兜底、数值组 margin-left:auto 贴行右缘、行右内距清零（对齐机制逐条同构） */
+#moduleLeader #in-prem-rows .strow,#moduleLeader #in-comm-rows .strow{justify-content:flex-start;gap:10px;padding-right:0}
+#moduleLeader #in-prem-rows .strow>span:first-child,#moduleLeader #in-comm-rows .strow>span:first-child{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#moduleLeader #in-prem-rows .strow>b,#moduleLeader #in-comm-rows .strow>b{margin-left:auto;margin-right:5px}
+/* 收入构成同款：数值组整体左移 5px 留白（margin-left:auto 贴右基础上右退 5px，各行列位同步平移、纵向对齐不变） */
+#moduleLeader #in-prem-rows,#moduleLeader #in-comm-rows{min-width:0}
 /* 条线营收构成明细行（2026-10-30 按需求）：收入构成同款 cols3 三列（值/累计同比/占比）；
    本卡为窄卡（0.8fr）——donutwrap 饼列压至 160px、明细列 min-width:0 让位，
    行内名称 60 / 值 76 / 累计同比 86 / 占比 64 紧凑列宽（标签 4 字+涨跌值仍成列对齐） */
@@ -2108,7 +2115,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   <div class="grid g2 row" id="ins-contract" style="align-items:stretch;margin-bottom:0"></div>
 
   <!-- ② 保费与佣金双主线：保费四板块相加=保费规模合计、佣金四板块相加=佣金合计（均勾稽闭合）→ 规则②构成饼；
-       2026-11-12 按需求：卡内删除 KPI 大字/本月数趋势/图例三块，仅保留构成饼 + 业务分项明细行 -->
+       2026-11-12 按需求：卡内删除 KPI 大字/本月数趋势/图例三块，仅保留构成饼 + 业务分项明细行；
+       2026-11-17 按需求：右侧明细行统一为华润银行「收入构成」cols3 同款（色点+名称 / 值+万元 / 累计同比▲▼ / 占比，固定列纵向成列） -->
   <div class="secttl"><b class="ttl">保费与佣金双主线</b></div>
   <div class="grid g2 row">
     <div class="card"><div class="chd">保费规模 <span class="tag">万元 · 本年累计</span></div><div class="cbd">
@@ -11441,10 +11449,18 @@ function tilDonut(cid,labels,vals,cols,unit,opts){ opts=opts||{};
   if(opts.centerEl){ var ce=document.getElementById(opts.centerEl);
     if(ce) ce.innerHTML='<b>'+tilNum(tot,unit)+'</b><small>'+opts.centerLab+'</small>'; }
   if(opts.rowsEl){ var re=document.getElementById(opts.rowsEl);
+    /* 2026-11-17 按需求：opts.cols3=1 时行结构逐字对齐华润银行「收入构成」右侧明细行——
+       色块标识+名称 / c-v 值+单位（右对齐粗体蓝）/ c-y「累计同比」标签+▲▼涨跌（红/绿）/ c-p「占比」标签+灰值，
+       固定列宽纵向成列、虚线分隔复用两页同构 .strow 基础规则；其余调用方（信托/资产页）保持旧格式 */
     if(re) re.innerHTML=labels.map(function(n,i2){
+      var yv=opts.yoys?String(opts.yoys[i2]||''):'';
       return '<div class="strow"><span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:'+cols[i2]+';margin-right:6px"></i>'+n+
-        '</span><b>'+tilNum(vals[i2],unit)+' '+unit+(opts.yoys?' '+tilDelta(opts.yoys[i2],''):'')+
-        ' <span class="lite" style="font-size:10px">'+(vals[i2]/tot*100).toFixed(2)+'%</span></b></div>'; }).join(''); }
+        (opts.cols3
+          ? '</span><b class="cols3"><i class="c-v">'+tilNum(vals[i2],unit)+' '+unit+'</i>'+
+            '<i class="c-y"><span class="lb">累计同比</span>'+(yv&&yv!=='-'&&yv!=='—'?bkDelta(yv,''):'<i class="yoy flat">—</i>')+'</i>'+
+            '<i class="c-p"><span class="lb">占比</span><span class="pv">'+(vals[i2]/tot*100).toFixed(2)+'%</span></i></b></div>'
+          : '</span><b>'+tilNum(vals[i2],unit)+' '+unit+(opts.yoys?' '+tilDelta(opts.yoys[i2],''):'')+
+            ' <span class="lite" style="font-size:10px">'+(vals[i2]/tot*100).toFixed(2)+'%</span></b></div>'); }).join(''); }
 }
 
 function drawTrust(){
@@ -11673,12 +11689,12 @@ function drawIns(){
   tilDonut('c-in-prem-pie',premSrc.map(function(e){return e[1]}),
     premSrc.map(function(e){ return Math.round(m(tAct('ins02',e[0])||0)); }),
     ['#4d94ff','#6cc0f0','#35c06b','#eda14e'],'万元',
-    {centerEl:'in-prem-center',centerLab:'保费规模 · 万元',rowsEl:'in-prem-rows',yoys:premSrc.map(function(e){return tYoY('ins02',e[0])})});
+    {centerEl:'in-prem-center',centerLab:'保费规模 · 万元',rowsEl:'in-prem-rows',cols3:1,yoys:premSrc.map(function(e){return tYoY('ins02',e[0])})});
   /* 佣金复合卡 */
   tilDonut('c-in-comm-pie',commSrc.map(function(e){return e[1]}),
     commSrc.map(function(e){ return Math.round(m(tAct('ins02',e[0])||0)); }),
     ['#4d94ff','#6cc0f0','#35c06b','#eda14e'],'万元',
-    {centerEl:'in-comm-center',centerLab:'佣金收入 · 万元',rowsEl:'in-comm-rows',yoys:commSrc.map(function(e){return tYoY('ins02',e[0])})});
+    {centerEl:'in-comm-center',centerLab:'佣金收入 · 万元',rowsEl:'in-comm-rows',cols3:1,yoys:commSrc.map(function(e){return tYoY('ins02',e[0])})});
   /* 产融板块渠道明细（2026-11-17 按需求：整模块替换原双列树「产融板块纵深明细」为图片版表格——
      左组保费规模（本年累计/占比/累计同比）· 右组佣金收入（本年累计/累计同比/综合费率），层级缩进=报表层级
      （2026-11-17 按需求：表头「金额→本年累计」「同比→累计同比」、删预算达成整列、商户保险⭐删除、横竖细线网格）；
