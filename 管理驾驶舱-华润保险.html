@@ -1208,6 +1208,13 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #in-prem-rows .strow,#moduleLeader #in-comm-rows .strow{justify-content:flex-start;gap:10px;padding-right:0}
 #moduleLeader #in-prem-rows .strow>span:first-child,#moduleLeader #in-comm-rows .strow>span:first-child{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #moduleLeader #in-prem-rows .strow>b,#moduleLeader #in-comm-rows .strow>b{margin-left:auto;margin-right:5px}
+/* 2026-11-18 按需求修复遮挡：本双卡数值位数长（「425,600.00 万元」实测需 106px，收入构成基准列 94px 装不下、
+   溢出 12px 压住累计同比文字）——固定占位列宽按内容重排：值列 94→110、累计同比列 112→108（含列间距 10→6）、
+   占比列 76→62；字号两列与收入构成完全一致（值 13.5px/标签 10.5px/占比 10px）不动；
+   三列总占位 286px 小于原 292px，行总宽/贴右/虚线/颜色/红三角规则零改动 */
+#moduleLeader #in-prem-rows .strow b.cols3 .c-v,#moduleLeader #in-comm-rows .strow b.cols3 .c-v{width:110px}
+#moduleLeader #in-prem-rows .strow b.cols3 .c-y,#moduleLeader #in-comm-rows .strow b.cols3 .c-y{width:108px;margin-left:6px}
+#moduleLeader #in-prem-rows .strow b.cols3 .c-p,#moduleLeader #in-comm-rows .strow b.cols3 .c-p{width:60px;margin-left:6px}
 /* 收入构成同款：数值组整体左移 5px 留白（margin-left:auto 贴右基础上右退 5px，各行列位同步平移、纵向对齐不变） */
 #moduleLeader #in-prem-rows,#moduleLeader #in-comm-rows{margin-right:-9px;min-width:0} /* 2026-11-18 按需求：行容器外扩吃满卡片内衬——与收入构成 #bk-rev-rows 同款（实测值组距卡边 15→6px、名称列 +9px 防遮挡） */
 /* 条线营收构成明细行（2026-10-30 按需求）：收入构成同款 cols3 三列（值/累计同比/占比）；
@@ -1988,6 +1995,11 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   #moduleLeader .stx .v .peer.pkr{padding:2px 6px}
   #moduleLeader .stx .v .peer.pkr b{font-size:10.5px}
   #moduleLeader .stx .v .peer.pkr .pk-lb{font-size:9px}
+  /* B2. 2026-11-18 按需求：保险页双主线 cols3 窄档列宽（≤1440）——值列降 11px（收入构成 ≤1440 同款降档先例）、
+   列宽 96/96/60+间距 5（1366 容器实测 ~340px：值 11px 下最长数值需 ≈87px，留 9px 余量） */
+  #moduleLeader #in-prem-rows .strow b.cols3 .c-v,#moduleLeader #in-comm-rows .strow b.cols3 .c-v{width:96px;font-size:11px}
+  #moduleLeader #in-prem-rows .strow b.cols3 .c-y,#moduleLeader #in-comm-rows .strow b.cols3 .c-y{width:98px;margin-left:5px}
+  #moduleLeader #in-prem-rows .strow b.cols3 .c-p,#moduleLeader #in-comm-rows .strow b.cols3 .c-p{width:62px;margin-left:5px}
   /* C. 资产负债核心科目三卡：值行内容宽于卡时数值降档+spark 收窄 */
   #moduleLeader #bk-bs-cards .stx .v{font-size:19px}
   #moduleLeader #bk-bs-cards .spark svg{width:66px;height:22px}
