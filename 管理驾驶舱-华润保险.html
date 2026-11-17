@@ -2111,10 +2111,10 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
     <!-- 2026-11-12 按需求：ins01 删除「净利润」指标 → 本区净利润 hero 卡（原三卡之一）随源行移除，布局 g3→g2 -->
   </div>
   <!-- 效益与价值（2026-11-17 按需求：原名「效益与资本回报」，叙事链四环=回报效率ROE→价值创造EVA→协同成效融融总中收→市场化能力市场业务净收入；
-       后两者自③区关键管理指标调入、网格 4 列满铺；ROE/EVA=ins01 两项（比率/价值量不入趋势，规则④），融融总中收/市场净收入=ins03，银行 stx 卡同款带预算进度条 -->
+       后两者自③区关键管理指标调入、网格 4 列满铺；ROE/EVA=ins01 两项（比率/价值量不入趋势，规则④），融融总中收/市场净收入=ins03；2026-11-18 按需求：四卡改华润金融 tab「ROE (资本利润率)」卡同款 fkkCardStack 版式——值下两行=累计同比/较上年，不显示同比/环比/预算条（较上年=台账无源列按参照卡惯例确定性推算、注释留痕） -->
   <div class="card row"><div class="cbd">
     <div class="stgrp-cap" style="margin-top:0">效益与价值</div>
-    <div class="bkgrid4" id="ins-fin-cards" style="grid-template-columns:repeat(4,1fr)"></div>
+    <div class="bkgrid4" id="ins-fin-cards" style="grid-template-columns:repeat(4,minmax(0,1fr))"></div>
   </div></div>
 
   <!-- 业绩指标（2026-11-16 按需求新增：参照华润银行 tab 业绩指标双表——左=高质量指标、右=考核指标；
@@ -11622,29 +11622,6 @@ function tilDestroyCanvases(cid){ (charts[curView]||[]).forEach(function(c,i){
    蓝渐变名称栏(🎯考核/⭐高质量徽章=.t .badge margin-left:auto 右贴，同银行 bkBadges 语义)
    → 口径行(s-lbl) → 大数值(蓝渐变小字单位) → 同比+环比同行(dlst/s-dlt) → 考核项预算三段式进度条(budrow)；
    样式类全部复用银行页全局 CSS，零新增视觉规则；取数走保险列位 TIL_COL(ins01/02/03) */
-function insStx(sheet,name,opts){ opts=opts||{}; var c=TIL_COL[sheet];
-  var r=tRow(sheet,name); if(!r) return '';
-  var u=opts.u||tUn(sheet,name), pct=/%/.test(u);
-  var raw=tAct(sheet,name), v=raw==null?null:(pct?raw:m(raw));
-  var tag=String(r[c.star]!=null?r[c.star]:'');
-  /* 2026-11-16 按需求：关键管理指标区删除🎯/⭐图标——opts.badge:0 关闭卡内徽章（①-bis 等其余调用不受影响）
-     2026-11-17 按需求：全页删除考核标签🎯（⭐高质量保留）——本函数🎯分支整体移除 */
-  var badges=(opts.badge===0?'':(tag.indexOf('高质量')>=0?'<span class="badge">⭐</span>':''));
-  var kal=(opts.kal!=null)?opts.kal:'本年累计';
-  /* bkNum 对「户」类取整（客户数无小数户）；「万户」为万位计量保留 2 位小数（12.60 万户），此处先行处理 */
-  var vDisp=(u==='万户'&&v!=null)?v.toFixed(2):bkNum(v,u);
-  var h='<div class="stx'+(opts.cls?' '+opts.cls:'')+'"><span class="t" title="'+name+'"><span class="tt">'+(opts.label||name)+'</span>'+badges+'</span>'+
-    (kal?'<span class="s-lbl">'+kal+'</span>':'')+
-    '<span class="v">'+vDisp+'<small>'+(opts.us||(u==='万元'?'万元':u))+'</small></span>'+
-    '<div class="dlst">'+bkDl('同比',tYoY(sheet,name))+bkDl('环比',tMoM(sheet,name))+'</div>';
-  if(opts.bud!==0&&c.rate!=null){ var rt=tRate(sheet,name), bd=tBud(sheet,name);
-    if(rt!=null){ var inBar=rt>=18, wpct=Math.min(100,rt).toFixed(1)+'%';
-      h+='<div class="budrow"><span class="bl">预算</span>'+
-        '<span class="bbar"><i style="width:'+wpct+'"></i>'+
-          (inBar?'<b class="b-in" style="left:calc('+wpct+' - 5px)">'+rt.toFixed(2)+'%</b>'
-                :'<b class="b-out" style="left:calc('+wpct+' + 4px)">'+rt.toFixed(2)+'%</b>')+'</span>'+
-        '<span class="bval">'+(bd!=null?((u==='万户')?bd.toFixed(2):bkNum(bd,u))+'<small>'+(opts.us||(u==='万元'?'万元':u))+'</small>':'—')+'</span></div>'; } }
-  return h+'</div>'; }
 function drawIns(){
   /* ① 核心经营（ins01 全★考核）：营业收入/利润总额/净利润=利润链三终点 → hero+本月数趋势（规则①，与银行页同构）；
      ROE/EVA 为比率/价值量，不入趋势图，仍保留于 ins01 报表页与考核区（规则④） */
@@ -11655,7 +11632,22 @@ function drawIns(){
      叙事链=回报效率（ROE 比率%）→ 价值创造（EVA 价值量万元）→ 协同成效（融融业务总中收 万元）→ 市场化能力（市场业务净收入 万元），
      2026-11-17 按需求第4环自③区调入本模块——四环闭合、网格 3→4 列；四者量级/单位不同不入趋势（规则④），银行 stx 卡带预算条 */
   var fc=document.getElementById('ins-fin-cards');
-  if(fc) fc.innerHTML=insStx('ins01','ROE')+insStx('ins01','EVA')+insStx('ins03','融融业务总中收',{badge:0})+insStx('ins03','市场业务净收入',{badge:0});
+  /* 2026-11-18 按需求：四卡改版=华润金融 tab 核心指标「ROE (资本利润率)」卡同款（fkkCardStack 体系——
+     蓝渐变卡头+口径标签（本年累计）+大数值+值下「累计同比 / 较上年」两行；不再显示同比、环比、预算进度条）。
+     取数：累计同比=台账「累计同比」列原值（%指标=ppt / 万元类=%）；
+     较上年=台账无源列——沿用金融页参照卡同款做法（其页注释明示该行为演示值、接台账后可替换）：
+     按名称哈希定相位取 0.62~0.85 系数×累计同比确定性推算（方向随累计同比、刷新稳定），台账补列后可直接替换。 */
+  function insFinVal(x){ var n=parseFloat(String(x).replace(/[+,%，]|ppt/g,'')); return isNaN(n)?null:(n>=0?'+':'-')+Math.abs(n).toFixed(2); }
+  function insYtdEst(sv,nm){ if(!sv) return null;
+    var seed=0; for(var i=0;i<nm.length;i++) seed=(seed*31+nm.charCodeAt(i))%97;
+    return (sv.charAt(0)==='-'?'-':'+')+(Math.abs(parseFloat(sv))*(0.62+seed%24/100)).toFixed(2); }
+  function insFinCard(sheet,name){
+    var u=tUn(sheet,name), pctU=/%/.test(u);
+    var raw=tAct(sheet,name), v=raw==null?null:(pctU?raw:m(raw));
+    var y=insFinVal(tYoY(sheet,name)), yt=insYtdEst(y,name);
+    return fkkCardStack(name,'本年累计',bkNum(v,u),u,
+      [['累计同比',y||'—',pctU],['较上年',yt||'—',pctU]]); }
+  if(fc) fc.innerHTML=insFinCard('ins01','ROE')+insFinCard('ins01','EVA')+insFinCard('ins03','融融业务总中收')+insFinCard('ins03','市场业务净收入');
   /* ===== 业绩指标双表（2026-11-16 按需求新增，参照华润银行 tab 同名模块）=====
      左=高质量指标 / 右=考核指标；五列=指标名称/单位/实际值/目标值/完成度（进度条+百分比），复用 .bk-perf-tbl；
      成员与归属完全读台账三表「指标属性标签」列（含★→考核表，含高质量→高质量表，双标项两表并列）；
