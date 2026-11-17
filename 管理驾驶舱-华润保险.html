@@ -2070,10 +2070,11 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
     </div></div>
     <!-- 2026-11-12 按需求：ins01 删除「净利润」指标 → 本区净利润 hero 卡（原三卡之一）随源行移除，布局 g3→g2 -->
   </div>
-  <!-- 效益与资本回报：ROE/EVA 为 ins01 剩余两项★考核（比率与价值量不入趋势图，规则④），银行 stx 卡同款带预算进度条 -->
+  <!-- 效益与价值（2026-11-17 按需求：原名「效益与资本回报」，自③区调入「融融业务总中收」——叙事链=回报效率ROE→价值创造EVA→协同成效融融总中收；
+       市场化能力（市场业务净收入）留③区衔接；ROE/EVA=ins01 两项（比率/价值量不入趋势，规则④），融融总中收=ins03，银行 stx 卡同款带预算进度条 -->
   <div class="card row"><div class="cbd">
-    <div class="stgrp-cap" style="margin-top:0">效益与资本回报</div>
-    <div class="bkgrid4" id="ins-fin-cards" style="grid-template-columns:repeat(2,1fr)"></div>
+    <div class="stgrp-cap" style="margin-top:0">效益与价值</div>
+    <div class="bkgrid4" id="ins-fin-cards" style="grid-template-columns:repeat(3,1fr)"></div>
   </div></div>
 
   <!-- 业绩指标（2026-11-16 按需求新增：参照华润银行 tab 业绩指标双表——左=高质量指标、右=考核指标；
@@ -2107,12 +2108,13 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   </div></div>
 
   <!-- ③ 关键管理指标（2026-11-16 按需求第二次重规划：原模块全部指标区删除——达成率排行/考核卡/高质量卡/收入趋势图，
-       重建为两区域：第一区域=4 指标卡（融融总中收/市场净收入/华润场景产融保费/燃气存量保费占比，insStx 原样式）；
+       重建为两区域：第一区域=指标卡（初版 4 卡：融融总中收/市场净收入/华润场景产融保费/燃气存量保费占比，insStx 原样式；
+       2026-11-17 按需求融融总中收调入①-bis「效益与价值」模块，本区自市场化能力起余 3 卡）；
        第二区域=左右双图——左·产融保费规模三线趋势（华润场景深蓝实线/其他产融渠道灰虚线/创新场景孵化橙线）、
        右·燃气存量新增客户月度柱图（柱带数据标签）+月度同比线，均取近 12 个月（tilMonthSeries 同规则形拆至所选月） -->
   <div class="secttl"><b class="ttl">关键管理指标</b></div>
   <div class="card row"><div class="cbd">
-    <div class="bkgrid4" id="ins-kpi-grid" style="margin-top:0"></div>
+    <div class="bkgrid4" id="ins-kpi-grid" style="margin-top:0;grid-template-columns:repeat(3,1fr)"></div>
   </div></div>
   <!-- 2026-11-16 按需求：左右双图由同卡内并列改为两张独立卡片（各带边框/圆角/内衬），
        卡间 12px 间距与全页模块间距体系一致。
@@ -3971,10 +3973,11 @@ function drawIns(){
   tilHero('in-hero-rev','ins01','营业收入'); tilMonthChart('c-in-t-rev','ins01','营业收入','#4d94ff','万元');
   tilHero('in-hero-prof','ins01','利润总额'); tilMonthChart('c-in-t-prof','ins01','利润总额','#4d94ff','万元');
   /* 2026-11-12 按需求：ins01 删除「净利润」指标，hero/趋势图取数随源行移除 */
-  /* ①-bis 效益与资本回报（2026-11-06 按需求补入驾驶舱：ins01 ROE/EVA 为★考核但原页面未展示——
-     ROE=比率（%）看资本回报效率、EVA=价值量（万元）看经济利润，量级/单位不同不入趋势（规则④），银行 stx 卡带预算条 */
+  /* ①-bis 效益与价值（2026-11-06 按需求补入驾驶舱：ins01 ROE/EVA；2026-11-17 按需求改名并调入融融总中收——
+     叙事链=回报效率（ROE 比率%）→ 价值创造（EVA 价值量万元）→ 协同成效（融融业务总中收 万元，自③区 KPI4 调入），
+     三者量级/单位不同不入趋势（规则④），银行 stx 卡带预算条；③区自「市场化能力（市场业务净收入）」起 */
   var fc=document.getElementById('ins-fin-cards');
-  if(fc) fc.innerHTML=insStx('ins01','ROE')+insStx('ins01','EVA');
+  if(fc) fc.innerHTML=insStx('ins01','ROE')+insStx('ins01','EVA')+insStx('ins03','融融业务总中收',{badge:0});
   /* ===== 业绩指标双表（2026-11-16 按需求新增，参照华润银行 tab 同名模块）=====
      左=高质量指标 / 右=考核指标；五列=指标名称/单位/实际值/目标值/完成度（进度条+百分比），复用 .bk-perf-tbl；
      成员与归属完全读台账三表「指标属性标签」列（含★→考核表，含高质量→高质量表，双标项两表并列）；
@@ -4059,11 +4062,12 @@ function drawIns(){
     '<div class="stgrp-cap">佣金口径（万元 · 费率=佣/保）</div>'+detailRows(1)+
     '</div></div>';
   /* ③ 关键管理指标（2026-11-16 按需求第二次重规划：原模块全部指标区删除——达成率排行/分组卡/收入趋势；
-     第一区域=4 指标卡（insStx 原样式）；第二区域=左右双图（近 12 个月=tilMonthSeries 22 月版式取所选月回溯 12 格，
+     第一区域=指标卡（insStx 原样式；2026-11-17 融融总中收调入①-bis 效益与价值后余 3 卡）；第二区域=左右双图（近 12 个月=tilMonthSeries 22 月版式取所选月回溯 12 格，
      形拆与校准规则与①区趋势同源）：左=产融保费规模三折线（深蓝实/灰虚/橙线），右=燃气存量新增客户月度柱（柱端数据标签）+月度同比金线双轴 */
-  var KPI4=['融融业务总中收','市场业务净收入','华润场景产融保费规模','华润燃气存量用户保费占比'];
+  /* 2026-11-17 按需求：融融业务总中收 调出至①-bis「效益与价值」（协同成效环节），本区自市场化能力（市场业务净收入）起 */
+  var KPI3=['市场业务净收入','华润场景产融保费规模','华润燃气存量用户保费占比'];
   var g=document.getElementById('ins-kpi-grid');
-  if(g) g.innerHTML=KPI4.map(function(n){ return insStx('ins03',n,{badge:0}); }).join('');
+  if(g) g.innerHTML=KPI3.map(function(n){ return insStx('ins03',n,{badge:0}); }).join('');
   /* 近12月窗口：所选月（selIx）及往前 11 格 */
   function insWin12(sheet,name){ var ms=tilMonthSeries(sheet,name);
     var from=ms.selIx-11;
