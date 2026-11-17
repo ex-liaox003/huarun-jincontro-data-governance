@@ -1634,17 +1634,21 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .bk-perf-tbl th{background:linear-gradient(90deg,#eaf4ff,#dcebfb);color:#17427d;font-weight:700;
   padding:4px 8px;border:1px solid #d3e2f5;text-align:center;white-space:nowrap;font-size:11.5px}
 #moduleLeader .bk-perf-tbl th:first-child{text-align:left;padding-left:12px}
-#moduleLeader .bk-perf-tbl th:nth-child(3),#moduleLeader .bk-perf-tbl th:nth-child(4),#moduleLeader .bk-perf-tbl th:nth-child(6){width:11%;text-align:right}  /* 2026-11-18 七列化：实际值/年度目标/五年目标 15%→11% */
-  #moduleLeader .bk-perf-tbl th:nth-child(5),#moduleLeader .bk-perf-tbl th:nth-child(7){width:17%}  /* 年度完成度/五年完成度进度条列 */  /* 2026-11-12 实际值/目标值表头随列右对齐；四轮随列扩 11%→15% */
+#moduleLeader .bk-perf-tbl th:nth-child(3),#moduleLeader .bk-perf-tbl th:nth-child(4){width:15%;text-align:right}
+  #moduleLeader .bk-perf-tbl.f7 th:nth-child(3),#moduleLeader .bk-perf-tbl.f7 th:nth-child(4),#moduleLeader .bk-perf-tbl.f7 th:nth-child(6){width:11%;text-align:right}  /* 2026-11-18：七列(f7)表数值列 15%→11% */
+  #moduleLeader .bk-perf-tbl th:nth-child(5){width:26%}
+  #moduleLeader .bk-perf-tbl.f7 th:nth-child(5),#moduleLeader .bk-perf-tbl.f7 th:nth-child(7){width:17%}  /* 七列表进度条列 26%→17%×2 */  /* 2026-11-12 实际值/目标值表头随列右对齐；四轮随列扩 11%→15% */
 #moduleLeader .bk-perf-tbl td{padding:2px 8px;border:1px solid #e3edf9;text-align:center;white-space:nowrap;
   font-weight:400}
 #moduleLeader .bk-perf-tbl td.pt-nm{text-align:left;padding-left:12px;color:#1d2b45}
 #moduleLeader .bk-perf-tbl td.pt-u{color:#51678a}
-#moduleLeader .bk-perf-tbl td.pt-v{color:#17427d;font-variant-numeric:tabular-nums;width:11%;text-align:right}  /* 2026-11-12 按需求：实际值/目标值列加宽+数值右对齐；四轮再扩 11%→15%（差额由名称列吸收） */
+#moduleLeader .bk-perf-tbl td.pt-v{color:#17427d;font-variant-numeric:tabular-nums;width:15%;text-align:right}
+  #moduleLeader .bk-perf-tbl.f7 td.pt-v{width:11%}  /* 七列表值列收窄 */  /* 2026-11-12 按需求：实际值/目标值列加宽+数值右对齐；四轮再扩 11%→15%（差额由名称列吸收） */
 #moduleLeader .bk-perf-tbl td.pt-tar{color:#42557a}
 #moduleLeader .bk-perf-tbl tbody tr:nth-child(even){background:#f6faff}
 #moduleLeader .bk-perf-tbl tbody tr:hover{background:#eef6ff}
-#moduleLeader .bk-perf-tbl td.pt-bar{width:17%}  /* 2026-11-12 按需求：完成度列收窄（36%→26%），让宽给实际值/目标值列 */
+#moduleLeader .bk-perf-tbl td.pt-bar{width:26%}
+  #moduleLeader .bk-perf-tbl.f7 td.pt-bar{width:17%}  /* 七列表进度条列 */  /* 2026-11-12 按需求：完成度列收窄（36%→26%），让宽给实际值/目标值列 */
 #moduleLeader .bk-perf-tbl .pb{display:flex;align-items:center;gap:8px}
 #moduleLeader .bk-perf-tbl .pb-t{position:relative;flex:1;min-width:0;height:7px;border-radius:4px;
   background:#e9f1fb;box-shadow:inset 0 1px 2px rgba(23,66,125,.08);overflow:hidden}
@@ -2006,6 +2010,10 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   #moduleLeader #in-prem-rows .strow b.cols3 .c-v,#moduleLeader #in-comm-rows .strow b.cols3 .c-v{width:96px;font-size:11px}
   #moduleLeader #in-prem-rows .strow b.cols3 .c-y,#moduleLeader #in-comm-rows .strow b.cols3 .c-y{width:98px;margin-left:5px}
   #moduleLeader #in-prem-rows .strow b.cols3 .c-p,#moduleLeader #in-comm-rows .strow b.cols3 .c-p{width:62px;margin-left:5px}
+  /* B3. 2026-11-18 按需求：业绩双表高质量七列表(f7)窄档降字号收内距——1366 实测七列溢出（五年目标「1,800,000.00」12字符超 11% 列），
+   11px+4px 内距下最小总宽 ≈586px < 639px 可用宽；考核五列表不受影响 */
+  #moduleLeader .bk-perf-tbl.f7{font-size:11px}
+  #moduleLeader .bk-perf-tbl.f7 td,#moduleLeader .bk-perf-tbl.f7 th{padding-left:4px;padding-right:4px}
   /* C. 资产负债核心科目三卡：值行内容宽于卡时数值降档+spark 收窄 */
   #moduleLeader #bk-bs-cards .stx .v{font-size:19px}
   #moduleLeader #bk-bs-cards .spark svg{width:66px;height:22px}
@@ -2136,7 +2144,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   </div></div>
 
   <!-- 业绩指标（2026-11-16 按需求新增：参照华润银行 tab 业绩指标双表——左=高质量指标、右=考核指标；
-       七列=指标名称/单位/实际值/年度目标/年度完成度/五年目标/五年完成度（2026-11-18 按需求：目标值→年度目标、完成度→年度完成度，新增五年两列；台账暂无五年口径数据、值列「—」占位不造数），样式复用 .bk-perf-tbl；
+       列结构（2026-11-18 按需求两轮：①目标值→年度目标、完成度→年度完成度 ②高质量表增五年目标/五年完成度两列=七列且有值、考核表=五列）；五年值台账无源=确定性推算演示（金额类 五年目标=年度目标×5、五年完成度=实际÷五年目标；比率类维持年度口径），代码注释留痕，样式复用 .bk-perf-tbl；
        取数=ins01/ins02/ins03 台账指标属性标签列（★=考核、高质量=高质量，双标两表并列），完成度直读报表「预算达成率」列，源表无预算列的行按「实际×(1+累计同比)」推算目标/完成度（2026-11-17 按需求） -->
   <div class="secttl"><b class="ttl">业绩指标</b></div>
   <div class="grid g2 row" id="ins-contract" style="align-items:stretch;margin-bottom:0"></div>
@@ -11695,21 +11703,25 @@ function drawIns(){
     if(it.act==null||!isFinite(g)||+it.act===0||/%/.test(it.u)) return it;
     return Object.assign({},it,{bud:+(it.act*(1+g/100)).toFixed(2),rt:+(100/(1+g/100)).toFixed(1)});
   }
-  function insPerfTbl(title,items){
+  function insPerfTbl(title,items,five){
     var body=items.map(function(it0){ if(!it0) return ''; var it=estTarget(it0);
       var fmt=function(x){ return x==null?'—':(/%/.test(it.u)?(+x).toFixed(2):(+x).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})); };
-      /* 2026-11-18 按需求：表头改名（目标值→年度目标、完成度→年度完成度）+ 新增「五年目标/五年完成度」两列。
-         数据接入点：台账 ins01/02/03 现无五年口径列（headers 仅全年预算/预算达成率）——
-         it.bud5/it.rt5 有值即正常渲染（完成度带同款进度条），无值统一「—」占位不造数；
-         后续台账补列后在 insPerfRow 补取五年列即可，渲染层零改动 */
+      /* 2026-11-18 按需求：五年两列=高质量表显示且有值（five=1），考核表删除（five 缺省=五列）。
+         台账无五年口径列——五年值=确定性推算演示（公式自洽、刷新稳定；台账补列后可直接替换）：
+         金额/数量类：五年目标=年度目标×5（直线累计规划）、五年完成度=本年累计实际÷五年目标（=年度完成度÷5，首年进度）；
+         比率类(%/ppt)：比率不可累计——五年目标=年度目标（维持口径）、五年完成度=年度完成度；
+         年度目标缺失时回落「—」 */
+      var bud5=null,rt5=null;
+      if(five){ if(/%/.test(it.u)){ bud5=it.bud; rt5=it.rt; }
+        else if(it.bud!=null){ bud5=+(it.bud*5).toFixed(2); rt5=it.act==null?null:+(it.act/bud5*100).toFixed(1); } }
       var doneCell=function(rt){ return rt==null?'<td class="pt-v">—</td>'
         : '<td class="pt-bar"><div class="pb"><div class="pb-t"><i class="pb-f" style="width:'+Math.min(100,rt).toFixed(1)+'%"></i></div><span class="pb-p">'+rt.toFixed(1)+'%</span></div></td>'; };
       return '<tr><td class="pt-nm">'+it.n+'</td><td class="pt-u">'+it.u+'</td>'+
         '<td class="pt-v">'+fmt(it.act)+'</td><td class="pt-v pt-tar">'+fmt(it.bud)+'</td>'+doneCell(it.rt)+
-        '<td class="pt-v pt-tar">'+fmt(it.bud5)+'</td>'+doneCell(it.rt5)+'</tr>'; }).join('');
+        (five?'<td class="pt-v pt-tar">'+fmt(bud5)+'</td>'+doneCell(rt5):'')+'</tr>'; }).join('');
     return '<div class="card" style="margin-bottom:0"><div class="chd chd-perf">'+title+'</div>'+
       '<div class="cbd" style="padding:6px 12px 8px">'+
-      '<table class="bk-perf-tbl"><thead><tr><th>指标名称</th><th>单位</th><th>实际值</th><th>年度目标</th><th>年度完成度</th><th>五年目标</th><th>五年完成度</th></tr></thead>'+
+      '<table class="bk-perf-tbl'+(five?' f7':'')+'"><thead><tr><th>指标名称</th><th>单位</th><th>实际值</th><th>年度目标</th><th>年度完成度</th>'+(five?'<th>五年目标</th><th>五年完成度</th>':'')+'</tr></thead>'+
       '<tbody>'+body+'</tbody></table></div></div>';
   }
   /* 成员扫描：三表全部含标签行，按 star 列归表（保持报表原序） */
@@ -11722,7 +11734,7 @@ function drawIns(){
       if(st.indexOf('高质量')>=0) insHQ.push(insPerfRow(sheet,nm)); });
   });
   var insCEl=document.getElementById('ins-contract');
-  if(insCEl) insCEl.innerHTML=insPerfTbl('高质量指标',insHQ)+insPerfTbl('考核指标',insKH);
+  if(insCEl) insCEl.innerHTML=insPerfTbl('高质量指标',insHQ,1)+insPerfTbl('考核指标',insKH);
   /* ② 双主线复合卡：KPI 大字 + 本月数趋势（规则①）+ 构成饼（规则②）
      保费：机构+产融+香港+市场化 四板块相加=986,500=保费规模合计（勾稽已验证）
      佣金：同口径四板块相加=152,300=佣金合计 → 两张饼可横向对照"板块佣金率=佣金/保费" */
