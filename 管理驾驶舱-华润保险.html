@@ -1033,17 +1033,20 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .chartlg.lg-lines .ll.l2{border-top:2.5px dashed #0f9d6e}
 #moduleLeader .chartlg.lg-lines .ll.l3{border-top:2.5px solid #f59e0b}
 /* 2026-11-17 按需求：产融板块渠道明细表格模块（替换原双列树纵深明细版式）——
-   两级表头（组表头中蓝/列头淡蓝）、标准细线横竖网格（2026-11-17 按需求：border-bottom 单横线改全边框网格线，组间 .gsep 竖线保留为加粗蓝分隔）、层级缩进、小计与合计行加左蓝条 */
+   两级表头（组表头中蓝/列头淡蓝）+综合费率独立列（rate/rate-h）、标准细线横竖网格、层级缩进、小计与合计行加左蓝条；2026-11-17 二次优化：占比移至同比后、佣金组加占比、费率出组、8 列横向收紧防溢出 */
 #moduleLeader .ins-ch-tbl{width:100%;border-collapse:collapse;font-size:12px;color:var(--ink)}
-#moduleLeader .ins-ch-tbl th,#moduleLeader .ins-ch-tbl td{padding:8px 10px;border:1px solid var(--line);text-align:right;white-space:nowrap}
+#moduleLeader .ins-ch-tbl th,#moduleLeader .ins-ch-tbl td{padding:8px 8px;border:1px solid var(--line);text-align:right;white-space:nowrap}
+/* 2026-11-17 综合费率单独成列：表头独立（纵向合并）、单元格与佣金组间以 gsep 竖线分隔 */
+#moduleLeader .ins-ch-tbl th.rate-h{background:#ddebfa}
+#moduleLeader .ins-ch-tbl td.rate{color:#16427d;font-weight:600}
 #moduleLeader .ins-ch-tbl .nm,#moduleLeader .ins-ch-tbl th.nm{text-align:left;white-space:nowrap}
 #moduleLeader .ins-ch-tbl thead th{background:#eaf4ff;color:#16427d;font-weight:700;text-align:center}
 #moduleLeader .ins-ch-tbl thead tr:first-child th{background:#cfe6fb;font-size:12.5px}
 #moduleLeader .ins-ch-tbl .gsep{border-left:1px solid #bcd9f2}
 #moduleLeader .ins-ch-tbl tbody tr:nth-child(even){background:#f7fbff}
 #moduleLeader .ins-ch-tbl td.nm{padding-left:14px}
-#moduleLeader .ins-ch-tbl tr.lv1 td.nm{padding-left:34px}
-#moduleLeader .ins-ch-tbl tr.lv2 td.nm{padding-left:54px}
+#moduleLeader .ins-ch-tbl tr.lv1 td.nm{padding-left:31px}
+#moduleLeader .ins-ch-tbl tr.lv2 td.nm{padding-left:48px}
 #moduleLeader .ins-ch-tbl tr.sec td.nm{position:relative;padding-left:20px;font-weight:700}
 #moduleLeader .ins-ch-tbl tr.sec td.nm::before{content:'';position:absolute;left:8px;top:50%;transform:translateY(-50%);
   width:3px;height:13px;border-radius:2px;background:linear-gradient(180deg,#39a1f7,#0d6ef0)}
@@ -2100,7 +2103,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 
   <!-- 业绩指标（2026-11-16 按需求新增：参照华润银行 tab 业绩指标双表——左=高质量指标、右=考核指标；
        五列=指标名称/单位/实际值/目标值/完成度（进度条+百分比），样式复用 .bk-perf-tbl；
-       取数=ins01/ins02/ins03 台账指标属性标签列（★=考核、高质量=高质量，双标两表并列），完成度直读报表「预算达成率」列，源表无预算列显示「未设预算」 -->
+       取数=ins01/ins02/ins03 台账指标属性标签列（★=考核、高质量=高质量，双标两表并列），完成度直读报表「预算达成率」列，源表无预算列的行按「实际×(1+累计同比)」推算目标/完成度（2026-11-17 按需求） -->
   <div class="secttl"><b class="ttl">业绩指标</b></div>
   <div class="grid g2 row" id="ins-contract" style="align-items:stretch;margin-bottom:0"></div>
 
@@ -2125,8 +2128,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   </div>
   <!-- 产融板块渠道明细（2026-11-17 按需求：整模块替换原「产融板块纵深明细」双列树版式为图片版表格模块）：
        层级缩进=报表层级（小计→燃气(其中:华润/市场)→商户→银保→创新场景(其中:社区/其他产融/职域/其他融融)→全渠道合计=占比分母），
-       左组=保费规模（本年累计/占比/累计同比），右组=佣金收入（本年累计/累计同比/综合费率）——2026-11-17 按需求：删预算达成列、表头改名、标准细线网格、⭐删除 -->
-  <div class="card row" style="margin-bottom:0"><div class="chd">产融板块渠道明细 <span class="tag">万元 · 本年累计 · 层级缩进 = 报表层级，逐行保费/佣金对读</span></div><div class="cbd">
+       左组=保费规模（本年累计/累计同比/占比），右组=佣金收入（本年累计/累计同比/占比），综合费率单独成列——2026-11-17 按需求：删预算达成列、表头改名、标准细线网格、⭐删除；同日二次优化：占比移至累计同比后、佣金组新增占比、综合费率出组独立、卡头 tag 删除 -->
+  <div class="card row" style="margin-bottom:0"><div class="chd">产融板块渠道明细</div><div class="cbd">
     <div id="ins-detail"></div>
   </div></div>
 
@@ -11619,19 +11622,28 @@ function drawIns(){
   /* ===== 业绩指标双表（2026-11-16 按需求新增，参照华润银行 tab 同名模块）=====
      左=高质量指标 / 右=考核指标；五列=指标名称/单位/实际值/目标值/完成度（进度条+百分比），复用 .bk-perf-tbl；
      成员与归属完全读台账三表「指标属性标签」列（含★→考核表，含高质量→高质量表，双标项两表并列）；
-     完成度直读报表「预算达成率」列（不前端重算），源表无预算/达成率的行显示「未设预算」 */
+     完成度直读报表「预算达成率」列（不前端重算）；源表无预算/达成率的行按「实际×(1+累计同比)」推算目标值与完成度（2026-11-17 按需求，不再显示「未设预算」） */
   function insPerfRow(sheet,name){
     var r=tRow(sheet,name); if(!r) return null;
     var u=tUn(sheet,name), pct=/[%]/.test(u);
     var raw=tAct(sheet,name), act=raw==null?null:(pct?raw:m(raw));
     var bud=tBud(sheet,name), rt=tRate(sheet,name);
-    return {n:name,u:u,act:act,bud:bud,rt:rt};
+    return {n:name,u:u,act:act,bud:bud,rt:rt,y:tYoY(sheet,name)};
+  }
+  /* 2026-11-17 按需求：源表无预算/达成率的行不再显示「未设预算」——目标值按「本年累计×(1+累计同比)」推算
+   （=延续当前增速的全年目标），完成度=实际÷目标=100÷(1+同比)，与既有直读「预算达成率」列的行并存不冲突；
+   适用行：商户保险佣金收入(+13.2%→目标8,490.00/完成88.3%)、集团产融创新场景孵化保费规模(+13.5%→目标29,510.00/完成88.1%) */
+  function estTarget(it){
+    if(it.bud!=null||it.rt!=null) return it;
+    var g=parseFloat(String(it.y||'').replace(/[+%,，]/g,''));
+    if(it.act==null||!isFinite(g)||+it.act===0||/%/.test(it.u)) return it;
+    return Object.assign({},it,{bud:+(it.act*(1+g/100)).toFixed(2),rt:+(100/(1+g/100)).toFixed(1)});
   }
   function insPerfTbl(title,items){
-    var body=items.map(function(it){ if(!it) return '';
+    var body=items.map(function(it0){ if(!it0) return ''; var it=estTarget(it0);
       var actDisp=it.act==null?'—':(/%/.test(it.u)?(+it.act).toFixed(2):(+it.act).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}));
       var budDisp=it.bud==null?'—':(/%/.test(it.u)?(+it.bud).toFixed(2):(+it.bud).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}));
-      var done = it.rt==null ? '<td class="pt-txt"><span style="color:#8aa2bd">未设预算</span></td>'
+      var done = it.rt==null ? '<td class="pt-v">—</td>'
         : '<td class="pt-bar"><div class="pb"><div class="pb-t"><i class="pb-f" style="width:'+Math.min(100,it.rt).toFixed(1)+'%"></i></div><span class="pb-p">'+it.rt.toFixed(1)+'%</span></div></td>';
       return '<tr><td class="pt-nm">'+it.n+'</td><td class="pt-u">'+it.u+'</td>'+
         '<td class="pt-v">'+actDisp+'</td><td class="pt-v pt-tar">'+budDisp+'</td>'+done+'</tr>'; }).join('');
@@ -11690,19 +11702,21 @@ function drawIns(){
     var pc=function(v,d){ return (v/d*100).toFixed(2); };               /* 占比/费率共用 */
     var yoy=function(t){ return '<i class="yoy up">▲ '+t+'%</i>'; };    /* 本数据集同比全为增 */
     /* 2026-11-17 按需求：删「预算达成」整列（bud 形参与单元格移除） */
-    var line=function(nm,cls,badge,pre,py,com,cy,sep){
+    /* 2026-11-17 按需求（二次优化）：①占比列移至累计同比之后 ②佣金收入组新增「占比」列（=佣金÷全渠道佣金合计）
+       ③综合费率脱离佣金分组、单独成列（表头纵向合并独立、组间 gsep 竖线分隔） */
+    var line=function(nm,cls,badge,pre,py,com,cy){
       return '<tr class="'+cls+'"><td class="nm">'+(badge?'<span class="bdg">'+badge+'</span>':'')+nm+'</td>'+
-        '<td class="v">'+tilNum(pre)+'</td><td class="sh">'+pc(pre,TTT[2])+'<small>%</small></td><td class="y">'+yoy(py)+'</td>'+
-        '<td class="'+(sep?'gsep':'')+' v">'+tilNum(com)+'</td><td class="y">'+yoy(cy)+'</td>'+
-        '<td class="v">'+pc(com,pre)+'<small>%</small></td></tr>'; };
-    /* 2026-11-17 细线网格下：保费/佣金组间加粗蓝分隔线（.gsep 同组表头）贯通所有行 */
-    var rows=TT.map(function(e){ return line(e[0],'lv'+e[1]+(e[1]===0?' sec':e[1]===1?' chd-row':''),e[2],e[3],e[4],e[6],e[7],true); }).join('')
+        '<td class="v">'+tilNum(pre)+'</td><td class="y">'+yoy(py)+'</td><td class="sh">'+pc(pre,TTT[2])+'<small>%</small></td>'+
+        '<td class="gsep v">'+tilNum(com)+'</td><td class="y">'+yoy(cy)+'</td><td class="sh">'+pc(com,TTT[4])+'<small>%</small></td>'+
+        '<td class="gsep rate">'+pc(com,pre)+'<small>%</small></td></tr>'; };
+    var rows=TT.map(function(e){ return line(e[0],'lv'+e[1]+(e[1]===0?' sec':e[1]===1?' chd-row':''),e[2],e[3],e[4],e[6],e[7]); }).join('')
       /* 全渠道合计行：名称后带「占比分母」灰注 */
-      +line(TTT[0]+' <span class="lite" style="font-size:10px;font-weight:400">'+TTT[1]+'</span>','sec total','',TTT[2],TTT[3],TTT[4],TTT[5],true);
+      +line(TTT[0]+' <span class="lite" style="font-size:10px;font-weight:400">'+TTT[1]+'</span>','sec total','',TTT[2],TTT[3],TTT[4],TTT[5]);
     el.innerHTML='<table class="ins-ch-tbl"><thead>'+
-      '<tr><th class="nm" rowspan="2">渠道层级</th><th colspan="3" class="grp">保费规模（万元）</th><th colspan="3" class="grp gsep">佣金收入（万元）</th></tr>'+
-      '<tr><th>本年累计</th><th>占比</th><th>累计同比</th><th class="gsep">本年累计</th><th>累计同比</th><th>综合费率</th></tr>'+
-      '</thead><tbody>'+rows+'</tbody></table>';
+      '<tr><th class="nm" rowspan="2">渠道层级</th><th colspan="3" class="grp">保费规模（万元）</th><th colspan="3" class="grp gsep">佣金收入（万元）</th><th class="gsep rate-h" rowspan="2">综合费率</th></tr>'+
+      '<tr><th>本年累计</th><th>累计同比</th><th>占比</th><th class="gsep">本年累计</th><th>累计同比</th><th>占比</th></tr>'+
+      
+'</thead><tbody>'+rows+'</tbody></table>';
   }
   /* ③ 关键管理指标（2026-11-16 按需求第二次重规划：原模块全部指标区删除——达成率排行/分组卡/收入趋势；
      第一区域=指标卡（insStx 原样式；2026-11-17 融融总中收调入①-bis 效益与价值后余 3 卡）；第二区域=左右双图（近 12 个月=tilMonthSeries 22 月版式取所选月回溯 12 格，
