@@ -1634,16 +1634,17 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .bk-perf-tbl th{background:linear-gradient(90deg,#eaf4ff,#dcebfb);color:#17427d;font-weight:700;
   padding:4px 8px;border:1px solid #d3e2f5;text-align:center;white-space:nowrap;font-size:11.5px}
 #moduleLeader .bk-perf-tbl th:first-child{text-align:left;padding-left:12px}
-#moduleLeader .bk-perf-tbl th:nth-child(3),#moduleLeader .bk-perf-tbl th:nth-child(4){width:15%;text-align:right}  /* 2026-11-12 实际值/目标值表头随列右对齐；四轮随列扩 11%→15% */
+#moduleLeader .bk-perf-tbl th:nth-child(3),#moduleLeader .bk-perf-tbl th:nth-child(4),#moduleLeader .bk-perf-tbl th:nth-child(6){width:11%;text-align:right}  /* 2026-11-18 七列化：实际值/年度目标/五年目标 15%→11% */
+  #moduleLeader .bk-perf-tbl th:nth-child(5),#moduleLeader .bk-perf-tbl th:nth-child(7){width:17%}  /* 年度完成度/五年完成度进度条列 */  /* 2026-11-12 实际值/目标值表头随列右对齐；四轮随列扩 11%→15% */
 #moduleLeader .bk-perf-tbl td{padding:2px 8px;border:1px solid #e3edf9;text-align:center;white-space:nowrap;
   font-weight:400}
 #moduleLeader .bk-perf-tbl td.pt-nm{text-align:left;padding-left:12px;color:#1d2b45}
 #moduleLeader .bk-perf-tbl td.pt-u{color:#51678a}
-#moduleLeader .bk-perf-tbl td.pt-v{color:#17427d;font-variant-numeric:tabular-nums;width:15%;text-align:right}  /* 2026-11-12 按需求：实际值/目标值列加宽+数值右对齐；四轮再扩 11%→15%（差额由名称列吸收） */
+#moduleLeader .bk-perf-tbl td.pt-v{color:#17427d;font-variant-numeric:tabular-nums;width:11%;text-align:right}  /* 2026-11-12 按需求：实际值/目标值列加宽+数值右对齐；四轮再扩 11%→15%（差额由名称列吸收） */
 #moduleLeader .bk-perf-tbl td.pt-tar{color:#42557a}
 #moduleLeader .bk-perf-tbl tbody tr:nth-child(even){background:#f6faff}
 #moduleLeader .bk-perf-tbl tbody tr:hover{background:#eef6ff}
-#moduleLeader .bk-perf-tbl td.pt-bar{width:26%}  /* 2026-11-12 按需求：完成度列收窄（36%→26%），让宽给实际值/目标值列 */
+#moduleLeader .bk-perf-tbl td.pt-bar{width:17%}  /* 2026-11-12 按需求：完成度列收窄（36%→26%），让宽给实际值/目标值列 */
 #moduleLeader .bk-perf-tbl .pb{display:flex;align-items:center;gap:8px}
 #moduleLeader .bk-perf-tbl .pb-t{position:relative;flex:1;min-width:0;height:7px;border-radius:4px;
   background:#e9f1fb;box-shadow:inset 0 1px 2px rgba(23,66,125,.08);overflow:hidden}
@@ -2135,7 +2136,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   </div></div>
 
   <!-- 业绩指标（2026-11-16 按需求新增：参照华润银行 tab 业绩指标双表——左=高质量指标、右=考核指标；
-       五列=指标名称/单位/实际值/目标值/完成度（进度条+百分比），样式复用 .bk-perf-tbl；
+       七列=指标名称/单位/实际值/年度目标/年度完成度/五年目标/五年完成度（2026-11-18 按需求：目标值→年度目标、完成度→年度完成度，新增五年两列；台账暂无五年口径数据、值列「—」占位不造数），样式复用 .bk-perf-tbl；
        取数=ins01/ins02/ins03 台账指标属性标签列（★=考核、高质量=高质量，双标两表并列），完成度直读报表「预算达成率」列，源表无预算列的行按「实际×(1+累计同比)」推算目标/完成度（2026-11-17 按需求） -->
   <div class="secttl"><b class="ttl">业绩指标</b></div>
   <div class="grid g2 row" id="ins-contract" style="align-items:stretch;margin-bottom:0"></div>
@@ -11696,15 +11697,19 @@ function drawIns(){
   }
   function insPerfTbl(title,items){
     var body=items.map(function(it0){ if(!it0) return ''; var it=estTarget(it0);
-      var actDisp=it.act==null?'—':(/%/.test(it.u)?(+it.act).toFixed(2):(+it.act).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}));
-      var budDisp=it.bud==null?'—':(/%/.test(it.u)?(+it.bud).toFixed(2):(+it.bud).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}));
-      var done = it.rt==null ? '<td class="pt-v">—</td>'
-        : '<td class="pt-bar"><div class="pb"><div class="pb-t"><i class="pb-f" style="width:'+Math.min(100,it.rt).toFixed(1)+'%"></i></div><span class="pb-p">'+it.rt.toFixed(1)+'%</span></div></td>';
+      var fmt=function(x){ return x==null?'—':(/%/.test(it.u)?(+x).toFixed(2):(+x).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})); };
+      /* 2026-11-18 按需求：表头改名（目标值→年度目标、完成度→年度完成度）+ 新增「五年目标/五年完成度」两列。
+         数据接入点：台账 ins01/02/03 现无五年口径列（headers 仅全年预算/预算达成率）——
+         it.bud5/it.rt5 有值即正常渲染（完成度带同款进度条），无值统一「—」占位不造数；
+         后续台账补列后在 insPerfRow 补取五年列即可，渲染层零改动 */
+      var doneCell=function(rt){ return rt==null?'<td class="pt-v">—</td>'
+        : '<td class="pt-bar"><div class="pb"><div class="pb-t"><i class="pb-f" style="width:'+Math.min(100,rt).toFixed(1)+'%"></i></div><span class="pb-p">'+rt.toFixed(1)+'%</span></div></td>'; };
       return '<tr><td class="pt-nm">'+it.n+'</td><td class="pt-u">'+it.u+'</td>'+
-        '<td class="pt-v">'+actDisp+'</td><td class="pt-v pt-tar">'+budDisp+'</td>'+done+'</tr>'; }).join('');
+        '<td class="pt-v">'+fmt(it.act)+'</td><td class="pt-v pt-tar">'+fmt(it.bud)+'</td>'+doneCell(it.rt)+
+        '<td class="pt-v pt-tar">'+fmt(it.bud5)+'</td>'+doneCell(it.rt5)+'</tr>'; }).join('');
     return '<div class="card" style="margin-bottom:0"><div class="chd chd-perf">'+title+'</div>'+
       '<div class="cbd" style="padding:6px 12px 8px">'+
-      '<table class="bk-perf-tbl"><thead><tr><th>指标名称</th><th>单位</th><th>实际值</th><th>目标值</th><th>完成度</th></tr></thead>'+
+      '<table class="bk-perf-tbl"><thead><tr><th>指标名称</th><th>单位</th><th>实际值</th><th>年度目标</th><th>年度完成度</th><th>五年目标</th><th>五年完成度</th></tr></thead>'+
       '<tbody>'+body+'</tbody></table></div></div>';
   }
   /* 成员扫描：三表全部含标签行，按 star 列归表（保持报表原序） */
