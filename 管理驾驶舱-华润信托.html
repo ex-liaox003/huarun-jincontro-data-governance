@@ -1592,8 +1592,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .stx .budrow .btxt{font-size:11px;color:#33547e;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
 #moduleLeader .stx .budrow .btxt b{color:#17427d;font-weight:800}
 /* 业绩指标双表名称栏（2026-11-10 按需求：删除蓝渐变背景与白点，仅显示标题文字） */
-#moduleLeader #v-bank .chd.chd-perf,#moduleLeader #v-banks .chd.chd-perf{background:none;padding:8px 12px 2px;color:#0d6ef0;font-weight:700;letter-spacing:0}  /* 2026-11-10 按需求：标题文字用名称栏背景同族主蓝 #0d6ef0；简版（#v-banks 挂载态）同步 */
-#moduleLeader #v-bank .chd.chd-perf::before,#moduleLeader #v-banks .chd.chd-perf::before{content:none}
+#moduleLeader #v-bank .chd.chd-perf,#moduleLeader #v-banks .chd.chd-perf,#moduleLeader #v-trust .chd.chd-perf{background:none;padding:8px 12px 2px;color:#0d6ef0;font-weight:700;letter-spacing:0}  /* 2026-11-10 按需求：标题文字用名称栏背景同族主蓝 #0d6ef0；简版（#v-banks 挂载态）同步 */
+#moduleLeader #v-bank .chd.chd-perf::before,#moduleLeader #v-banks .chd.chd-perf::before,#moduleLeader #v-trust .chd.chd-perf::before{content:none}
 /* 2026-11-10 按需求：总览「业务单元利润表」卡头净化——无背景条、无白点、无底部分隔线，仅标题文字 */
 #moduleLeader #v-overview .chd.chd-plain{background:none;border-bottom:none;color:#0d6ef0;font-weight:700;padding:9px 14px 0;letter-spacing:0}
 #moduleLeader #v-overview .chd.chd-plain::before{content:none}
@@ -1604,15 +1604,20 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   padding:4px 8px;border:1px solid #d3e2f5;text-align:center;white-space:nowrap;font-size:11.5px}
 #moduleLeader .bk-perf-tbl th:first-child{text-align:left;padding-left:12px}
 #moduleLeader .bk-perf-tbl th:nth-child(3),#moduleLeader .bk-perf-tbl th:nth-child(4){width:15%;text-align:right}  /* 2026-11-12 实际值/目标值表头随列右对齐；四轮随列扩 11%→15% */
+#moduleLeader .bk-perf-tbl th:nth-child(5){width:26%}  /* 2026-11-18 信托接入补齐（保险页同款基础规则） */
+#moduleLeader .bk-perf-tbl.f7 th:nth-child(3),#moduleLeader .bk-perf-tbl.f7 th:nth-child(4),#moduleLeader .bk-perf-tbl.f7 th:nth-child(6){width:11%;text-align:right}  /* 2026-11-18 信托业绩表接入：七列(f7)表数值列 15%→11%（保险页同款） */
+#moduleLeader .bk-perf-tbl.f7 th:nth-child(5),#moduleLeader .bk-perf-tbl.f7 th:nth-child(7){width:17%}  /* 2026-11-18 七列表进度条列 26%→17%×2（保险页同款） */
 #moduleLeader .bk-perf-tbl td{padding:2px 8px;border:1px solid #e3edf9;text-align:center;white-space:nowrap;
   font-weight:400}
 #moduleLeader .bk-perf-tbl td.pt-nm{text-align:left;padding-left:12px;color:#1d2b45}
 #moduleLeader .bk-perf-tbl td.pt-u{color:#51678a}
 #moduleLeader .bk-perf-tbl td.pt-v{color:#17427d;font-variant-numeric:tabular-nums;width:15%;text-align:right}  /* 2026-11-12 按需求：实际值/目标值列加宽+数值右对齐；四轮再扩 11%→15%（差额由名称列吸收） */
+#moduleLeader .bk-perf-tbl.f7 td.pt-v{width:11%}  /* 2026-11-18 七列表值列收窄（保险页同款） */
 #moduleLeader .bk-perf-tbl td.pt-tar{color:#42557a}
 #moduleLeader .bk-perf-tbl tbody tr:nth-child(even){background:#f6faff}
 #moduleLeader .bk-perf-tbl tbody tr:hover{background:#eef6ff}
 #moduleLeader .bk-perf-tbl td.pt-bar{width:26%}  /* 2026-11-12 按需求：完成度列收窄（36%→26%），让宽给实际值/目标值列 */
+#moduleLeader .bk-perf-tbl.f7 td.pt-bar{width:17%}  /* 2026-11-18 七列表进度条列（保险页同款） */
 #moduleLeader .bk-perf-tbl .pb{display:flex;align-items:center;gap:8px}
 #moduleLeader .bk-perf-tbl .pb-t{position:relative;flex:1;min-width:0;height:7px;border-radius:4px;
   background:#e9f1fb;box-shadow:inset 0 1px 2px rgba(23,66,125,.08);overflow:hidden}
@@ -1620,6 +1625,10 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   background:linear-gradient(90deg,#39a1f7,#0d6ef0)}   /* 2026-11-10 按需求：全部进度条统一主蓝，不再按达标/滞后变色 */
 #moduleLeader .bk-perf-tbl .pb-p{font-size:10.5px;font-weight:400;color:#17427d;min-width:42px;text-align:right;
   font-variant-numeric:tabular-nums}
+@media(max-width:1440px){ /* 2026-11-18 七列(f7)表窄档降字号收内距（保险页同款）：1366 实测防「1,600,000.00」类长数溢出 */
+  #moduleLeader .bk-perf-tbl.f7{font-size:11px}
+  #moduleLeader .bk-perf-tbl.f7 td,#moduleLeader .bk-perf-tbl.f7 th{padding-left:4px;padding-right:4px}
+}
 /* 2026-11-10 按需求：反向指标（不良率类）完成度列改文字行「预算：x%，优于/超出预算 yppt」，删进度条 */
 #moduleLeader .bk-perf-tbl td.pt-txt{font-size:11px;color:#42557a;white-space:nowrap}
 #moduleLeader .bk-perf-tbl .pt-good{color:#0f9d6e;font-weight:600}
@@ -2096,12 +2105,11 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
     <div class="bkgrid6" id="ts-eff-cards"></div>
   </div></div>
 
-  <!-- ② 业绩合同指标（2026-10-26 新增）：华润信托年度业绩合同六项，置于收入构成之前——
-       叙事顺序=结果(①)→承诺(②合同目标)→拆解(③收入从哪来)；可算项实时取数，口径子集按合同目标带预算达成条 -->
-  <div class="secttl"><b class="ttl">业绩合同指标</b> <span class="lite">—— 承诺了什么｜年度业绩合同六项一行六卡｜占比/收益率类=报表实时计算 · 规模子集=演示值｜卡内达成条=合同目标完成度</span></div>
-  <div class="card row" style="margin-bottom:0"><div class="cbd">
-    <div class="bkgrid6" id="ts-contract"></div>
-  </div></div>
+  <!-- ② 业绩指标（2026-11-18 按需求改名+改版）：原「业绩合同指标」六卡整体替换为高质量指标表格——
+       生成器/样式/列对齐/配色与华润保险「高质量指标」表格完全同款（insPerfTbl 移植）；
+       数据源=数据应用-固定报表管理-华润信托-03-高质量发展指标（trust02 台账 8 项，按报表原序） -->
+  <div class="secttl"><b class="ttl">业绩指标</b></div>
+  <div class="row" style="margin-bottom:0"><div id="ts-perf"></div></div>
 
   <!-- ③ 收入构成与双口径：构成→饼（2026-10-27 改除国信口径：证券受托/财富家办/公私募资管/固有/对公/行政服务 六条线）；含/除对比→分组条形（规则④） -->
   <div class="secttl"><b class="ttl">收入构成与双口径</b> <span class="lite">—— 钱从哪来｜源 04-收入结构｜构成=饼（除国信口径六条线）· 口径对比=条形（柱差=国信贡献）</span></div>
@@ -11263,6 +11271,7 @@ var TIL_COL = {
   trust00:{nm:1,un:2,mval:3,act:5,yoy:6,mom:4,ytd:7},  /* 2026-11-12 总览信托组「资产负债率」卡取数（01-集团经营看板，列位同 trust01） */
   trust01:{nm:1,un:2,mval:3,act:5,yoy:6,mom:4,ytd:7}, trust03:{nm:1,un:2,mval:3,act:5,yoy:6,mom:4},
   trust04:{nm:1,un:2,act:5,yoy:6,mom:4,ytd:7}, trust05:{nm:1,un:2,act:5,yoy:6,mom:4,ytd:7},
+  trust02:{nm:2,un:3,act:6,yoy:7,ytd:8},  /* 2026-11-18 03-高质量发展指标（序号0/维度1/名称2/单位3/当月实际4/环比5/截止实际6/同比7/较年初8） */
   ins01:{nm:1,un:2,star:3,mval:4,act:6,yoy:7,mom:5,bud:8,rate:9},
   ins02:{nm:3,un:4,star:5,mval:6,act:8,yoy:9,mom:7,bud:10,rate:11},
   ins03:{nm:1,un:2,star:3,mval:4,act:6,yoy:7,mom:5,bud:8,rate:9},
@@ -11460,45 +11469,41 @@ function drawTrust(){
   /* ② 业绩合同指标（2026-10-26 新增，置于收入构成前——叙事顺序：结果→承诺→拆解）
      六项=华润信托年度业绩合同；占比/收益率由报表实时计算（trust03/04/05 同口径联动），
      规模子集类显示合同口径目标+关联报表基数行注；卡内达成条=合同目标完成度 */
-  var conEl=document.getElementById('ts-contract');
-  if(conEl){
-    /* 卡构造：t 指标名 / v 展示值 / u 单位 / pct 比率 / tgt 合同目标 / yoy 同比串
-       2026-10-27：删除卡底口径注行（原误用 .t 类继承蓝色渐变，呈现蓝条），口径统一以 title 悬停显示 */
-    function cc(o){
-      var disp = o.pct ? o.v.toFixed(1)+'<small>%</small>' : tilNum(o.v,o.u)+'<small>'+o.u+'</small>';
-      var rt = o.tgt!=null ? (o.v/o.tgt*100) : null;
-      return '<div class="stx c6"><span class="t" title="'+o.t+(o.sub?'（'+o.sub+'）':'')+'">'+o.t+'</span>'+
-        '<span class="v">'+disp+'</span>'+
-        '<div class="drow">'+(o.yoy?tilDelta(o.yoy,' 同比'):'')+'</div>'+
-        (rt!=null?'<div class="as-rate"><div class="progress-bar"><div class="progress-fill '+(rt>=95?'':(rt>=85?'mid':'low'))+'" style="width:'+Math.min(100,rt)+'%"></div></div><span class="rt">目标 '+tilNum(o.tgt,o.pct?'%':o.u)+(+o.pct?'%':'')+' · 达成 '+rt.toFixed(1)+'%</span></div>':'')+
-        '</div>';
+  /* ② 业绩指标（2026-11-18 按需求：原「业绩合同指标」六卡整体替换为高质量指标表格——
+     生成器/样式/列对齐/配色与华润保险「高质量指标」表格完全同款（estTarget+insPerfTbl 原样移植，f7 七列预算同步）；
+     数据源=数据应用-固定报表管理-华润信托-03-高质量发展指标（trust02 台账 8 项，按报表原序）：
+     实际值=截止本月末实际列、同比列直读；台账无全年预算/预算达成率列——
+     金额/数量类年度目标=本年累计×(1+同比)、年度完成度=100÷(1+同比)（与保险页 estTarget 同一推算机制，2026-11-17 同款），
+     比率类(%)目标不可由增速推算显示「—」；五年两列=保险页同款推算（金额类五年目标=年度目标×5、五年完成度=实际÷五年目标） */
+  var tsPerfEl=document.getElementById('ts-perf');
+  if(tsPerfEl){
+    function estTarget(it){
+      if(it.bud!=null||it.rt!=null) return it;
+      var g=parseFloat(String(it.y||'').replace(/[+%,，]/g,''));
+      if(it.act==null||!isFinite(g)||+it.act===0||/%/.test(it.u)) return it;
+      return Object.assign({},it,{bud:+(it.act*(1+g/100)).toFixed(2),rt:+(100/(1+g/100)).toFixed(1)});
     }
-    /* 1) 证券受托业务提升高费率业务收入占比 = 证券受托收入 ÷ 除国信总收入（trust03，比率不受日期系数影响） */
-    var secRatio=(tAct('trust03','证券受托业务收入')/tAct('trust03','总收入（除国信）'))*100;
-    /* 2) 财富家办业务规模 ≈ 财富管理业务规模（trust04，亿） */
-    var wmScale=m(tAct('trust04','财富管理业务规模')||0);
-    /* 3) 自有资金投资收益率 = 固有业务收入 ÷ 固有业务规模（trust01/trust04 派生） */
-    var ownR=(tAct('trust01','固有业务收入')/tAct('trust04','固有业务规模'))*100;
-    /* 4) 华润元大基金利润总额（合同口径，关联元大收入 6,800 万 trust01；利润为合同演示值） */
-    var ydProf=3200;
-    /* 5) 元大货币基金集团内投资规模（货基规模 280 亿 trust05 之集团内子集，合同口径） */
-    var mmGrp=36;
-    /* 6) 当年新落地社会治理类业务规模（公益慈善信托≈社会治理类，trust04 新落地合同口径） */
-    var sgNew=18;
-    conEl.innerHTML=[
-      cc({t:'证券受托业务高费率收入占比',pct:1,v:secRatio,tgt:30,
-          sub:'证券受托收入÷除国信总收入 · 实时计算'}),
-      cc({t:'财富家办业务规模',u:'亿',v:wmScale,tgt:1050,yoy:tYoY('trust04','财富管理业务规模'),
-          sub:'≈财富管理条线口径（05-规模结构）'}),
-      cc({t:'自有资金投资收益率',pct:1,v:ownR,tgt:1.2,
-          sub:'固有业务收入÷固有业务规模（01/03）'}),
-      cc({t:'华润元大基金利润总额',u:'万元',v:ydProf,tgt:3800,
-          sub:'关联：元大基金收入 6,800 万（02-财务指标）'}),
-      cc({t:'元大货币基金集团内投资规模',u:'亿',v:mmGrp,tgt:42,yoy:tYoY('trust05','其中：货币型基金规模'),
-          sub:'货基规模 280 亿之集团内口径（06-业务结构）'}),
-      cc({t:'当年新落地社会治理类业务规模',u:'亿',v:sgNew,tgt:25,yoy:tYoY('trust04','公益慈善信托规模'),
-          sub:'公益慈善信托≈社会治理类（05-规模结构）'})
-    ].join('');
+    function insPerfTbl(title,items,five){
+      var body=items.map(function(it0){ if(!it0) return ''; var it=estTarget(it0);
+        var fmt=function(x){ return x==null?'—':(/%/.test(it.u)?(+x).toFixed(2):(+x).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})); };
+        /* 五年两列=高质量表显示且有值（five=1），与保险页 2026-11-18 同款推算；台账补列后可直接替换 */
+        var bud5=null,rt5=null;
+        if(five){ if(/%/.test(it.u)){ bud5=it.bud; rt5=it.rt; }
+          else if(it.bud!=null){ bud5=+(it.bud*5).toFixed(2); rt5=it.act==null?null:+(it.act/bud5*100).toFixed(1); } }
+        var doneCell=function(rt){ return rt==null?'<td class="pt-v">—</td>'
+          : '<td class="pt-bar"><div class="pb"><div class="pb-t"><i class="pb-f" style="width:'+Math.min(100,rt).toFixed(1)+'%"></i></div><span class="pb-p">'+rt.toFixed(1)+'%</span></div></td>'; };
+        return '<tr><td class="pt-nm">'+it.n+'</td><td class="pt-u">'+it.u+'</td>'+
+          '<td class="pt-v">'+fmt(it.act)+'</td><td class="pt-v pt-tar">'+fmt(it.bud)+'</td>'+doneCell(it.rt)+
+          (five?'<td class="pt-v pt-tar">'+fmt(bud5)+'</td>'+doneCell(rt5):'')+'</tr>'; }).join('');
+      return '<div class="card" style="margin-bottom:0"><div class="chd chd-perf">'+title+'</div>'+
+        '<div class="cbd" style="padding:6px 12px 8px">'+
+        '<table class="bk-perf-tbl'+(five?' f7':'')+'"><thead><tr><th>指标名称</th><th>单位</th><th>实际值</th><th>年度目标</th><th>年度完成度</th>'+(five?'<th>五年目标</th><th>五年完成度</th>':'')+'</tr></thead>'+
+        '<tbody>'+body+'</tbody></table></div></div>';
+    }
+    var tsHQ=['证券受托业务提升高费率业务收入占比','财富家办业务规模','财富家办业务收入','标品资管业务收入',
+              '自有资金投资收益率','华润元大基金利润总额','华润元大货币基金集团内投资规模','当年新落地社会治理类业务规模']
+      .map(function(nm){ return {n:nm,u:tUn('trust02',nm),act:tAct('trust02',nm),y:tYoY('trust02',nm)}; });
+    tsPerfEl.innerHTML=insPerfTbl('高质量指标',tsHQ,1);
   }
   /* ② 收入构成饼（2026-10-27 按需求改除国信口径六条线：证券受托/财富家办/公私募资管/固有/对公/行政服务；
      源 04-收入结构 trust03；财富家办映射「财富管理业务收入」行。条线口径交叠（合计≠除国信总收入），
