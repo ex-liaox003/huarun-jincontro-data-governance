@@ -2148,14 +2148,18 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   <div class="secttl"><b class="ttl">规模与业务结构</b></div>
   <div class="grid g2 row" style="margin-bottom:0">
     <div class="card"><div class="chd chd-tr">信托新三分类构成 <span class="tag">亿元 · 资管+服务+公益三类｜中心=三分类合计（≠信托管理规模）</span></div><div class="cbd">
-      <div class="chartbox" style="height:150px"><canvas id="c-ts-new3-pie"></canvas>
-        <div class="donut-total" id="ts-new3-center"></div></div>
-      <div id="ts-new3-rows"></div>
+      <div class="donutwrap">
+        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-ts-new3-pie"></canvas></div>
+          <div class="donut-total" id="ts-new3-center"></div></div>
+        <div id="ts-new3-rows"></div>
+      </div>
     </div></div>
     <div class="card"><div class="chd chd-tr">固有资金运用构成 <span class="tag">亿元 · 中心=资金运用规模｜出险项目=红色（风险语义色）</span></div><div class="cbd">
-      <div class="chartbox" style="height:150px"><canvas id="c-ts-fund-pie"></canvas>
-        <div class="donut-total" id="ts-fund-center"></div></div>
-      <div id="ts-fund-rows"></div>
+      <div class="donutwrap">
+        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-ts-fund-pie"></canvas></div>
+          <div class="donut-total" id="ts-fund-center"></div></div>
+        <div id="ts-fund-rows"></div>
+      </div>
     </div></div>
   </div>
 </section>
