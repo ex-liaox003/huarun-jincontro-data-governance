@@ -1011,6 +1011,13 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #v-bank .chd::before,#moduleLeader #v-banks .chd::before,#moduleLeader #v-asset .chd::before,#moduleLeader #v-ins .chd::before{content:'';width:7px;height:7px;border-radius:50%;
   background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9)}
 #moduleLeader #v-bank .chd .tag,#moduleLeader #v-banks .chd .tag,#moduleLeader #v-asset .chd .tag,#moduleLeader #v-ins .chd .tag{color:rgba(255,255,255,.8)}
+/* 2026-11-18 按需求：信托 tab「收入构成与双口径/规模与业务结构」五子模块卡头=其他 tab 蓝渐变同款（#39a1f7→#0d6ef0、
+   白圆点、白字 12px、tag 半透明白）——chd-tr 精确圈定五卡，不波及「效益与规模」卡与 chd-fkk 卡头 */
+#moduleLeader #v-trust .chd.chd-tr{padding:9px 14px;background:linear-gradient(90deg,#39a1f7,#0d6ef0);
+  border-bottom:none;color:#fff;font-size:12px;letter-spacing:1px}
+#moduleLeader #v-trust .chd.chd-tr::before{content:'';width:7px;height:7px;border-radius:50%;
+  background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9)}
+#moduleLeader #v-trust .chd.chd-tr .tag{color:rgba(255,255,255,.8)}
 #moduleLeader .cbd{padding:13px 15px}
 #moduleLeader .chartbox{position:relative;height:242px}
 #moduleLeader .chartbox.tall{height:300px}
@@ -2097,14 +2104,14 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   <!-- ③ 收入构成与双口径：构成→饼（2026-10-27 改除国信口径：证券受托/财富家办/公私募资管/固有/对公/行政服务 六条线）；含/除对比→分组条形（规则④） -->
   <div class="secttl"><b class="ttl">收入构成与双口径</b> <span class="lite">—— 钱从哪来｜源 04-收入结构｜构成=饼（除国信口径六条线）· 口径对比=条形（柱差=国信贡献）</span></div>
   <div class="grid g2 row">
-    <div class="card"><div class="chd">收入构成 · 除国信口径 <span class="tag">亿元 · 截止本月末｜六条线构成｜条线口径交叠·合计≠除国信总收入</span></div><div class="cbd">
+    <div class="card"><div class="chd chd-tr">收入构成 · 除国信口径 <span class="tag">亿元 · 截止本月末｜六条线构成｜条线口径交叠·合计≠除国信总收入</span></div><div class="cbd">
       <div class="donutwrap">
         <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-ts-rev-pie"></canvas></div>
           <div class="donut-total" id="ts-rev-center"></div></div>
         <div id="ts-rev-rows"></div>
       </div>
     </div></div>
-    <div class="card"><div class="chd">盈利口径对照：含国信 / 剔除国信 <span class="tag">亿元 · 截止本月末｜同一指标双口径并列，柱差即国信投资收益贡献</span></div><div class="cbd">
+    <div class="card"><div class="chd chd-tr">盈利口径对照：含国信 / 剔除国信 <span class="tag">亿元 · 截止本月末｜同一指标双口径并列，柱差即国信投资收益贡献</span></div><div class="cbd">
       <div class="chartbox" style="height:168px"><canvas id="c-ts-gx"></canvas></div>
       <div id="ts-gx-rows"></div>
     </div></div>
@@ -2114,16 +2121,16 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
        分条线业务规模=口径交叠科目→纵向柱状（五指标全称）｜信托新三分类构成=饼（资管/服务/公益三类本体·中心=三分类合计）｜固有资金运用构成=饼+五列明细（出险红色示警） -->
   <div class="secttl"><b class="ttl">规模与业务结构</b> <span class="lite">—— 靠什么 · 稳不稳｜源 05-规模结构 · 06-业务结构｜条线交叠口径=柱状对比 · 构成=饼（占比按合计计）· 固有资金附五列明细｜一行三模块</span></div>
   <div class="grid g3 row" style="margin-bottom:0">
-    <div class="card"><div class="chd">分条线业务规模 <span class="tag">亿元 · 柱状对比｜条线与三分类口径交叠，仅作量级对比</span></div><div class="cbd">
+    <div class="card"><div class="chd chd-tr">分条线业务规模 <span class="tag">亿元 · 柱状对比｜条线与三分类口径交叠，仅作量级对比</span></div><div class="cbd">
       <div class="chartbox" style="height:196px"><canvas id="c-ts-scale"></canvas></div>
       <div id="ts-scale-rows"></div>
     </div></div>
-    <div class="card"><div class="chd">信托新三分类构成 <span class="tag">亿元 · 资管+服务+公益三类｜中心=三分类合计（≠信托管理规模）</span></div><div class="cbd">
+    <div class="card"><div class="chd chd-tr">信托新三分类构成 <span class="tag">亿元 · 资管+服务+公益三类｜中心=三分类合计（≠信托管理规模）</span></div><div class="cbd">
       <div class="chartbox" style="height:150px"><canvas id="c-ts-new3-pie"></canvas>
         <div class="donut-total" id="ts-new3-center"></div></div>
       <div id="ts-new3-rows"></div>
     </div></div>
-    <div class="card"><div class="chd">固有资金运用构成 <span class="tag">亿元 · 中心=资金运用规模｜出险项目=红色（风险语义色）</span></div><div class="cbd">
+    <div class="card"><div class="chd chd-tr">固有资金运用构成 <span class="tag">亿元 · 中心=资金运用规模｜出险项目=红色（风险语义色）</span></div><div class="cbd">
       <div class="chartbox" style="height:150px"><canvas id="c-ts-fund-pie"></canvas>
         <div class="donut-total" id="ts-fund-center"></div></div>
       <div id="ts-fund-rows"></div>
