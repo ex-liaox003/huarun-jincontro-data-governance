@@ -1183,6 +1183,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #ts-rev-rows .strow>b{margin-left:auto;margin-right:5px}
 /* 保险定稿列宽预算（保险=数值长串场景 c-v 110；信托数值短串「4.68 亿元」c-v 维持基准 94 即容纳——
    同一规则按内容定占位）：c-y 112→108+mL6、c-p 76→60+mL6，名称列回收 ~24px 免省略号收缩 */
+#moduleLeader #ts-rev-rows .strow b.cols3 .c-v{width:110px}  /* 2026-11-18 按需求：值列对齐保险「保费规模」参照=110px（明细行其余项两页本就同源一致） */
 #moduleLeader #ts-rev-rows .strow b.cols3 .c-y{width:108px;margin-left:6px}
 #moduleLeader #ts-rev-rows .strow b.cols3 .c-p{width:60px;margin-left:6px}
 #moduleLeader #ts-rev-rows,#moduleLeader #ts-scale-rows,#moduleLeader #ts-new3-rows,#moduleLeader #ts-fund-rows{margin-right:-9px;min-width:0}
@@ -1191,6 +1192,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #ts-scale-rows .strow,#moduleLeader #ts-new3-rows .strow,#moduleLeader #ts-fund-rows .strow{justify-content:flex-start;gap:10px;padding-right:0}
 #moduleLeader #ts-scale-rows .strow>span:first-child,#moduleLeader #ts-new3-rows .strow>span:first-child,#moduleLeader #ts-fund-rows .strow>span:first-child{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #moduleLeader #ts-scale-rows .strow>b,#moduleLeader #ts-new3-rows .strow>b,#moduleLeader #ts-fund-rows .strow>b{margin-left:auto;margin-right:5px}
+#moduleLeader #ts-scale-rows .strow b.cols3 .c-v,#moduleLeader #ts-new3-rows .strow b.cols3 .c-v,#moduleLeader #ts-fund-rows .strow b.cols3 .c-v{width:110px}  /* 2026-11-18 按需求：值列对齐保险「保费规模」参照=110px */
 #moduleLeader #ts-scale-rows .strow b.cols3 .c-y,#moduleLeader #ts-new3-rows .strow b.cols3 .c-y,#moduleLeader #ts-fund-rows .strow b.cols3 .c-y{width:108px;margin-left:6px}
 #moduleLeader #ts-scale-rows .strow b.cols3 .c-p,#moduleLeader #ts-new3-rows .strow b.cols3 .c-p,#moduleLeader #ts-fund-rows .strow b.cols3 .c-p{width:60px;margin-left:6px}
 /* 条线营收构成明细行（2026-10-30 按需求）：收入构成同款 cols3 三列（值/累计同比/占比）；
@@ -2129,15 +2131,15 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   <div class="grid g2 row">
     <div class="card"><div class="chd chd-tr">收入构成 · 除国信口径</div><div class="cbd">
       <div class="donutwrap">
-        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-ts-rev-pie"></canvas></div>
-          <div class="donut-total" id="ts-rev-center"></div></div>
+        <div style="position:relative;height:172px"><div class="chartbox" style="height:172px"><canvas id="c-ts-rev-pie"></canvas></div>
+          <div class="donut-total sm" id="ts-rev-center"></div></div>
         <div id="ts-rev-rows"></div>
       </div>
     </div></div>
     <div class="card"><div class="chd chd-tr">分条线业务规模 <span class="tag">亿元 · 柱状对比｜条线与三分类口径交叠，仅作量级对比</span></div><div class="cbd">
       <div class="donutwrap">
-        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-ts-scale"></canvas></div>
-          <div class="donut-total" id="ts-scale-center"></div></div>
+        <div style="position:relative;height:172px"><div class="chartbox" style="height:172px"><canvas id="c-ts-scale"></canvas></div>
+          <div class="donut-total sm" id="ts-scale-center"></div></div>
         <div id="ts-scale-rows"></div>
       </div>
     </div></div>
