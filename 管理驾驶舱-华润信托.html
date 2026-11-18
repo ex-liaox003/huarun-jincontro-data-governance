@@ -1185,7 +1185,14 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
    同一规则按内容定占位）：c-y 112→108+mL6、c-p 76→60+mL6，名称列回收 ~24px 免省略号收缩 */
 #moduleLeader #ts-rev-rows .strow b.cols3 .c-y{width:108px;margin-left:6px}
 #moduleLeader #ts-rev-rows .strow b.cols3 .c-p{width:60px;margin-left:6px}
-#moduleLeader #ts-rev-rows{margin-right:-9px;min-width:0}
+#moduleLeader #ts-rev-rows,#moduleLeader #ts-scale-rows,#moduleLeader #ts-new3-rows,#moduleLeader #ts-fund-rows{margin-right:-9px;min-width:0}
+/* 2026-11-18 按需求：分条线业务规模/信托新三分类构成/固有资金运用构成 三模块明细行=收入构成同款
+   cols3 排版（名称省略号兜底+数值组贴右左移+固定列宽防遮挡），与 #ts-rev-rows 同一套规则 */
+#moduleLeader #ts-scale-rows .strow,#moduleLeader #ts-new3-rows .strow,#moduleLeader #ts-fund-rows .strow{justify-content:flex-start;gap:10px;padding-right:0}
+#moduleLeader #ts-scale-rows .strow>span:first-child,#moduleLeader #ts-new3-rows .strow>span:first-child,#moduleLeader #ts-fund-rows .strow>span:first-child{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#moduleLeader #ts-scale-rows .strow>b,#moduleLeader #ts-new3-rows .strow>b,#moduleLeader #ts-fund-rows .strow>b{margin-left:auto;margin-right:5px}
+#moduleLeader #ts-scale-rows .strow b.cols3 .c-y,#moduleLeader #ts-new3-rows .strow b.cols3 .c-y,#moduleLeader #ts-fund-rows .strow b.cols3 .c-y{width:108px;margin-left:6px}
+#moduleLeader #ts-scale-rows .strow b.cols3 .c-p,#moduleLeader #ts-new3-rows .strow b.cols3 .c-p,#moduleLeader #ts-fund-rows .strow b.cols3 .c-p{width:60px;margin-left:6px}
 /* 条线营收构成明细行（2026-10-30 按需求）：收入构成同款 cols3 三列（值/累计同比/占比）；
    本卡为窄卡（0.8fr）——donutwrap 饼列压至 160px、明细列 min-width:0 让位，
    行内名称 60 / 值 76 / 累计同比 86 / 占比 64 紧凑列宽（标签 4 字+涨跌值仍成列对齐） */
@@ -2081,7 +2088,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 <main>
 <section class="view on" id="v-trust">
   <!-- ① 核心经营指标：利润链三 hero 同行（KPI大字=累计 · 趋势=本月数，规则①）+ 效益与规模六卡（规则④：比率/存量不同尺度不入图） -->
-  <div class="secttl"><b class="ttl">核心经营指标</b> <span class="lite">—— 赚多少｜源 02-财务指标｜规则：趋势=当月值（柱=当月实际 虚线=去年同月）· KPI大字=本年累计｜含/除国信双口径并列</span></div>
+  <div class="secttl"><b class="ttl">核心经营指标</b></div>
   <div class="grid g3 row">
     <div class="card"><div class="chd chd-fkk">总收入（含国信）</div><div class="cbd">
       <div class="kpihero" id="ts-hero-rev"></div>
@@ -2101,7 +2108,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   </div>
   <div class="card row" style="margin-bottom:0"><div class="cbd">
     <!-- 2026-11-18 按需求：「效益与规模」组标题=保险「效益与价值」同款（stgrp-cap 纯文字标题行——无背景/无竖线/蓝字 12.5px 加粗；原 chd 卡头删除，口径说明降为 .lite 灰注） -->
-    <div class="stgrp-cap" style="margin-top:0">效益与规模 <span class="lite">02-财务指标 · ROE 含/除国信同排对照 + 管理规模/总资产/净资产（量级悬殊→卡片行，不做伪对比）</span></div>
+    <div class="stgrp-cap" style="margin-top:0">效益与规模</div>
     <div class="bkgrid6" id="ts-eff-cards"></div>
   </div></div>
 
@@ -2109,32 +2116,34 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
        生成器/样式/列对齐/配色与华润保险「高质量指标」表格完全同款（insPerfTbl 移植）；
        数据源=数据应用-固定报表管理-华润信托-03-高质量发展指标（trust02 台账 8 项，按报表原序） -->
   <div class="secttl"><b class="ttl">业绩指标</b></div>
-  <div class="row" style="margin-bottom:0"><div id="ts-perf"></div></div>
+  <div class="grid g2 row" style="align-items:stretch;margin-bottom:0">
+    <div id="ts-perf"></div>
+    <div class="card"><div class="chd chd-tr">双口径 <span class="tag">亿元 · 本年累计</span></div><div class="cbd">
+      <div class="chartbox" style="height:168px"><canvas id="c-ts-gx"></canvas></div>
+      <div id="ts-gx-rows"></div>
+    </div></div>
+  </div>
 
-  <!-- ③ 收入构成与双口径：构成→饼（2026-10-27 改除国信口径：证券受托/财富家办/公私募资管/固有/对公/行政服务 六条线）；含/除对比→分组条形（规则④） -->
-  <div class="secttl"><b class="ttl">收入构成与双口径</b> <span class="lite">—— 钱从哪来｜源 04-收入结构｜构成=饼（除国信口径六条线）· 口径对比=条形（柱差=国信贡献）</span></div>
+  <!-- ③ 收入与规模（2026-11-18 按需求改名+重排：原「收入构成与双口径」；左=收入构成饼(原样)、右=分条线业务规模(自④区移入)） -->
+  <div class="secttl"><b class="ttl">收入与规模</b></div>
   <div class="grid g2 row">
-    <div class="card"><div class="chd chd-tr">收入构成 · 除国信口径 <span class="tag">亿元 · 截止本月末｜六条线构成｜条线口径交叠·合计≠除国信总收入</span></div><div class="cbd">
+    <div class="card"><div class="chd chd-tr">收入构成 · 除国信口径</div><div class="cbd">
       <div class="donutwrap">
         <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-ts-rev-pie"></canvas></div>
           <div class="donut-total" id="ts-rev-center"></div></div>
         <div id="ts-rev-rows"></div>
       </div>
     </div></div>
-    <div class="card"><div class="chd chd-tr">盈利口径对照：含国信 / 剔除国信 <span class="tag">亿元 · 截止本月末｜同一指标双口径并列，柱差即国信投资收益贡献</span></div><div class="cbd">
-      <div class="chartbox" style="height:168px"><canvas id="c-ts-gx"></canvas></div>
-      <div id="ts-gx-rows"></div>
-    </div></div>
-  </div>
-
-  <!-- ④ 规模与业务结构（2026-10-27 按需求三区一行并列；原⑤固有资金与元大基金区并入本区、元大条线卡删除）：
-       分条线业务规模=口径交叠科目→纵向柱状（五指标全称）｜信托新三分类构成=饼（资管/服务/公益三类本体·中心=三分类合计）｜固有资金运用构成=饼+五列明细（出险红色示警） -->
-  <div class="secttl"><b class="ttl">规模与业务结构</b> <span class="lite">—— 靠什么 · 稳不稳｜源 05-规模结构 · 06-业务结构｜条线交叠口径=柱状对比 · 构成=饼（占比按合计计）· 固有资金附五列明细｜一行三模块</span></div>
-  <div class="grid g3 row" style="margin-bottom:0">
     <div class="card"><div class="chd chd-tr">分条线业务规模 <span class="tag">亿元 · 柱状对比｜条线与三分类口径交叠，仅作量级对比</span></div><div class="cbd">
       <div class="chartbox" style="height:196px"><canvas id="c-ts-scale"></canvas></div>
       <div id="ts-scale-rows"></div>
     </div></div>
+  </div>
+
+  <!-- ④ 规模与业务结构（2026-11-18 按需求调整：分条线业务规模移入「收入与规模」行，本区余两张卡 g2 并列：
+       信托新三分类构成=饼（资管/服务/公益三类本体·中心=三分类合计）｜固有资金运用构成=饼+五列明细（出险红色示警）） -->
+  <div class="secttl"><b class="ttl">规模与业务结构</b></div>
+  <div class="grid g2 row" style="margin-bottom:0">
     <div class="card"><div class="chd chd-tr">信托新三分类构成 <span class="tag">亿元 · 资管+服务+公益三类｜中心=三分类合计（≠信托管理规模）</span></div><div class="cbd">
       <div class="chartbox" style="height:150px"><canvas id="c-ts-new3-pie"></canvas>
         <div class="donut-total" id="ts-new3-center"></div></div>
@@ -9069,10 +9078,10 @@ const TRUST_SHEETS = {
       ["10","净利润（除国信）","亿元","0.70","+2.8%","7.91","+10.3%","+8.0%"],
       ["11","ROE（含国信）","%","-","-","12.80","+0.6ppt","+0.5ppt"],
       ["12","ROE（除国信）","%","-","-","10.65","+0.5ppt","+0.4ppt"],
-      ["13","总资产","亿元","386.50","+0.8%","386.50","+8.9%","-"],
-      ["14","净资产","亿元","74.30","+0.8%","74.30","+7.6%","-"],
-      ["15","信托管理规模","亿元","6,850.00","+1.0%","6,850.00","+11.2%","-"],
-      ["16","元大基金管理规模","亿元","1,280.00","+1.2%","1,280.00","+13.5%","-"]
+      ["13","总资产","亿元","386.50","+0.8%","386.50","+8.9%","+6.2%"],
+      ["14","净资产","亿元","74.30","+0.8%","74.30","+7.6%","+5.4%"],
+      ["15","信托管理规模","亿元","6,850.00","+1.0%","6,850.00","+11.2%","+9.8%"],
+      ["16","元大基金管理规模","亿元","1,280.00","+1.2%","1,280.00","+13.5%","+11.6%"]
     ],
     chart: {type:"composition",title:"收入结构分布(亿元)",data:[
       {name:"信托业务收入",value:11.86},{name:"固有业务收入",value:4.66},{name:"国信投资收益",value:2.13}]},
@@ -11456,16 +11465,17 @@ function drawTrust(){
      26px 渐变大数值+值下两行对比：标签靠左、▲▼红涨绿跌值靠卡右缘=bkDl 全页同一格式源）。
      取数=台账 trust01 真实列：累计同比=截止本月末组同比列、第二行=该表「较年初」列（台账列名如实标注，
      与保险卡「较上年」同一版式不同语义标签——信托台账有真实较年初列、非推算） */
-  function tsEffCard(name,point){
-    var u=tUn('trust01',name), pctU=/%/.test(u);
-    var raw=tAct('trust01',name), v=raw==null?null:(pctU?raw:m(raw));
+  function tsEffCard(name,point,sheet){
+    var sh=sheet||'trust01';   /* 2026-11-18 按需求：支持跨表取数（资产负债率/营业总成本/已纳税总额=trust00 01-集团经营看板） */
+    var u=tUn(sh,name), pctU=/%/.test(u);
+    var raw=tAct(sh,name), v=raw==null?null:(pctU?raw:m(raw));
     return '<div class="fkk"><div class="fkk-h">'+name+'<span class="fkk-info">ⓘ</span></div>'+
       '<div class="fkk-b"><div class="fkk-st">'+
         '<span class="s-lbl">'+(point?'本月末':'本年累计')+'</span>'+
         '<span class="s-val"><b>'+tilNum(v,u)+'</b><small>'+(u==='亿元'?'亿':u)+'</small></span>'+
-        '<span class="s-dlrow">'+bkDl('累计同比',tYoY('trust01',name))+bkDl('较年初',tYtd('trust01',name))+'</span>'+
+        '<span class="s-dlrow">'+bkDl('累计同比',tYoY(sh,name))+bkDl('较年初',tYtd(sh,name))+'</span>'+
       '</div></div></div>'; }
-  if(eff) eff.innerHTML=[['ROE（含国信）'],['ROE（除国信）'],['信托管理规模',1],['元大基金管理规模',1],['总资产',1],['净资产',1]].map(function(e){return tsEffCard(e[0],e[1])}).join('');
+  if(eff) eff.innerHTML=[['ROE（含国信）'],['ROE（除国信）'],['净资产',1,'trust01'],['资产负债率',1,'trust00'],['营业总成本',0,'trust00'],['已纳税总额',0,'trust00']].map(function(e){return tsEffCard(e[0],e[1],e[2])}).join('');  /* 2026-11-18 二次按需求：卡序=ROE×2→净资产→资产负债率→营业总成本→已纳税总额（后三项源 01-集团经营看板 trust00；资产负债率/净资产=本月末时点，营业总成本/已纳税总额=本年累计流量；信托管理规模/元大基金管理规模/总资产移出） */
   /* ② 业绩合同指标（2026-10-26 新增，置于收入构成前——叙事顺序：结果→承诺→拆解）
      六项=华润信托年度业绩合同；占比/收益率由报表实时计算（trust03/04/05 同口径联动），
      规模子集类显示合同口径目标+关联报表基数行注；卡内达成条=合同目标完成度 */
@@ -11509,14 +11519,24 @@ function drawTrust(){
      源 04-收入结构 trust03；财富家办映射「财富管理业务收入」行。条线口径交叠（合计≠除国信总收入），
      饼占比=各条线占六线合计之比；中心=六条线合计并在明细行注记口径。含国信口径拆解由右卡双口径条承担） */
   var revParts=[['证券受托','#4d94ff','证券受托业务收入'],['财富家办','#6cc0f0','财富管理业务收入'],
-                ['公私募资管','#35c06b','公私募资管业务收入'],['固有业务','#eda14e','固有业务收入'],
-                ['对公业务','#a0b4f0','对公业务收入'],['行政服务','#8fd8c8','行政服务业务收入']];
+                ['公私募资管','#35c06b','公私募资管业务收入'],['固有业务','#eda14e','固有业务收入']];
+  /* 2026-11-18 按需求：对公业务、行政服务 两片删除（饼与明细行同步；四条线合计≠除国信总收入的口径特性不变） */
   var revV=revParts.map(function(e){ return +m(tAct('trust03',e[2])||0).toFixed(2); });
   var revSum=revV.reduce(function(a,b){return a+b;},0);
   tilDonut('c-ts-rev-pie',revParts.map(function(e){return e[0]}),revV,revParts.map(function(e){return e[1]}),'亿元',
-    {centerEl:'ts-rev-center',centerLab:'六条线合计 · 亿',cols3:1,yoys:revParts.map(function(e){return tYoY('trust03',e[2])}),rowsEl:'ts-rev-rows'});
+    {centerEl:'ts-rev-center',centerLab:'总收入 · 亿',cols3:1,yoys:revParts.map(function(e){return tYoY('trust03',e[2])}),rowsEl:'ts-rev-rows'});
+  /* 2026-11-18 按需求：行政服务下加「其他收入(轧差)」明细行——值=除国信总收入−六条线合计（轧差口径，
+     可能为负，故仅入明细行不入饼扇区）；占比/同比无独立口径显示「—」 */
+  (function(){ var rowsEl=document.getElementById('ts-rev-rows'); if(!rowsEl) return;
+    var gap=+(m(tAct('trust03','总收入（除国信）')||0).toFixed(2))-revSum;
+    var d=document.createElement('div'); d.className='strow';
+    d.innerHTML='<span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#9db4d0;margin-right:6px"></i>其他收入(轧差)</span>'+
+      '<b class="cols3"><i class="c-v">'+tilNum(gap,'亿元')+' 亿元</i>'+
+      '<i class="c-y"><span class="lb">累计同比</span><i class="yoy flat">—</i></i>'+
+      '<i class="c-p"><span class="lb">占比</span><span class="pv">—</span></i></b>';
+    rowsEl.appendChild(d); })();
   var revC=document.getElementById('ts-rev-center');
-  if(revC) revC.innerHTML='<b>'+tilNum(revSum,'亿元')+'</b><small>六条线合计 · 亿</small>';
+  if(revC) revC.innerHTML='<b>'+tilNum(revSum,'亿元')+'</b><small>总收入 · 亿</small>';
   /* 盈利口径对照：含国信 / 剔除国信（规则④：同指标两口径→分组条形，柱差=国信贡献） */
   var pairs=[['总收入','总收入（含国信）','总收入（除国信）'],['利润总额','利润总额（含国信）','利润总额（除国信）'],['净利润','净利润（含国信）','净利润（除国信）']];
   tilDestroyCanvases('c-ts-gx');
@@ -11525,10 +11545,7 @@ function drawTrust(){
       {label:'剔除国信',data:pairs.map(function(p){ return +m(tAct('trust01',p[2])||0).toFixed(2); }),backgroundColor:'#5b9bd9',borderRadius:4}]},
     options:Object.assign(base({legend:LGL}),{scales:{y:YAX,x:NOG}})});
   var el2=document.getElementById('ts-gx-rows');
-  if(el2) el2.innerHTML=
-    '<div class="strow"><span>ROE（含国信）</span><b>'+tAct('trust01','ROE（含国信）')+'% · 同比 '+tYoY('trust01','ROE（含国信）')+'</b></div>'+
-    '<div class="strow"><span>ROE（除国信）</span><b>'+tAct('trust01','ROE（除国信）')+'% · 同比 '+tYoY('trust01','ROE（除国信）')+'</b></div>'+
-    '<div class="strow"><span><span class="lite">口径说明</span></span><b><span class="lite" style="font-size:10.5px">柱差=国信投资收益（'+tilNum(m(tAct('trust01','国信投资收益')||0),'亿元')+' 亿）</span></b></div>';
+  if(el2) el2.innerHTML='';  /* 2026-11-18 按需求：下方 ROE（含/除国信）两行与「口径说明」行删除，图区独立成卡 */
   /* ③ 新三分类构成饼（2026-10-27 按需求删除「其他信托计划」轧差片：饼=资管/服务/公益三类本体，
      中心=三类合计 6,675、占比按三类合计计→合计恒=100%；与管理规模 6,850 的差额在卡头注记） */
   tilDestroyCanvases('c-ts-new3-pie');
@@ -11536,8 +11553,8 @@ function drawTrust(){
     var parts=[['资产管理信托','资产管理信托规模','#4d94ff'],['资产服务信托','资产服务信托规模','#6cc0f0'],['公益慈善信托','公益慈善信托规模','#35c06b']];
     var v=parts.map(function(e){ return +m(tAct('trust04',e[1])||0).toFixed(0); });
     tilDonut('c-ts-new3-pie',parts.map(function(e){return e[0]}),v,parts.map(function(e){return e[2]}),'亿元',
-      {centerEl:'ts-new3-center',centerLab:'三分类合计 · 亿',rowsEl:'ts-new3-rows',
-       yoys:parts.map(function(e){return tYoY('trust04',e[1])})});
+      {centerEl:'ts-new3-center',centerLab:'三分类合计 · 亿',rowsEl:'ts-new3-rows',cols3:1,
+       yoys:parts.map(function(e){return tYoY('trust04',e[1])})});  /* 2026-11-18 按需求：明细行=收入构成同款 cols3 */
   })();
   /* 分条线规模（trust04；2026-10-27 按需求改纵向柱状图，指标五项全称=证券受托/财富家办/公私募资管/固有/对公；
      财富家办映射「财富管理业务规模」行（与合同卡2同口径），元大基金柱删除（公私募资管已含）；
@@ -11550,7 +11567,14 @@ function drawTrust(){
     datasets:[{label:'亿元',data:ln.map(function(e){ return Math.round(m(tAct('trust04',e[2])||0)); }),backgroundColor:['#17427d','#2f7fd6','#5b9bd9','#7fb0e0','#9ec3ea'],borderRadius:4,maxBarThickness:34}]},
     options:Object.assign(base(),{scales:{y:{grid:GRID,grace:'18%',ticks:{font:{size:10},color:T3}},x:{grid:{display:false},ticks:{font:{size:9.5},color:T2,maxRotation:0,crossAlign:'far'}}}})});
   var elSc=document.getElementById('ts-scale-rows');
-  if(elSc) elSc.innerHTML='<div style="font-size:10px;color:var(--dim);line-height:1.5;margin-top:6px">口径说明：条线与三分类交叠（相加≠管理规模）→ 柱状仅作量级对比；财富家办=财富管理条线口径；元大基金已含于公私募资管。</div>';
+  if(elSc) elSc.innerHTML=ln.map(function(e){
+    var v=Math.round(m(tAct('trust04',e[2])||0)), y=tYoY('trust04',e[2]);
+    var tot=ln.reduce(function(a2,b2){ return a2+Math.round(m(tAct('trust04',b2[2])||0)); },0)||1;
+    return '<div class="strow"><span>'+e[0]+'</span>'+
+      '<b class="cols3"><i class="c-v">'+tilNum(v,'亿元')+' 亿元</i>'+
+      '<i class="c-y"><span class="lb">累计同比</span>'+(y&&y!=='-'&&y!=='—'?bkDelta(y,''):'<i class="yoy flat">—</i>')+'</i>'+
+      '<i class="c-p"><span class="lb">占比</span><span class="pv">'+(v/tot*100).toFixed(2)+'%</span></i></b></div>';
+  }).join('');  /* 2026-11-18 按需求：口径说明行 → 收入构成同款 cols3 明细（名称/值/累计同比/占比；柱状图本体不动） */
   /* ④ 固有资金运用构成饼（规则②：六项相加=资金运用规模 425=425 严格勾稽；出险项目=红色风险语义色；
      2026-10-27 按需求：六片用报表全称显示（不缩写），中心=「资金运用规模」全称） */
   tilDestroyCanvases('c-ts-fund-pie');
@@ -11565,18 +11589,16 @@ function drawTrust(){
        出险项目行整行红色语义（风险敞口），占比列合计=100%（六项相加=425 勾稽闭合） */
     var rows=document.getElementById('ts-fund-rows');
     if(rows){
-      rows.innerHTML='<div class="fund-grid"><div class="fund-row fund-hd"><span class="n">指标名称</span>'+
-        '<span class="v" style="text-align:right">值（亿元）</span><span class="y" style="text-align:right">同比</span>'+
-        '<span class="y" style="text-align:right">较年初</span><span class="pc">占比</span></div>'+
-        fu.map(function(e,i){
-          var src=e[0].replace(/ - /g,'-'), isOut=e[0]==='出险项目';
-          var yv=tYoY('trust05',src), jv=tYtd('trust05',src);
-          return '<div class="fund-row"><span class="n" title="'+e[0]+'"><i style="background:'+e[1]+'"></i>'+e[0]+'</span>'+
-            '<span class="v"'+(isOut?' style="color:#d64550"':'')+'>'+tilNum(vals[i],'亿元')+'</span>'+
-            '<span class="y">'+tilDelta(yv,'')+'</span>'+
-            '<span class="y">'+tilDelta(jv,'')+'</span>'+
-            '<span class="pc"'+(isOut?' style="color:#d64550;font-weight:700"':'')+'>'+(vals[i]/tot*100).toFixed(2)+'%</span></div>';
-        }).join('')+'</div>';
+      /* 2026-11-18 按需求：五列 fund-grid → 收入构成同款 cols3 明细（名称/值/累计同比/占比）；
+         出险项目行保留红色语义（名称+值同色） */
+      rows.innerHTML=fu.map(function(e,i){
+        var src=e[0].replace(/ - /g,'-'), isOut=e[0]==='出险项目';
+        var yv=tYoY('trust05',src);
+        return '<div class="strow"><span'+(isOut?' style="color:#d64550"':'')+'><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:'+e[1]+';margin-right:6px"></i>'+e[0]+'</span>'+
+          '<b class="cols3"><i class="c-v"'+(isOut?' style="color:#d64550"':'')+'>'+tilNum(vals[i],'亿元')+' 亿元</i>'+
+          '<i class="c-y"><span class="lb">累计同比</span>'+(yv&&yv!=='-'&&yv!=='—'?bkDelta(yv,''):'<i class="yoy flat">—</i>')+'</i>'+
+          '<i class="c-p"><span class="lb">占比</span><span class="pv"'+(isOut?' style="color:#d64550"':'')+'>'+(vals[i]/tot*100).toFixed(2)+'%</span></i></b></div>';
+      }).join('');
     }
   })();
 }
