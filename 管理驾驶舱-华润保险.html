@@ -11687,12 +11687,14 @@ function drawIns(){
      左=高质量指标 / 右=考核指标；五列=指标名称/单位/实际值/目标值/完成度（进度条+百分比），复用 .bk-perf-tbl；
      成员与归属完全读台账三表「指标属性标签」列（含★→考核表，含高质量→高质量表，双标项两表并列）；
      完成度直读报表「预算达成率」列（不前端重算）；源表无预算/达成率的行按「实际×(1+累计同比)」推算目标值与完成度（2026-11-17 按需求，不再显示「未设预算」） */
+  /* 2026-11-18 按需求：业绩指标模块内显示名映射（台账/固定报表页原名不动） */
+  var PERF_DN={'其中：华润燃气业务保费规模':'华润燃气业务保费规模'};
   function insPerfRow(sheet,name){
     var r=tRow(sheet,name); if(!r) return null;
     var u=tUn(sheet,name), pct=/[%]/.test(u);
     var raw=tAct(sheet,name), act=raw==null?null:(pct?raw:m(raw));
     var bud=tBud(sheet,name), rt=tRate(sheet,name);
-    return {n:name,u:u,act:act,bud:bud,rt:rt,y:tYoY(sheet,name)};
+    return {n:PERF_DN[name]||name,u:u,act:act,bud:bud,rt:rt,y:tYoY(sheet,name)};
   }
   /* 2026-11-17 按需求：源表无预算/达成率的行不再显示「未设预算」——目标值按「本年累计×(1+累计同比)」推算
    （=延续当前增速的全年目标），完成度=实际÷目标=100÷(1+同比)，与既有直读「预算达成率」列的行并存不冲突；
@@ -11734,7 +11736,7 @@ function drawIns(){
       if(st.indexOf('高质量')>=0) insHQ.push(insPerfRow(sheet,nm)); });
   });
   var insCEl=document.getElementById('ins-contract');
-  if(insCEl) insCEl.innerHTML=insPerfTbl('高质量指标',insHQ,1)+insPerfTbl('考核指标',insKH);
+  if(insCEl) insCEl.innerHTML=insPerfTbl('高质量发展指标',insHQ,1)+insPerfTbl('考核指标',insKH);
   /* ② 双主线复合卡：KPI 大字 + 本月数趋势（规则①）+ 构成饼（规则②）
      保费：机构+产融+香港+市场化 四板块相加=986,500=保费规模合计（勾稽已验证）
      佣金：同口径四板块相加=152,300=佣金合计 → 两张饼可横向对照"板块佣金率=佣金/保费" */
