@@ -1183,15 +1183,26 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #ts-rev-rows .strow>b{margin-left:auto;margin-right:12px}  /* 2026-11-18 按需求：数值组距右边框留 12px（原 5px 太贴边） */
 /* 保险定稿列宽预算（保险=数值长串场景 c-v 110；信托数值短串「4.68 亿元」c-v 维持基准 94 即容纳——
    同一规则按内容定占位）：c-y 112→108+mL6、c-p 76→60+mL6，名称列回收 ~24px 免省略号收缩 */
-#moduleLeader #ts-rev-rows .strow b.cols3 .c-v{width:104px}  /* 2026-11-18 二次按需求：名称完整展示优先——值列 110→104（信托值「1,560.00 亿元」实测文字 62px 富余），数值字号 13.5px 不变=参照一致 */
-#moduleLeader #ts-rev-rows .strow b.cols3 .c-y{width:96px;margin-left:0}  /* ▲ 12.80% 文字实测 86px 容纳 */
-#moduleLeader #ts-rev-rows .strow b.cols3 .c-p{width:54px;margin-left:0}  /* 占比 30.93% 文字 42px 容纳 */
+#moduleLeader #ts-rev-rows .strow b.cols3 .c-v{width:96px;font-size:12.5px}  /* 2026-11-18 三次按需求：值字号调小 13.5→12.5px、列宽 104→96（12.5px 下值文字实测 ~57px 富余充足） */
+#moduleLeader #ts-rev-rows .strow b.cols3 .c-y{width:132px;margin-left:0}  /* 2026-11-18 三次按需求：同比内容（标签46+▲ 10.20% 86px）完整需 132px——原 96px 溢出 6px 压占比列 */
+#moduleLeader #ts-rev-rows .strow b.cols3 .c-p{width:66px;margin-left:0}  /* 占比 30.93% 文字实测 64px 完整容纳 */  /* 占比 30.93% 文字实测 64px→12.5px 值域收窄后 ~58px 容纳 */
 #moduleLeader #ts-rev-rows,#moduleLeader #ts-scale-rows,#moduleLeader #ts-new3-rows,#moduleLeader #ts-fund-rows{margin-right:-9px;min-width:0}
 /* 2026-11-18 按需求：名称完整展示 → 两卡饼列收窄给明细列腾位（饼 172px 高/配色/数据不变） */
 #moduleLeader .donutwrap:has(> #ts-rev-rows),#moduleLeader .donutwrap:has(> #ts-scale-rows){grid-template-columns:minmax(150px,30%) minmax(0,1fr)}
-@media(max-width:1310px){ /* 2026-11-18：贴边加大后 1280 档行宽兜底——饼列再收+同比列 92px（▲12.80% 文字 86px 容纳） */
-  #moduleLeader .donutwrap:has(> #ts-rev-rows),#moduleLeader .donutwrap:has(> #ts-scale-rows){grid-template-columns:150px minmax(0,1fr)}
-  #moduleLeader #ts-rev-rows .strow b.cols3 .c-y,#moduleLeader #ts-scale-rows .strow b.cols3 .c-y{width:92px}
+@media(max-width:1440px){ /* 2026-11-18 三次按需求：1366 档行宽兜底（新预算 433px > 明细 410px）——名称 12px、gap 4、饼列收 136 */
+  #moduleLeader #ts-rev-rows .strow>span:first-child,#moduleLeader #ts-scale-rows .strow>span:first-child{font-size:12px}
+  #moduleLeader #ts-rev-rows .strow,#moduleLeader #ts-scale-rows .strow{gap:4px}
+  #moduleLeader .donutwrap:has(> #ts-rev-rows),#moduleLeader .donutwrap:has(> #ts-scale-rows){grid-template-columns:minmax(136px,28%) minmax(0,1fr)}
+}
+@media(max-width:1310px){ /* 2026-11-18：1280 档兜底——lb 10px、yoy 10px、饼 130 定宽、c-v 90/c-p 54（全列完整容纳） */
+  #moduleLeader .donutwrap:has(> #ts-rev-rows),#moduleLeader .donutwrap:has(> #ts-scale-rows){grid-template-columns:116px minmax(0,1fr)}
+  #moduleLeader #ts-rev-rows .strow>span:first-child,#moduleLeader #ts-scale-rows .strow>span:first-child{font-size:11.5px}
+  #moduleLeader #ts-rev-rows .strow,#moduleLeader #ts-scale-rows .strow{gap:4px}
+  #moduleLeader #ts-rev-rows .strow b.cols3 .c-v,#moduleLeader #ts-scale-rows .strow b.cols3 .c-v{width:86px}
+  #moduleLeader #ts-rev-rows .strow b.cols3 .c-y,#moduleLeader #ts-scale-rows .strow b.cols3 .c-y{width:124px}
+  #moduleLeader #ts-rev-rows .strow b.cols3 .c-y .lb,#moduleLeader #ts-scale-rows .strow b.cols3 .c-y .lb{width:38px;font-size:10px}
+  #moduleLeader #ts-rev-rows .strow b.cols3 .c-y i.yoy,#moduleLeader #ts-scale-rows .strow b.cols3 .c-y i.yoy{font-size:10px}
+  #moduleLeader #ts-rev-rows .strow b.cols3 .c-p,#moduleLeader #ts-scale-rows .strow b.cols3 .c-p{width:66px}
 }
 /* 2026-11-18 按需求：分条线业务规模/信托新三分类构成/固有资金运用构成 三模块明细行=收入构成同款
    cols3 排版（名称省略号兜底+数值组贴右左移+固定列宽防遮挡），与 #ts-rev-rows 同一套规则 */
@@ -1200,10 +1211,12 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #ts-scale-rows .strow>span:first-child{flex:none;white-space:nowrap}  /* 2026-11-18 按需求：分条线名称完整展示（新三分类/固有资金两卡保持原省略号兜底） */
 #moduleLeader #ts-scale-rows .strow>b{margin-left:auto;margin-right:12px}  /* 2026-11-18 按需求：同上 */
 #moduleLeader #ts-new3-rows .strow>b,#moduleLeader #ts-fund-rows .strow>b{margin-left:auto;margin-right:5px}
-#moduleLeader #ts-scale-rows .strow b.cols3 .c-v{width:104px}  /* 2026-11-18 二次按需求：与收入构成统一 104（名称完整展示配套） */
+#moduleLeader #ts-scale-rows .strow b.cols3 .c-v{width:96px;font-size:12.5px}  /* 2026-11-18 三次按需求：与收入构成同步 12.5px/96px */
 #moduleLeader #ts-new3-rows .strow b.cols3 .c-v,#moduleLeader #ts-fund-rows .strow b.cols3 .c-v{width:110px}  /* 2026-11-18 按需求：值列对齐保险「保费规模」参照=110px */
-#moduleLeader #ts-scale-rows .strow b.cols3 .c-y,#moduleLeader #ts-new3-rows .strow b.cols3 .c-y,#moduleLeader #ts-fund-rows .strow b.cols3 .c-y{width:108px;margin-left:6px}
-#moduleLeader #ts-scale-rows .strow b.cols3 .c-p,#moduleLeader #ts-new3-rows .strow b.cols3 .c-p,#moduleLeader #ts-fund-rows .strow b.cols3 .c-p{width:60px;margin-left:6px}
+#moduleLeader #ts-scale-rows .strow b.cols3 .c-y{width:132px;margin-left:0}  /* 2026-11-18 三次按需求：与收入构成同步加宽（同内容 132px） */
+#moduleLeader #ts-new3-rows .strow b.cols3 .c-y,#moduleLeader #ts-fund-rows .strow b.cols3 .c-y{width:108px;margin-left:6px}
+#moduleLeader #ts-scale-rows .strow b.cols3 .c-p{width:66px;margin-left:0}  /* 2026-11-18 三次按需求：占比完整 */
+#moduleLeader #ts-new3-rows .strow b.cols3 .c-p,#moduleLeader #ts-fund-rows .strow b.cols3 .c-p{width:60px;margin-left:6px}
 /* 2026-11-18 按需求：饼图右侧明细行「名称+值+累计同比+占比」强制同一行——
    ≤1440 窄档的全局换行兜底(flex-wrap:wrap)不对两卡生效，行内单行排布；
    超宽时名称列省略号收缩兜底（flex:0 1 auto 机制已在），数值组三列固定宽不折行 */
