@@ -2135,8 +2135,11 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
       </div>
     </div></div>
     <div class="card"><div class="chd chd-tr">分条线业务规模 <span class="tag">亿元 · 柱状对比｜条线与三分类口径交叠，仅作量级对比</span></div><div class="cbd">
-      <div class="chartbox" style="height:196px"><canvas id="c-ts-scale"></canvas></div>
-      <div id="ts-scale-rows"></div>
+      <div class="donutwrap">
+        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-ts-scale"></canvas></div>
+          <div class="donut-total" id="ts-scale-center"></div></div>
+        <div id="ts-scale-rows"></div>
+      </div>
     </div></div>
   </div>
 
@@ -11562,19 +11565,12 @@ function drawTrust(){
   var ln=[['证券受托','业务规模','证券受托业务规模'],['财富家办','业务规模','财富管理业务规模'],
           ['公私募资管','业务规模','公私募资管业务规模'],['固有','业务规模','固有业务规模'],
           ['对公','业务规模','对公业务规模']];
-  tilDestroyCanvases('c-ts-scale');
-  mk('c-ts-scale',{type:'bar',data:{labels:ln.map(function(e){return [e[0],e[1]]}),
-    datasets:[{label:'亿元',data:ln.map(function(e){ return Math.round(m(tAct('trust04',e[2])||0)); }),backgroundColor:['#17427d','#2f7fd6','#5b9bd9','#7fb0e0','#9ec3ea'],borderRadius:4,maxBarThickness:34}]},
-    options:Object.assign(base(),{scales:{y:{grid:GRID,grace:'18%',ticks:{font:{size:10},color:T3}},x:{grid:{display:false},ticks:{font:{size:9.5},color:T2,maxRotation:0,crossAlign:'far'}}}})});
-  var elSc=document.getElementById('ts-scale-rows');
-  if(elSc) elSc.innerHTML=ln.map(function(e){
-    var v=Math.round(m(tAct('trust04',e[2])||0)), y=tYoY('trust04',e[2]);
-    var tot=ln.reduce(function(a2,b2){ return a2+Math.round(m(tAct('trust04',b2[2])||0)); },0)||1;
-    return '<div class="strow"><span>'+e[0]+'</span>'+
-      '<b class="cols3"><i class="c-v">'+tilNum(v,'亿元')+' 亿元</i>'+
-      '<i class="c-y"><span class="lb">累计同比</span>'+(y&&y!=='-'&&y!=='—'?bkDelta(y,''):'<i class="yoy flat">—</i>')+'</i>'+
-      '<i class="c-p"><span class="lb">占比</span><span class="pv">'+(v/tot*100).toFixed(2)+'%</span></i></b></div>';
-  }).join('');  /* 2026-11-18 按需求：口径说明行 → 收入构成同款 cols3 明细（名称/值/累计同比/占比；柱状图本体不动） */
+  /* 2026-11-18 按需求：柱状图改环形饼（与收入构成同款 tilDonut+cols3 明细），中心=信托管理规模（五条线合计） */
+  var lnV=ln.map(function(e){ return Math.round(m(tAct('trust04',e[2])||0)); });
+  tilDonut('c-ts-scale',ln.map(function(e){return e[0]}),lnV,['#17427d','#2f7fd6','#5b9bd9','#7fb0e0','#9ec3ea'],'亿元',
+    {centerEl:'ts-scale-center',centerLab:'信托管理规模 · 亿',cols3:1,rowsEl:'ts-scale-rows',
+     yoys:ln.map(function(e){return tYoY('trust04',e[2])})});
+  /* 明细行已由 tilDonut rowsEl(cols3=1) 全量接管（与收入构成同一渲染路径） */
   /* ④ 固有资金运用构成饼（规则②：六项相加=资金运用规模 425=425 严格勾稽；出险项目=红色风险语义色；
      2026-10-27 按需求：六片用报表全称显示（不缩写），中心=「资金运用规模」全称） */
   tilDestroyCanvases('c-ts-fund-pie');
