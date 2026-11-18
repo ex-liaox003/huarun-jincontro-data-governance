@@ -1054,7 +1054,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .ins-ch-tbl tr.total td{border-top:2px solid #bcd9f2;font-weight:700;background:#f0f7ff}
 #moduleLeader .ins-ch-tbl td small{color:var(--dim);font-size:10px;margin-left:1px}
 #moduleLeader .ins-ch-tbl td.sh{color:#8a7248}
-#moduleLeader .ins-ch-tbl td.y i.yoy{font-style:normal;font-weight:600;font-size:11.5px}
+#moduleLeader .ins-ch-tbl td.y i.yoy{font-style:normal;font-weight:400;font-size:11.5px}  /* 2026-11-18 按需求：累计同比列全部行不加粗（600→400） */
 /* 2026-11-17 按需求：本年累计(v)/占比(sh)/综合费率(rate) 三列数值=黑色非加粗（含 % 上标；
    置于 tr.total/tr.chd-row 粗体规则之后压过行级继承，合计行三列同样黑体常规，合计行强调保留其深色顶边线与底色）；
    累计同比列(td.y ▲▼红绿)不在此列、保持原样 */
@@ -1064,6 +1064,10 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .ins-ch-tbl tr.total td.v,#moduleLeader .ins-ch-tbl tr.total td.sh,#moduleLeader .ins-ch-tbl tr.total td.rate,
 #moduleLeader .ins-ch-tbl td.v,#moduleLeader .ins-ch-tbl td.sh,#moduleLeader .ins-ch-tbl td.rate{color:#000;font-weight:400}
 #moduleLeader .ins-ch-tbl td.sh small,#moduleLeader .ins-ch-tbl td.rate small{color:inherit}
+/* 2026-11-18 按需求：累计同比列(td.y)全部行不加粗——合计行 tr.total 700 行级粗体下显式压回 400 */
+#moduleLeader .ins-ch-tbl tr.total td.y,#moduleLeader .ins-ch-tbl tr.lv0 td.y,#moduleLeader .ins-ch-tbl tr.lv1 td.y,#moduleLeader .ins-ch-tbl tr.lv2 td.y,#moduleLeader .ins-ch-tbl td.y{font-weight:400}
+/* 2026-11-18 按需求：全渠道合计行数值加粗（v/sh/rate 黑体常规规则之后覆盖回粗体） */
+#moduleLeader .ins-ch-tbl tr.total.bold td.v,#moduleLeader .ins-ch-tbl tr.total.bold td.sh,#moduleLeader .ins-ch-tbl tr.total.bold td.rate{font-weight:700}
 #moduleLeader .ins-ch-tbl .bdg{margin-right:4px;font-size:11px}
 #moduleLeader .grid{display:grid;gap:12px}
 #moduleLeader .g2{grid-template-columns:1fr 1fr}
@@ -2154,14 +2158,14 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
        2026-11-17 按需求：右侧明细行统一为华润银行「收入构成」cols3 同款（色点+名称 / 值+万元 / 累计同比▲▼ / 占比，固定列纵向成列） -->
   <div class="secttl"><b class="ttl">保费与佣金双主线</b></div>
   <div class="grid g2 row">
-    <div class="card"><div class="chd">保费规模 <span class="tag">万元 · 本年累计</span></div><div class="cbd">
+    <div class="card"><div class="chd">保费规模 <span class="tag">本年累计</span></div><div class="cbd">
       <div class="donutwrap">
         <div style="position:relative;height:172px"><div class="chartbox" style="height:172px"><canvas id="c-in-prem-pie"></canvas></div>
           <div class="donut-total sm" id="in-prem-center"></div></div>
         <div id="in-prem-rows"></div>
       </div>
     </div></div>
-    <div class="card"><div class="chd">佣金收入 <span class="tag">万元 · 本年累计</span></div><div class="cbd">
+    <div class="card"><div class="chd">佣金收入 <span class="tag">本年累计</span></div><div class="cbd">
       <div class="donutwrap">
         <div style="position:relative;height:172px"><div class="chartbox" style="height:172px"><canvas id="c-in-comm-pie"></canvas></div>
           <div class="donut-total sm" id="in-comm-center"></div></div>
@@ -11770,7 +11774,7 @@ function drawIns(){
           ['其中：其他产融创新',2,'',27500,'21.60','94.83',4300,'25.40'],
           ['其中：职域',2,'',18000,'35.20','94.74',2700,'41.30'],
           ['其中：其他融融',2,'',10000,'12.80','95.24',1400,'15.60']];
-  var TTT=['全渠道合计','占比分母',986500,'9.80',152300,'8.90'];
+  var TTT=['全渠道合计','',986500,'9.80',152300,'8.90'];  /* 2026-11-18 按需求：TTT[1]「占比分母」灰注置空不再输出 */
   var el=document.getElementById('ins-detail');
   if(el){
     var pc=function(v,d){ return (v/d*100).toFixed(2); };               /* 占比/费率共用 */
@@ -11784,8 +11788,8 @@ function drawIns(){
         '<td class="gsep v">'+tilNum(com)+'</td><td class="y">'+yoy(cy)+'</td><td class="sh">'+pc(com,TTT[4])+'<small>%</small></td>'+
         '<td class="gsep rate">'+pc(com,pre)+'<small>%</small></td></tr>'; };
     var rows=TT.map(function(e){ return line(e[0],'lv'+e[1]+(e[1]===0?' sec':e[1]===1?' chd-row':''),e[2],e[3],e[4],e[6],e[7]); }).join('')
-      /* 全渠道合计行：名称后带「占比分母」灰注 */
-      +line(TTT[0]+' <span class="lite" style="font-size:10px;font-weight:400">'+TTT[1]+'</span>','sec total','',TTT[2],TTT[3],TTT[4],TTT[5]);
+      /* 全渠道合计行（2026-11-18 按需求：名称灰注删除、数值列加粗=bold 布尔并入行类） */
+      +line(TTT[0],'sec total bold','',TTT[2],TTT[3],TTT[4],TTT[5]);
     el.innerHTML='<table class="ins-ch-tbl"><thead>'+
       '<tr><th class="nm" rowspan="2">渠道层级</th><th colspan="3" class="grp">保费规模（万元）</th><th colspan="3" class="grp gsep">佣金收入（万元）</th><th class="gsep rate-h" rowspan="2">综合费率</th></tr>'+
       '<tr><th>本年累计</th><th>累计同比</th><th>占比</th><th class="gsep">本年累计</th><th>累计同比</th><th>占比</th></tr>'+
