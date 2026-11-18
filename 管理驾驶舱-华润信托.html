@@ -1195,6 +1195,11 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader #ts-scale-rows .strow b.cols3 .c-v,#moduleLeader #ts-new3-rows .strow b.cols3 .c-v,#moduleLeader #ts-fund-rows .strow b.cols3 .c-v{width:110px}  /* 2026-11-18 按需求：值列对齐保险「保费规模」参照=110px */
 #moduleLeader #ts-scale-rows .strow b.cols3 .c-y,#moduleLeader #ts-new3-rows .strow b.cols3 .c-y,#moduleLeader #ts-fund-rows .strow b.cols3 .c-y{width:108px;margin-left:6px}
 #moduleLeader #ts-scale-rows .strow b.cols3 .c-p,#moduleLeader #ts-new3-rows .strow b.cols3 .c-p,#moduleLeader #ts-fund-rows .strow b.cols3 .c-p{width:60px;margin-left:6px}
+/* 2026-11-18 按需求：饼图右侧明细行「名称+值+累计同比+占比」强制同一行——
+   ≤1440 窄档的全局换行兜底(flex-wrap:wrap)不对两卡生效，行内单行排布；
+   超宽时名称列省略号收缩兜底（flex:0 1 auto 机制已在），数值组三列固定宽不折行 */
+#moduleLeader #ts-rev-rows .strow,#moduleLeader #ts-scale-rows .strow{flex-wrap:nowrap}
+#moduleLeader #ts-rev-rows .strow>b.cols3,#moduleLeader #ts-scale-rows .strow>b.cols3{flex-wrap:nowrap;white-space:nowrap}
 /* 条线营收构成明细行（2026-10-30 按需求）：收入构成同款 cols3 三列（值/累计同比/占比）；
    本卡为窄卡（0.8fr）——donutwrap 饼列压至 160px、明细列 min-width:0 让位，
    行内名称 60 / 值 76 / 累计同比 86 / 占比 64 紧凑列宽（标签 4 字+涨跌值仍成列对齐） */
