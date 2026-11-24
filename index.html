@@ -234,7 +234,7 @@ body{
 .ym-label{font-size:12.5px; color:var(--c-text); font-weight:600;}
 .ym-select{border:none; background:transparent; font-size:13.5px; color:var(--c-primary); font-weight:700; cursor:pointer; font-family:inherit; outline:none; padding:2px; transition:color 0.15s;}
 .ym-select:hover, .ym-select:focus{color:var(--c-info);}
-/* ===== 驾驶舱 ===== */
+/* ===== 驾驶舱（模块已于 2026-11-17 删除；样式保留为死代码：与数据应用共享变量/基础件，摘除风险大于收益） ===== */
 .cock-base{font-size:12px; color:var(--c-text-light); background:#f8f9fb; border:1px solid var(--c-border); border-radius:6px; padding:4px 10px; white-space:nowrap;}
 .cock-desc{font-size:12.5px; color:var(--c-text-light); margin:0 0 12px;}
 .cock-companies{display:grid; grid-template-columns:repeat(auto-fit,minmax(430px,1fr)); gap:12px; margin-bottom:12px;}
@@ -1998,10 +1998,6 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   </div>
   <nav class="header-nav">
     <button class="topnav-item active" data-module="data" type="button">数据应用</button>
-    <div class="topnav-drop" id="cockNavDrop">
-      <button class="topnav-item" data-module="cock" type="button">驾驶舱<span class="topnav-chev">▾</span></button>
-      <div class="topnav-sub" id="cockNavSub"></div>
-    </div>
     <button class="topnav-item" data-module="leader" type="button">管理驾驶舱</button>
   </nav>
 </div>
@@ -2015,12 +2011,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   </div>
 </div>
 
-<!-- 模块三：驾驶舱（独立顶层模块：铺满整页、无左侧菜单；页面切换在顶部导航「驾驶舱」子菜单） -->
-<div class="module" id="moduleCock" style="display:none;">
-  <div class="cock-full" id="cockContent"></div>
-</div>
-
 <!-- 模块二：管理驾驶舱（内嵌自 华润金控管理驾驶舱.html；2026-10-12 改造：顶部品牌行移除仅留控制条，整体深蓝大屏风格；样式作用域 #moduleLeader，脚本 IIFE 暴露 window.LeaderApp） -->
+<!-- 驾驶舱模块已按需求删除（2026-11-17）：中间「驾驶舱」顶导航项与 #moduleCock 全屏区移除，cockpit_data.js 停载 -->
 <div class="module" id="moduleLeader" style="display:none"><!-- 已拆分独立成页（2026-11-13）：点顶部导航「管理驾驶舱」直接进入华润金融驾驶舱，板块间在独立页 Tab 栏切换 --></div>
 
 <script src="sheets_data.js"></script>
@@ -2029,9 +2021,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 <script src="trust_sheets_data.js"></script>
 <script src="insurance_sheets_data.js"></script>
 <script src="lease_sheets_data.js"></script>
-<script src="cockpit_data.js"></script>
-<!-- 管理驾驶舱图表库（原页同款；加载失败时驾驶舱图表静默降级） -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
 <script>
 /* ============================================================
    数据：9张子表指标定义
@@ -2423,7 +2413,7 @@ function renderTabs(){
   const fixedKids = document.createElement('div');
   fixedKids.className = 'nav-children open';
 
-  // 二级分组：5 家公司；华润银行 9 张报表（SHEETS），华润资产 4 张报表（ASSET_SHEETS），华润信托 6 张报表（TRUST_SHEETS，2026-11-09 新增集团经营看板指标、高质量发展指标；2026-09-23 删除风险指标页），华润保险 3 张报表（INSURANCE_SHEETS），华润租赁 5 张报表（LEASE_SHEETS）
+  // 二级分组：5 家公司；华润银行 11 张报表（SHEETS，2026-11-16 新增考核指标/高质量发展指标），华润资产 4 张报表（ASSET_SHEETS），华润信托 6 张报表（TRUST_SHEETS，2026-11-09 新增集团经营看板指标、高质量发展指标；2026-09-23 删除风险指标页），华润保险 3 张报表（INSURANCE_SHEETS），华润租赁 5 张报表（LEASE_SHEETS）
   // 默认全部收起（open:false），点击分组标题后展开
   const groups = [
     {label:'华润银行', open:false, data:SHEETS},
@@ -2555,10 +2545,6 @@ function renderContent(){
   renderAllLedgers();
   /* 预算值填报管理：预算值填报面板（2026-10-21 新增） */
   renderBudgetPanel();
-  // 驾驶舱面板（集团总览 + 各公司）
-  if(typeof COCKPITS!=='undefined'){
-    COCKPITS.forEach(c=>renderCockpitPanel(c));
-  }
 }
 
 /* 渲染单个报表面板；has=false（所选期间无历史数据）时保留 KPI 卡片、表头与指标行结构，
@@ -2569,8 +2555,9 @@ function renderContent(){
    SHEETS 原始数据保持与 Excel 模板一致，管理驾驶舱 bkGet/bkStr 取数不受影响。 */
 const SHEET_CELL_MASKS = {
   '09': { col: '较年初', rows: ['信用减值损失','公司贷款信用损失准备','零售贷款信用损失准备','不良资产处置'] },
-  /* 2026-11-05 按需求：08-客群结构「新增有效客户数」较年初显示 --（驾驶舱按原名取数不受影响） */
-  '08': { col: '较年初', rows: ['新增有效客户数'] }
+  /* 2026-11-05 按需求：08-客群结构「新增有效客户数」较年初显示 --（驾驶舱按原名取数不受影响；
+     2026-11-16 该行更名「新增有效授信客户数」同步；注：08 表列结构无较年初列，此条实际空转） */
+  '08': { col: '较年初', rows: ['新增有效授信客户数'] }
 };
 /* 2026-11-06 按需求：华润银行 09-风险情况 —— 三项反向指标（不良率类，值越低越好）的
    「预算达成率」列删进度条、改文字展示（与驾驶舱卡片 bkStx.budTxt 同一口径）：
@@ -2578,20 +2565,119 @@ const SHEET_CELL_MASKS = {
    仅固定报表管理 09 面板明细表生效（台账/其他报表/其他模块仍用预算达成率进度条，样式不变）；
    行内「实际」或「全年预算」缺数（占位 -）时回落原进度条/-- 渲染。 */
 const REVERSE_PROGRESS_ROWS = {
-  '09': ['不良资产率','个贷不良率','小额不良生成率']
+  '09': ['不良资产率','个贷不良率','小额不良生成率',
+         /* 2026-11-16 按需求：对公新增风险管控额（管控限额，实际低于预算=未突破=优于预算）达成率
+            反向文字化；亿元单位 →「优于预算/超出预算 X.XX亿元」（renderReverseBudgetCell 按行单位） */
+         '对公新增风险管控额'],
+  /* 2026-11-16 按需求新增 10-考核指标（面板键 "010"）：模板红字口径「预算目标 − 实际值」三行（越低越好）；
+     同日按需求修正：不良资产处置为正向指标（处置额越大越好），移出反向名单 → 进度条 88.10%（同 09 表） */
+  '010': ['个贷不良率','不良资产率'],
+  /* 2026-11-16 按需求：11-高质量发展指标（面板键 "011"）同名指标同步反向（与 09 同口径同数） */
+  '011': ['对公新增风险管控额']
 };
 /* 2026-11-06 按需求：其中「不良资产率 / 小额不良生成率」两行文字化的预算达成率，
    字体与颜色改与「不良资产处置」达成率文字一致（.progress-text：微软雅黑 12px · 400 · 黑色，去语义红绿）；
    「个贷不良率」不在本需求内，保持语义色（超出预算红）。plain 名单内行输出 .progress-text 类实现完全同款 */
 const REVERSE_PROGRESS_PLAIN = {
-  '09': ['不良资产率','小额不良生成率']
+  '09': ['不良资产率','小额不良生成率'],
+  /* 2026-11-16 10-考核指标同款约定：个贷不良率语义色；不良资产率平色黑字（不良资产处置已移出反向名单走进度条） */
+  '010': ['不良资产率']
 };
 /* 2026-11-05 按需求：华润银行 03-关键监测指标 —— 资产利润率→ROA(资产利润率)、资本利润率→ROE(资本利润率)。
    精确匹配指标名（「风险资产利润率」不受影响）；固定报表管理与报表台账管理两个展示位统一生效；
    SHEETS 原始数据不动，管理驾驶舱（bkStx 按原名取数+自带 label 覆写）与预算填报扫描不受影响。 */
 const SHEET_NAME_RENAMES = {
-  '03': { '资产利润率': 'ROA(资产利润率)', '资本利润率': 'ROE(资本利润率)' }
+  '03': { '资产利润率': 'ROA(资产利润率)', '资本利润率': 'ROE(资本利润率)' },
+  /* 2026-11-16 按需求：07-利率结构 指标名称删除「对客」二字（展示层改名，固定报表+台账共用；
+     源数据不动——管理驾驶舱银行/金融独立页按原名 bkStr/bkAct 取数与 BANK_CALC_NOTES 键命中零波及。
+     同日按需求：两个二级组首行加「其中：」前缀——贷款收益率-对公（组：对公/个人/贴现）、
+     存款付息率-公司（组：公司/个人），组内其余同级行 qz-gap 占位对齐 */
+  '07': { '贷款对客收益率': '贷款收益率', '贷款对客收益率-对公': '其中：贷款收益率-对公',
+          '贷款对客收益率-个人': '贷款收益率-个人', '贷款对客收益率-贴现': '贷款收益率-贴现',
+          '存款对客付息率': '存款付息率', '存款对客付息率-公司': '其中：存款付息率-公司',
+          '存款对客付息率-个人': '存款付息率-个人' },
+  /* 2026-11-17 按需求：华润资产 02-业务结构 两指标更名「规模→余额」（展示层改名，固定报表三口径+台账共用；
+     精确名称匹配——「新增/退出自有出资规模」及各「其中：…自有出资规模」组合行不受影响；
+     源数据不动——管理驾驶舱资产/金融页 asStx/aCD/asRow 按原名取数零波及，
+     且驾驶舱「自有出资余额」卡（11-12 已做显示名覆写：台账原名→自有出资余额）改名前后均正常） */
+  'asset02': { '生息资产规模': '生息资产余额', '自有出资规模': '自有出资余额' },
+  /* 2026-11-17 按需求：华润信托更名去「私募」二字——04-收入结构「私募标品资管业务收入→标品资管业务收入」、
+     05-规模结构「私募标品资管业务规模→标品资管业务规模」（展示层改名，固定报表+台账共用；
+     源数据不动——管理驾驶舱金融页 tC('trust04','其中：私募标品资管业务规模') 按原名取数零波及） */
+  'trust03': { '其中：私募标品资管业务收入': '其中：标品资管业务收入' },
+  'trust04': { '其中：私募标品资管业务规模': '其中：标品资管业务规模' }
 };
+/* 2026-11-16 按需求：不带「其中：」前缀但需与组首前缀后首字左对齐的指定行——
+   收入结构：公司/零售条线-贷款营收（二级指标缩进）；
+   成本结构：公司/零售/金融市场 风险成本·资本成本 六行（三级指标缩进）。
+   与去冗行同款 .qz-gap 3em 占位；仅在组首带「其中：」的组内生效；源数据名称不动 */
+const QZ_FORCE_ALIGN = {
+  '04': ['公司条线-贷款营收','零售条线-贷款营收'],
+  '05': ['公司条线-风险成本','公司条线-资本成本','零售条线-风险成本','零售条线-资本成本','金融市场-风险成本','金融市场-资本成本'],
+  /* 2026-11-16 按需求：存贷结构 代发客户AUM月日均（二级）对齐组首「其中：个人非存AUM月日均」 */
+  '06': ['代发客户AUM月日均'],
+  /* 2026-11-16 按需求：客群结构 中小有效授信客户数（二级）对齐组首「其中：大中有效授信客户数」 */
+  '08': ['中小有效授信客户数'],
+  /* 2026-11-16 按需求：利率结构 二级组内非组首行对齐组首（组首改名带「其中：」，源名无此二字） */
+  '07': ['贷款收益率-个人','贷款收益率-贴现','存款付息率-个人'],
+  /* 2026-11-24 按需求：华润租赁 03-业务结构 两组三级指标对齐组首——
+     能源电力领域规模（序号2）下 风电(3，组首带「其中：」原样保留)/光伏(4)/水电(5)/储能(6)；
+     能源电力领域新增投放（序号22）下 风电(23，组首)/光伏(24)/水电(25)/储能(26)。
+     光伏/水电/储能源名本就无「其中：」前缀→走 forceAlign 占位（与组首「其中：」后首字左对齐）；源数据名称不动 */
+  'lease03': ['光伏领域规模','水电领域规模','储能领域规模','光伏领域新增投放','水电领域新增投放','储能领域新增投放']
+};
+/* 2026-11-16 按需求：06-存贷结构「指标属性标签」列白名单展示——仅名单内三行显示标签（高质量），
+   其余行（含源数据带 ★/★|高质量指标 的 个人非存AUM月日均/低成本存款年日均/科技企业客群余额）
+   统一显示 --。仅展示层（固定报表 + 台账），源数据不动：【预算值填报管理】按源 ★ 取数零波及、
+   管理驾驶舱按源数据取数零波及。名单用 11-16 改名后的新名（产融协同低成本存款余额/科技金融余额） */
+const SHEET_TAG_WHITELIST = {
+  '06': ['低成本存款占比','产融协同低成本存款余额','科技金融余额']
+};
+/* 2026-11-16 按需求：08-客群结构/09-风险情况「指标属性标签」列映射覆写——名单内行按指定值显示，
+   名单外一律置空（渲染 --）。08 基石客户/代发客户数 源=★|高质量指标，需求只保留「高质量」单标签。
+   09 需求五行为考核(★)×3+高质量×2，源标签恰好一致，此处显式固化规则（名单外源本无标签，行为不变）。
+   仅展示层（固定报表），源数据不动：【预算值填报管理】/管理驾驶舱按源 ★ 取数零波及 */
+const SHEET_TAG_OVERRIDES = {
+  '08': { '公司有效客户数':'高质量指标', '新增有效授信客户数':'★',
+          '基石客户':'高质量指标', '代发客户数':'高质量指标', '零售高净值客户数':'高质量指标' },
+  '09': { '不良资产率':'★', '个贷不良率':'★', '不良资产处置':'★',
+          '小额不良生成率':'高质量指标', '对公新增风险管控额':'高质量指标' }
+};
+/* 2026-11-16 按需求：07/08/09 全年预算/预算达成率两列联动标签——展示层标签含
+   ★/是（考核）或 高质量 才显示数值，其余行两列强制 '-'（渲染 --）；空标签行源本为 '-' 幂等 */
+const SHEET_BUDGET_TAG_GATED = ['06','07','08','09'];
+function applySheetTagView(view, key){
+  const keep = SHEET_TAG_WHITELIST[key];
+  const ovr = SHEET_TAG_OVERRIDES[key];
+  if((!keep && !ovr) || !view.rows) return view;
+  const labels = sheetLeafLabels(view);
+  const ci = labels.indexOf('指标属性标签');
+  const ni = labels.findIndex(l=>/指标名称/.test(l));
+  if(ci < 0 || ni < 0) return view;
+  return Object.assign({}, view, {
+    rows: view.rows.map(r=>{
+      const nm = String(r[ni]==null?'':r[ni]).replace(/^其中[：:]\s*/,'').trim();
+      if(ovr) return ovr[nm] !== undefined ? r.map((v,i)=> i===ci ? ovr[nm] : v) : r.map((v,i)=> i===ci ? '' : v);
+      return keep.indexOf(nm) >= 0 ? r : r.map((v,i)=> i===ci ? '' : v);  /* 置空 → 渲染 -- 占位 */
+    })
+  });
+}
+function applyBudgetTagGateView(view, key){
+  if(SHEET_BUDGET_TAG_GATED.indexOf(key) < 0 || !view.rows) return view;
+  const labels = sheetLeafLabels(view);
+  const ti = labels.indexOf('指标属性标签');
+  const bi = labels.indexOf('全年预算');
+  const pi = labels.indexOf('预算达成率');
+  if(ti < 0 || bi < 0) return view;
+  return Object.assign({}, view, {
+    rows: view.rows.map(r=>{
+      const tag = String(r[ti]==null?'':r[ti]);
+      const shown = /★|是|考核|高质量/.test(tag);
+      if(shown) return r;
+      return r.map((v,i)=> (i===bi || (pi>=0 && i===pi)) ? '-' : v);
+    })
+  });
+}
 /* 2026-11-05 按需求：华润保险 02-业务指标「其中：」组内去冗——
    同一父项下同级连续指标为一组：组内第一条名称带「其中：」则保留；其余同级行的「其中：」删除，
    以 3 个全角空格（宽度=其中：三字符）占位，使后续文字与首条「其中：」后首字严格左对齐；
@@ -2606,6 +2692,7 @@ function applyQzDedup(view, key){
   if(ni < 0) return view;
   const lv = view.levels || [];
   const QZ = /^其中[：:]\s*/;
+  const forceAlign = (typeof QZ_FORCE_ALIGN!=='undefined' && QZ_FORCE_ALIGN[key]) || null;
   const firstAt = {};   /* lv -> 本组（同一父项区间）内该层级首行行号 */
   const keepFirst = {}; /* lv -> 本组首行是否带「其中：」前缀（决定本组是否去冗） */
   let prevLv = -1;
@@ -2621,6 +2708,12 @@ function applyQzDedup(view, key){
     }
     if(keepFirst[L] && QZ.test(nm)){       /* 组内其余同级行：去「其中：」+ span 占位对齐（3em=「其中：」三字宽；
                                               全角空格方案会被 white-space:nowrap 折叠，弃用） */
+      return r.map((v,j)=> j===ni ? '<span class="qz-gap">' + escHtml(nm.replace(QZ,'')) + '</span>' : v);
+    }
+    /* 2026-11-16 按需求：指定行「其中：」式对齐（不带前缀但视觉上归入组内）——文字起始位置
+       与组首「其中：」后首字左对齐（同 qz-gap 3em 占位）：收入结构 贷款营收×2（二级）、
+       成本结构 风险成本/资本成本×6（三级） */
+    if(forceAlign && forceAlign.indexOf(nm.replace(QZ,'').trim()) >= 0 && nm.indexOf('qz-gap') < 0){
       return r.map((v,j)=> j===ni ? '<span class="qz-gap">' + escHtml(nm.replace(QZ,'')) + '</span>' : v);
     }
     return r;
@@ -2693,7 +2786,10 @@ function kpiWan(k, key){
 }
 /* 展示层视图加工统一入口：单位换算 + 指标重命名 + 单元格遮罩 + 「其中：」组内去冗（固定报表/台账/分类筛选重渲染共用，保证各路径一致） */
 function applySheetViewRenders(view, key){
-  return applyQzDedup(applySheetCellMask(renameSheetNames(applyUnitScaleView(view, key), key), key), key);
+  /* 加工顺序（由内到外）：单位换算 → 重命名 → 标签覆写/白名单 → 预算两列门控（按覆写后
+     展示层标签判定，名单外行标签已置空 → 预算两列强制 --）→ 单元格遮罩 → 「其中：」去冗
+     （标签加工必须在去冗之前：dedup 会把名称包进 span，破坏按名称的行匹配） */
+  return applyQzDedup(applySheetCellMask(applyBudgetTagGateView(applySheetTagView(renameSheetNames(applyUnitScaleView(view, key), key), key), key), key), key);
 }
 
 function renderPanel(key, s){
@@ -2779,8 +2875,8 @@ function renderPanel(key, s){
     html += `<div class="caliber-tabs" data-key="${key}">`;
     s.calibers.forEach((c,ci)=>{
       html += `<button type="button" class="caliber-tab${ci===0?' active':''}" data-action="caliber-switch" data-pane="${ci}">
-        <span class="caliber-tab-name">${c.label}</span>
-        <span class="caliber-tab-sub">${c.sub||''}</span>
+        <span class="caliber-tab-name">${c.label}</span>${c.sub?`
+        <span class="caliber-tab-sub">${c.sub}</span>`:''}
       </button>`;
     });
     html += `</div>`;
@@ -3002,7 +3098,7 @@ function renderLedgerPanel(key, s){
   const calIdx = (s.calibers && s.calibers.length) ? (ledgerCalSel[lk] || 0) : 0;
   const yOpts = ledgerYears().map(yy=>`<option value="${yy}"${yy===y?' selected':''}>${yy}年</option>`).join('');
   /* 台账展示层加工与固定报表一致（指标重命名 03 ROA/ROE、「其中：」组内去冗；09 遮罩仅固定报表口径，台账不遮蔽较年初；资产亿元→万元在 buildLedgerView 内换算） */
-  const view = applyQzDedup(renameSheetNames(buildLedgerView(s, y, calIdx, key), key), key);
+  const view = applyQzDedup(applySheetTagView(renameSheetNames(buildLedgerView(s, y, calIdx, key), key), key), key);
 
   let html = `
     <div class="panel-header">
@@ -3026,8 +3122,8 @@ function renderLedgerPanel(key, s){
       <div class="caliber-tabs" data-key="${lk}">`;
     s.calibers.forEach((c,ci)=>{
       html += `<button type="button" class="caliber-tab${ci===calIdx?' active':''}" data-action="ledger-caliber" data-key="${lk}" data-pane="${ci}">
-        <span class="caliber-tab-name">${c.label}</span>
-        <span class="caliber-tab-sub">${c.sub||''}</span>
+        <span class="caliber-tab-name">${c.label}</span>${c.sub?`
+        <span class="caliber-tab-sub">${c.sub}</span>`:''}
       </button>`;
     });
     html += `</div>`;
@@ -3384,530 +3480,6 @@ function budImportApply(rows){
   showToast('导入成功：已按「指标名称」匹配填充 ' + filled + ' 项 ' + y + ' 年预算值' + (unknown ? '（' + unknown + ' 行名称不在本单元清单，已跳过）' : ''));
 }
 
-/* ============================================================
-   驾驶舱渲染（领导层视角；数值实时引用各公司固定报表）
-   ============================================================ */
-const COCK_SRC = {
-  SHEETS: ()=> (typeof SHEETS!=='undefined'?SHEETS:null),
-  ASSET_SHEETS: ()=> (typeof ASSET_SHEETS!=='undefined'?ASSET_SHEETS:null),
-  TRUST_SHEETS: ()=> (typeof TRUST_SHEETS!=='undefined'?TRUST_SHEETS:null),
-  INSURANCE_SHEETS: ()=> (typeof INSURANCE_SHEETS!=='undefined'?INSURANCE_SHEETS:null),
-  LEASE_SHEETS: ()=> (typeof LEASE_SHEETS!=='undefined'?LEASE_SHEETS:null)
-};
-function cockSheet(p){
-  const get = COCK_SRC[p.s];
-  const col = get ? get() : null;
-  return col ? col[p.k] : null;
-}
-/* 引用解析：kpi 下标 → KPI 对象；gauge → 取仪表监测值；row → 按指标名称取报表行 */
-function cockPick(p){
-  const sh = cockSheet(p);
-  if(!sh) return null;
-  if(p.row) return cockRowPick(p, sh);
-  if(p.gauge){
-    const g = sh.chart;
-    if(!g || g.type!=='gauge') return null;
-    return {label:g.title.replace(/\(.*?\)/g,'').trim(), value:String(g.value), unit:'%', trend:null, ytd:null, type:''};
-  }
-  return (sh.kpi && sh.kpi[p.kpi]) || null;
-}
-/* 展开表头得到各列标签（与 getColTypes 同一套展开规则），定位 名称/单位/当月实际/同比/较年初 列 */
-function cockColLabels(sh){
-  const row1 = sh.headers[0], row2 = sh.headers[1] || [];
-  const cols = [];
-  row1.forEach(h=>{ for(let k=0;k<(h.c||1);k++) cols.push({label:h.l, r:h.r||1}); });
-  let j = 0;
-  cols.forEach(c=>{ if(c.r<=1){ if(row2[j]) c.label = row2[j].l; j++; } });
-  const L = cols.map(c=>c.label);
-  const v0 = L.indexOf('实际');
-  return {name:L.indexOf('指标名称'), unit:L.indexOf('单位'), val:v0, eom:L.indexOf('实际', v0+1), mom:L.indexOf('环比'), yoy:L.indexOf('同比'), ytd:L.indexOf('较年初'), bud:L.indexOf('全年预算'), prog:L.indexOf('预算达成率')};
-}
-/* 按指标名称取行：默认全表顺序匹配（即第一个口径），p.cal 可限定口径下标 */
-function cockRowPick(p, sh){
-  const rows = (p.cal!=null && sh.calibers) ? sh.calibers[p.cal].rows
-    : (sh.calibers ? sh.calibers.flatMap(c=>c.rows) : (sh.rows||[]));
-  const L = cockColLabels(sh);
-  const r = rows.find(r=>r[L.name]===p.row);
-  if(!r || L.name<0) return null;
-  /* 当月实际为占位（-/不适用/空，如成本收入比-拨备前）时，取值回退到月末实际列 */
-  const rawV = r[L.val];
-  const value = ((rawV==='-'||rawV==='不适用'||rawV==='') && L.eom>0) ? r[L.eom] : rawV;
-  return {label:r[L.name], value:value, unit:r[L.unit], mval:rawV, mom:L.mom>=0?r[L.mom]:undefined, trend:r[L.yoy], ytd:r[L.ytd], budget:L.bud>=0?r[L.bud]:undefined, type:''};
-}
-
-const COCK_COLORS = ['#1a3a6b','#2a5298','#3b82f6','#c8962e','#10b981','#f59e0b','#8b5cf6','#64748b'];
-function renderCockChart(ref){
-  const sh = cockSheet(ref);
-  const ch = sh ? sh[ref.c] : null;
-  if(!ch) return '';
-  if(ch.type==='composition') return chartComposition(ch);
-  if(ch.type==='bar' || ch.type==='waterfall') return chartBar(ch);
-  if(ch.type==='gauge') return chartGauge(ch);
-  if(ch.type==='trend') return chartTrend(ch);
-  return '';
-}
-/* 结构占比：横向堆叠条 + 图例 */
-function chartComposition(ch){
-  const total = ch.data.reduce((a,d)=>a+(+d.value||0),0) || 1;
-  let segs = '', leg = '';
-  ch.data.forEach((d,i)=>{
-    const pct = (+d.value/total*100);
-    segs += `<div class="ck-seg" style="width:${pct.toFixed(1)}%; background:${COCK_COLORS[i%COCK_COLORS.length]}" title="${d.name} ${pct.toFixed(1)}%"></div>`;
-    leg += `<li><i style="background:${COCK_COLORS[i%COCK_COLORS.length]}"></i><span class="ck-leg-name">${d.name}</span><b>${d.value}</b><em>${pct.toFixed(1)}%</em></li>`;
-  });
-  return `<div class="chart-card"><div class="chart-title">${ch.title}</div><div class="ck-bar">${segs}</div><ul class="ck-legend">${leg}</ul></div>`;
-}
-/* 规模对比：纵向柱状 */
-function chartBar(ch){
-  const max = Math.max(...ch.data.map(d=>+d.value||0)) || 1;
-  let bars = '';
-  ch.data.forEach((d,i)=>{
-    const h = Math.max(4, Math.round((+d.value/max)*100));
-    bars += `<div class="ck-vbar"><b>${d.value}</b><div class="ck-vbar-col" style="height:${h}%; background:${COCK_COLORS[i%COCK_COLORS.length]}"></div><span title="${d.name}">${d.name}</span></div>`;
-  });
-  return `<div class="chart-card"><div class="chart-title">${ch.title}</div><div class="ck-vbars">${bars}</div></div>`;
-}
-/* 监测仪表：半环 SVG + 阈值说明 */
-function chartGauge(ch){
-  const min = ch.min||0, max = ch.max||100, v = +ch.value;
-  const pct = Math.min(1, Math.max(0, (v-min)/((max-min)||1)));
-  const L = Math.PI*70;
-  const th = ch.threshold!=null ? ch.threshold : (ch.target!=null ? ch.target : null);
-  const thName = ch.threshold!=null ? '监管要求' : '目标值';
-  return `<div class="chart-card"><div class="chart-title">${ch.title}</div>
-    <div class="ck-gauge">
-      <svg viewBox="0 0 200 122" width="220" height="134">
-        <path d="M 30 110 A 70 70 0 0 1 170 110" fill="none" stroke="#e5e7eb" stroke-width="14" stroke-linecap="round"/>
-        <path d="M 30 110 A 70 70 0 0 1 170 110" fill="none" stroke="#2a5298" stroke-width="14" stroke-linecap="round" stroke-dasharray="${(L*pct).toFixed(1)} 999"/>
-        <text x="100" y="92" text-anchor="middle" class="ck-gauge-val">${v}</text>
-        <text x="100" y="112" text-anchor="middle" class="ck-gauge-sub">${th!=null ? thName+' '+th+(ch.unit||'%') : '区间 '+min+'~'+max}</text>
-      </svg>
-    </div></div>`;
-}
-/* 趋势：双折线 SVG */
-function chartTrend(ch){
-  const cats = ch.categories||[];
-  const all = ch.series.flatMap(s=>s.data.map(Number));
-  const max = Math.max(...all), min = Math.min(...all);
-  const W = 300, H = 150, P = 26;
-  const X = i => P + i*(W-2*P)/Math.max(1,cats.length-1);
-  const Y = v => H-P-((+v-min)/((max-min)||1))*(H-2*P);
-  const cols = ['#2a5298','#c8962e'];
-  let lines = '', leg = '', xl = '';
-  ch.series.forEach((s,si)=>{
-    const col = cols[si%cols.length];
-    const pts = s.data.map((v,i)=>X(i).toFixed(1)+','+Y(v).toFixed(1)).join(' ');
-    lines += `<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5"/>`;
-    s.data.forEach((v,i)=>{ lines += `<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="3" fill="${col}"/>`; });
-    leg += `<li><i style="background:${col}"></i><span class="ck-leg-name">${s.name}</span></li>`;
-  });
-  cats.forEach((c,i)=>{ xl += `<text x="${X(i).toFixed(1)}" y="${H-8}" text-anchor="middle" class="ck-axis">${c}</text>`; });
-  return `<div class="chart-card"><div class="chart-title">${ch.title}</div><svg viewBox="0 0 ${W} ${H}" class="ck-trend">${lines}${xl}</svg><ul class="ck-legend simple">${leg}</ul></div>`;
-}
-
-/* 驾驶舱面板：集团总览=公司卡片+核心指标一览表；公司=KPI 卡片+图表墙（挂载于驾驶舱模块全屏区 #cockContent） */
-function renderCockpitPanel(c){
-  const content = document.getElementById('cockContent') || document.getElementById('content');
-  const panel = document.createElement('div');
-  panel.className = 'sheet-panel';
-  panel.id = 'panel-cock-'+c.key;
-
-  let html = '';
-
-  if(c.companies){
-    // 集团总览：蓝白顶栏（左=公司下拉+数据期间，中=公司名标题）+ 选中公司指标视图（华润金融=一览表）
-    const opts = c.companies.map((co,i)=>`<div class="fz-select-opt${i===0?' active':''}" data-action="cock-company" data-idx="${i}"><i></i>${co.company}</div>`).join('');
-    html = `<div class="gq-bar">`
-      + `<div class="gq-bar-bg" aria-hidden="true"><i class="gq-fil gq-fil-l"></i><i class="gq-fil gq-fil-r"></i></div>`
-      + `<div class="gq-bar-left">`
-      + `<div class="fz-select" id="fz-select-group">`
-      + `<button class="gq-sel" data-action="cock-toggle" type="button"><span class="gq-sel-ico">🏢</span><span class="fz-select-name" id="fz-select-name">${c.companies[0].company}</span><span class="gq-sel-chev">▾</span></button>`
-      + `<div class="fz-select-list">${opts}</div>`
-      + `</div>`
-      + `<div class="gq-sel" title="数据基准期间（月度更新）"><span class="gq-sel-ico">📅</span><span>2025年12月</span></div>`
-      + `</div>`
-      + `<div class="gq-title"><b id="gq-title-scope">${c.companies[0].company}</b></div>`
-      + `<div class="gq-meta">币种：人民币</div>`
-      + `</div>`;
-    html += `<div class="fz-company-view" id="fz-company-view"></div>`;
-  } else {
-    html = `
-    <div class="panel-header">
-      <div class="panel-title">${c.name}驾驶舱</div>
-      <div class="panel-actions"><span class="cock-base">📅 数据基准：2025年12月 · 更新频率 月度</span></div>
-    </div>
-    <div class="cock-desc">${c.desc}</div>
-  `;
-  }
-
-  if(c.kpis && c.kpis.length){
-    html += `<div class="kpi-row">`;
-    c.kpis.forEach(p=>{ const k = cockPick(p); if(k) html += kpiCardHtml(k); });
-    html += `</div>`;
-  }
-  if(c.charts && c.charts.length){
-    html += `<div class="cock-charts">`;
-    c.charts.forEach(rf=>{ html += renderCockChart(rf); });
-    html += `</div>`;
-  }
-
-  panel.innerHTML = html;
-  content.appendChild(panel);
-  if(c.companies) renderCockCompanyView(c, 0);
-}
-
-/* 集团总览：渲染选中公司的驾驶舱指标视图（华润资产按分组分区，其余公司平铺）
-   g.calSwitch=true 的分组：上方渲染口径页签，切换页签时该组卡片重渲染为对应口径的值 */
-let GQ_VIEW = {c:null, idx:0};
-var GK_MCAL = [];  /* 多口径卡片注册表：uid → pick（var 挂全局，便于验证） */
-function renderCockCompanyView(c, idx){
-  const co = c.companies[idx];
-  const box = document.getElementById('fz-company-view');
-  if(!box || !co) return;
-  GQ_VIEW = {c:c, idx:idx};
-  GK_MCAL.length = 0;
-  const nameEl = document.getElementById('fz-select-name');
-  if(nameEl) nameEl.textContent = co.company;
-  const scopeEl = document.getElementById('gq-title-scope');
-  if(scopeEl) scopeEl.textContent = co.company;
-  const sel = document.getElementById('fz-select-group');
-  if(sel) sel.querySelectorAll('.fz-select-opt').forEach((o,i)=>o.classList.toggle('active', i===idx));
-  let n = 0;
-  const cardOf = (p, cal) => {
-    if(p.mcals) return mcalCardHtml(p, 0, GK_MCAL.push(p) - 1);
-    const k = cockPick(cal!=null ? Object.assign({}, p, {cal:cal}) : p);
-    if(!k) return '';
-    if(p.valLabel) k.valLabel = p.valLabel;
-    if(p.mvalLabel) k.mvalLabel = p.mvalLabel;
-    if(p.tip) k.tip = p.tip;
-    if(p.trend12) k.trend12 = true;
-    return groupCardHtml(k, n++);
-  };
-  const cards = (picks, cal) => picks.map(p=>cardOf(p, cal)).join('');
-  let html = '';
-  if(co.overview){
-    html = groupOverviewTableHtml(c);
-  } else if(co.groups){
-    co.groups.forEach((g, gi)=>{
-      html += `<div class="gk-strip">${g.title}${g.title2 ? '<span class="gk-strip-sep"></span>' + g.title2 : ''}</div>`;
-      if(g.calSwitch){
-        const sh = cockSheet(g.picks[0] || {});
-        const cals = (sh && sh.calibers) || [];
-        const tabs = cals.map((cal, i)=>`<button type="button" class="gk-caltab${i===0?' active':''}" data-action="gk-cal" data-gid="${gi}" data-cal="${i}" title="${cal.label}${cal.sub||''}">${cal.label}</button>`).join('');
-        html += `<div class="gk-calswitch" id="gk-calswitch-${gi}">${tabs}</div>`
-              + `<div class="gk-row" id="gk-calrows-${gi}">${cards(g.picks, cals.length?0:null)}</div>`;
-      } else {
-        /* rowwide 指标：卡片样式不变，3 卡并入同一行展示；其余指标排成卡片行 */
-        const wide = g.picks.filter(p=>p.rowwide);
-        const rest = g.picks.filter(p=>!p.rowwide);
-        if(wide.length) html += `<div class="gk-wide-row">` + wide.map(p=>gkWideRowHtml(p)).join('') + `</div>`;
-        if(rest.length) html += `<div class="gk-row">${cards(rest)}</div>`;
-      }
-    });
-  } else {
-    html = `<div class="gk-strip">核心指标</div><div class="gk-row">${cards(co.picks||[])}</div>`;
-  }
-  box.innerHTML = html;
-}
-
-/* 集团总览-华润金融：五家核心企业指标一览表 */
-function groupOverviewTableHtml(c){
-  let html = `<div class="gk-strip">五家核心企业指标一览</div><div class="gk-table-section"><div class="table-card"><div class="table-wrap"><table class="data-table"><thead><tr><th>公司</th><th>核心指标</th><th>本年累计数</th><th>同比</th><th>较年初</th></tr></thead><tbody>`;
-  c.companies.forEach(co=>{
-    if(co.overview) return;
-    const picks = co.groups ? co.groups.flatMap(g=>g.picks) : (co.picks||[]);
-    picks.forEach(p=>{
-      const k = cockPick(p);
-      if(!k) return;
-      html += `<tr><td>${co.company}</td><td class="indicator-name lv0">${k.label}</td><td class="value">${k.value}<span class="kpi-unit"> ${k.unit}</span></td>${renderDeltaCell(k.trend)}${renderDeltaCell(k.ytd)}</tr>`;
-    });
-  });
-  return html + `</tbody></table></div></div></div>`;
-}
-
-/* 集团总览指标卡：
-   - 有全年预算的考核指标（成本收入比-拨备前、业绩合同 2 项）：完成度环 + 本年累计数/同比/较年初/全年预算
-   - 无预算指标：左侧「本年累计数」渐变大数值块 + 右侧同比/较年初 */
-function gkNum(v){ const x = parseFloat(String(v==null?'':v).replace(/[,，\s]/g,'')); return isFinite(x)?x:NaN; }
-/* 普通数值位占位统一：-/空 → --；null → N/A（与表格/卡片同一套 dim 样式） */
-function dispPlain(v){
-  if(v==='-' || v==='') return '<span class="dim-dash">--</span>';
-  if(v===null || v===undefined || v==='N/A') return '<span class="dim-na">N/A</span>';
-  return v;
-}
-/* 本年累计数且无全年预算卡片：两行布局（第一行 本年累计数+同比；第二行 当月值+环比） */
-function gkTwoRowHtml(k, cap){
-  return `<div class="gk-2r">`
-    + `<div class="gk-2r-line"><div class="gk-2r-l"><span>${cap}</span><span class="gk-2r-v"><b>${dispPlain(k.value)}</b><i>${k.unit}</i></span></div><div class="gk-2r-r"><span>同比</span>${deltaSpan(k.trend)}</div></div>`
-    + `<div class="gk-2r-line"><div class="gk-2r-l"><span>${k.mvalLabel||'当月值'}</span><span class="gk-2r-v"><b class="sm">${dispPlain(k.mval||'-')}</b><i>${k.unit}</i></span></div><div class="gk-2r-r"><span>环比</span>${deltaSpan(k.mom)}</div></div>`
-    + `</div>`;
-}
-function groupCardHtml(k, idx){
-  const val = gkNum(k.value), bud = gkNum(k.budget);
-  const hasG = isFinite(val) && isFinite(bud) && bud > 0;
-  const cap = k.valLabel || '本年累计数';
-  /* 本年累计数指标不显示较年初（累计值与年初比较无意义）；本月末等时点值保留 */
-  const ytdStat = cap === '本年累计数' ? '' : `<div class="gk-stat"><span>较年初</span>${deltaSpan(k.ytd)}</div>`;
-  let left, stats;
-  if(hasG){
-    left = gkGaugeSvg(val/bud*100, idx);
-    stats = `<div class="gk-stat"><span>${cap}</span><b>${dispPlain(k.value)}</b><i>${k.unit}</i></div>`
-      + `<div class="gk-stat"><span>同比</span>${deltaSpan(k.trend)}</div>`
-      + ytdStat
-      + `<div class="gk-stat"><span>全年预算</span><b class="gk-dimv">${k.budget}</b><i>${k.unit}</i></div>`;
-  } else {
-    if(cap === '本年累计数'){
-      /* 本年累计数且无全年预算：两行布局（第一行 本年累计数+同比；第二行 当月值+环比） */
-      left = '';
-      stats = gkTwoRowHtml(k, cap);
-    } else {
-      left = `<div class="gk-numblock"><span class="gk-np-cap">${cap}</span><b>${dispPlain(k.value)}</b><i>${k.unit}</i></div>`;
-      stats = `<div class="gk-stat"><span>同比</span>${deltaSpan(k.trend)}</div>` + ytdStat;
-    }
-  }
-  return `<div class="gk-card">`
-    + `<div class="gk-head">${k.label}${k.tip?`<span class="gk-tip" data-tip="${escHtml(k.tip)}">?</span>`:''}<span class="gk-info">ⓘ</span></div>`
-    + `<div class="gk-body">${left}<div class="gk-stats">${stats}</div></div>`
-    + (k.trend12 ? gkMiniAreaHtml(k, idx) : '')
-    + `</div>`;
-}
-/* 卡底近12月趋势区域图（渐变面积+折线+期末点+月份标签+悬停列；各月值由指标名确定性生成，期末=报表实时值） */
-function gkMiniAreaHtml(k, idx){
-  const cur = gkNum(k.value);
-  if(!isFinite(cur)) return '';
-  const label = k.label;
-  const cap = k.valLabel || '本年累计数';   /* 与卡片数值标签一致，悬停浮层同用 */
-  let h = 2166136261;
-  for(let i=0;i<label.length;i++){ h ^= label.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
-  const start = cur * (0.72 + (h % 14) / 100);
-  const pts = [];
-  for(let i=0;i<12;i++){
-    const t = i/11;
-    let v = start + (cur - start) * Math.pow(t, 1.12);
-    if(i < 11){ h = (Math.imul(h, 1103515245) + 12345) >>> 0; v += (((h >>> 16) % 7) - 3) * cur * 0.008; }
-    pts.push(Math.max(1, Math.round(v)));
-  }
-  pts[11] = Math.round(cur);
-  /* 各月同比：确定性生成；期末=报表实时同比 */
-  const curPct = gkNum((k.trend||'').replace('%',''));
-  let h2 = 536119969;
-  for(let i=0;i<label.length;i++){ h2 ^= label.charCodeAt(i); h2 = Math.imul(h2, 16777619) >>> 0; }
-  const pct12 = [];
-  for(let i=0;i<12;i++){
-    h2 = (Math.imul(h2, 1103515245) + 12345) >>> 0;
-    pct12.push(+(((h2 >>> 16) % 12) * 0.5 + 0.6).toFixed(1));
-  }
-  pct12[11] = isFinite(curPct) ? +curPct.toFixed(1) : null;
-  const W = 240, H = 60, P = 4, PB = 15;   /* PB：底部月份标签区 */
-  const yTop = P, yBot = H - PB;
-  const max = Math.max(...pts) * 1.15, min = Math.min(...pts) * 0.85;
-  const slot = (W - 2*P) / 11;
-  const X = i => P + slot * i;
-  const Y = v => yBot - (yBot - yTop) * ((v - min) / ((max - min) || 1));
-  let line = '', xl = '', hov = '';
-  pts.forEach((v,i)=>{
-    line += (i?' L':'M') + X(i).toFixed(1) + ' ' + Y(v).toFixed(1);
-    xl += `<text x="${X(i).toFixed(1)}" y="${H-4}" text-anchor="middle" font-size="7" fill="#9bb8d8">${i+1}月</text>`;
-    hov += `<rect class="gk-t12-hover" x="${(X(i)-slot/2).toFixed(1)}" y="${yTop}" width="${slot.toFixed(1)}" height="${(yBot-yTop).toFixed(1)}" fill="transparent" data-t12-i="${i}" data-t12-m="${i+1}月" data-t12-v="${v}" data-t12-u="${k.unit||''}" data-t12-c="${cap}" data-t12-p="${pct12[i]==null?'':pct12[i]}"/>`;
-  });
-  const area = line + ` L${X(11).toFixed(1)} ${yBot} L${X(0).toFixed(1)} ${yBot} Z`;
-  let dots = '';
-  pts.forEach((v,i)=>{
-    dots += `<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="${i===11?2.6:2}" fill="#fff" stroke="#2f9bf2" stroke-width="${i===11?1.6:1.3}"/>`;
-  });
-  return `<div class="gk-trend12"><div class="gk-t12-cap">近12月趋势</div>`
-    + `<svg viewBox="0 0 ${W} ${H}">`
-    + `<defs><linearGradient id="gkT12${idx}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f9bf2" stop-opacity="0.32"/><stop offset="1" stop-color="#2f9bf2" stop-opacity="0.02"/></linearGradient></defs>`
-    + `<path d="${area}" fill="url(#gkT12${idx})"/>`
-    + `<path d="${line}" fill="none" stroke="#2f9bf2" stroke-width="1.6"/>`
-    + dots
-    + xl + hov
-    + `</svg></div>`;
-}
-/* 卡底趋势图悬停：委托监听，显示该月具体值（深蓝玻璃浮层，跟随鼠标） */
-let gkT12Tip = null;
-document.addEventListener('mouseover', e=>{
-  const t = e.target && e.target.closest ? e.target.closest('rect[data-t12-i]') : null;
-  if(!t) return;
-  if(!gkT12Tip){
-    gkT12Tip = document.createElement('div');
-    gkT12Tip.className = 'gk-t12-tip';
-    gkT12Tip.style.display = 'none';
-    document.body.appendChild(gkT12Tip);
-  }
-  const u = t.getAttribute('data-t12-u') || '';
-  const cap = t.getAttribute('data-t12-c') || '本月末值';
-  const pRaw = t.getAttribute('data-t12-p');
-  const pn = gkNum(pRaw);
-  const pCell = pRaw === '' || !isFinite(pn) ? '<i>-</i>'
-    : `<i class="${pn>=0?'up':'down'}">${pn>=0?'+':''}${pRaw}%</i>`;
-  gkT12Tip.innerHTML = `<b>${t.getAttribute('data-t12-m')}</b>`
-    + `<span>${cap}<i>${t.getAttribute('data-t12-v')}${u ? ' ' + u : ''}</i></span>`
-    + `<span>同比${pCell}</span>`;
-  gkT12Tip.style.display = 'flex';
-});
-document.addEventListener('mousemove', e=>{
-  if(!gkT12Tip || gkT12Tip.style.display !== 'flex') return;
-  const pad = 12, r = gkT12Tip.getBoundingClientRect();
-  let x = e.clientX + pad, y = e.clientY + pad;
-  if(x + r.width > (window.innerWidth || 1400) - 8) x = e.clientX - r.width - pad;
-  if(y + r.height > (window.innerHeight || 900) - 8) y = e.clientY - r.height - pad;
-  gkT12Tip.style.left = x + 'px';
-  gkT12Tip.style.top = y + 'px';
-});
-document.addEventListener('mouseout', e=>{
-  const t = e.target && e.target.closest ? e.target.closest('rect[data-t12-i]') : null;
-  if(!t) return;
-  if(gkT12Tip) gkT12Tip.style.display = 'none';
-});
-/* 指标名称 tips：body 级浮层显示（卡片 overflow:hidden 不裁剪）；图标下方居中，越界自动翻转 */
-var gkTipFloat = null;
-document.addEventListener('mouseover', e=>{
-  const t = e.target && e.target.closest ? e.target.closest('.gk-tip') : null;
-  if(!t) return;
-  if(!gkTipFloat){
-    gkTipFloat = document.createElement('div');
-    gkTipFloat.className = 'gk-tip-float';
-    document.body.appendChild(gkTipFloat);
-  }
-  gkTipFloat.textContent = t.getAttribute('data-tip') || '';
-  gkTipFloat.style.display = 'block';
-  const r = t.getBoundingClientRect(), fr = gkTipFloat.getBoundingClientRect();
-  let x = r.left + r.width / 2 - fr.width / 2;
-  x = Math.max(8, Math.min(x, (window.innerWidth || 1400) - fr.width - 8));
-  let y = r.bottom + 8;
-  if(y + fr.height > (window.innerHeight || 900) - 8) y = r.top - fr.height - 8;
-  gkTipFloat.style.left = x + 'px';
-  gkTipFloat.style.top = y + 'px';
-});
-document.addEventListener('mouseout', e=>{
-  const t = e.target && e.target.closest ? e.target.closest('.gk-tip') : null;
-  if(t && gkTipFloat) gkTipFloat.style.display = 'none';
-});
-/* 整行指标卡：左数值区（标签/大数/同比/较年初）+ 右近12月柱状+趋势组合图 */
-var GK_WIDE_N = 0;
-function gkWideRowHtml(p){
-  const k = cockPick(p);
-  if(!k) return '';
-  if(p.valLabel) k.valLabel = p.valLabel;
-  const cap = k.valLabel || '本年累计数';
-  return `<div class="gk-card gk-wide-card">`
-    + `<div class="gk-head">${k.label}${k.tip?`<span class="gk-tip" data-tip="${escHtml(k.tip)}">?</span>`:''}<span class="gk-info">ⓘ</span></div>`
-    + `<div class="gk-wide-body">`
-    + `<div class="gk-wide-left">`
-    + (cap === '本年累计数' && !(isFinite(gkNum(k.budget)) && gkNum(k.budget) > 0)
-      ? gkTwoRowHtml(k, cap)
-      : `<div class="gk-numblock"><span class="gk-np-cap">${cap}</span><b>${dispPlain(k.value)}</b><i>${k.unit}</i></div>`
-        + `<div class="gk-stats"><div class="gk-stat"><span>同比</span>${deltaSpan(k.trend)}</div>`
-        + (cap === '本年累计数' ? '' : `<div class="gk-stat"><span>较年初</span>${deltaSpan(k.ytd)}</div>`) + `</div>`)
-    + `</div>`
-    + gkComboChartHtml(k, ++GK_WIDE_N)
-    + `</div></div>`;
-}
-/* 近12月柱状（橙色渐变）+ 趋势折线（蓝色空心点，同比）组合图；含月份标签与悬停列（复用 gk-t12 浮层） */
-function gkComboChartHtml(k, uid){
-  const cur = gkNum(k.value);
-  if(!isFinite(cur)) return '';
-  const label = k.label;
-  const cap = k.valLabel || '本年累计数';
-  const dec = cur < 10 ? 1 : 0;
-  let h = 2166136261;
-  for(let i=0;i<label.length;i++){ h ^= label.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
-  const start = cur * (0.70 + (h % 15) / 100);
-  const pts = [];
-  for(let i=0;i<12;i++){
-    const t = i/11;
-    let v = start + (cur - start) * Math.pow(t, 1.15);
-    if(i < 11){ h = (Math.imul(h, 1103515245) + 12345) >>> 0; v += (((h >>> 16) % 7) - 3) * cur * 0.006; }
-    pts.push(+Math.max(dec?0.1:1, v).toFixed(dec));
-  }
-  pts[11] = +cur.toFixed(dec);
-  const curPct = gkNum((k.trend||'').replace('%',''));
-  let h2 = 536119969;
-  for(let i=0;i<label.length;i++){ h2 ^= label.charCodeAt(i); h2 = Math.imul(h2, 16777619) >>> 0; }
-  const pct12 = [];
-  for(let i=0;i<12;i++){
-    h2 = (Math.imul(h2, 1103515245) + 12345) >>> 0;
-    pct12.push(+(((h2 >>> 16) % 12) * 0.5 + 0.6).toFixed(1));
-  }
-  pct12[11] = isFinite(curPct) ? +curPct.toFixed(1) : null;
-  const W = 640, H = 210, L = 8, R = 8, T = 14, B = 20;
-  const plotH = H - T - B;
-  const lMax = Math.max(...pts) * 1.2;
-  const pMin = Math.min(...pct12.map(v=>v==null?0:v)) * 0.8;
-  const pMax = Math.max(...pct12.map(v=>v==null?0:v)) * 1.25 || 1;
-  const step = (W - L - R) / 12;
-  const bw = Math.min(26, step * 0.5);
-  const X = i => L + step * i + step / 2;
-  const Y = v => T + plotH * (1 - v / lMax);
-  const Yp = v => T + plotH * (1 - (v - pMin) / ((pMax - pMin) || 1));
-  const y0 = Y(0);
-  let grid = '', bars = '', line = '', dots = '', xl = '', hov = '';
-  [0.5, 1].forEach(f=>{
-    const gy = Y(lMax * f).toFixed(1);
-    grid += `<line x1="${L}" y1="${gy}" x2="${W-R}" y2="${gy}" stroke="#e6eef8" stroke-width="1" stroke-dasharray="4 4"/>`;
-  });
-  grid += `<line x1="${L}" y1="${y0.toFixed(1)}" x2="${W-R}" y2="${y0.toFixed(1)}" stroke="#cfd8e3" stroke-width="1"/>`;
-  pts.forEach((v,i)=>{
-    const x = X(i) - bw/2, y = Y(v), r = Math.min(3.5, bw/2);
-    bars += `<path class="gk-wc-bar" d="M${x.toFixed(1)} ${y0.toFixed(1)} L${x.toFixed(1)} ${(y+r).toFixed(1)} Q${x.toFixed(1)} ${y.toFixed(1)} ${(x+r).toFixed(1)} ${y.toFixed(1)} L${(x+bw-r).toFixed(1)} ${y.toFixed(1)} Q${(x+bw).toFixed(1)} ${y.toFixed(1)} ${(x+bw).toFixed(1)} ${(y+r).toFixed(1)} L${(x+bw).toFixed(1)} ${y0.toFixed(1)} Z" fill="url(#gkWC${uid})"/>`;
-    xl += `<text x="${X(i).toFixed(1)}" y="${H-4}" text-anchor="middle" font-size="8" fill="#9bb8d8">${i+1}月</text>`;
-    hov += `<rect class="gk-t12-hover" x="${(L+step*i).toFixed(1)}" y="${T}" width="${step.toFixed(1)}" height="${plotH}" fill="transparent" data-t12-i="${i}" data-t12-m="${i+1}月" data-t12-v="${v}" data-t12-u="${k.unit||''}" data-t12-c="${cap}" data-t12-p="${pct12[i]==null?'':pct12[i]}"/>`;
-  });
-  pct12.forEach((v,i)=>{
-    if(v == null) return;
-    line += (line?' L':'M') + X(i).toFixed(1) + ' ' + Yp(v).toFixed(1);
-    dots += `<circle cx="${X(i).toFixed(1)}" cy="${Yp(v).toFixed(1)}" r="2.6" fill="#fff" stroke="#2f9bf2" stroke-width="1.5"/>`;
-  });
-  return `<div class="gk-wide-chart">`
-    + `<div class="gk-wide-head"><span class="gk-wide-title">近12月月度波动</span>`
-    + `<span class="gk-wide-legend"><span><i class="lb"></i>本月末数</span><span><i class="ll"></i>同比</span></span></div>`
-    + `<svg viewBox="0 0 ${W} ${H}">`
-    + `<defs><linearGradient id="gkWC${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0a63a"/><stop offset="1" stop-color="#f8d488"/></linearGradient></defs>`
-    + grid + bars
-    + `<path d="${line}" fill="none" stroke="#2f9bf2" stroke-width="1.6"/>`
-    + dots + xl + hov
-    + `</svg></div>`;
-}
-/* 多口径指标卡：卡内嵌口径小药丸切换（各指标口径集合独立）；切换仅重渲染本卡 */
-function mcalCardHtml(p, sel, uid){
-  const sh = cockSheet(p);
-  if(!sh || !sh.calibers || !p.mcals) return '';
-  const m0 = p.mcals[sel] || p.mcals[0];
-  const ci0 = sh.calibers.findIndex(c=>c.label===m0.cal);
-  const k = cockRowPick(Object.assign({}, p, {cal:ci0}), sh);
-  if(!k) return '';
-  const tabs = p.mcals.map((m,i)=>{
-    const ci = sh.calibers.findIndex(c=>c.label===m.cal);
-    const sub = ci>=0 ? (sh.calibers[ci].sub || '') : '';
-    return `<button type="button" class="gk-mcal-tab${i===sel?' active':''}" data-action="gk-mcal" data-uid="${uid}" data-cal="${i}" title="${m.cal}${sub}">${m.short}</button>`;
-  }).join('');
-  const cap = p.valLabel || '本年累计数';
-  return `<div class="gk-card" id="gk-mcal-${uid}">`
-    + `<div class="gk-head">${k.label}${k.tip?`<span class="gk-tip" data-tip="${escHtml(k.tip)}">?</span>`:''}<span class="gk-info">ⓘ</span></div>`
-    + `<div class="gk-body gk-mcal-body">`
-    + `<div class="gk-mcal-tabs">${tabs}</div>`
-    + (cap === '本年累计数' && !(isFinite(gkNum(k.budget)) && gkNum(k.budget) > 0)
-      ? `<div class="gk-mcal-row">` + gkTwoRowHtml(k, cap) + `</div>`
-      : `<div class="gk-mcal-row"><div class="gk-numblock"><span class="gk-np-cap">${cap}</span><b>${dispPlain(k.value)}</b><i>${k.unit}</i></div>`
-        + `<div class="gk-stats"><div class="gk-stat"><span>同比</span>${deltaSpan(k.trend)}</div>`
-        + (cap === '本年累计数' ? '' : `<div class="gk-stat"><span>较年初</span>${deltaSpan(k.ytd)}</div>`) + `</div></div>`)
-    + `</div></div>`;
-}
-/* 完成度环：蓝→绿渐变圆弧，中心百分比（实际/全年预算） */
-function gkGaugeSvg(pct, idx){
-  const C = 2*Math.PI*38;
-  const shown = Math.max(0, Math.min(100, pct));
-  const dash = (C*shown/100).toFixed(1);
-  return `<svg class="gk-gauge" width="92" height="92" viewBox="0 0 92 92">`
-    + `<defs><linearGradient id="gkG${idx}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d6ef0"/><stop offset="1" stop-color="#7ed957"/></linearGradient></defs>`
-    + `<circle cx="46" cy="46" r="38" fill="none" stroke="#e6edf5" stroke-width="9"/>`
-    + `<circle cx="46" cy="46" r="38" fill="none" stroke="url(#gkG${idx})" stroke-width="9" stroke-linecap="round" stroke-dasharray="${dash} ${C.toFixed(1)}" transform="rotate(-90 46 46)"/>`
-    + `<text x="46" y="44" text-anchor="middle" font-size="15" font-weight="800" fill="#33475f">${pct.toFixed(2)}%</text>`
-    + `<text x="46" y="58" text-anchor="middle" font-size="9" fill="#8aa2bd">完成度</text>`
-    + `</svg>`;
-}
-
 function getColTypes(headers){
   const row1 = headers[0];
   const row2 = headers[1] || [];
@@ -4003,7 +3575,8 @@ function renderTable(s, colTypes, has, panelKey){
     const rAi = revLabels.indexOf('实际');
     const rBi = revLabels.indexOf('全年预算');
     if(rNi >= 0 && rAi >= 0 && rBi >= 0) rev = { names: REVERSE_PROGRESS_ROWS[panelKey],
-      plain: (REVERSE_PROGRESS_PLAIN && REVERSE_PROGRESS_PLAIN[panelKey]) || [], ni:rNi, ai:rAi, bi:rBi };
+      plain: (REVERSE_PROGRESS_PLAIN && REVERSE_PROGRESS_PLAIN[panelKey]) || [], ni:rNi, ai:rAi, bi:rBi,
+      ui: revLabels.indexOf('单位') };
   }
   s.rows.forEach((r,i)=>{
     html += renderTableRow(r, colTypes, (s.levels && s.levels[i]) || 0, i, spanMap, has, rev);
@@ -4073,6 +3646,12 @@ function rerenderCatTable(key){
 /* 2026-11-04 数值统一格式化：千分位 + 固定保留 2 位小数（固定报表数字口径）。
    保留前导符号（+/-）与尾部单位（%、ppt 等）；非数值字符串（如 "-"、"≥100%"、空串）原样返回。
    应用于：去年末/实际/全年预算 三列、同比/环比/较年初、预算达成率、KPI 卡数值。 */
+/* dispPlain：普通数值占位（数据应用 KPI 卡共用；自驾驶舱簇迁出 2026-11-17） */
+function dispPlain(v){
+  if(v==='-' || v==='') return '<span class="dim-dash">--</span>';
+  if(v===null || v===undefined || v==='N/A') return '<span class="dim-na">N/A</span>';
+  return v;
+}
 function fmtThousand(v){
   if(v===null || v===undefined) return '';
   const s=String(v).trim();
@@ -4122,7 +3701,7 @@ function renderTableRow(r, colTypes, lv, rowIdx, spanMap, has, rev){  // 整行�
       const revName = rev ? String(r[rev.ni]==null?'':r[rev.ni]).replace(/<[^>]*>/g,'').trim() : '';
       const revIdx = rev ? rev.names.indexOf(revName) : -1;
       const revPlain = revIdx >= 0 && rev.plain.indexOf(revName) >= 0;
-      const revTxt = (has !== false && revIdx >= 0) ? renderReverseBudgetCell(revPlain, r[rev.ai], r[rev.bi]) : null;
+      const revTxt = (has !== false && revIdx >= 0) ? renderReverseBudgetCell(revPlain, r[rev.ai], r[rev.bi], rev.ui>=0?r[rev.ui]:null) : null;
       if(revTxt) cells += revTxt;
       else if(revPlain && has !== false && (v===null || v==='-' || v===''))
         cells += `<td${rsAttr} class="progress-cell"><span class="progress-text plain-dash">${v===null?'N/A':'--'}</span></td>`;
@@ -4203,13 +3782,13 @@ function renderProgressCell(progress){
 
 /* 2026-11-06 按需求：固定报表管理·华润银行 09-风险情况 —— 反向指标（不良率类，越低越好）
    「预算达成率」列文字化（非目标行返回 null 走原进度条）：
-   差值 = 全年预算 − 实际；>0 优于预算，输出「优于预算{差值}ppt」；<0 未达标，输出「超出预算{|差值|}ppt」；
-   =0「与预算持平」。实际/预算缺数（空/-/非数值）返回 null 回落原渲染（--/进度条）。
+   差值 = 全年预算 − 实际；>0 优于预算，输出「优于预算{差值}{单位后缀}」；<0 未达标，输出「超出预算{|差值|}{单位后缀}」；
+   =0「与预算持平」。单位后缀：% / ppt 类指标 → ppt；其他单位（亿元等）→ 原样单位（2026-11-16 按行单位）。实际/预算缺数（空/-/非数值）返回 null 回落原渲染（--/进度条）。
    与驾驶舱卡片（bkStx opts.budTxt）同一口径；颜色沿用涨跌约定（优于=绿、超出=红）。
    2026-11-06 追加需求：plain=true（不良资产率/小额不良生成率，REVERSE_PROGRESS_PLAIN）时去语义色，
    文字样式与「不良资产处置」预算达成率一致 → 挂 .progress-text 类（微软雅黑 12px · 400 · 黑色，
    由全局 .sheet-panel .progress-text 规则驱动）；个贷不良率不在该需求内，保持语义色。 */
-function renderReverseBudgetCell(plain, actVal, budVal){
+function renderReverseBudgetCell(plain, actVal, budVal, unitVal){
   const parse = x=>{
     const s = String(x==null?'':x).replace(/[,，\s%｜％]/g,'');
     if(s==='' || s==='-') return null;
@@ -4218,12 +3797,20 @@ function renderReverseBudgetCell(plain, actVal, budVal){
   };
   const act = parse(actVal), bud = parse(budVal);
   if(act===null || bud===null) return null;
+  /* 差值后缀按行单位（2026-11-16）：% / ppt 类 → ppt（09 三行均此，输出不变）；
+     其他单位（如 10-考核指标「不良资产处置」亿元）→ 原样带单位（亿元） */
+  const u = String(unitVal==null?'':unitVal).trim();
+  const suf = (!u || u==='-' || /%|ppt/.test(u)) ? 'ppt' : u;
   const dif = +(bud - act).toFixed(2);
   let txt, cls;
-  if(dif > 0.005){ txt = '优于预算' + Math.abs(dif).toFixed(2) + 'ppt'; cls = 'rev-good'; }
-  else if(dif < -0.005){ txt = '超出预算' + Math.abs(dif).toFixed(2) + 'ppt'; cls = 'rev-bad'; }
+  if(dif > 0.005){ txt = '优于预算' + Math.abs(dif).toFixed(2) + suf; cls = 'rev-good'; }
+  else if(dif < -0.005){ txt = '超出预算' + Math.abs(dif).toFixed(2) + suf; cls = 'rev-bad'; }
   else { txt = '与预算持平'; cls = 'rev-flat'; }
-  return `<td class="progress-cell reverse-cell"><span class="reverse-text${plain?' progress-text':' '+cls}">${txt}</span></td>`;
+  /* 2026-11-16 按需求：预算达成率列「优于预算」输出绿色字体——plain 平色行也挂 rev-good
+     （仅颜色语义色；字体仍 .progress-text 12px/400 与「不良资产处置」达成率一致。
+      plain 行的「超出预算/与预算持平」维持黑/不变，非 plain 行语义色原样） */
+  const clsOut = plain ? ' progress-text' + (cls==='rev-good' ? ' rev-good' : '') : ' ' + cls;
+  return `<td class="progress-cell reverse-cell"><span class="reverse-text${clsOut}">${txt}</span></td>`;
 }
 
 /* ============================================================
@@ -4236,9 +3823,8 @@ function switchTab(key, doScroll){
   document.querySelectorAll('.sheet-panel').forEach(p=>{
     p.classList.toggle('active', p.id==='panel-'+key);
   });
-  /* 模块联动：驾驶舱页 → 顶层「驾驶舱」模块（全屏无侧栏）；报表 → 数据应用模块 */
-  if(key && key.indexOf('cock-')===0){ switchModule('cock'); syncCockPage(key); }
-  else if(key){ switchModule('data'); }
+  /* 模块联动：报表 → 数据应用模块（驾驶舱模块已删除 2026-11-17） */
+  if(key){ switchModule('data'); }
   // 平滑滚动到内容区顶部
   if(doScroll){
     const content = document.getElementById('content');
@@ -4346,7 +3932,7 @@ function escHtml(str){
   return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// 顶部导航模块切换：data=数据应用 / cock=驾驶舱（集团/板块驾驶舱） / leader=管理驾驶舱
+// 顶部导航模块切换：data=数据应用 / leader=管理驾驶舱（cock=驾驶舱 已删除 2026-11-17）
 function switchModule(mod){
   const dataEl = document.getElementById('moduleData');
   const dataWasHidden = dataEl.style.display === 'none';
@@ -4354,12 +3940,9 @@ function switchModule(mod){
     b.classList.toggle('active', b.dataset.module===mod);
   });
   dataEl.style.display = (mod==='data') ? '' : 'none';
-  document.getElementById('moduleCock').style.display = (mod==='cock') ? '' : 'none';
   document.getElementById('moduleLeader').style.display = (mod==='leader') ? '' : 'none';
-  if(mod==='cock' || mod==='leader'){
+  if(mod==='leader'){
     window.scrollTo({top:0});
-    /* 管理驾驶舱：模块隐藏时 canvas 尺寸为 0，首次显示（及再次显示）需按可见尺寸重绘当前视图图表 */
-    if(mod==='leader' && window.LeaderApp) LeaderApp.refresh();
   }else{
     /* 仅当从其他模块进入数据应用（模块原为隐藏）且无选中报表时，默认展示资产负债简表；
        模块内切换报表不触发，否则非银行报表会被抢回 01 */
@@ -4371,46 +3954,23 @@ function switchModule(mod){
     }
   }
 }
-/* 驾驶舱页面子菜单（顶部导航「驾驶舱」下）：构建选项 / 同步选中态与当前页名 */
-const COCK_PAGE_ICONS = {group:'🌐', bank:'🏦', asset:'💼', trust:'📈', ins:'🛡️', lease:'🚛'};
-function cockPageName(c){ return c.key==='group' ? c.name : c.name+'驾驶舱'; }
-function buildCockPageSelect(){
-  const list = document.getElementById('cockNavSub');
-  if(!list || typeof COCKPITS==='undefined') return;
-  list.innerHTML = `<div class="topnav-sub-cap"><span>驾驶舱页面</span><b>COCKPIT</b></div>`
-    + COCKPITS.map(c=>`<button type="button" class="topnav-sub-item" data-action="cock-page" data-key="cock-${c.key}"><span class="tsub-ico">${COCK_PAGE_ICONS[c.key]||'📊'}</span>${cockPageName(c)}</button>`).join('');
-}
-function syncCockPage(key){
-  const list = document.getElementById('cockNavSub');
-  if(list) list.querySelectorAll('.topnav-sub-item').forEach(o=>o.classList.toggle('active', o.dataset.key===key));
-  const drop = document.getElementById('cockNavDrop');
-  if(drop) drop.classList.remove('open');
-}
-
 /* ============================================================
    初始化
    ============================================================ */
 renderTabs();
 renderContent();
-buildCockPageSelect();
-// 默认显示：驾驶舱模块 -> 集团总览（全屏铺满，顶栏下拉切换页面）
-switchTab(typeof COCKPITS!=='undefined' ? 'cock-group' : '01');
-/* 深链：#cock/#data 直达对应模块（#leader 由前段脚本直接跳华润金融独立页） */
+// 默认显示：数据应用模块（01-资产负债简表；驾驶舱模块已删除 2026-11-17）
+switchTab('01');
+/* 深链：#data 直达数据应用（#leader/#cock 由前段脚本直接跳华润金融独立页） */
 (function(){
   var h = (location.hash || '').replace('#','');
-  if((h==='cock'||h==='data') && typeof switchModule==='function') switchModule(h);
+  if(h==='data' && typeof switchModule==='function') switchModule(h);
 })();
 
 // 全局事件委托：顶部导航模块切换 + 查询/导出 + 指标查询操作
 document.addEventListener('click', (e)=>{
   const nav = e.target.closest('[data-module]');
   if(nav){
-    if(nav.dataset.module==='cock'){
-      /* 「驾驶舱」顶导航：仅开合子菜单；页面切换由子菜单项触发 */
-      const drop = document.getElementById('cockNavDrop');
-      if(drop) drop.classList.toggle('open');
-      return;
-    }
     switchModule(nav.dataset.module);
     return;
   }
@@ -4444,45 +4004,6 @@ document.addEventListener('click', (e)=>{
     catFilterState[key] = btn.dataset.cat;
     rerenderCatTable(key);
   }
-  else if(action === 'cock-toggle'){
-    const sel = btn.closest('.fz-select');
-    if(sel) sel.classList.toggle('open');
-  }
-  else if(action === 'cock-page'){
-    /* 顶部「驾驶舱」子菜单：切换驾驶舱页面（switchTab 内同步选中态并收起子菜单） */
-    switchTab(btn.dataset.key);
-  }
-  else if(action === 'cock-company'){
-    const sel = btn.closest('.fz-select');
-    if(sel) sel.classList.remove('open');
-    const grp = COCKPITS.find(c=>c.key==='group');
-    if(grp) renderCockCompanyView(grp, parseInt(btn.dataset.idx,10));
-  }
-  else if(action === 'gk-cal'){
-    /* 集团总览-口径页签切换：重渲染该分组卡片为所选口径的值 */
-    const gi = parseInt(btn.dataset.gid,10), calIdx = parseInt(btn.dataset.cal,10);
-    const co = GQ_VIEW.c && GQ_VIEW.c.companies ? GQ_VIEW.c.companies[GQ_VIEW.idx] : null;
-    const g = co && co.groups ? co.groups[gi] : null;
-    if(g){
-      const sw = document.getElementById('gk-calswitch-'+gi);
-      if(sw) sw.querySelectorAll('.gk-caltab').forEach((t,i)=>t.classList.toggle('active', i===calIdx));
-      const rowEl = document.getElementById('gk-calrows-'+gi);
-      if(rowEl){
-        let n = 0;
-        rowEl.innerHTML = g.picks.map(p=>{
-          const k = cockPick(Object.assign({}, p, {cal:calIdx}));
-          return k ? groupCardHtml(k, n++) : '';
-        }).join('');
-      }
-    }
-  }
-  else if(action === 'gk-mcal'){
-    /* 多口径指标卡：卡内药丸切换，仅重渲染本卡 */
-    const uid = parseInt(btn.dataset.uid,10), ci = parseInt(btn.dataset.cal,10);
-    const p = GK_MCAL[uid];
-    const el = document.getElementById('gk-mcal-' + uid);
-    if(p && el) el.outerHTML = mcalCardHtml(p, ci, uid);
-  }
   else if(action === 'nav-sheet'){
     /* 左侧报表菜单点击：切换报表并滚动到内容区顶部（保证切换可见） */
     switchTab(btn.dataset.sheet, true);
@@ -4494,15 +4015,6 @@ document.addEventListener('click', (e)=>{
   else if(action === 'bud-edit'){ budgetToggleEdit(); }
   else if(action === 'bud-submit'){ budgetSubmit(); }
   else if(action === 'bud-import'){ budgetCollectInputs(); document.getElementById('budImportFile').click(); }
-});
-
-// 集团总览：点击公司下拉外部时收起；驾驶舱顶导航子菜单点击外部时收起
-document.addEventListener('click', (e)=>{
-  if(!e.target.closest('.fz-select')) document.querySelectorAll('.fz-select.open').forEach(s=>s.classList.remove('open'));
-  if(!e.target.closest('.topnav-drop')){
-    const d = document.getElementById('cockNavDrop');
-    if(d) d.classList.remove('open');
-  }
 });
 
 // 数据日期年/月下拉变更后自动查询
@@ -4543,8 +4055,9 @@ document.addEventListener('change', (e)=>{
     var b = e.target && e.target.closest ? e.target.closest('.topnav-item[data-module="leader"]') : null;
     if(b){ e.stopPropagation(); e.preventDefault(); location.href = TARGET; }
   }, true);
-  /* 深链 #leader 同样直达（独立页顶部导航回跳用） */
-  if((location.hash||'') === '#leader') location.replace(TARGET);
+  /* 深链 #leader / #cock（驾驶舱模块已删除，兼容旧链接）同样直达 */
+  var h = location.hash||'';
+  if(h==='#leader' || h==='#cock') location.replace(TARGET);
 })();
 </script>
 </body>

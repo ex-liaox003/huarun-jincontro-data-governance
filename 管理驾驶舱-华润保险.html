@@ -1047,6 +1047,7 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .ins-ch-tbl td.nm{padding-left:14px}
 #moduleLeader .ins-ch-tbl tr.lv1 td.nm{padding-left:31px}
 #moduleLeader .ins-ch-tbl tr.lv2 td.nm{padding-left:48px}
+#moduleLeader .ins-ch-tbl tr.lv2.cont td.nm{padding-left:calc(48px + 3em)}  /* 2026-11-18 按需求：续行删「其中：」后文字起始对齐首条冒号后（48px+3em=3全角字宽） */
 #moduleLeader .ins-ch-tbl tr.sec td.nm{position:relative;padding-left:20px;font-weight:700}
 #moduleLeader .ins-ch-tbl tr.sec td.nm::before{content:'';position:absolute;left:8px;top:50%;transform:translateY(-50%);
   width:3px;height:13px;border-radius:2px;background:linear-gradient(180deg,#39a1f7,#0d6ef0)}
@@ -1493,6 +1494,9 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 #moduleLeader .donut-total.sm{padding:0 18%}
 #moduleLeader .donut-total.sm b{font-size:14px;letter-spacing:0;max-width:100%}
 #moduleLeader .donut-total.sm small{font-size:8.5px;letter-spacing:0;max-width:100%;white-space:normal;text-align:center;line-height:1.25}
+/* 2026-11-19 按需求：保费规模/佣金收入两卡中心单位文字「保费规模 · 万元 / 佣金收入 · 万元」稍大——
+   8.5→10.5px（两卡饼径大、镂空弦宽充足，不会压环）；仅限两卡 ID 作用域，其余 sm 中心浮层不变 */
+#moduleLeader #in-prem-center small,#moduleLeader #in-comm-center small{font-size:10.5px}
 /* 2026-10-27 固有资金运用构成：右侧五列明细（指标名称/值/同比/较年初/占比）表格式对齐 */
 #moduleLeader .fund-grid{display:flex;flex-direction:column;font-size:11.3px}
 #moduleLeader .fund-row{display:grid;grid-template-columns:1.9fr .76fr .72fr .72fr .5fr;gap:4px;align-items:center;padding:3.5px 2px;border-bottom:1px dashed #e8eef6}
@@ -1754,6 +1758,8 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
 .card-tip b{color:#17427d;font-weight:700;margin-left:2px;font-variant-numeric:tabular-nums}
 /* 三行版气泡（2026-10-30 按需求，成本收入比等）：第一行=指标名（加粗+下分隔线成小标题），
    第二行=最新日期，第三行=计算公式（灰蓝弱化） */
+/* 2026-11-19 环形图规范：弹窗（.pie-tip）标题与首行数据间距清零——仅撤留白，标题下划线/字号/配色不动 */
+.card-tip.pie-tip .ct-t{padding-bottom:0;margin-bottom:1px}
 .card-tip .ct-t{display:block;font-size:11.5px;font-weight:700;color:#17427d;letter-spacing:.5px;
   border-bottom:1px solid rgba(120,160,215,.4);padding-bottom:3px;margin-bottom:4px}
 .card-tip .ct-f{color:#33547e;font-weight:400}
@@ -2061,6 +2067,26 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
     #moduleLeader #bk-dep-rows .strow b.cols3 .c-p,#moduleLeader #bk-loan-rows .strow b.cols3 .c-p{width:64px}
   }
 }
+
+/* ===== 2026-11-19 环形图规范统一（基准=华润银行「收入构成」，详见 .claude/skills/donut-standard/SKILL.md）=====
+   .bd 构成卡：环列 206 定宽 / 画布高 200（HTML）/ 中心浮层撤 sm 回基准字号；
+   右侧 cols3=基线（名称12.5/值13.5·宽110§3.1适配/c-y112·10/c-p76）；旧页内各卡自定义覆写整体退役 */
+#moduleLeader #v-ins .donutwrap.bd{grid-template-columns:206px minmax(0,1fr)}
+/* 2026-11-19 规范二：bd 环容器距卡左缘 16px（基准「收入构成」inline margin-left 同款） */
+#moduleLeader #v-ins .donutwrap.bd>div:first-child{margin-left:16px}
+#moduleLeader #v-ins #in-prem-rows .strow>span:first-child,#moduleLeader #v-ins #in-comm-rows .strow>span:first-child{flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}  /* 基准名称列机制（旧不省略覆写退役） */
+#moduleLeader #v-ins #in-prem-rows .strow,#moduleLeader #v-ins #in-comm-rows .strow{justify-content:flex-start;gap:10px;padding-right:0;flex-wrap:nowrap}
+#moduleLeader #v-ins #in-prem-rows .strow>b,#moduleLeader #v-ins #in-comm-rows .strow>b{margin-left:auto;margin-right:5px}
+#moduleLeader #v-ins #in-prem-rows,#moduleLeader #v-ins #in-comm-rows{margin-right:-9px;min-width:0}
+#moduleLeader #v-ins #in-prem-rows .strow b.cols3 .c-v,#moduleLeader #v-ins #in-comm-rows .strow b.cols3 .c-v{width:110px}
+#moduleLeader #v-ins #in-prem-rows .strow b.cols3 .c-y,#moduleLeader #v-ins #in-comm-rows .strow b.cols3 .c-y{width:112px;margin-left:10px}
+#moduleLeader #v-ins #in-prem-rows .strow b.cols3 .c-p,#moduleLeader #v-ins #in-comm-rows .strow b.cols3 .c-p{width:76px}
+@media(max-width:1440px){
+  #moduleLeader #v-ins #in-prem-rows .strow,#moduleLeader #v-ins #in-comm-rows .strow{gap:6px}
+  #moduleLeader #v-ins #in-prem-rows .strow b.cols3 .c-v,#moduleLeader #v-ins #in-comm-rows .strow b.cols3 .c-v{width:96px;font-size:11px}
+  #moduleLeader #v-ins #in-prem-rows .strow b.cols3 .c-y,#moduleLeader #v-ins #in-comm-rows .strow b.cols3 .c-y{width:96px;margin-left:6px}
+  #moduleLeader #v-ins #in-prem-rows .strow b.cols3 .c-p,#moduleLeader #v-ins #in-comm-rows .strow b.cols3 .c-p{width:60px;margin-left:6px}
+}
 </style>
 
 </head>
@@ -2159,15 +2185,15 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
   <div class="secttl"><b class="ttl">保费与佣金双主线</b></div>
   <div class="grid g2 row">
     <div class="card"><div class="chd">保费规模 <span class="tag">本年累计</span></div><div class="cbd">
-      <div class="donutwrap">
-        <div style="position:relative;height:172px"><div class="chartbox" style="height:172px"><canvas id="c-in-prem-pie"></canvas></div>
+      <div class="donutwrap bd">
+        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-in-prem-pie"></canvas></div>
           <div class="donut-total sm" id="in-prem-center"></div></div>
         <div id="in-prem-rows"></div>
       </div>
     </div></div>
     <div class="card"><div class="chd">佣金收入 <span class="tag">本年累计</span></div><div class="cbd">
-      <div class="donutwrap">
-        <div style="position:relative;height:172px"><div class="chartbox" style="height:172px"><canvas id="c-in-comm-pie"></canvas></div>
+      <div class="donutwrap bd">
+        <div style="position:relative;height:200px"><div class="chartbox" style="height:200px"><canvas id="c-in-comm-pie"></canvas></div>
           <div class="donut-total sm" id="in-comm-center"></div></div>
         <div id="in-comm-rows"></div>
       </div>
@@ -9147,8 +9173,8 @@ const TRUST_SHEETS = {
     name: "03-高质量发展指标(8个)",
     title: "高质量发展指标",
     subtitle: "华润信托2026指标体系",
-    count: 8,
-    levels: [0,0,0,0,0,0,0,0],
+    count: 9,
+    levels: [0,0,0,0,0,0,0,0,0],
     kpi: [],
     headers: [
       [{l:"序号",r:2},{l:"指标维度",r:2},{l:"指标名称",r:2},{l:"单位",r:2},{l:"当月值",c:2},{l:"截止本月末",c:3}],
@@ -9487,8 +9513,8 @@ const INSURANCE_SHEETS = {
    金控指标体系数据应用平台 - 华润融资租赁报表数据
    依据《华润融资租赁报表 .xlsx》(2026-09-01 读取) 生成
    - sheet 名称与 Excel 完全一致：
-     01-收入结构(22个) / 02-融资结构(6个) / 03-业务结构(52个) /
-     04-风险指标(8个) / 05-其他指标(11个)
+     01-收入结构(22个) / 02-融资结构(4个) / 03-业务结构(52个) /
+     04-风险指标(9个) / 05-其他指标(12个)
    - 各表列序、两级表头、指标分类/分项、序号/名称/单位、
      是否考核（★）、监管要求均与 Excel 完全一致：
      · 01/03 表：指标分类-序号-指标名称-单位-指标属性标签-当月值(实际/同比/环比)-截至本月末(实际/同比/较年初)-全年预算-预算达成率
@@ -9497,7 +9523,7 @@ const INSURANCE_SHEETS = {
      · 05 表：指标分类-序号-指标名称-单位-指标属性标签-截止本季末(实际/同比/较年初)-全年预算-预算达成率（2026-09-24 删除监测指标信息组表头、当月值列组与监管要求列；freq=季度）
    - 2026-09-24：03-业务结构 优化——① 指标分类/指标分项 列值按业务分组 rowspan 合并
      （分类：资产组合业务分布/资产组合产品分布/产融协同分布；分项：业务规模余额/业务新增投放规模 分段）；
-     ② 隐藏 指标属性标签/全年预算/预算达成率 三列（hideCols）；
+     ② 2026-11-24 调整：显示 指标属性标签/全年预算/预算达成率 三列、隐藏 当月值 列组（hideCols）；
      ③ 指标卡片调整为 6 张：公司整体业务规模/能源电力领域规模/新赛道规模/公司整体业务新增投放/售后回租业务规模/公司整体产融协同规模；
      ④ 租赁/保理/新赛道（规模+新增投放）、直接租赁/经营性租赁（规模+新增投放）共 10 项提升为一级指标（lv0）；
      ⑤ 业务规模余额行「当月值(实际/同比/环比)」置 '-'、业务新增投放规模行「截至本月末(实际/同比/较年初)」置 '-'（页面显示 --）；
@@ -9571,7 +9597,7 @@ const LEASE_SHEETS = {
       ["经营质效指标","11","公司整体业务收益率","%","","-","-","-","6.85","+0.15ppt","+0.08ppt","-","-"],
       ["","12","租赁业务收益率","%","","-","-","-","7.20","+0.18ppt","+0.10ppt","-","-"],
       ["","13","保理业务收益率","%","","-","-","-","5.60","+0.12ppt","+0.06ppt","-","-"],
-      ["","14","公司整体融资成本率","%","","-","-","-","3.15","-0.22ppt","-0.12ppt","-","-"],
+      ["","14","公司整体融资成本率","%","高质量指标","-","-","-","3.15","-0.22ppt","-0.12ppt","-","-"],
       ["","15","租赁业务融资成本率","%","","-","-","-","3.05","-0.25ppt","-0.14ppt","-","-"],
       ["","16","保理业务融资成本率","%","","-","-","-","3.45","-0.18ppt","-0.10ppt","-","-"],
       ["","17","公司整体业务新增投放收益率","%","","-","-","-","6.50","+0.20ppt","+0.12ppt","-","-"],
@@ -9593,11 +9619,11 @@ const LEASE_SHEETS = {
   },
 
   "lease02": {
-    name: "02-融资结构(6个)",
+    name: "02-融资结构(4个)",
     title: "融资结构",
     subtitle: "华润融资租赁202x年战略执行跟踪指标体系",
-    count: 6,
-    levels: [0,1,1,1,1,1],
+    count: 4,
+    levels: [0,1,1,1],
     /* 2026-09-24：按要求删除指标概览（无 KPI 卡片）；删除「当月值(实际/同比/环比)」列组；指标分类列 rowspan 合并 */
     headers: [
       [{l:"指标分类",r:2},{l:"序号",r:2},{l:"指标名称",r:2},{l:"单位",r:2},{l:"截至本月末",c:3}],
@@ -9607,18 +9633,14 @@ const LEASE_SHEETS = {
       ["融资结构指标","1","整体融资规模","亿元","320.00","+8.5%","+5.2%"],
       ["","2","银行融资规模","亿元","245.00","+7.2%","+4.5%"],
       ["","3","直接融资规模","亿元","52.00","+12.5%","+8.2%"],
-      ["","4","其他渠道融资规模","亿元","23.00","+9.8%","+6.0%"],
-      ["","5","一年期及以下融资规模","亿元","128.00","+6.5%","+3.8%"],
-      ["","6","一年期以上融资规模","亿元","192.00","+9.8%","+6.2%"]
+      ["","4","其他渠道融资规模","亿元","23.00","+9.8%","+6.0%"]
     ],
-    /* 指标分类列 rowspan 合并：融资结构指标（序号1-6） */
+    /* 指标分类列 rowspan 合并：融资结构指标（序号1-4） */
     spans: [
-      {col:0,row:0,rs:6}
+      {col:0,row:0,rs:4}
     ],
     chart: {type:"composition",title:"融资渠道结构(亿元)",data:[
-      {name:"银行融资",value:245},{name:"直接融资",value:52},{name:"其他渠道",value:23}]},
-    chart2: {type:"bar",title:"融资期限结构(亿元)",data:[
-      {name:"一年期及以下",value:128},{name:"一年期以上",value:192}]}
+      {name:"银行融资",value:245},{name:"直接融资",value:52},{name:"其他渠道",value:23}]}
   },
 
   "lease03": {
@@ -9657,7 +9679,9 @@ const LEASE_SHEETS = {
       {col:1,row:40,rs:3},{col:1,row:43,rs:3},
       {col:1,row:46,rs:3},{col:1,row:49,rs:3}
     ],
-    hideCols: ["指标属性标签","全年预算","预算达成率"],
+    /* 2026-11-24 按需求：三列恢复显示（指标属性标签=单位列后原位、全年预算/预算达成率=表尾原位），
+       改隐藏「当月值」列组（实际/同比/环比）；行数据 14 列不动、hideColsView 展示层裁列 */
+    hideCols: ["当月值/实际","当月值/同比","当月值/环比"],
     /* 2026-09-24：表格上方查询条件「指标分项」（全部/业务规模余额/业务新增投放规模），
        复用 ins02 分类筛选机制（catFilter，col 为隐藏列后视图下标=1）；筛选条标签由 catFilter.label 自定义 */
     catFilter: {label:"指标分项", col:1, options:["全部","业务规模余额","业务新增投放规模"]},
@@ -9712,7 +9736,7 @@ const LEASE_SHEETS = {
       ["资产组合产品分布","业务新增投放规模","44","售后回租业务新增投放","亿元","","78.00","+8.6%","+2.9%","78.00","+9.5%","-","86.00","90.7%"],
       ["资产组合产品分布","","45","直接租赁业务新增投放","亿元","","16.50","+15.1%","+5.0%","16.50","+16.8%","-","18.00","91.7%"],
       ["资产组合产品分布","","46","经营性租赁业务新增投放","亿元","","7.50","+12.2%","+4.0%","7.50","+13.5%","-","8.00","93.8%"],
-      ["产融协同分布","业务规模余额","47","公司整体产融协同规模","亿元","","-","-","-","68.00","+9.8%","+6.2%","75.00","90.7%"],
+      ["产融协同分布","业务规模余额","47","公司整体产融协同规模","亿元","高质量指标","-","-","-","68.00","+9.8%","+6.2%","75.00","90.7%"],
       ["产融协同分布","","48","租赁业务产融协同规模","亿元","","-","-","-","52.00","+9.5%","+6.0%","57.00","91.2%"],
       ["产融协同分布","","49","保理业务产融协同规模","亿元","","-","-","-","16.00","+10.5%","+6.8%","18.00","88.9%"],
       ["产融协同分布","业务新增投放规模","50","公司整体产融协同新增投放","亿元","","15.00","+10.1%","+3.4%","15.00","+11.2%","-","16.50","90.9%"],
@@ -9728,11 +9752,11 @@ const LEASE_SHEETS = {
   },
 
   "lease04": {
-    name: "04-风险指标(8个)",
+    name: "04-风险指标(9个)",
     title: "风险指标",
     subtitle: "关键监测指标｜★表示考核指标",
-    count: 8,
-    levels: [0,0,0,0,0,0,0,0],
+    count: 9,
+    levels: [0,0,0,0,0,0,0,0,0],
     /* 2026-09-24：页面不渲染「指标概览」KPI 卡片模块；kpi 数据保留供驾驶舱引用（cockpit_data.js lease04 kpi:0/1） */
     noOverview: true,
     /* 2026-09-24：更新频率=季度（页面数据日期下拉自动切换为 Q1~Q4，同华润银行 03-关键监测指标规则） */
@@ -9759,11 +9783,12 @@ const LEASE_SHEETS = {
       ["","5","新增不良资产余额","亿元","","2.85","+6.5%","+3.8%","-","-"],
       ["","6","新增资产不良率","%","★","0.85","-0.08ppt","-0.05ppt","0.90","94.4%"],
       ["","7","不良资产回收额","亿元","★","3.60","+12.5%","-","3.20","112.5%"],
-      ["","8","拨备覆盖率","%","","285.00","+8.5ppt","+5.2ppt","-","-"]
+      ["","8","拨备覆盖率","%","","285.00","+8.5ppt","+5.2ppt","-","-"],
+      ["","9","租赁应收款拨备率","%","高质量指标","2.85","+0.10ppt","+0.06ppt","3.00","95.0%"]
     ],
-    /* 2026-09-24：指标分类列 rowspan 单元格合并（风险指标 跨8行，与 01 表同规则） */
+    /* 2026-09-24：指标分类列 rowspan 单元格合并（风险指标 跨全行，与 01 表同规则；2026-11-24 新增租赁应收款拨备率行随扩） */
     spans: [
-      {col:0,row:0,rs:8}
+      {col:0,row:0,rs:9}
     ],
     chart: {type:"gauge",title:"不良资产率监测(%)",value:1.28,min:0,max:3,threshold:1.35},
     chart2: {type:"bar",title:"风险指标概览(亿元)",data:[
@@ -9771,14 +9796,14 @@ const LEASE_SHEETS = {
   },
 
   "lease05": {
-    name: "05-其他指标(11个)",
+    name: "05-其他指标(12个)",
     title: "其他指标",
     subtitle: "其他指标｜★表示考核指标",
-    count: 11,
-    levels: [0,0,0,0,0,0,0,0,0,0,0],
+    count: 12,
+    levels: [0,0,0,0,0,0,0,0,0,0,0,0],
     /* 2026-09-24：更新频率=季度（页面数据日期下拉自动切换为 Q1~Q4，同 04-风险指标规则） */
     freq: "季度",
-    /* 2026-09-24 指标卡片：ROE/净息差/直租业务规模占比/绿色资产规模（数值与明细表序号1/4/7/10一致） */
+    /* 2026-09-24 指标卡片：ROE/净息差/直租业务规模占比/绿色资产规模（数值与明细表序号1/4/8/11一致；2026-11-24 序号因插入新赛道规模占比后移） */
     kpi: [
       {label:"ROE",value:"12.50",unit:"%",trend:"+0.8ppt",ytd:"+0.5ppt",dir:"up",type:""},
       {label:"净息差",value:"3.70",unit:"%",trend:"+0.05ppt",ytd:"+0.03ppt",dir:"up",type:""},
@@ -9801,15 +9826,16 @@ const LEASE_SHEETS = {
       ["","4","净息差","%","","3.70","+0.05ppt","+0.03ppt","-","-"],
       ["","5","整体业务规模净增量","亿元","★","58.50","+12.2%","-","65.00","90.0%"],
       ["","6","新赛道规模净增量","亿元","★","12.00","+18.5%","-","14.00","85.7%"],
-      ["","7","直租业务规模占比","%","","13.20","+1.2ppt","+0.8ppt","-","-"],
-      ["","8","经营性租赁业务规模占比","%","","3.30","+0.5ppt","+0.3ppt","-","-"],
-      ["","9","直租业务+经营性业务规模占比","%","★","16.50","+1.8ppt","+1.1ppt","18.80","87.8%"],
-      ["","10","绿色资产规模","亿元","","152.00","+14.5%","+9.0%","-","-"],
-      ["","11","绿色资产规模占比","%","","22.35","+1.5ppt","+0.9ppt","-","-"]
+      ["","7","新赛道规模占比","%","","12.50","+0.75ppt","+0.60ppt","-","-"],
+      ["","8","直租业务规模占比","%","","13.20","+1.2ppt","+0.8ppt","-","-"],
+      ["","9","经营性租赁业务规模占比","%","","3.30","+0.5ppt","+0.3ppt","-","-"],
+      ["","10","直租业务+经营性业务规模占比","%","★","16.50","+1.8ppt","+1.1ppt","18.80","87.8%"],
+      ["","11","绿色资产规模","亿元","","152.00","+14.5%","+9.0%","-","-"],
+      ["","12","绿色资产规模占比","%","","22.35","+1.5ppt","+0.9ppt","-","-"]
     ],
-    /* 2026-09-24：指标分类列 rowspan 单元格合并（其他指标 跨11行，与 01/04 表同规则） */
+    /* 2026-09-24：指标分类列 rowspan 单元格合并（其他指标 跨全行，与 01/04 表同规则；2026-11-24 新增新赛道规模占比行随扩） */
     spans: [
-      {col:0,row:0,rs:11}
+      {col:0,row:0,rs:12}
     ],
     chart: {type:"composition",title:"资产结构-绿色资产(亿元)",data:[
       {name:"绿色资产规模",value:152},{name:"其他资产",value:528}]},
@@ -10088,7 +10114,7 @@ var LeaderApp = {
    行版式对齐参考图：左=标签，中=大数值+单位，右=「同比 ▲ +5.6%」式涨跌（可多个） */
 function fkkCard(hdr, kal, rows, note){
   var h='<div class="fkk"><div class="fkk-h">'+hdr+
-    (kal?'<span class="fkk-kal">'+kal+'</span>':'')+'<span class="fkk-info">ⓘ</span></div><div class="fkk-b">';
+    (kal?'<span class="fkk-kal">'+kal+'</span>':'')+'</div><div class="fkk-b">';
   rows.forEach(function(r){
     var lbl=r[0], val=r[1], u=r[2], ds=r[3]||[];
     var dHtml=ds.map(function(d){ var s=String(d[1]), down=s.charAt(0)==='-';
@@ -10110,7 +10136,7 @@ function fkkCardStack(hdr, kal, val, u, dLbl, dVal, pct){
   var dl = multi
     ? '<span class="s-dlrow">'+dLbl.map(function(d){ return dLine(d[0], d[1], d[2]); }).join('')+'</span>'
     : dLine(dLbl, dVal, pct);
-  return '<div class="fkk"><div class="fkk-h">'+hdr+'<span class="fkk-info">ⓘ</span></div>'+
+  return '<div class="fkk"><div class="fkk-h">'+hdr+'</div>'+
     '<div class="fkk-b"><div class="fkk-st">'+
       '<span class="s-lbl">'+kal+'</span>'+
       '<span class="s-val"><b>'+val+'</b><small>'+u+'</small></span>'+
@@ -10764,12 +10790,15 @@ function pieTipExternal(){
     if(!tt||tt.opacity===0){ t.classList.remove('show','down','up'); return; }
     var lines=[];
     /* 标题行仅在图配置了 title.display 时输出（与原生行为一致：无涨跌分支的老饼不显示标题行，避免与首行重复） */
-    if(tt.options&&tt.options.title&&tt.options.title.display)(tt.title||[]).forEach(function(x){ lines.push('<span class=\'ct-t\'>'+x+'</span>'); });
+    var titleBlock=!!(tt.options&&tt.options.title&&tt.options.title.display);
+    if(titleBlock)(tt.title||[]).forEach(function(x){ lines.push('<span class=\'ct-t\'>'+x+'</span>'); });
     (tt.body||[]).forEach(function(b){ (b.lines||[]).forEach(function(L){ lines.push(L); }); });
     (tt.afterBody||[]).forEach(function(x){ lines.push(x); });
     if(!lines.length){ t.classList.remove('show','down','up'); return; }
-    t.innerHTML=lines.join('<br>');
-    t.classList.add('show');
+    var _tipHtml=lines.join('<br>');
+    if(titleBlock) _tipHtml=_tipHtml.replace('</span><br>','</span>');  /* 2026-11-19 环形图规范：标题行与首行数据之间不留空行 */
+    t.innerHTML=_tipHtml;
+    t.classList.add('show','pie-tip');  /* pie-tip=环形图三行弹窗（贴紧标题间距用） */
     var cv=ctx.chart.canvas.getBoundingClientRect();
     var cx=cv.left+tt.caretX, cy=cv.top+tt.caretY;
     var w=t.offsetWidth, h=t.offsetHeight, vw=window.innerWidth, M=8;
@@ -11680,7 +11709,7 @@ function drawIns(){
     /* 2026-11-18 按需求（附图样式）：卡体行=口径标签/大数值/对比两行——「累计同比：/较上年：」标签靠左、
        涨跌值（▲ 0.80ppt 红涨绿跌，bkDl 与全页涨跌小注同一格式源）靠卡片右缘（CSS margin-left:auto 推送），
        两行间保留行距间隙、卡片边框不变；行结构仍走 fkk/s-dlrow 体系类名 */
-    return '<div class="fkk"><div class="fkk-h">'+name+'<span class="fkk-info">ⓘ</span></div>'+
+    return '<div class="fkk"><div class="fkk-h">'+name+'</div>'+
       '<div class="fkk-b"><div class="fkk-st">'+
         '<span class="s-lbl">本年累计</span>'+
         '<span class="s-val"><b>'+bkNum(v,u)+'</b><small>'+u+'</small></span>'+
@@ -11763,18 +11792,18 @@ function drawIns(){
      计算列：占比=保费÷全渠道合计、综合费率=佣÷保（前端计算恒自洽）；金额/同比=图片版演示数据
      （注：本表为独立演示数据集，与 ins02 台账演示值分属两套，报表页仍以台账为准）；
      标签按全页规范：🎯 不带入（上一需求已全页删除）；⭐ 本表按需求亦全部删除 */
-  var TT=[['产融板块小计',0,'',302500,'18.40','97.58',48300,'21.30'],
-          ['燃气业务',1,'',168000,'16.80','96.00',20600,'19.40'],
-          ['其中：华润燃气',2,'',132000,'19.20','94.29',16100,'22.10'],
-          ['其中：市场燃气',2,'',36000,'8.60','102.86',4500,'10.20'],
-          ['商户保险',1,'',46500,'24.50','96.88',11300,'26.80'],
-          ['银保',1,'',26900,'6.30','96.07',7200,'7.10'],
-          ['创新场景',1,'',61100,'32.70','95.47',9200,'38.60'],
-          ['其中：社区保险',2,'',38200,'28.40','95.50',5900,'33.10'],
-          ['其中：其他产融创新',2,'',27500,'21.60','94.83',4300,'25.40'],
-          ['其中：职域',2,'',18000,'35.20','94.74',2700,'41.30'],
-          ['其中：其他融融',2,'',10000,'12.80','95.24',1400,'15.60']];
-  var TTT=['全渠道合计','',986500,'9.80',152300,'8.90'];  /* 2026-11-18 按需求：TTT[1]「占比分母」灰注置空不再输出 */
+  var TT=[['产融业务保费规模',0,'',302500,'18.40','97.58',48300,'21.30'],
+          ['燃气业务保费规模',1,'',168000,'16.80','96.00',20600,'19.40'],
+          ['其中：华润燃气业务保费规模',2,'',132000,'19.20','94.29',16100,'22.10'],
+          ['市场燃气业务保费规模',2,'',36000,'8.60','102.86',4500,'10.20'],
+          ['商户保险保费规模',1,'',46500,'24.50','96.88',11300,'26.80'],
+          ['银保保费规模',1,'',26900,'6.30','96.07',7200,'7.10'],
+          ['产融创新场景保费规模',1,'',61100,'32.70','95.47',9200,'38.60'],
+          ['其中：社区保险保费规模',2,'',38200,'28.40','95.50',5900,'33.10'],
+          ['其他产融创新场景保费规模',2,'',27500,'21.60','94.83',4300,'25.40'],
+          ['职域保费规模',2,'',18000,'35.20','94.74',2700,'41.30'],
+          ['其他融融保费规模',2,'',10000,'12.80','95.24',1400,'15.60']];
+  var TTT=['保费规模','',986500,'9.80',152300,'8.90'];  /* 2026-11-18 按需求：TTT[1]「占比分母」灰注置空不再输出 */
   var el=document.getElementById('ins-detail');
   if(el){
     var pc=function(v,d){ return (v/d*100).toFixed(2); };               /* 占比/费率共用 */
@@ -11787,7 +11816,9 @@ function drawIns(){
         '<td class="v">'+tilNum(pre)+'</td><td class="y">'+yoy(py)+'</td><td class="sh">'+pc(pre,TTT[2])+'<small>%</small></td>'+
         '<td class="gsep v">'+tilNum(com)+'</td><td class="y">'+yoy(cy)+'</td><td class="sh">'+pc(com,TTT[4])+'<small>%</small></td>'+
         '<td class="gsep rate">'+pc(com,pre)+'<small>%</small></td></tr>'; };
-    var rows=TT.map(function(e){ return line(e[0],'lv'+e[1]+(e[1]===0?' sec':e[1]===1?' chd-row':''),e[2],e[3],e[4],e[6],e[7]); }).join('')
+    /* 2026-11-18 按需求：同级组仅首条保留「其中：」前缀，续行删前缀（CONT 集合）；文字起始与首条冒号后对齐=CSS .cont 加 3em 补偿缩进 */
+    var CONT=['市场燃气业务保费规模','其他产融创新场景保费规模','职域保费规模','其他融融保费规模'];
+    var rows=TT.map(function(e){ return line(e[0],'lv'+e[1]+(e[1]===0?' sec':e[1]===1?' chd-row':'')+(CONT.indexOf(e[0])>=0?' cont':''),e[2],e[3],e[4],e[6],e[7]); }).join('')
       /* 全渠道合计行（2026-11-18 按需求：名称灰注删除、数值列加粗=bold 布尔并入行类） */
       +line(TTT[0],'sec total bold','',TTT[2],TTT[3],TTT[4],TTT[5]);
     el.innerHTML='<table class="ins-ch-tbl"><thead>'+
@@ -12221,17 +12252,13 @@ function drawLease(){
       Math.round(m(tAct('lease03','保理业务规模')||0))+' 亿 '+tilDelta(tYoY('lease03','保理业务规模'),'')+'</b></div>'+
       '<div class="strow"><span><span class="lite">直租+经营占比（战略转型考核项）</span></span><b>'+tAct('lease05','直租业务+经营性业务规模占比')+'% '+tilDelta(tYoY('lease05','直租业务+经营性业务规模占比'),'')+'</b></div>');
   })();
-  /* 融资结构构成饼（规则②：银行+直融+其他 相加=整体融资规模 245+52+23=320 勾稽已验证；期限两分=第二维度行注） */
+  /* 融资结构构成饼（规则②：银行+直融+其他 相加=整体融资规模 245+52+23=320 勾稽已验证；期限两分行注原引用一年期两指标（2026-11-24 随其删除退役，消费块同步移除）） */
   (function(){
     var fu=[['银行融资','#2f7fd6'],['直接融资','#5b9bd9'],['其他渠道','#9ec3ea']];
     var vals=fu.map(function(e){ return Math.round(m(tAct('lease02',e[0]+'规模')||0)); });
     tilDonut('c-ls-fund-pie',fu.map(function(e){return e[0]}),vals,fu.map(function(e){return e[1]}),'亿元',
       {centerEl:'ls-fund-center',centerLab:'整体融资规模 · 亿',
        yoys:fu.map(function(e){return tYoY('lease02',e[0]+'规模')})});
-    var rows=document.getElementById('ls-fund-rows');
-    if(rows){ var sh=m(tAct('lease02','一年期及以下融资规模')||0), lg=m(tAct('lease02','一年期以上融资规模')||0);
-      rows.insertAdjacentHTML('beforeend','<div class="strow"><span><span class="lite">期限结构：一年内 / 一年以上（续贷压力）</span></span><b>'+
-        Math.round(sh)+' / '+Math.round(lg)+' 亿（短期占比 '+(sh/(sh+lg)*100).toFixed(0)+'%）</b></div>'); }
   })();
   /* ③ 风险质量（lease04 季度表取原值；★率类=管控红线卡带预算条，余额类=明细行——量级悬殊规则④） */
   var rc=document.getElementById('ls-risk-cards');
