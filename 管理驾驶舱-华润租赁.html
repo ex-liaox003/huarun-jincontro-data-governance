@@ -12111,10 +12111,20 @@ function drawLease(){
   }
   var lsHQ=[ lsPerfRow('lease01','公司整体融资成本率'), lsPerfRow('lease03','公司整体产融协同规模'),
             /* 2026-11-19 按需求：台账无该科目行，原全列「—」改为演示值行（拨备率 2.85%/目标 3.00%/达成 95.0%，比率类五年=年度同款）；接台账后替换直读 */
-            {n:'租赁应收款拨备率',u:'%',act:2.85,bud:3.00,rt:95.0,y:'-'} ];
+            {n:'租赁应收款拨备率',u:'%',act:2.85,bud:3.00,rt:95.0,y:'-'},
+            /* 2026-11-27 按需求：末行新增「新赛道资产余额占比」——台账无同名行，派生=新赛道规模÷公司整体业务规模（lease03 两真实行动态计算，非造数）；
+               比率类无预算行走 estTarget 既有 % 分支（目标=实际→达成 100.0%）；五年列=年度同款（% 类不累计） */
+            {n:'新赛道资产余额占比',u:'%',act:(function(){ var a=tAct('lease03','新赛道规模'), b=tAct('lease03','公司整体业务规模'); return (a==null||!b)?null:+(a/b*100).toFixed(2); })(),bud:null,rt:null,y:(function(){ /* 派生同比=两父行真实增速反推（=转型模块新赛道规模占比卡同算法） */
+               var a=tAct('lease03','新赛道规模'), b=tAct('lease03','公司整体业务规模');
+               var pa=parseFloat(tYoY('lease03','新赛道规模')), pb=parseFloat(tYoY('lease03','公司整体业务规模'));
+               if(a==null||!b||!isFinite(pa)||!isFinite(pb)) return '-';
+               var cur=a/b*100, prev=(a/(1+pa/100))/(b/(1+pb/100))*100;
+               return (cur>=prev?'+':'-')+Math.abs(cur-prev).toFixed(2)+'ppt'; })()} ];
   var lsKH=[ lsPerfRow('lease01','营业收入'), lsPerfRow('lease01','利润总额'),
+            /* 2026-11-27 按需求：EVA 移至利润总额下、ROE 移至 EVA 下（余行原序） */
+            lsPerfRow('lease05','EVA'), lsPerfRow('lease05','ROE'),
             lsPerfRow('lease04','不良资产率'), lsPerfRow('lease04','关注类资产率'), lsPerfRow('lease04','新增资产不良率'), lsPerfRow('lease04','不良资产回收额'),
-            lsPerfRow('lease05','ROE'), lsPerfRow('lease05','EVA'), lsPerfRow('lease05','整体业务规模净增量'), lsPerfRow('lease05','新赛道规模净增量'),
+            lsPerfRow('lease05','整体业务规模净增量'), lsPerfRow('lease05','新赛道规模净增量'),
             lsPerfRow('lease05','直租业务+经营性业务规模占比') ];
   var lsCEl=document.getElementById('ls-contract');
   if(lsCEl) lsCEl.innerHTML=lsPerfTbl('高质量发展指标',lsHQ,1)+lsPerfTbl('考核指标',lsKH);
@@ -12145,7 +12155,7 @@ function drawLease(){
     var prod=[['售后回租','#4d94ff'],['直接租赁','#6cc0f0'],['经营性租赁','#35c06b']];
     var vals=prod.map(function(e){ return Math.round(m(tAct('lease03',e[0]+'业务规模')||0)); });
     tilDonut('c-ls-prod-pie',prod.map(function(e){return e[0]}),vals,prod.map(function(e){return e[1]}),'亿元',
-      {centerEl:'ls-prod-center',centerLab:'业务规模合计 · 亿元',rowsEl:'ls-prod-rows',cols3:1,vLab:'本月末',yLab:'同比',/* 2026-11-19 按需求 中心改业务规模合计+tooltip 本月末 */
+      {centerEl:'ls-prod-center',centerLab:'合计 · 亿元',rowsEl:'ls-prod-rows',cols3:1,vLab:'本月末',yLab:'同比',/* 2026-11-19 按需求 中心改业务规模合计+tooltip 本月末 */
        yoys:prod.map(function(e){return tYoY('lease03',e[0]+'业务规模')})});
     /* 2026-11-19 按需求：删除明细尾部「保理业务（另账）」+「直租+经营占比（战略转型考核项）」两行（卡内仅保留三产品形态 cols3 明细） */
   })();
@@ -12157,7 +12167,7 @@ function drawLease(){
     var fu=[['售后回租','#4d94ff'],['直接租赁','#6cc0f0'],['经营性租赁','#35c06b']];
     var vals=fu.map(function(e){ return Math.round(m(tAct('lease03',e[0]+'业务新增投放')||0)); });
     tilDonut('c-ls-fund-pie',fu.map(function(e){return e[0]}),vals,fu.map(function(e){return e[1]}),'亿元',
-      {centerEl:'ls-fund-center',centerLab:'新增投放合计 · 亿元',rowsEl:'ls-fund-rows',cols3:1,vLab:'本年累计',yLab:'累计同比',
+      {centerEl:'ls-fund-center',centerLab:'合计 · 亿元',rowsEl:'ls-fund-rows',cols3:1,vLab:'本年累计',yLab:'累计同比',
        yoys:fu.map(function(e){return tYoY('lease03',e[0]+'业务新增投放')})});
   })();
   /* ③ 风险质量（lease04 季度表取原值；★率类=管控红线卡带预算条，余额类=明细行——量级悬殊规则④） */
