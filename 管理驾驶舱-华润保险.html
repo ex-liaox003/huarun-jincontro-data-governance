@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>金控指标体系数据应用平台 · 管理驾驶舱 · 华润保险</title>
+<title>金控指标体系数据应用平台 · 管理驾驶舱 · 华润保险经纪</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 :root{
@@ -2115,9 +2115,9 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
       <button data-v="bank" onclick="LeaderEntry.go('管理驾驶舱-华润银行.html')">华润银行</button>
       <button data-v="banks" onclick="LeaderEntry.go('管理驾驶舱-华润银行(简版).html')">华润银行(简版)</button>
       <button data-v="trust" onclick="LeaderEntry.go('管理驾驶舱-华润信托.html')">华润信托</button>
-      <button class="on" data-v="ins" onclick="LeaderEntry.go('管理驾驶舱-华润保险.html')">华润保险</button>
       <button data-v="asset" onclick="LeaderEntry.go('管理驾驶舱-华润资产.html')">华润资产</button>
-      <button data-v="lease" onclick="LeaderEntry.go('管理驾驶舱-华润租赁.html')">华润租赁</button>
+      <button data-v="lease" onclick="LeaderEntry.go('管理驾驶舱-华润租赁.html')">华润融资租赁</button>
+      <button class="on" data-v="ins" onclick="LeaderEntry.go('管理驾驶舱-华润保险.html')">华润保险经纪</button>
     </nav>
     <div class="bar-right">
       <label>数据日期</label>
@@ -9803,7 +9803,7 @@ const LEASE_SHEETS = {
     levels: [0,0,0,0,0,0,0,0,0,0,0,0],
     /* 2026-09-24：更新频率=季度（页面数据日期下拉自动切换为 Q1~Q4，同 04-风险指标规则） */
     freq: "季度",
-    /* 2026-09-24 指标卡片：ROE/净息差/直租业务规模占比/绿色资产规模（数值与明细表序号1/4/8/11一致；2026-11-24 序号因插入新赛道规模占比后移） */
+    /* 2026-09-24 指标卡片：ROE/净息差/直租业务规模占比/绿色资产规模（数值与明细表序号1/4/8/11一致；2026-11-24 序号因插入新赛道资产余额占比后移） */
     kpi: [
       {label:"ROE",value:"12.50",unit:"%",trend:"+0.8ppt",ytd:"+0.5ppt",dir:"up",type:""},
       {label:"净息差",value:"3.70",unit:"%",trend:"+0.05ppt",ytd:"+0.03ppt",dir:"up",type:""},
@@ -9826,14 +9826,14 @@ const LEASE_SHEETS = {
       ["","4","净息差","%","","3.70","+0.05ppt","+0.03ppt","-","-"],
       ["","5","整体业务规模净增量","亿元","★","58.50","+12.2%","-","65.00","90.0%"],
       ["","6","新赛道规模净增量","亿元","★","12.00","+18.5%","-","14.00","85.7%"],
-      ["","7","新赛道规模占比","%","","12.50","+0.75ppt","+0.60ppt","-","-"],
+      ["","7","新赛道资产余额占比","%","","12.50","+0.75ppt","+0.60ppt","-","-"],
       ["","8","直租业务规模占比","%","","13.20","+1.2ppt","+0.8ppt","-","-"],
       ["","9","经营性租赁业务规模占比","%","","3.30","+0.5ppt","+0.3ppt","-","-"],
       ["","10","直租业务+经营性业务规模占比","%","★","16.50","+1.8ppt","+1.1ppt","18.80","87.8%"],
       ["","11","绿色资产规模","亿元","","152.00","+14.5%","+9.0%","-","-"],
       ["","12","绿色资产规模占比","%","","22.35","+1.5ppt","+0.9ppt","-","-"]
     ],
-    /* 2026-09-24：指标分类列 rowspan 单元格合并（其他指标 跨全行，与 01/04 表同规则；2026-11-24 新增新赛道规模占比行随扩） */
+    /* 2026-09-24：指标分类列 rowspan 单元格合并（其他指标 跨全行，与 01/04 表同规则；2026-11-24 新增新赛道资产余额占比行随扩） */
     spans: [
       {col:0,row:0,rs:12}
     ],
@@ -11811,7 +11811,10 @@ function drawIns(){
     /* 2026-11-17 按需求：删「预算达成」整列（bud 形参与单元格移除） */
     /* 2026-11-17 按需求（二次优化）：①占比列移至累计同比之后 ②佣金收入组新增「占比」列（=佣金÷全渠道佣金合计）
        ③综合费率脱离佣金分组、单独成列（表头纵向合并独立、组间 gsep 竖线分隔） */
-    var line=function(nm,cls,badge,pre,py,com,cy){
+    /* 2026-11-27 按需求：渠道层级列名称去掉末尾「保费规模」后缀（产融业务保费规模→产融业务）；
+       仅渲染层剥离——TT 源名与 CONT「其中：」组判定不受影响；剥空则保留原名（合计行「保费规模」不变） */
+    var line=function(nm0,cls,badge,pre,py,com,cy){
+      var nm=nm0.replace(/保费规模$/,'')||nm0;
       return '<tr class="'+cls+'"><td class="nm">'+(badge?'<span class="bdg">'+badge+'</span>':'')+nm+'</td>'+
         '<td class="v">'+tilNum(pre)+'</td><td class="y">'+yoy(py)+'</td><td class="sh">'+pc(pre,TTT[2])+'<small>%</small></td>'+
         '<td class="gsep v">'+tilNum(com)+'</td><td class="y">'+yoy(cy)+'</td><td class="sh">'+pc(com,TTT[4])+'<small>%</small></td>'+

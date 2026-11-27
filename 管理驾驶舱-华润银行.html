@@ -2035,9 +2035,9 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
       <button class="on" data-v="bank" onclick="LeaderEntry.go('管理驾驶舱-华润银行.html')">华润银行</button>
       <button data-v="banks" onclick="LeaderEntry.go('管理驾驶舱-华润银行(简版).html')">华润银行(简版)</button>
       <button data-v="trust" onclick="LeaderEntry.go('管理驾驶舱-华润信托.html')">华润信托</button>
-      <button data-v="ins" onclick="LeaderEntry.go('管理驾驶舱-华润保险.html')">华润保险</button>
       <button data-v="asset" onclick="LeaderEntry.go('管理驾驶舱-华润资产.html')">华润资产</button>
-      <button data-v="lease" onclick="LeaderEntry.go('管理驾驶舱-华润租赁.html')">华润租赁</button>
+      <button data-v="lease" onclick="LeaderEntry.go('管理驾驶舱-华润租赁.html')">华润融资租赁</button>
+      <button data-v="ins" onclick="LeaderEntry.go('管理驾驶舱-华润保险.html')">华润保险经纪</button>
     </nav>
     <div class="bar-right">
       <label>数据日期</label>
@@ -9762,7 +9762,7 @@ const LEASE_SHEETS = {
     levels: [0,0,0,0,0,0,0,0,0,0,0,0],
     /* 2026-09-24：更新频率=季度（页面数据日期下拉自动切换为 Q1~Q4，同 04-风险指标规则） */
     freq: "季度",
-    /* 2026-09-24 指标卡片：ROE/净息差/直租业务规模占比/绿色资产规模（数值与明细表序号1/4/8/11一致；2026-11-24 序号因插入新赛道规模占比后移） */
+    /* 2026-09-24 指标卡片：ROE/净息差/直租业务规模占比/绿色资产规模（数值与明细表序号1/4/8/11一致；2026-11-24 序号因插入新赛道资产余额占比后移） */
     kpi: [
       {label:"ROE",value:"12.50",unit:"%",trend:"+0.8ppt",ytd:"+0.5ppt",dir:"up",type:""},
       {label:"净息差",value:"3.70",unit:"%",trend:"+0.05ppt",ytd:"+0.03ppt",dir:"up",type:""},
@@ -9785,14 +9785,14 @@ const LEASE_SHEETS = {
       ["","4","净息差","%","","3.70","+0.05ppt","+0.03ppt","-","-"],
       ["","5","整体业务规模净增量","亿元","★","58.50","+12.2%","-","65.00","90.0%"],
       ["","6","新赛道规模净增量","亿元","★","12.00","+18.5%","-","14.00","85.7%"],
-      ["","7","新赛道规模占比","%","","12.50","+0.75ppt","+0.60ppt","-","-"],
+      ["","7","新赛道资产余额占比","%","","12.50","+0.75ppt","+0.60ppt","-","-"],
       ["","8","直租业务规模占比","%","","13.20","+1.2ppt","+0.8ppt","-","-"],
       ["","9","经营性租赁业务规模占比","%","","3.30","+0.5ppt","+0.3ppt","-","-"],
       ["","10","直租业务+经营性业务规模占比","%","★","16.50","+1.8ppt","+1.1ppt","18.80","87.8%"],
       ["","11","绿色资产规模","亿元","","152.00","+14.5%","+9.0%","-","-"],
       ["","12","绿色资产规模占比","%","","22.35","+1.5ppt","+0.9ppt","-","-"]
     ],
-    /* 2026-09-24：指标分类列 rowspan 单元格合并（其他指标 跨全行，与 01/04 表同规则；2026-11-24 新增新赛道规模占比行随扩） */
+    /* 2026-09-24：指标分类列 rowspan 单元格合并（其他指标 跨全行，与 01/04 表同规则；2026-11-24 新增新赛道资产余额占比行随扩） */
     spans: [
       {col:0,row:0,rs:12}
     ],
@@ -10481,7 +10481,10 @@ function bkStx(sheet,name,opts){ opts=opts||{}; var u=bkTxt(sheet,name,'un')||''
        2026-10-31 按需求：凡含「最新日期」的气泡统一=第一行指标名（.ct-t 加粗+分割线）→ 最新日期 →（可选）计算说明 */
     var tRows='<span class=\'ct-t\'>'+disp+'</span>';
     tRows+='最新日期：<b>'+bkPeriodEnd()+'</b>';
-    if(calcNote) tRows+='<br><span class=\'ct-f\'>计算说明：'+calcNote+'</span>';
+    /* 2026-11-26 按需求：opts.tipCal → 最新日期下独占一行「计算口径：××」（.ct-cal=行气泡 bkStr 既有同款样式通道；效益与定价 7 卡传合并/单体报表口径） */
+    if(opts.tipCal) tRows+='<br><span class=\'ct-cal\'>计算口径：'+opts.tipCal+'</span>';
+    /* 2026-11-26 按需求：tipCal(.ct-cal) 为 display:block 自带落行，其后计算说明不再叠加 <br>（否则口径↔说明间多出空白行；=bkStr 行气泡既有防重同款逻辑） */
+    if(calcNote) tRows+=(opts.tipCal?'':'<br>')+'<span class=\'ct-f\'>计算说明：'+calcNote+'</span>';
     tipAttr=' data-tip="'+tRows+'"';
   }
   /* 口径标签（2026-10-27 按需求参考金融页卡片）：损益/收入/成本三表=流量类「本年累计」；其余表=时点类「本月末」；opts.kal 可覆写；
@@ -11050,13 +11053,13 @@ function drawBank(){
   var peerSet={'净息差':1};
   if(effEl) effEl.innerHTML=
     [['资产利润率','ROA(资产利润率)'],['资本利润率','ROE(资本利润率)'],['成本收入比','成本收入比']]
-      .map(function(e){ return bkStx('03',e[0],Object.assign({kal:'本年累计',label:e[1],ylbl:'累计同比',ltY:1,tipDate:1,   /* 2026-10-30 按需求：效益与定价全卡悬停最新日期；2026-11-03 按需求：三卡加「较上年」小注 */
+      .map(function(e){ return bkStx('03',e[0],Object.assign({kal:'本年累计',label:e[1],ylbl:'累计同比',ltY:1,tipDate:1,tipCal:'合并报表口径',   /* 2026-11-20 按需求：气泡第二行固定「计算口径：合并报表口径」（既有 tipCal 通道，原计算说明自动顺延第三行） */
         peer:Object.assign({peri:BK_INDUSTRY.peri},BK_INDUSTRY[e[0]])},
         /* 2026-11-04 按需求：旧内联 tipFormula 已删除——计算说明统一走 Excel 数据通道（bkCalcNote），
            成本收入比 label 命中 Excel 键「成本收入比」自动带出 */
         {})); }).join('')+
     ['净息差','生息资产收益率','付息负债付息率'].map(function(n){ return bkStx('07',n,
-      Object.assign({kal:'本年累计',ytlbl:'较上年',tipDate:1,   /* 2026-10-29 按需求：口径标签改本年累计、较年初改较上年；10-30 悬停最新日期 */
+      Object.assign({kal:'本年累计',ytlbl:'较上年',tipDate:1,tipCal:'单体报表口径',   /* 2026-11-20 按需求：气泡第二行固定「计算口径：单体报表口径」（既有 tipCal 通道）；2026-10-29 按需求：口径标签改本年累计、较年初改较上年 */
        spark:sparkSet[n], peer:peerSet[n]?Object.assign({peri:BK_INDUSTRY.peri},BK_INDUSTRY[n]):null},
        /* 2026-11-04 按需求：净息差旧内联 tipFormula 删除（计算说明走 Excel 数据通道自动带出） */
        {})); }).join('')+
@@ -11064,7 +11067,7 @@ function drawBank(){
        （口径标签+近6月 spark 面积图+较上年小注）；本行改一行七卡 */
     /* 2026-10-30 按需求：口径标签「本年累计」改「本月末」（不良贷款率=时点余额口径）、
        小注「较上年」改「较年初」（删 ytlbl 覆写=默认较年初） */
-    bkStx('09','不良贷款率',{kal:'本月末',spark:1,tipDate:1});
+    bkStx('09','不良贷款率',{kal:'本月末',spark:1,tipDate:1,tipCal:'单体报表口径'});  /* 2026-11-20 按需求：气泡第二行固定「计算口径：单体报表口径」 */
 
   /* ===== ② 业绩指标（2026-11-10 按需求：原打标卡片组全部移除，改左右分栏表格）=====
      左=高质量发展指标（7列：含五年目标/五年完成度） / 右=考核指标（5列）；公共列=指标名称/单位/实际值/年度目标/年度完成度（进度条+百分比）
@@ -11325,6 +11328,23 @@ function drawBank(){
        10Y>1Y 为正常期限结构利差；2026-11-03 按需求删除「较月初」，列结构与上方台账行一致） */
     bkGovBondRow('1Y国债收益率','1.75','-0.15ppt','-0.10ppt','本年累计平均(简单平均)')+
     bkGovBondRow('10Y国债收益率','2.15','-0.22ppt','-0.18ppt','本年累计平均(简单平均)');
+  /* 2026-11-20 按需求：8 张卡加悬停气泡（样式=成本收入比三行版同款：指标名+下划线 / 最新日期 / 计算口径行；
+     委托 handler 选择器已扩 .mod-tip[data-tip]）。卡头 chd 文本圈定：三 hero + 收入构成/支出构成/资产负债核心项目/贷款结构/存款结构；
+     简版页中被 CSS 隐藏的模块卡同样挂载（隐藏态无交互、零副作用）。卡内自带悬停的行（.strow 等）closest 就近命中、原气泡不冲突 */
+  (function(){
+    var TIP={'营业收入':1,'利润总额':1,'净利润':1,'收入构成':1,'支出构成':1,'资产负债核心项目':1,'贷款结构':1,'存款结构':1};
+    var view=document.getElementById('v-bank')||document.getElementById('v-banks');
+    if(!view) return;
+    view.querySelectorAll('.chd').forEach(function(h){
+      var t=(h.textContent||'').replace(/\s+/g,'');
+      var hit=null; for(var k in TIP){ if(t.indexOf(k)===0){hit=k;break;} }
+      if(!hit) return;
+      /* 2026-11-20 按需求：触发区域由整卡收窄=仅名称栏（data-tip 直接挂 .chd，委托 closest 命中 chd 本体即弹；气泡定位锚也随名称栏） */
+      if(h.getAttribute('data-tip')) return;
+      h.classList.add('mod-tip');
+      h.setAttribute('data-tip','<span class=\'ct-t\'>'+hit+'</span>最新日期：<b>'+bkPeriodEnd()+'</b><br><span class=\'ct-cal\'>计算口径：合并报表口径</span>');
+    });
+  })();
 }
 /* 国债收益率参照行（2026-10-30 按需求，息率卡）：市场基准利率非台账科目，演示值内联；
    小注=同比/较年初（ppt 变动），红涨绿跌与台账行同语言；
@@ -12145,7 +12165,7 @@ function drawLease(){
   function el(){ if(!tip){ tip=document.createElement('div'); tip.className='card-tip'; document.body.appendChild(tip); } return tip; }
   function hide(){ if(tip){ tip.classList.remove('show'); tip._for=null; } }
   document.addEventListener('mouseover',function(e){
-    var card=e.target.closest?e.target.closest('.stx[data-tip],.strow[data-tip]'):null;
+    var card=e.target.closest?e.target.closest('.stx[data-tip],.strow[data-tip],.mod-tip[data-tip]'):null;
     if(!card){ return; }
     var t=el();
     if(t._for!==card){ t.innerHTML=card.getAttribute('data-tip')||''; t._for=card; }
@@ -12161,7 +12181,7 @@ function drawLease(){
     t.style.setProperty('--ax',Math.max(10,Math.min(tw-10,r.left+r.width/2-x))+'px');
   });
   document.addEventListener('mouseout',function(e){
-    var card=e.target.closest?e.target.closest('.stx[data-tip],.strow[data-tip]'):null;
+    var card=e.target.closest?e.target.closest('.stx[data-tip],.strow[data-tip],.mod-tip[data-tip]'):null;
     if(card && !(e.relatedTarget && card.contains(e.relatedTarget))) hide();
   });
   /* 视图/模块切换时兜底隐藏（防止鼠标移开路径上未触发 mouseout） */

@@ -728,16 +728,16 @@ button.gq-sel:hover{box-shadow:0 2px 10px rgba(20,90,180,0.28);}
    「其中：」三个全角字符宽 = 3×12px（ Courier 回退宋体时代的 3.25em/39px 已失效，随字体同步）；
    使删除前缀后的文字与组内首条「其中：」后的首字像素级左对齐；不影响行高/字号/其他列 */
 .data-table td.indicator-name .qz-gap{padding-left:3em;}
-/* 华润保险全部报表（固定 ins01-03 + 台账 led-ins01-03）指标名称列 4 级层级规范：
+/* 华润保险全部报表（固定 ins01-05 + 台账 led-ins01-05）指标名称列 4 级层级规范：
    层级只用缩进区分（一级顶格12px/二级28px/三级44px/四级60px）+ 左对齐 + #1f2937；
    字体/字重已并入全局「.sheet-panel 列表数据 微软雅黑·12px·600」统一规则（2026-11-05），
    ins02 一级 700/下级 400 行级覆写另见下方规则；覆盖全局 lv1/lv2 右对齐规则，仅作用保险面板 */
-#panel-ins01 td.indicator-name, #panel-ins02 td.indicator-name, #panel-ins03 td.indicator-name,
-#panel-led-ins01 td.indicator-name, #panel-led-ins02 td.indicator-name, #panel-led-ins03 td.indicator-name{
+#panel-ins01 td.indicator-name, #panel-ins02 td.indicator-name, #panel-ins03 td.indicator-name, #panel-ins04 td.indicator-name, #panel-ins05 td.indicator-name,
+#panel-led-ins01 td.indicator-name, #panel-led-ins02 td.indicator-name, #panel-led-ins03 td.indicator-name, #panel-led-ins04 td.indicator-name, #panel-led-ins05 td.indicator-name{
   color:#1f2937; text-align:left; padding-right:10px;
 }
-#panel-ins01 td.indicator-name.lv0, #panel-ins02 td.indicator-name.lv0, #panel-ins03 td.indicator-name.lv0,
-#panel-led-ins01 td.indicator-name.lv0, #panel-led-ins02 td.indicator-name.lv0, #panel-led-ins03 td.indicator-name.lv0{padding-left:12px;}
+#panel-ins01 td.indicator-name.lv0, #panel-ins02 td.indicator-name.lv0, #panel-ins03 td.indicator-name.lv0, #panel-ins04 td.indicator-name.lv0, #panel-ins05 td.indicator-name.lv0,
+#panel-led-ins01 td.indicator-name.lv0, #panel-led-ins02 td.indicator-name.lv0, #panel-led-ins03 td.indicator-name.lv0, #panel-led-ins04 td.indicator-name.lv0, #panel-led-ins05 td.indicator-name.lv0{padding-left:12px;}
 #panel-ins01 td.indicator-name.lv1, #panel-ins02 td.indicator-name.lv1, #panel-ins03 td.indicator-name.lv1,
 #panel-led-ins01 td.indicator-name.lv1, #panel-led-ins02 td.indicator-name.lv1, #panel-led-ins03 td.indicator-name.lv1{padding-left:28px;}
 #panel-ins01 td.indicator-name.lv2, #panel-ins02 td.indicator-name.lv2, #panel-ins03 td.indicator-name.lv2,
@@ -2413,14 +2413,14 @@ function renderTabs(){
   const fixedKids = document.createElement('div');
   fixedKids.className = 'nav-children open';
 
-  // 二级分组：5 家公司；华润银行 11 张报表（SHEETS，2026-11-16 新增考核指标/高质量发展指标），华润资产 4 张报表（ASSET_SHEETS），华润信托 6 张报表（TRUST_SHEETS，2026-11-09 新增集团经营看板指标、高质量发展指标；2026-09-23 删除风险指标页），华润保险 3 张报表（INSURANCE_SHEETS），华润租赁 5 张报表（LEASE_SHEETS）
+  // 二级分组：5 家公司；华润银行 11 张报表（SHEETS，2026-11-16 新增考核指标/高质量发展指标），华润资产 4 张报表（ASSET_SHEETS），华润信托 6 张报表（TRUST_SHEETS，2026-11-09 新增集团经营看板指标、高质量发展指标；2026-09-23 删除风险指标页），华润保险 5 张报表（INSURANCE_SHEETS，2026-11-27 新增考核指标、高质量发展指标），华润租赁 6 张报表（LEASE_SHEETS，2026-11-26 新增考核指标、高质量发展指标；2026-11-27 删除其他指标）
   // 默认全部收起（open:false），点击分组标题后展开
   const groups = [
     {label:'华润银行', open:false, data:SHEETS},
-    {label:'华润资产', open:false, data:(typeof ASSET_SHEETS!=='undefined'?ASSET_SHEETS:null)},
     {label:'华润信托', open:false, data:(typeof TRUST_SHEETS!=='undefined'?TRUST_SHEETS:null)},
-    {label:'华润保险', open:false, data:(typeof INSURANCE_SHEETS!=='undefined'?INSURANCE_SHEETS:null)},
-    {label:'华润租赁', open:false, data:(typeof LEASE_SHEETS!=='undefined'?LEASE_SHEETS:null)}
+    {label:'华润资产', open:false, data:(typeof ASSET_SHEETS!=='undefined'?ASSET_SHEETS:null)},
+    {label:'华润融资租赁', open:false, data:(typeof LEASE_SHEETS!=='undefined'?LEASE_SHEETS:null)},
+    {label:'华润保险经纪', open:false, data:(typeof INSURANCE_SHEETS!=='undefined'?INSURANCE_SHEETS:null)}
   ];
   groups.forEach(g=>{
     const box = document.createElement('div');
@@ -2573,7 +2573,13 @@ const REVERSE_PROGRESS_ROWS = {
      同日按需求修正：不良资产处置为正向指标（处置额越大越好），移出反向名单 → 进度条 88.10%（同 09 表） */
   '010': ['个贷不良率','不良资产率'],
   /* 2026-11-16 按需求：11-高质量发展指标（面板键 "011"）同名指标同步反向（与 09 同口径同数） */
-  '011': ['对公新增风险管控额']
+  '011': ['对公新增风险管控额'],
+  /* 2026-11-26 按需求：华润租赁 04-风险指标——不良资产率/关注类资产率/新增资产不良率 三行
+     为反向指标（越低越好），达成率文字化「优于预算/超出预算 X.XXppt」，显示规则同华润银行 09 不良资产率
+     （含 plain 平色：.progress-text 微软雅黑 12px/400 黑字，优于预算挂绿）；台账/其他行仍走进度条 */
+  'lease04': ['不良资产率','关注类资产率','新增资产不良率'],
+  /* 2026-11-27 按需求：租赁 06-考核指标——同三反向指标行同步反向文字化（与 lease04 同口径） */
+  'lease06': ['不良资产率','关注类资产率','新增资产不良率']
 };
 /* 2026-11-06 按需求：其中「不良资产率 / 小额不良生成率」两行文字化的预算达成率，
    字体与颜色改与「不良资产处置」达成率文字一致（.progress-text：微软雅黑 12px · 400 · 黑色，去语义红绿）；
@@ -2581,7 +2587,11 @@ const REVERSE_PROGRESS_ROWS = {
 const REVERSE_PROGRESS_PLAIN = {
   '09': ['不良资产率','小额不良生成率'],
   /* 2026-11-16 10-考核指标同款约定：个贷不良率语义色；不良资产率平色黑字（不良资产处置已移出反向名单走进度条） */
-  '010': ['不良资产率']
+  '010': ['不良资产率'],
+  /* 2026-11-26 按需求：租赁 04-风险指标三反向行显示规则同银行 09「不良资产率」→ 平色 .progress-text */
+  'lease04': ['不良资产率','关注类资产率','新增资产不良率'],
+  /* 2026-11-27 按需求：lease06 三反向行同款平色规则 */
+  'lease06': ['不良资产率','关注类资产率','新增资产不良率']
 };
 /* 2026-11-05 按需求：华润银行 03-关键监测指标 —— 资产利润率→ROA(资产利润率)、资本利润率→ROE(资本利润率)。
    精确匹配指标名（「风险资产利润率」不受影响）；固定报表管理与报表台账管理两个展示位统一生效；
@@ -2645,7 +2655,7 @@ const SHEET_TAG_OVERRIDES = {
 };
 /* 2026-11-16 按需求：07/08/09 全年预算/预算达成率两列联动标签——展示层标签含
    ★/是（考核）或 高质量 才显示数值，其余行两列强制 '-'（渲染 --）；空标签行源本为 '-' 幂等 */
-const SHEET_BUDGET_TAG_GATED = ['06','07','08','09'];
+const SHEET_BUDGET_TAG_GATED = ['06','07','08','09','lease03'];
 function applySheetTagView(view, key){
   const keep = SHEET_TAG_WHITELIST[key];
   const ovr = SHEET_TAG_OVERRIDES[key];
